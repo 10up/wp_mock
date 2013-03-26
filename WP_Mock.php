@@ -26,7 +26,7 @@
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
- * @package    Mockery
+ * @package    WP_Mock
  * @copyright  Copyright (c) 2013 10up (http://10up.com)
  * @license    MIT License
  */

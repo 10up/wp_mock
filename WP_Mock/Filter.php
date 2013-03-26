@@ -1,50 +1,16 @@
 <?php
 /**
- * Created by JetBrains PhpStorm.
- * User: Eric
- * Date: 3/26/13
- * Time: 9:21 AM
- * To change this template use File | Settings | File Templates.
+ * Mock WordPress filters by substituting each filter with an advanced object
+ * capable of intercepting calls and returning predictable data.
+ *
+ * @package WP_Mock
+ * @subpackage Hooks
  */
 
 namespace WP_Mock;
 
 
-class Filter {
-	/**
-	 * @var string Filter name
-	 */
-	protected $filter;
-
-	/**
-	 * @var array Individual processor collection
-	 */
-	protected $processors;
-
-	public function __construct( $filter ) {
-		$this->filter = $filter;
-	}
-
-	public function with() {
-		$args = func_get_args();
-
-		$processors = &$this->processors;
-		for( $i = 0; $i < count( $args ) - 1; $i++ ) {
-			$arg = $args[ $i ];
-
-			if ( ! isset( $processors[ $arg ] ) ) {
-				$processors[ $arg ] = array();
-			}
-
-			$processors = $processors[ $arg ];
-		}
-
-		$responder = new Filter_Responder( $args );
-		$processors[ func_get_arg( func_num_args() - 1 ) ] = $responder;
-
-		return $responder;
-	}
-
+class Filter extends Hook {
 	/**
 	 * Apply the stored filter.
 	 *
@@ -68,6 +34,10 @@ class Filter {
 
 		return $processors[ $args[ $arg_num - 1 ] ]->send();
 	}
+
+	protected function new_responder( $args ) {
+		return new Filter_Responder( $args );
+	}
 }
 
 class Filter_Responder {
@@ -76,7 +46,7 @@ class Filter_Responder {
 	 */
 	protected $value;
 
-	public function reply( $value ) {
+	public function __construct( $value ) {
 		$this->value = $value;
 	}
 
