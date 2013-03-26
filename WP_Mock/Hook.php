@@ -17,7 +17,7 @@ abstract class Hook {
 	protected $processors = array();
 
 	public function __construct( $name ) {
-		$this->name = name;
+		$this->name = $name;
 	}
 
 	public function with() {
