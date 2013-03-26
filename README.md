@@ -45,4 +45,20 @@ Write your tests as you normally would. If you desire specific responses from Wo
 
             $this->assertEquals( 'Apple Rocks!', $filtered );
         }
+
+        /**
+         * Our special_action function must actually invoke the 'special_action' action when it's done.
+         * function special_action() {
+         *     // ... do stuff
+         *     do_action( 'special_action' );
+         * }
+         */
+        public function test_method_has_action() {
+            $hook_intercept = \Mockery::mock( 'intercept' );
+            $hook_intercept->shouldReceive( 'intercepted' );
+            \WP_Mock::onAction( 'special_action' )->with( null )->perform( array( $hook_intercept, 'intercepted' ) );
+
+            // If this function does not call `do_action( 'special_action' )`, the test will fail.
+            special_action();
+        }
     }
