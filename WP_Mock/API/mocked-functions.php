@@ -44,7 +44,7 @@ function remove_action( $tag, $function_to_remove, $priority = 10 ) {
  */
 function do_action( $tag, $arg = '') {
 	$args = func_get_args();
-	$args = array_slice( $args, 0 );
+	$args = array_slice( $args, 1 );
 
 	return \WP_Mock::onAction( $tag )->react( $args );
 }

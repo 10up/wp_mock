@@ -22,21 +22,26 @@ abstract class Hook {
 
 	public function with() {
 		$args = func_get_args();
-		$num_args = count( $args );
+		$responder = $this->new_responder();
 
-		$processors = &$this->processors;
-		for( $i = 0; $i < $num_args - 1; $i++ ) {
-			$arg = $args[ $i ];
+		if ( $args === array( null ) ) {
+			$this->processors['argsnull'] = $responder;
+		} else {
+			$num_args = count( $args );
 
-			if ( ! isset( $processors[ $arg ] ) ) {
-				$processors[ $arg ] = array();
+			$processors = &$this->processors;
+			for( $i = 0; $i < $num_args - 1; $i++ ) {
+				$arg = $args[ $i ];
+
+				if ( ! isset( $processors[ $arg ] ) ) {
+					$processors[ $arg ] = array();
+				}
+
+				$processors = $processors[ $arg ];
 			}
 
-			$processors = $processors[ $arg ];
+			$processors[ $args[ $num_args - 1 ] ] = $responder;
 		}
-
-		$responder = $this->new_responder();
-		$processors[ $args[ $num_args - 1 ] ] = $responder;
 
 		return $responder;
 	}

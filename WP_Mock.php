@@ -60,10 +60,10 @@ class WP_Mock {
 	}
 
 	public static function onAction( $action ) {
-		if ( ! isset( self::$action[ $action ] ) ) {
-			self::$action[ $action ] = new \WP_Mock\Action( $action );
+		if ( ! isset( self::$actions[ $action ] ) ) {
+			self::$actions[ $action ] = new \WP_Mock\Action( $action );
 		}
 
-		return self::$action[ $action ];
+		return self::$actions[ $action ];
 	}
 }
