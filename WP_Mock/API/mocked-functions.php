@@ -53,7 +53,7 @@ function add_filter( $tag, $function_to_add, $priority = 10, $accepted_args = 1 
 function apply_filters( $tag, $value ) {
 	$args = func_get_args();
 	$args[1] = $value;
-	array_slice( $args, 1 );
+	$args = array_slice( $args, 1 );
 
 	return \WP_Mock::onFilter( $tag )->apply( $args );
 }
