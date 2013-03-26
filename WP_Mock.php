@@ -32,6 +32,8 @@
  */
 
 class WP_Mock {
+	protected static $filters = array();
+
 	/**
 	 * Make sure Mockery doesn't have anything set up already.
 	 */
@@ -44,9 +46,15 @@ class WP_Mock {
 	 */
 	public static function tearDown() {
 		\Mockery::close();
+
+		self::$filters = array();
 	}
 
 	public static function onFilter( $filter ) {
-		return new \WP_Mock\Filter( $filter );
+		if ( ! isset( self::$filters[ $filter ] ) ) {
+			self::$filters[ $filter ] = new \WP_Mock\Filter( $filter );
+		}
+
+		return self::$filters[ $filter ];
 	}
 }

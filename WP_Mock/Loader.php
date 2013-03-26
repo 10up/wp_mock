@@ -143,8 +143,12 @@ class Loader {
 	 * @return string
 	 */
 	private function getFullPath( $fileName ) {
-		return ( $this->_includePath !== null ? $this->_includePath . DIRECTORY_SEPARATOR : '' ) . $fileName;
+		return ($this->_includePath !== null ? $this->_includePath . DIRECTORY_SEPARATOR : '') . $fileName;
 	}
 }
+
+require_once __DIR__ . '/../mockery/library/Mockery/Loader.php';
+$loader = new \Mockery\Loader( 'Mockery', __DIR__ . '/../mockery/library' );
+$loader->register();
 
 require_once 'API/mocked-functions.php';

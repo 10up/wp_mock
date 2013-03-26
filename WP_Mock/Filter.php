@@ -28,7 +28,7 @@ class Filter {
 	public function with() {
 		$args = func_get_args();
 
-		$processors = $this->processors;
+		$processors = &$this->processors;
 		for( $i = 0; $i < count( $args ) - 1; $i++ ) {
 			$arg = $args[ $i ];
 
