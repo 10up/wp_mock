@@ -45,4 +45,8 @@ class WP_Mock {
 	public static function tearDown() {
 		\Mockery::close();
 	}
+
+	public static function onFilter( $filter ) {
+		return new \WP_Mock\Filter( $filter );
+	}
 }

@@ -37,7 +37,7 @@ Write your tests as you normally would. If you desire specific responses from Wo
         }
 
         public function test_content_filter() {
-            \WP_Mock::onFilter( 'the_content' )->with( 'Windows Rocks!' )->return( 'Apple Rocks!' );
+            \WP_Mock::onFilter( 'the_content' )->with( 'Windows Rocks!' )->reply( 'Apple Rocks!' );
 
             $content = 'Windows Rocks!';
 
