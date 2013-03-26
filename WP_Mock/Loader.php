@@ -146,3 +146,5 @@ class Loader {
 		return ( $this->_includePath !== null ? $this->_includePath . DIRECTORY_SEPARATOR : '' ) . $fileName;
 	}
 }
+
+require_once 'API/mocked-functions.php';

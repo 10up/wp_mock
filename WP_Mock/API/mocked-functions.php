@@ -42,6 +42,23 @@ function add_filter( $tag, $function_to_add, $priority = 10, $accepted_args = 1 
 }
 
 /**
+ * Call the functions added to a filter hook.
+ *
+ * @param string $tag     The name of the filter hook.
+ * @param mixed  $value   The value on which the filters hooked to <tt>$tag</tt> are applied on.
+ * @param mixed  $var,... Additional variables passed to the functions hooked to <tt>$tag</tt>.
+ *
+ * @return mixed The filtered value after all hooked functions are applied to it.
+ */
+function apply_filters( $tag, $value ) {
+	$args = func_get_args();
+	$args[1] = $value;
+	array_slice( $args, 1 );
+
+	return \WP_Mock::onFilter( $tag )->apply( $args );
+}
+
+/**
  * Return a specifc unix timestamp.
  *
  * This returns a value from inside the class so the class itself can manage the tick.

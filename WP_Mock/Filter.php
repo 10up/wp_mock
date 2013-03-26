@@ -48,13 +48,15 @@ class Filter {
 	/**
 	 * Apply the stored filter.
 	 *
+	 * @param array $args Arguments passed to apply_filters()
+	 *
 	 * @return mixed
 	 */
-	public function apply() {
-		$args = func_get_args();
+	public function apply( $args ) {
+		$arg_num = count( $args );
 
 		$processors = $this->processors;
-		for( $i = 0; $i < count( $args ) - 1; $i++ ) {
+		for( $i = 0; $i < $arg_num - 1; $i++ ) {
 			$arg = $args[ $i ];
 
 			if ( ! isset( $processors[ $arg ] ) ) {
@@ -64,7 +66,7 @@ class Filter {
 			$processors = $processors[ $arg ];
 		}
 
-		return $processors[ func_get_arg( func_num_args() - 1 ) ];
+		return $processors[ $args[ $arg_num - 1 ] ]->send();
 	}
 }
 
