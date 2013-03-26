@@ -33,6 +33,7 @@
 
 class WP_Mock {
 	protected static $filters = array();
+	protected static $actions = array();
 
 	/**
 	 * Make sure Mockery doesn't have anything set up already.
@@ -56,5 +57,13 @@ class WP_Mock {
 		}
 
 		return self::$filters[ $filter ];
+	}
+
+	public static function onAction( $action ) {
+		if ( ! isset( self::$action[ $action ] ) ) {
+			self::$action[ $action ] = new \WP_Mock\Action( $action );
+		}
+
+		return self::$action[ $action ];
 	}
 }

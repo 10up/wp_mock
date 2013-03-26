@@ -28,8 +28,8 @@ class Action extends Hook {
 		$processors[ $args[ $arg_num - 1 ] ]->react();
 	}
 
-	protected function new_responder( $args ) {
-		return new Action_Responder( $args );
+	protected function new_responder() {
+		return new Action_Responder();
 	}
 }
 
@@ -37,13 +37,13 @@ class Action_Responder {
 	/**
 	 * @var mixed
 	 */
-	protected $callback;
+	protected $callable;
 
-	public function _construct( $callback ) {
-		$this->callback = $callback;
+	public function perform( $callable ) {
+		$this->callable = $callable;
 	}
 
 	public function react() {
-		call_user_func( $this->callback );
+		call_user_func( $this->callable );
 	}
 }

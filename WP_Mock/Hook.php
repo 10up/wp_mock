@@ -35,11 +35,11 @@ abstract class Hook {
 			$processors = $processors[ $arg ];
 		}
 
-		$responder = $this->new_responder( $args );
+		$responder = $this->new_responder();
 		$processors[ $args[ $num_args - 1 ] ] = $responder;
 
 		return $responder;
 	}
 
-	protected abstract function new_responder( $args );
+	protected abstract function new_responder();
 }

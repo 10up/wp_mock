@@ -35,6 +35,21 @@ function remove_action( $tag, $function_to_remove, $priority = 10 ) {
 }
 
 /**
+ * Execute functions hooked on a specific action hook.
+ *
+ * @param string $tag     The name of the action to be executed.
+ * @param mixed  $arg,... Optional additional arguments which are passed on to the functions hooked to the action.
+ *
+ * @return null Will return null if $tag does not exist in $wp_filter array
+ */
+function do_action( $tag, $arg = '') {
+	$args = func_get_args();
+	$args = array_slice( $args, 0 );
+
+	return \WP_Mock::onAction( $tag )->react( $args );
+}
+
+/**
  * Dummy method to prevent filter hooks in constructor from failing.
  */
 function add_filter( $tag, $function_to_add, $priority = 10, $accepted_args = 1 ) {

@@ -35,8 +35,8 @@ class Filter extends Hook {
 		return $processors[ $args[ $arg_num - 1 ] ]->send();
 	}
 
-	protected function new_responder( $args ) {
-		return new Filter_Responder( $args );
+	protected function new_responder() {
+		return new Filter_Responder();
 	}
 }
 
@@ -46,7 +46,7 @@ class Filter_Responder {
 	 */
 	protected $value;
 
-	public function __construct( $value ) {
+	public function reply( $value ) {
 		$this->value = $value;
 	}
 
