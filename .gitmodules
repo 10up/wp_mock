@@ -1,0 +1,3 @@
+[submodule "mockery"]
+	path = mockery
+	url = git@github.com:padraic/mockery.git
