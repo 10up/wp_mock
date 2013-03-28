@@ -151,4 +151,9 @@ require_once __DIR__ . '/../mockery/library/Mockery/Loader.php';
 $loader = new \Mockery\Loader( 'Mockery', __DIR__ . '/../mockery/library' );
 $loader->register();
 
-require_once 'API/mocked-functions.php';
+require_once 'API/constant-mocks.php';
+require_once 'API/taxonomy-mocks.php';
+require_once 'API/template-mocks.php';
+require_once 'API/url-mocks.php';
+require_once 'API/vip-mocks.php';
+require_once 'API/function-mocks.php';
