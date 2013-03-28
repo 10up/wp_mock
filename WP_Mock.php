@@ -32,14 +32,18 @@
  */
 
 class WP_Mock {
-	protected static $filters = array();
-	protected static $actions = array();
+	/**
+	 * @var \WP_Mock\EventManager
+	 */
+	protected static $event_manager;
 
 	/**
 	 * Make sure Mockery doesn't have anything set up already.
 	 */
 	public static function setUp() {
 		\Mockery::close();
+
+		self::$event_manager = new \WP_Mock\EventManager();
 	}
 
 	/**
@@ -48,22 +52,41 @@ class WP_Mock {
 	public static function tearDown() {
 		\Mockery::close();
 
-		self::$filters = array();
+		self::$event_manager->flush();
 	}
 
+	/**
+	 * Fire a specific (mocked) callback when an apply_filters() call is used.
+	 *
+	 * @param string $filter
+	 *
+	 * @return \WP_Mock\Filter
+	 */
 	public static function onFilter( $filter ) {
-		if ( ! isset( self::$filters[ $filter ] ) ) {
-			self::$filters[ $filter ] = new \WP_Mock\Filter( $filter );
-		}
-
-		return self::$filters[ $filter ];
+		return self::$event_manager->filter( $filter );
 	}
 
+	/**
+	 * Fire a specific (mocked) callback when a do_action() call is used.
+	 *
+	 * @param string $action
+	 *
+	 * @return \WP_Mock\Action
+	 */
 	public static function onAction( $action ) {
-		if ( ! isset( self::$actions[ $action ] ) ) {
-			self::$actions[ $action ] = new \WP_Mock\Action( $action );
-		}
+		return self::$event_manager->action( $action );
+	}
 
-		return self::$actions[ $action ];
+	/**
+	 * Mock a WordPress action, regardless of the parameters used.  This call merely
+	 * verifies that the action is invoked by the tested method.
+	 *
+	 * @param string $action Action we expect the method to call
+	 */
+	public static function expectAction( $action ) {
+		$intercept = \Mockery::mock( 'intercept' );
+		$intercept->shouldReceive( 'intercepted' );
+
+		self::onAction( $action )->with( null )->perform( array( $intercept, 'intercepted' ) );
 	}
 }

@@ -36,14 +36,20 @@ Write your tests as you normally would. If you desire specific responses from Wo
 			\WP_Mock::tearDown();
         }
 
+		/**
+		 * The regular `get_the_content()` function is supposed to apply the 'the_content' filter to `post_content`.
+		 * This test verifies that is the case.
+		 * /
         public function test_content_filter() {
             \WP_Mock::onFilter( 'the_content' )->with( 'Windows Rocks!' )->reply( 'Apple Rocks!' );
 
-            $content = 'Windows Rocks!';
+			$post = new stdClass;
+			$post->post_content = 'Windows Rocks!';
+			setup_postdata( $post );
 
-            $filtered = apply_filters( 'the_content', $content );
+			$content = get_the_content();
 
-            $this->assertEquals( 'Apple Rocks!', $filtered );
+            $this->assertEquals( 'Apple Rocks!', $content );
         }
 
         /**
@@ -54,9 +60,7 @@ Write your tests as you normally would. If you desire specific responses from Wo
          * }
          */
         public function test_method_has_action() {
-            $hook_intercept = \Mockery::mock( 'intercept' );
-            $hook_intercept->shouldReceive( 'intercepted' );
-            \WP_Mock::onAction( 'special_action' )->with( null )->perform( array( $hook_intercept, 'intercepted' ) );
+            \WP_Mock::expectAction( 'special_action' );
 
             // If this function does not call `do_action( 'special_action' )`, the test will fail.
             special_action();
