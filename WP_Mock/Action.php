@@ -12,6 +12,8 @@ namespace WP_Mock;
 
 class Action extends Hook {
 	public function react( $args ) {
+		\WP_Mock::invokeAction( $this->name );
+
 		$arg_num = count( $args );
 
 		if ( 0 === $arg_num ) {
