@@ -222,6 +222,16 @@ function remove_shortcode( $tag ) {
 }
 
 /**
+ * Remove all shortcode tags from the given content.
+ *
+ * @param string $content Content to remove shortcode tags.
+ * @return string Content without shortcode tags.
+ */
+function strip_shortcodes( $content ) {
+	return \WP_Mock\Handler::handle_function( 'strip_shortcodes', func_get_args() );
+}
+
+/**
  * Retrieve option value based on name of option.
  *
  * If the option does not exist or does not have a value, then the return value
