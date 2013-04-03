@@ -147,7 +147,9 @@ class Loader {
 	}
 }
 
-require_once 'Mockery/Loader.php';
+if ( ! class_exists( '\Composer\Autoload\ClassLoader' ) ) {
+		require_once 'Mockery/Loader.php';
+}
 $loader = new \Mockery\Loader;
 $loader->register();
 
