@@ -147,8 +147,8 @@ class Loader {
 	}
 }
 
-require_once __DIR__ . '/../mockery/library/Mockery/Loader.php';
-$loader = new \Mockery\Loader( 'Mockery', __DIR__ . '/../mockery/library' );
+require_once 'Mockery/Loader.php';
+$loader = new \Mockery\Loader;
 $loader->register();
 
 require_once 'API/constant-mocks.php';

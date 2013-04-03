@@ -78,6 +78,17 @@ class WP_Mock {
 	}
 
 	/**
+	 * Alert the Event Manager that an action has been invoked.
+	 *
+	 * @param string $action
+	 */
+	public static function invokeAction( $action ) {
+		self::$event_manager->called( $action );
+	}
+
+	/**
+	 * Set up the expectation that an action will be called during the test.
+	 *
 	 * Mock a WordPress action, regardless of the parameters used.  This call merely
 	 * verifies that the action is invoked by the tested method.
 	 *
@@ -88,5 +99,12 @@ class WP_Mock {
 		$intercept->shouldReceive( 'intercepted' );
 
 		self::onAction( $action )->with( null )->perform( array( $intercept, 'intercepted' ) );
+	}
+
+	public static function assertActionsCalled() {
+		if ( ! self::$event_manager->allActionsCalled() ) {
+			$failed = implode( ', ', self::$event_manager->expectedActions() );
+			throw new PHPUnit_Framework_ExpectationFailedException( 'Method failed to invoke actions: ' . $failed, null );
+		}
 	}
 }

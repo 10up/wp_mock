@@ -239,3 +239,368 @@ function remove_shortcode( $tag ) {
 function get_option( $option, $default = false ) {
 	return \WP_Mock\Handler::handle_function( 'get_option', func_get_args() );
 }
+
+/**
+ * Kill WordPress execution and display HTML message with error message.
+ *
+ * This function complements the die() PHP function. The difference is that
+ * HTML will be displayed to the user. It is recommended to use this function
+ * only, when the execution should not continue any further. It is not
+ * recommended to call this function very often and try to handle as many errors
+ * as possible silently.
+ *
+ * @param string $message Error message.
+ * @param string $title Error title.
+ * @param string|array $args Optional arguments to control behavior.
+ */
+function wp_die( $message = '', $title = '', $args = array() ) {
+	return \WP_Mock\Handler::handle_function( 'wp_die', func_get_args() );
+}
+
+/**
+ * Retrieves the translation of $text. If there is no translation, or
+ * the domain isn't loaded, the original text is returned.
+ *
+ * @see translate() An alias of translate()
+ *
+ * @param string $text Text to translate
+ * @param string $domain Optional. Domain to retrieve the translated text
+ * @return string Translated text
+ */
+function __( $text, $domain = 'default' ) {
+	return \WP_Mock\Handler::handle_function( '__', func_get_args() );
+}
+
+/**
+ * Makes sure that a user was referred from another admin page.
+ *
+ * To avoid security exploits.
+ *
+ * @param string $action Action nonce
+ * @param string $query_arg where to look for nonce in $_REQUEST (since 2.5)
+ */
+function check_admin_referer( $action = -1, $query_arg = '_wpnonce' ) {
+	return \WP_Mock\Handler::handle_function( 'check_admin_referer', func_get_args() );
+}
+
+/**
+ * Whether current user has capability or role.
+ *
+ * @param string $capability Capability or role name.
+ * @return bool
+ */
+function current_user_can( $capability ) {
+	return \WP_Mock\Handler::handle_function( 'current_user_can', func_get_args() );
+}
+
+/**
+ * Creates a random, one time use token.
+ *
+ * @param string|int $action Scalar value to add context to the nonce.
+ * @return string The one use form token
+ */
+function wp_create_nonce( $action = -1 ) {
+	return \WP_Mock\Handler::handle_function( 'wp_create_nonce', func_get_args() );
+}
+
+/**
+ * Gets a WP_Theme object for a theme.
+ *
+ * @param string $stylesheet Directory name for the theme. Optional. Defaults to current theme.
+ * @param string $theme_root Absolute path of the theme root to look in. Optional. If not specified, get_raw_theme_root()
+ * 	is used to calculate the theme root for the $stylesheet provided (or current theme).
+ * @return WP_Theme Theme object. Be sure to check the object's exists() method if you need to confirm the theme's existence.
+ */
+function wp_get_theme( $stylesheet = null, $theme_root = null ) {
+	return \WP_Mock\Handler::handle_function( 'wp_get_theme', func_get_args() );
+}
+
+/**
+ * Display settings errors registered by add_settings_error()
+ *
+ * Part of the Settings API. Outputs a <div> for each error retrieved by get_settings_errors().
+ *
+ * This is called automatically after a settings page based on the Settings API is submitted.
+ * Errors should be added during the validation callback function for a setting defined in register_setting()
+ *
+ * The $sanitize option is passed into get_settings_errors() and will re-run the setting sanitization
+ * on its current value.
+ *
+ * The $hide_on_update option will cause errors to only show when the settings page is first loaded.
+ * if the user has already saved new values it will be hidden to avoid repeating messages already
+ * shown in the default error reporting after submission. This is useful to show general errors like missing
+ * settings when the user arrives at the settings page.
+ *
+ * @param string $setting Optional slug title of a specific setting who's errors you want.
+ * @param boolean $sanitize Whether to re-sanitize the setting value before returning errors.
+ * @param boolean $hide_on_update If set to true errors will not be shown if the settings page has already been submitted.
+ */
+function settings_errors( $setting = '', $sanitize = false, $hide_on_update = false ) {
+	return \WP_Mock\Handler::handle_function( 'settings_errors', func_get_args() );
+}
+
+/**
+ * Escaping for HTML blocks.
+ *
+ * @param string $text
+ * @return string
+ */
+function esc_html( $text ) {
+	return \WP_Mock\Handler::handle_function( 'esc_html', func_get_args() );
+}
+
+/**
+ * Retrieve translated string with gettext context
+ *
+ * Quite a few times, there will be collisions with similar translatable text
+ * found in more than two places but with different translated context.
+ *
+ * By including the context in the pot file translators can translate the two
+ * strings differently.
+ *
+ * @param string $text Text to translate
+ * @param string $context Context information for the translators
+ * @param string $domain Optional. Domain to retrieve the translated text
+ * @return string Translated context string without pipe
+ */
+function _x( $text, $context, $domain = 'default' ) {
+	return \WP_Mock\Handler::handle_function( '_x', func_get_args() );
+}
+
+/**
+ * Checks and cleans a URL.
+ *
+ * A number of characters are removed from the URL. If the URL is for displaying
+ * (the default behaviour) ampersands are also replaced. The 'clean_url' filter
+ * is applied to the returned cleaned URL.
+ *
+ * @param string $url The URL to be cleaned.
+ * @param array $protocols Optional. An array of acceptable protocols.
+ *		Defaults to 'http', 'https', 'ftp', 'ftps', 'mailto', 'news', 'irc', 'gopher', 'nntp', 'feed', 'telnet', 'mms', 'rtsp', 'svn' if not set.
+ * @param string $_context Private. Use esc_url_raw() for database usage.
+ * @return string The cleaned $url after the 'clean_url' filter is applied.
+ */
+function esc_url( $url, $protocols = null, $_context = 'display' ) {
+	return \WP_Mock\Handler::handle_function( 'esc_url', func_get_args() );
+}
+
+/**
+ * Displays translated text that has been escaped for safe use in HTML output.
+ *
+ * @see translate() Echoes returned translate() string
+ * @see esc_html()
+ *
+ * @param string $text Text to translate
+ * @param string $domain Optional. Domain to retrieve the translated text
+ */
+function esc_html_e( $text, $domain = 'default' ) {
+	return \WP_Mock\Handler::handle_function( 'esc_html_e', func_get_args() );
+}
+
+/**
+ * Echos a submit button, with provided text and appropriate class
+ *
+ * @param string $text The text of the button (defaults to 'Save Changes')
+ * @param string $type The type of button. One of: primary, secondary, delete
+ * @param string $name The HTML name of the submit button. Defaults to "submit". If no id attribute
+ *               is given in $other_attributes below, $name will be used as the button's id.
+ * @param bool $wrap True if the output button should be wrapped in a paragraph tag,
+ * 			   false otherwise. Defaults to true
+ * @param array|string $other_attributes Other attributes that should be output with the button,
+ *                     mapping attributes to their values, such as array( 'tabindex' => '1' ).
+ *                     These attributes will be output as attribute="value", such as tabindex="1".
+ *                     Defaults to no other attributes. Other attributes can also be provided as a
+ *                     string such as 'tabindex="1"', though the array format is typically cleaner.
+ */
+function submit_button( $text = null, $type = 'primary', $name = 'submit', $wrap = true, $other_attributes = null ) {
+	return \WP_Mock\Handler::handle_function( 'submit_button', func_get_args() );
+}
+
+/**
+ * Displays a form to the user to request for their FTP/SSH details in order to connect to the filesystem.
+ * All chosen/entered details are saved, Excluding the Password.
+ *
+ * Hostnames may be in the form of hostname:portnumber (eg: wordpress.org:2467) to specify an alternate FTP/SSH port.
+ *
+ * Plugins may override this form by returning true|false via the <code>request_filesystem_credentials</code> filter.
+ *
+ * @param string $form_post the URL to post the form to
+ * @param string $type the chosen Filesystem method in use
+ * @param boolean $error if the current request has failed to connect
+ * @param string $context The directory which is needed access to, The write-test will be performed on this directory by get_filesystem_method()
+ * @param string $extra_fields Extra POST fields which should be checked for to be included in the post.
+ * @return boolean False on failure. True on success.
+ */
+function request_filesystem_credentials( $form_post, $type = '', $error = false, $context = false, $extra_fields = null ) {
+	return \WP_Mock\Handler::handle_function( 'request_filesystem_credentials', func_get_args() );
+}
+
+/**
+ * Retrieve theme roots.
+ *
+ * @return array|string An array of theme roots keyed by template/stylesheet or a single theme root if all themes have the same root.
+ */
+function get_theme_root( $stylesheet_or_template = false ) {
+	return \WP_Mock\Handler::handle_function( 'get_theme_root', func_get_args() );
+}
+
+/**
+ * Initialises and connects the WordPress Filesystem Abstraction classes.
+ * This function will include the chosen transport and attempt connecting.
+ *
+ * Plugins may add extra transports, And force WordPress to use them by returning the filename via the 'filesystem_method_file' filter.
+ *
+ * @param array $args (optional) Connection args, These are passed directly to the WP_Filesystem_*() classes.
+ * @param string $context (optional) Context for get_filesystem_method(), See function declaration for more information.
+ * @return boolean false on failure, true on success
+ */
+function WP_Filesystem( $args = false, $context = false ) {
+	return \WP_Mock\Handler::handle_function( 'WP_Filesystem', func_get_args() );
+}
+
+/**
+ * Whether Multisite support is enabled
+ *
+ * @return bool True if multisite is enabled, false otherwise.
+ */
+function is_multisite() {
+	return \WP_Mock\Handler::handle_function( 'is_multisite', func_get_args() );
+}
+
+/**
+ * Retrieve the url to the admin area for the network.
+ *
+ * @param string $path Optional path relative to the admin url.
+ * @param string $scheme The scheme to use. Default is 'admin', which obeys force_ssl_admin() and is_ssl(). 'http' or 'https' can be passed to force those schemes.
+ * @return string Admin url link with optional path appended.
+ */
+function network_admin_url( $path = '', $scheme = 'admin' ) {
+	return \WP_Mock\Handler::handle_function( 'network_admin_url', func_get_args() );
+}
+
+/**
+ * Retrieve a modified URL query string.
+ *
+ * You can rebuild the URL and append a new query variable to the URL query by
+ * using this function. You can also retrieve the full URL with query data.
+ *
+ * Adding a single key & value or an associative array. Setting a key value to
+ * an empty string removes the key. Omitting oldquery_or_uri uses the $_SERVER
+ * value. Additional values provided are expected to be encoded appropriately
+ * with urlencode() or rawurlencode().
+ *
+ * @param mixed $param1 Either newkey or an associative_array
+ * @param mixed $param2 Either newvalue or oldquery or uri
+ * @param mixed $param3 Optional. Old query or uri
+ * @return string New URL query string.
+ */
+function add_query_arg() {
+	return \WP_Mock\Handler::handle_function( 'add_query_arg', func_get_args() );
+}
+
+/**
+ * Appends a trailing slash.
+ *
+ * Will remove trailing slash if it exists already before adding a trailing
+ * slash. This prevents double slashing a string or path.
+ *
+ * The primary use of this is for paths and thus should be used for paths. It is
+ * not restricted to paths and offers no specific path support.
+ *
+ * @param string $string What to add the trailing slash to.
+ * @return string String with trailing slash added.
+ */
+function trailingslashit( $string ) {
+	return \WP_Mock\Handler::handle_function( 'trailingslashit', func_get_args() );
+}
+
+/**
+ * Sanitizes a filename, replacing whitespace with dashes.
+ *
+ * Removes special characters that are illegal in filenames on certain
+ * operating systems and special characters requiring special escaping
+ * to manipulate at the command line. Replaces spaces and consecutive
+ * dashes with a single dash. Trims period, dash and underscore from beginning
+ * and end of filename.
+ *
+ * @param string $filename The filename to be sanitized
+ * @return string The sanitized filename
+ */
+function sanitize_file_name( $filename ) {
+	return \WP_Mock\Handler::handle_function( 'sanitize_file_name', func_get_args() );
+}
+
+/**
+ * Register a settings error to be displayed to the user
+ *
+ * Part of the Settings API. Use this to show messages to users about settings validation
+ * problems, missing settings or anything else.
+ *
+ * Settings errors should be added inside the $sanitize_callback function defined in
+ * register_setting() for a given setting to give feedback about the submission.
+ *
+ * By default messages will show immediately after the submission that generated the error.
+ * Additional calls to settings_errors() can be used to show errors even when the settings
+ * page is first accessed.
+ *
+ * @param string $setting Slug title of the setting to which this error applies
+ * @param string $code Slug-name to identify the error. Used as part of 'id' attribute in HTML output.
+ * @param string $message The formatted message text to display to the user (will be shown inside styled <div> and <p>)
+ * @param string $type The type of message it is, controls HTML class. Use 'error' or 'updated'.
+ */
+function add_settings_error( $setting, $code, $message, $type = 'error' ) {
+	return \WP_Mock\Handler::handle_function( 'add_settings_error', func_get_args() );
+}
+
+/**
+ * Enqueues script.
+ *
+ * Registers the script if src provided (does NOT overwrite) and enqueues.
+ *
+ * @param string $handle Script name
+ * @param string $src Script url
+ * @param array $deps (optional) Array of script names on which this script depends
+ * @param string|bool $ver (optional) Script version (used for cache busting), set to null to disable
+ * @param bool $in_footer (optional) Whether to enqueue the script before </head> or before </body>
+ * @return null
+ */
+function wp_enqueue_script( $handle, $src = false, $deps = array(), $ver = false, $in_footer = false ) {
+	return \WP_Mock\Handler::handle_function( 'wp_enqueue_script', func_get_args() );
+}
+
+/**
+ * Wrapper for $wp_scripts->localize().
+ *
+ * Used to localize a script.
+ * Works only if the script has already been added.
+ * Accepts an associative array $l10n and creates JS object:
+ * "$object_name" = {
+ *   key: value,
+ *   key: value,
+ *   ...
+ * }
+ * See http://core.trac.wordpress.org/ticket/11520 for more information.
+ *
+ * @param string $handle The script handle that was registered or used in script-loader
+ * @param string $object_name Name for the created JS object. This is passed directly so it should be qualified JS variable /[a-zA-Z0-9_]+/
+ * @param array $l10n Associative PHP array containing the translated strings. HTML entities will be converted and the array will be JSON encoded.
+ * @return bool Whether the localization was added successfully.
+ */
+function wp_localize_script( $handle, $object_name, $l10n ) {
+	return \WP_Mock\Handler::handle_function( 'wp_localize_script', func_get_args() );
+}
+
+/**
+ * Loads the plugin's translated strings.
+ *
+ * If the path is not given then it will be the root of the plugin directory.
+ * The .mo file should be named based on the domain with a dash, and then the locale exactly.
+ *
+ * @param string $domain Unique identifier for retrieving translated strings
+ * @param string $abs_rel_path Optional. Relative path to ABSPATH of a folder,
+ * 	where the .mo file resides. Deprecated, but still functional until 2.7
+ * @param string $plugin_rel_path Optional. Relative path to WP_PLUGIN_DIR. This is the preferred argument to use. It takes precedence over $abs_rel_path
+ */
+function load_plugin_textdomain( $domain, $abs_rel_path = false, $plugin_rel_path = false ) {
+	return \WP_Mock\Handler::handle_function( 'load_plugin_textdomain', func_get_args() );
+}
