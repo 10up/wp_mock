@@ -13,7 +13,7 @@
  * @param int      $accepted_args           optional. The number of arguments the function accept (default 1).
  */
 function add_action( $tag, $function_to_add, $priority = 10, $accepted_args = 1 ) {
-	\WP_Mock\Handler::handle_function( 'add_action', func_get_args() );
+	\WP_Mock::onHookAdded( $tag )->react( $function_to_add, (int) $priority, (int) $accepted_args );
 }
 
 /**
@@ -53,7 +53,7 @@ function do_action( $tag, $arg = '') {
  * Dummy method to prevent filter hooks in constructor from failing.
  */
 function add_filter( $tag, $function_to_add, $priority = 10, $accepted_args = 1 ) {
-	\WP_Mock\Handler::handle_function( 'add_filter', func_get_args() );
+	\WP_Mock::onHookAdded( $tag )->react( $function_to_add, (int) $priority, (int) $accepted_args );
 }
 
 /**

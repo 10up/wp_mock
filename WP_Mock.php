@@ -77,6 +77,10 @@ class WP_Mock {
 		return self::$event_manager->action( $action );
 	}
 
+	public static function onHookAdded( $hook ) {
+		return self::$event_manager->callback( $hook );
+	}
+
 	/**
 	 * Alert the Event Manager that an action has been invoked.
 	 *
@@ -84,6 +88,10 @@ class WP_Mock {
 	 */
 	public static function invokeAction( $action ) {
 		self::$event_manager->called( $action );
+	}
+
+	public static function addHook( $hook ) {
+		self::$event_manager->called( $hook, 'callback' );
 	}
 
 	/**
@@ -106,5 +114,14 @@ class WP_Mock {
 			$failed = implode( ', ', self::$event_manager->expectedActions() );
 			throw new PHPUnit_Framework_ExpectationFailedException( 'Method failed to invoke actions: ' . $failed, null );
 		}
+	}
+
+	public static function expectHookAdded( $action, $callback, $priority = 10, $args = 1 ) {
+		$intercept = \Mockery::mock( 'intercept' );
+		$intercept->shouldReceive( 'intercepted' );
+
+		self::onHookAdded( $action )
+			->with( $callback, $priority, $args )
+			->perform( array( $intercept, 'intercepted' ) );
 	}
 }

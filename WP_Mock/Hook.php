@@ -20,6 +20,22 @@ abstract class Hook {
 		$this->name = $name;
 	}
 
+	protected function safe_offset( $value ) {
+		if ( is_scalar( $value ) ) {
+			return $value;
+		} elseif ( is_object( $value ) ) {
+			return spl_object_hash( $value );
+		} elseif ( is_array( $value ) ) {
+			$return = '';
+			foreach ( $value as $k => $v ) {
+				$k = is_numeric( $k ) ? '' : $k;
+				$return .= $k . $this->safe_offset( $v );
+			}
+			return $return;
+		}
+		return '';
+	}
+
 	public function with() {
 		$args = func_get_args();
 		$responder = $this->new_responder();
@@ -31,7 +47,7 @@ abstract class Hook {
 
 			$processors = &$this->processors;
 			for( $i = 0; $i < $num_args - 1; $i++ ) {
-				$arg = $args[ $i ];
+				$arg = $this->safe_offset( $args[ $i ] );
 
 				if ( ! isset( $processors[ $arg ] ) ) {
 					$processors[ $arg ] = array();
@@ -40,7 +56,7 @@ abstract class Hook {
 				$processors = $processors[ $arg ];
 			}
 
-			$processors[ $args[ $num_args - 1 ] ] = $responder;
+			$processors[ $this->safe_offset( $args[ $num_args - 1 ] ) ] = $responder;
 		}
 
 		return $responder;

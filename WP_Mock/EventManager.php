@@ -18,6 +18,8 @@ class EventManager {
 	 */
 	protected $expected;
 
+	protected $callbacks;
+
 	public function __construct() {
 		$this->flush();
 	}
@@ -57,6 +59,15 @@ class EventManager {
 		}
 
 		return $this->filters[ $name ];
+	}
+
+	public function callback( $name ) {
+		if ( ! isset( $this->callbacks[$name] ) ) {
+			$this->filters[$name] = new FilterCallback( $name );
+			$this->expected[]     = "callback::$name";
+		}
+
+		return $this->callbacks[$name];
 	}
 
 	/**
