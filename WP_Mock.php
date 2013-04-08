@@ -77,8 +77,16 @@ class WP_Mock {
 		return self::$event_manager->action( $action );
 	}
 
-	public static function onHookAdded( $hook ) {
-		return self::$event_manager->callback( $hook );
+	public static function onHookAdded( $hook, $type = 'filter' ) {
+		return self::$event_manager->callback( $hook, $type );
+	}
+
+	public static function onFilterAdded( $hook ) {
+		return self::onHookAdded( $hook, 'filter' );
+	}
+
+	public static function onActionAdded( $hook ) {
+		return self::onHookAdded( $hook, 'action' );
 	}
 
 	/**
@@ -90,8 +98,17 @@ class WP_Mock {
 		self::$event_manager->called( $action );
 	}
 
-	public static function addHook( $hook ) {
-		self::$event_manager->called( $hook, 'callback' );
+	public static function addFilter( $hook ){
+		self::addHook($hook, 'filter');
+	}
+
+	public static function addAction( $hook ){
+		self::addHook($hook, 'action');
+	}
+
+	public static function addHook( $hook, $type = 'filter' ) {
+		$type_name = "$type::$hook";
+		self::$event_manager->called( $type_name, 'callback' );
 	}
 
 	/**
@@ -116,11 +133,19 @@ class WP_Mock {
 		}
 	}
 
-	public static function expectHookAdded( $action, $callback, $priority = 10, $args = 1 ) {
+	public static function expectActionAdded( $action, $callback, $priority = 10, $args = 1 ) {
+		self::expectHookAdded( 'action', $action, $callback, $priority, $args );
+	}
+
+	public static function expectFilterAdded( $filter, $callback, $priority = 10, $args = 1 ) {
+		self::expectHookAdded( 'filter', $filter, $callback, $priority, $args );
+	}
+
+	public static function expectHookAdded( $type, $action, $callback, $priority = 10, $args = 1 ) {
 		$intercept = \Mockery::mock( 'intercept' );
 		$intercept->shouldReceive( 'intercepted' );
 
-		self::onHookAdded( $action )
+		self::onHookAdded( $action, $type )
 			->with( $callback, $priority, $args )
 			->perform( array( $intercept, 'intercepted' ) );
 	}
