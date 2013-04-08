@@ -90,6 +90,10 @@ class EventManager {
 		return array_keys( $this->actions );
 	}
 
+	public function expectedHooks() {
+		return array_keys( $this->callbacks );
+	}
+
 	/**
 	 * Check whether or not all actions have been invoked at least once.
 	 *
@@ -98,6 +102,16 @@ class EventManager {
 	public function allActionsCalled() {
 		foreach( $this->expected as $hook ) {
 			if ( 0 === strpos( $hook, 'action::' ) ) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	public function allHooksAdded() {
+		foreach( $this->expected as $hook ) {
+			if ( 0 === strpos( $hook, 'callback::' ) ) {
 				return false;
 			}
 		}

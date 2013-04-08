@@ -124,4 +124,11 @@ class WP_Mock {
 			->with( $callback, $priority, $args )
 			->perform( array( $intercept, 'intercepted' ) );
 	}
+
+	public static function assertHooksAdded() {
+		if ( ! self:: $event_manager->allHooksAdded() ) {
+			$failed = implode( ', ', self::$event_manager->expectedHooks() );
+			throw new PHPUnit_Framework_ExpectationsFailedException( 'Method failed to add hooks: ' . $failed, null );
+		}
+	}
 }
