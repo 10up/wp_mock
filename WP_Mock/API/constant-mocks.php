@@ -24,3 +24,28 @@ if ( ! defined( 'ABSPATH' ) ) {
 if ( ! defined( 'WPINC' ) ) {
 	define( 'WPINC', __DIR__ . '/dummy-files/wp-includes' );
 }
+
+/**
+ * @since 0.71
+ */
+define( 'EZSQL_VERSION', 'WP1.25' );
+
+/**
+ * @since 0.71
+ */
+define( 'OBJECT', 'OBJECT', true );
+
+/**
+ * @since 2.5.0
+ */
+define( 'OBJECT_K', 'OBJECT_K' );
+
+/**
+ * @since 0.71
+ */
+define( 'ARRAY_A', 'ARRAY_A' );
+
+/**
+ * @since 0.71
+ */
+define( 'ARRAY_N', 'ARRAY_N' );

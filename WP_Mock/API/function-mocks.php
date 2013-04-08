@@ -67,8 +67,8 @@ function add_filter( $tag, $function_to_add, $priority = 10, $accepted_args = 1 
  */
 function apply_filters( $tag, $value ) {
 	$args = func_get_args();
-	$args[1] = $value;
 	$args = array_slice( $args, 1 );
+	$args[0] = $value;
 
 	return \WP_Mock::onFilter( $tag )->apply( $args );
 }
@@ -603,4 +603,90 @@ function wp_localize_script( $handle, $object_name, $l10n ) {
  */
 function load_plugin_textdomain( $domain, $abs_rel_path = false, $plugin_rel_path = false ) {
 	return \WP_Mock\Handler::handle_function( 'load_plugin_textdomain', func_get_args() );
+}
+
+/**
+ * Retrieve post meta field for a post.
+ *
+ * @since 1.5.0
+ * @uses $wpdb
+ * @link http://codex.wordpress.org/Function_Reference/get_post_meta
+ *
+ * @param int $post_id Post ID.
+ * @param string $key Optional. The meta key to retrieve. By default, returns data for all keys.
+ * @param bool $single Whether to return a single value.
+ * @return mixed Will be an array if $single is false. Will be value of meta data field if $single
+ *  is true.
+ */
+function get_post_meta( $post_id, $key = '', $single = false ) {
+	return \WP_Mock\Handler::handle_function( 'get_post_meta', func_get_args() );
+}
+
+/**
+ * Add meta data field to a post.
+ *
+ * Post meta data is called "Custom Fields" on the Administration Screen.
+ *
+ * @since 1.5.0
+ * @uses $wpdb
+ * @link http://codex.wordpress.org/Function_Reference/add_post_meta
+ *
+ * @param int $post_id Post ID.
+ * @param string $meta_key Metadata name.
+ * @param mixed $meta_value Metadata value.
+ * @param bool $unique Optional, default is false. Whether the same key should not be added.
+ * @return bool False for failure. True for success.
+ */
+function add_post_meta( $post_id, $meta_key, $meta_value, $unique = false ) {
+	return \WP_Mock\Handler::handle_function( 'add_post_meta', func_get_args() );
+}
+
+/**
+ * Update post meta field based on post ID.
+ *
+ * Use the $prev_value parameter to differentiate between meta fields with the
+ * same key and post ID.
+ *
+ * If the meta field for the post does not exist, it will be added.
+ *
+ * @since 1.5.0
+ * @uses $wpdb
+ * @link http://codex.wordpress.org/Function_Reference/update_post_meta
+ *
+ * @param int $post_id Post ID.
+ * @param string $meta_key Metadata key.
+ * @param mixed $meta_value Metadata value.
+ * @param mixed $prev_value Optional. Previous value to check before removing.
+ * @return bool False on failure, true if success.
+ */
+function update_post_meta( $post_id, $meta_key, $meta_value, $prev_value = '' ) {
+	return \WP_Mock\Handler::handle_function( 'update_post_meta', func_get_args() );
+}
+
+function setup_postdata( $post ) {
+	return \WP_Mock\Handler::handle_function( 'setup_postdata', func_get_args() );
+}
+
+function wp_reset_postdata() {
+	return \WP_Mock\Handler::handle_function( 'wp_reset_postdata', func_get_args() );
+}
+
+function wp_get_shortlink( $post_id ) {
+	return \WP_Mock\Handler::handle_function( 'wp_get_shortlink', func_get_args() );
+}
+
+function wp_get_post_categories( $post_id ) {
+	return \WP_Mock\Handler::handle_function( 'wp_get_post_categories', func_get_args() );
+}
+
+function get_posts() {
+	return \WP_Mock\Handler::handle_function( 'get_posts', func_get_args() );
+}
+
+function get_page_by_title() {
+	return \WP_Mock\Handler::handle_function( 'get_page_by_title', func_get_args() );
+}
+
+function wp_list_pluck() {
+	return \WP_Mock\Handler::handle_function( 'wp_list_pluck', func_get_args() );
 }

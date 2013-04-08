@@ -22,21 +22,24 @@ class Filter extends Hook {
 		$arg_num = count( $args );
 
 		$processors = $this->processors;
-		for( $i = 0; $i < $arg_num - 1; $i++ ) {
-			$arg = $args[ $i ];
-
-			if ( ! isset( $processors[ $arg ] ) ) {
-				return func_get_arg( 0 );
+		foreach( $args as $arg ) {
+			$key = $this->hash_key( $arg );
+			if ( ! isset( $processors[ $key ] ) ) {
+				return $arg;
 			}
 
-			$processors = $processors[ $arg ];
+			$processors = $processors[ $key ];
 		}
 
-		return $processors[ $args[ $arg_num - 1 ] ]->send();
+		return $processors[ $this->hash_key( $args[ $arg_num - 1 ] ) ]->send();
 	}
 
 	protected function new_responder() {
 		return new Filter_Responder();
+	}
+
+	protected function hash_key( $arg ) {
+		return md5( serialize( $arg ) );
 	}
 }
 
