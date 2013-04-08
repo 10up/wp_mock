@@ -128,7 +128,7 @@ class WP_Mock {
 	public static function assertHooksAdded() {
 		if ( ! self:: $event_manager->allHooksAdded() ) {
 			$failed = implode( ', ', self::$event_manager->expectedHooks() );
-			throw new PHPUnit_Framework_ExpectationsFailedException( 'Method failed to add hooks: ' . $failed, null );
+			throw new PHPUnit_Framework_ExpectationFailedException( 'Method failed to add hooks: ' . $failed, null );
 		}
 	}
 }
