@@ -690,3 +690,30 @@ function get_page_by_title() {
 function wp_list_pluck() {
 	return \WP_Mock\Handler::handle_function( 'wp_list_pluck', func_get_args() );
 }
+
+/**
+ * Checks a post type's support for a given feature
+ *
+ * @since 3.0.0
+ * @param string $post_type The post type being checked
+ * @param string $feature the feature being checked
+ * @return boolean
+ */
+function post_type_supports( $post_type, $feature ) {
+	return \WP_Mock\Handler::handle_function( 'post_type_supports', func_get_args() );
+}
+
+/**
+ * Add a meta box to an edit form.
+ *
+ * @param string $id String for use in the 'id' attribute of tags.
+ * @param string $title Title of the meta box.
+ * @param string $callback Function that fills the box with the desired content. The function should echo its output.
+ * @param string|object $screen Optional. The screen on which to show the box (post, page, link). Defaults to current screen.
+ * @param string $context Optional. The context within the page where the boxes should show ('normal', 'advanced').
+ * @param string $priority Optional. The priority within the context where the boxes should show ('high', 'low').
+ * @param array $callback_args Optional. Data that should be set as the "args" property of the box array (which is the second parameter passed to your callback).
+ */
+function add_meta_box( $id, $title, $callback, $screen = null, $context = 'advanced', $priority = 'default', $callback_args = null ) {
+	\WP_Mock\Handler::handle_function( 'add_meta_box', func_get_args() );
+}
