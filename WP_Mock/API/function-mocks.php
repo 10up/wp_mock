@@ -704,6 +704,17 @@ function post_type_supports( $post_type, $feature ) {
 }
 
 /**
+ * Registers support of certain feature(s) for a given post type. Each feature has a different impact on the corresponding [...]
+ * 
+ * @since 3.0.0
+ * @param string       $post_type Post type. (max. 20 characters)
+ * @param string|array $supports  Feature to add
+ */
+function add_post_type_support( $post_type, $supports ) {
+	return \WP_Mock\Handler::handle_function( 'add_post_type_support', func_get_args() );
+}
+
+/**
  * Add a meta box to an edit form.
  *
  * @param string $id String for use in the 'id' attribute of tags.
