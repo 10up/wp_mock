@@ -77,14 +77,36 @@ class WP_Mock {
 		return self::$event_manager->action( $action );
 	}
 
+	/**
+	 * Get a filter or action added callback object
+	 *
+	 * @param string $hook
+	 * @param string $type
+	 *
+	 * @return \WP_Mock\HookedCallback
+	 */
 	public static function onHookAdded( $hook, $type = 'filter' ) {
 		return self::$event_manager->callback( $hook, $type );
 	}
 
+	/**
+	 * Get a filter added callback object
+	 *
+	 * @param string $hook
+	 *
+	 * @return \WP_Mock\HookedCallback
+	 */
 	public static function onFilterAdded( $hook ) {
 		return self::onHookAdded( $hook, 'filter' );
 	}
 
+	/**
+	 * Get an action added callback object
+	 *
+	 * @param string $hook
+	 *
+	 * @return \WP_Mock\HookedCallback
+	 */
 	public static function onActionAdded( $hook ) {
 		return self::onHookAdded( $hook, 'action' );
 	}
@@ -121,7 +143,7 @@ class WP_Mock {
 	 */
 	public static function expectAction( $action ) {
 		$intercept = \Mockery::mock( 'intercept' );
-		$intercept->shouldReceive( 'intercepted' );
+		$intercept->shouldReceive( 'intercepted' )->atLeast()->once();
 
 		self::onAction( $action )->with( null )->perform( array( $intercept, 'intercepted' ) );
 	}
@@ -133,17 +155,46 @@ class WP_Mock {
 		}
 	}
 
+	/**
+	 * Add an expectation that an action should be added
+	 *
+	 * Really just a wrapper function for expectHookAdded()
+	 *
+	 * @param string $action   The action name
+	 * @param string $callback The callback that should be registered
+	 * @param int    $priority The priority it should be registered at
+	 * @param int    $args     The number of arguments that should be allowed
+	 */
 	public static function expectActionAdded( $action, $callback, $priority = 10, $args = 1 ) {
 		self::expectHookAdded( 'action', $action, $callback, $priority, $args );
 	}
 
+	/**
+	 * Add an expectation that a filter should be added
+	 *
+	 * Really just a wrapper function for expectHookAdded()
+	 *
+	 * @param string $filter   The action name
+	 * @param string $callback The callback that should be registered
+	 * @param int    $priority The priority it should be registered at
+	 * @param int    $args     The number of arguments that should be allowed
+	 */
 	public static function expectFilterAdded( $filter, $callback, $priority = 10, $args = 1 ) {
 		self::expectHookAdded( 'filter', $filter, $callback, $priority, $args );
 	}
 
+	/**
+	 * Add an expectation that a hook should be added
+	 *
+	 * @param string $type     The type of hook being added
+	 * @param string $action   The action name
+	 * @param string $callback The callback that should be registered
+	 * @param int    $priority The priority it should be registered at
+	 * @param int    $args     The number of arguments that should be allowed
+	 */
 	public static function expectHookAdded( $type, $action, $callback, $priority = 10, $args = 1 ) {
 		$intercept = \Mockery::mock( 'intercept' );
-		$intercept->shouldReceive( 'intercepted' );
+		$intercept->shouldReceive( 'intercepted' )->atLeast()->once();
 
 		self::onHookAdded( $action, $type )
 			->with( $callback, $priority, $args )
