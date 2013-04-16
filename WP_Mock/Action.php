@@ -25,7 +25,7 @@ class Action extends Hook {
 		} else {
 			$processors = $this->processors;
 			for( $i = 0; $i < $arg_num - 1; $i++ ) {
-				$arg = $args[ $i ];
+				$arg = $this->safe_offset( $args[ $i ] );
 
 				if ( ! isset( $processors[ $arg ] ) ) {
 					return;
@@ -34,7 +34,7 @@ class Action extends Hook {
 				$processors = $processors[ $arg ];
 			}
 
-			$processors[ $args[ $arg_num - 1 ] ]->react();
+			$processors[ $this->safe_offset( $args[ $arg_num - 1 ] ) ]->react();
 		}
 	}
 
