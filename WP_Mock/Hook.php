@@ -53,7 +53,7 @@ abstract class Hook {
 					$processors[ $arg ] = array();
 				}
 
-				$processors = $processors[ $arg ];
+				$processors = &$processors[ $arg ];
 			}
 
 			$processors[ $this->safe_offset( $args[ $num_args - 1 ] ) ] = $responder;
