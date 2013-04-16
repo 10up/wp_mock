@@ -144,8 +144,12 @@ class WP_Mock {
 	public static function expectAction( $action ) {
 		$intercept = \Mockery::mock( 'intercept' );
 		$intercept->shouldReceive( 'intercepted' )->atLeast()->once();
+		$args = func_get_args();
+		$args = count($args) > 1 ? array_slice( $args, 1 ) : array( null );
 
-		self::onAction( $action )->with( null )->perform( array( $intercept, 'intercepted' ) );
+		$action = self::onAction( $action );
+		$responder = call_user_func_array( array( $action, 'with' ), $args );
+		$responder->perform( array( $intercept, 'intercepted' ) );
 	}
 
 	public static function assertActionsCalled() {
