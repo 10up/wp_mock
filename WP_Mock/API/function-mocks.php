@@ -728,3 +728,22 @@ function add_post_type_support( $post_type, $supports ) {
 function add_meta_box( $id, $title, $callback, $screen = null, $context = 'advanced', $priority = 'default', $callback_args = null ) {
 	\WP_Mock\Handler::handle_function( 'add_meta_box', func_get_args() );
 }
+
+/**
+ * Retrieves post data given a post ID or post object.
+ *
+ * See {@link sanitize_post()} for optional $filter values. Also, the parameter
+ * $post, must be given as a variable, since it is passed by reference.
+ *
+ * @since 1.5.1
+ * @uses $wpdb
+ * @link http://codex.wordpress.org/Function_Reference/get_post
+ *
+ * @param int|object $post Post ID or post object. Optional, default is the current post from the loop.
+ * @param string $output Optional, default is Object. Either OBJECT, ARRAY_A, or ARRAY_N.
+ * @param string $filter Optional, default is raw.
+ * @return WP_Post|null WP_Post on success or null on failure
+ */
+function get_post( $post = null, $output = OBJECT, $filter = 'raw' ) {
+	return \WP_Mock\Handler::handle_function( 'get_post', func_get_args() );
+}
