@@ -747,3 +747,58 @@ function add_meta_box( $id, $title, $callback, $screen = null, $context = 'advan
 function get_post( $post = null, $output = OBJECT, $filter = 'raw' ) {
 	return \WP_Mock\Handler::handle_function( 'get_post', func_get_args() );
 }
+
+/**
+ * Retrieve the numeric ID of the current post. This tag must be within The Loop.
+ * 
+ * @Since: 2.1.0
+ * @param This tag has no parameters.
+ * @return ID (int) The ID of the current post.
+ *
+ */
+function get_the_ID() {
+	return \WP_Mock\Handler::handle_function( 'get_the_ID', func_get_args() );
+}
+
+/**
+ * Retrieves or displays the nonce hidden form field.
+ * 
+ * @since: 2.0.4
+ *
+ * @param string $action Optional Action name. Should give the context to what is taking place. Optional but recommended.
+ * @param string $name Optional, Nonce name. This is the name of the nonce hidden form field to be created. Once the form is submitted, you can access the generated nonce via $_POST[$name].
+ * @param boolean $referer Optional, Whether also the referer hidden form field should be created with the wp_referer_field() function.
+ * @param boolean $echo Optional, Whether to display or return the nonce hidden form field, and also the referer hidden form field if the $referer
+ * @return WP_Post|null WP_Post on success or null on failure
+ *
+ */
+function wp_nonce_field( $action, $name, $referer, $echo ) {
+	return \WP_Mock\Handler::handle_function( 'wp_nonce_field', func_get_args() );
+}
+
+/**
+ * This function will return the title of a post for a given post id. If the post is protected or private, the word "Protected: " or 
+ * "Private: " will be prepended to the title. Can be used inside or outside of the loop. If used outside the loop an ID must be specified.
+ *
+ * @since: 0.71
+ *
+ * @param int (optional) Post ID or leave empty to use current post in The Loop
+ * @return string Post title. If the post is protected or private, the word "Protected: " or "Private: " prepended to the title.
+ *
+ */
+function get_the_title( $ID ) {
+	return \WP_Mock\Handler::handle_function( 'get_the_title', func_get_args() );
+}
+
+/**
+ * Strips all of the HTML in the content.
+ *
+ * @since: 2.1.0
+ *
+ * @param string $data (required) Content to strip all HTML from
+ * @return string Filtered content without any HTML
+ *
+ */
+function wp_filter_nohtml_kses( $data ) {
+	return \WP_Mock\Handler::handle_function( 'wp_filter_nohtml_kses', func_get_args() );
+}
