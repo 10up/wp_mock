@@ -58,6 +58,21 @@ class Functions {
 	}
 
 	/**
+	 * Sets up an argument placeholder that requires the argument to be of a
+	 * certain type
+	 *
+	 * This may be any type for which there is a "is_*" function, or any class or
+	 * interface.
+	 *
+	 * @param string $expected
+	 *
+	 * @return Mockery\Matcher\Type
+	 */
+	public static function type( $expected ) {
+		return Mockery::type( $expected );
+	}
+
+	/**
 	 * Set up the mock object with an expectation for this test.
 	 *
 	 * @param \Mockery\Mock $mock
