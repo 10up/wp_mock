@@ -219,7 +219,7 @@ class WP_Mock {
 		}
 	}
 
-	public function wpFunction( $function_name, $arguments ) {
+	public static function wpFunction( $function_name, $arguments ) {
 		self::$function_manager->register( $function_name, $arguments );
 	}
 }
