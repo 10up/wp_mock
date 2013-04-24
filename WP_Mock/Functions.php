@@ -41,7 +41,7 @@ class Functions {
 			$mock = $this->mocked_functions[$function];
 
 			$this->set_up_mock( $mock, $function, $arguments );
-			Handler::register_handler( $function, $arguments );
+			Handler::register_handler( $function, array( $mock, $function ) );
 		} catch ( \Exception $e ) {
 			throw $e;
 		}
