@@ -47,6 +47,12 @@ class Functions {
 		}
 	}
 
+	/**
+	 * Sets up an argument placeholder that allows it to be any of an enumerated
+	 * list of possibilities
+	 *
+	 * @return \Mockery\Matcher\anyOf
+	 */
 	public static function anyOf() {
 		return call_user_func_array( array( '\\Mockery', 'anyOf' ), func_get_args() );
 	}
