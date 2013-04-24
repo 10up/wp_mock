@@ -3,6 +3,11 @@ WP_Mock
 
 WordPress API Mocking Framework
 
+Dependencies
+--------
+
+WP_Mock uses [Mockery](https://github.com/padraic/mockery) for most of its internal functionality; you will either need to install Mockery and all of its dependencies somewhere in your PHP global `include_path` (e.g. install them using PEAR), or install them in your project using [Composer](http://getcomposer.org/). The easiest way to get it running with composer is to [use this composer.json file](https://gist.github.com/johnpbloch/5452863/raw/99988aba7438f469cd62dfccee225859a2f585f2/composer.json) to run `composer.phar install --dev`. Then include the autoload file in your test suite's bootstrap file.
+
 Use
 --------
 
