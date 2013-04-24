@@ -12,6 +12,7 @@ class Functions {
 	 * Constructor for the Functions object
 	 */
 	public function __construct() {
+		Handler::cleanup();
 		$this->flush();
 	}
 
@@ -19,6 +20,7 @@ class Functions {
 	 * Emptys the mocked_functions array
 	 */
 	public function flush() {
+		Handler::cleanup();
 		$this->mocked_functions = array();
 	}
 
@@ -39,6 +41,7 @@ class Functions {
 			$mock = $this->mocked_functions[$function];
 
 			$this->set_up_mock( $mock, $function, $arguments );
+			Handler::register_handler( $function, $arguments );
 		} catch ( \Exception $e ) {
 			throw $e;
 		}
