@@ -116,8 +116,9 @@ class Functions {
 			return;
 		}
 
-		$parts         = explode( '\\', trim( $function_name, '\\' ) );
-		$function_name = array_pop( $parts );
+		$function_name = trim( $function_name, '\\' );
+		$parts         = explode( '\\', $function_name );
+		$name          = array_pop( $parts );
 		$namespace     = empty( $parts ) ? '' : 'namespace ' . implode( '\\', $parts ) . ";\n";
 
 		if ( ! preg_match( '/[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*/', $function_name ) ) {
@@ -125,13 +126,13 @@ class Functions {
 		}
 
 		$reserved_words = ' __halt_compiler abstract and array as break callable case catch class clone const continue declare default die do echo else elseif empty enddeclare endfor endforeach endif endswitch endwhile eval exit extends final for foreach function global goto if implements include include_once instanceof insteadof interface isset list namespace new or print private protected public require require_once return static switch throw trait try unset use var while xor __CLASS__ __DIR__ __FILE__ __FUNCTION__ __LINE__ __METHOD__ __NAMESPACE__ __TRAIT__ ';
-		if ( false !== strpos( $reserved_words, " $function_name " ) ) {
+		if ( false !== strpos( $reserved_words, " $name " ) ) {
 			throw new \Exception( 'Function name can not be a reserved word!' );
 		}
 
 		$declaration = <<<EOF
 $namespace
-function $function_name() {
+function $name() {
 	return \WP_Mock\Handler::handle_function( '$function_name', func_get_args() );
 }
 EOF;
