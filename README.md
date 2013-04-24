@@ -107,6 +107,12 @@ When you need to mock core WordPress functions, such as `get_post()`, use `\WP_M
     }
 ```
 
+`\WP_Mock::wpFunction()` will dynamically define the function for you if necessary. Generally, it's best to let it do so, just in case we need to change the internal API, your mocks will continue to work. If you really want to define your own function mocks, they should always end with this line:
+
+```
+return \WP_Mock\Handler::handle_function( __FUNCTION__, func_get_args() );
+```
+
 `\WP_Mock::wpFunction()`'s second parameter accepts a few arguments as an associative array:
 
 * `times`: Defines expectations for the number of times a function should be called. The default is 0 or more times. To expect the function to be called an exact amount of times, set times to a non-negative numeric value. To specify that the function should be called a minimum number of times, use a string with the minimum followed by `'+'` (e.g. `'3+'` means 3 or more times). Append a `'-'` to indicate a maximum number of times a function should be called (e.g. `'3-'` means no more than 3 times). To indicate a range, use `'-'` between two numbers (e.g. `'2-5'` means at least 2 times and no more than 5 times).
