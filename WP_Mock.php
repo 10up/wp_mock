@@ -38,12 +38,18 @@ class WP_Mock {
 	protected static $event_manager;
 
 	/**
+	 * @var \WP_Mock\Functions
+	 */
+	protected static $function_manager;
+
+	/**
 	 * Make sure Mockery doesn't have anything set up already.
 	 */
 	public static function setUp() {
 		\Mockery::close();
 
 		self::$event_manager = new \WP_Mock\EventManager();
+		self::$function_manager = new \WP_Mock\Functions();
 	}
 
 	/**
@@ -53,6 +59,7 @@ class WP_Mock {
 		\Mockery::close();
 
 		self::$event_manager->flush();
+		self::$function_manager->flush();
 	}
 
 	/**
@@ -210,5 +217,9 @@ class WP_Mock {
 			$failed = implode( ', ', self::$event_manager->expectedHooks() );
 			throw new PHPUnit_Framework_ExpectationFailedException( 'Method failed to add hooks: ' . $failed, null );
 		}
+	}
+
+	public function wpFunction( $function_name, $arguments ) {
+		self::$function_manager->register( $function_name, $arguments );
 	}
 }
