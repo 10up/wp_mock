@@ -44,7 +44,7 @@ class MyTestClass extends PHPUnit_Framework_TestCase {
     /**
      * The regular `get_the_content()` function is supposed to apply the 'the_content' filter to `post_content`.
      * This test verifies that is the case.
-     * /
+     */
     public function test_content_filter() {
         \WP_Mock::onFilter( 'the_content' )->with( 'Windows Rocks!' )->reply( 'Apple Rocks!' );
 
@@ -94,7 +94,7 @@ When you need to mock core WordPress functions, such as `get_post()`, use `\WP_M
         global $post;
         $post = new \stdClass;
         $post->ID = 42;
-        $post->special_meta = '<p>I'm on the end</p>';
+        $post->special_meta = '<p>I am on the end</p>';
         \WP_Mock::wpFunction( 'get_post', array(
             'times' => 1,
             'args' => array( $post->ID ),
@@ -103,7 +103,7 @@ When you need to mock core WordPress functions, such as `get_post()`, use `\WP_M
         // Let's say our function gets the post and appends a value stored in 'special_meta' to the content
         $results = special_the_content( '<p>Some content</p>' );
         // In addition to failing if this assertion is false, the test will fail if get_post is not called with the arguments above
-        $this->assertEquals( '<p>Some content</p><p>I'm on the end</p>', $results );
+        $this->assertEquals( '<p>Some content</p><p>I am on the end</p>', $results );
     }
 ```
 
