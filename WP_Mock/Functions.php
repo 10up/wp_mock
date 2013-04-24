@@ -133,7 +133,7 @@ class Functions {
 		$declaration = <<<EOF
 $namespace
 function $name() {
-	return \WP_Mock\Handler::handle_function( '$function_name', func_get_args() );
+	return \\WP_Mock\\Handler::handle_function( '$function_name', func_get_args() );
 }
 EOF;
 		eval( $declaration );
