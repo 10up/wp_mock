@@ -85,10 +85,10 @@ class Functions {
 		if ( isset( $arguments['times'] ) ) {
 			$times = $arguments['times'];
 			if ( is_int( $times ) || preg_match( '/^\d+$/', $times ) ) {
-				$expectation->times( $times );
+				$expectation->times( (int) $times );
 			} elseif ( preg_match( '/^(\d+)([\-+])$/', $times, $matches ) ) {
 				$method = '+' === $matches[2] ? 'atLeast' : 'atMost';
-				$expectation->$method()->times( $matches[1] );
+				$expectation->$method()->times( (int) $matches[1] );
 			} elseif ( preg_match( '/^(\d+)-(\d+)$', $times, $matches ) ) {
 				$num1 = (int) $matches[1];
 				$num2 = (int) $matches[2];
@@ -113,7 +113,7 @@ class Functions {
 		}
 		if ( isset( $arguments['return_in_order'] ) ) {
 			$arguments['return'] = new ReturnSequence();
-			$arguments['return']->setReturnValues( $arguments['return_in_order'] );
+			$arguments['return']->setReturnValues( (array) $arguments['return_in_order'] );
 		}
 		if ( isset( $arguments['return'] ) ) {
 			$return = $arguments['return'];
