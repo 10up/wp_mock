@@ -8,7 +8,7 @@ Use
 
 First, include the `WP_Mock` repository as a git submodule in your project.  Then, merely include the following code in your test boostrap file:
 
-```
+```php
 require_once 'wp_mock/WP_Mock/Loader.php';
 
 $loader = new \WP_Mock\Loader;
@@ -17,7 +17,7 @@ $loader->register();
 
 Finally, register calls inside your test class to instantiate and clean up the `WP_Mock` object:
 
-```
+```php
 class MyTestClass extends PHPUnit_Framework_TestCase {
     public function setUp() {
         \WP_Mock::setUp();
@@ -31,7 +31,7 @@ class MyTestClass extends PHPUnit_Framework_TestCase {
 
 Write your tests as you normally would. If you desire specific responses from WordPress API calls, wire those specifically.
 
-```
+```php
 class MyTestClass extends PHPUnit_Framework_TestCase {
     public function setUp() {
         \WP_Mock::setUp();
@@ -89,7 +89,7 @@ class MyTestClass extends PHPUnit_Framework_TestCase {
 
 When you need to mock core WordPress functions, such as `get_post()`, use `\WP_Mock::wpFunction()`:
 
-```
+```php
     public function test_uses_get_post() {
         global $post;
         $post = new \stdClass;
@@ -109,7 +109,7 @@ When you need to mock core WordPress functions, such as `get_post()`, use `\WP_M
 
 `\WP_Mock::wpFunction()` will dynamically define the function for you if necessary. Generally, it's best to let it do so, just in case we need to change the internal API, your mocks will continue to work. If you really want to define your own function mocks, they should always end with this line:
 
-```
+```php
 return \WP_Mock\Handler::handle_function( __FUNCTION__, func_get_args() );
 ```
 
@@ -124,6 +124,6 @@ return \WP_Mock\Handler::handle_function( __FUNCTION__, func_get_args() );
 
 So, for example, if I am expecting `get_post_meta()` to be called, the `'args'` array might look something like this:
 
-```
+```php
 array( $post->ID, 'some_meta_key', true )
 ```
