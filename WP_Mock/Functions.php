@@ -47,6 +47,10 @@ class Functions {
 		}
 	}
 
+	public static function anyOf() {
+		return call_user_func_array( array( '\\Mockery', 'anyOf' ), func_get_args() );
+	}
+
 	/**
 	 * Set up the mock object with an expectation for this test.
 	 *
