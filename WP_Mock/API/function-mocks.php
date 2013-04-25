@@ -798,3 +798,56 @@ function get_the_title( $post = 0 ) {
 function wp_filter_nohtml_kses( $data ) {
 	return \WP_Mock\Handler::handle_function( 'wp_filter_nohtml_kses', func_get_args() );
 }
+
+/**
+ * Returns the permalink to a post or page for use in PHP. It does NOT display the permalink and can be used outside of The Loop. On failure returns false.
+ *
+ * @since 1.0.0
+ * 
+ * @param id (mixed) (optional) The integer ID for a post or page, or a post object Default: The current post ID, when used in The Loop.
+ * @return (string) The permalink URL.
+ */
+function get_permalink( $id ) {
+	return \WP_Mock\Handler::handle_function( 'get_permalink', func_get_args() );
+}
+
+/**
+ * TC refactored version of transition_post_status's WP core function (for async matter)
+ * Hook for managing future post transitions to published.
+ *
+ * @since 2.3.0
+ * 
+ * @param $new_status (string) (required) New post status
+ * @param $old_status (string) (required) Previous post status
+ * @param $post (object) (required) Object type containing the post information
+ * @return (void) This function does not return a value.
+ */
+function wp_async_task_transition_post_status( $new_status, $old_status, $post ) {
+	return \WP_Mock\Handler::handle_function( 'wp_async_task_transition_post_status', func_get_args() );
+}
+
+/**
+ * Retrieves a URL using the HTTP GET method, returning results in an array. Results include HTTP headers and content.
+ *
+ * @since 2.7.0
+ * 
+ * @param $url (string) (required) Universal Resource Locator (URL).
+ * @param $args (array) (optional) Optional. See HTTP_API#Other_Arguments for argument details. 
+ *        Note: If sending any array arguments (headers, cookies, etc.) then all of them must be included since array arguments are not "deep" merged.
+ * @return Array of results including HTTP headers, WP_Error object on failure.
+ */
+function wp_remote_get( $url, $args = array() ) {
+	return \WP_Mock\Handler::handle_function( 'wp_remote_get', func_get_args() );
+}
+
+/**
+ * Retrieves the body of an already retrieved HTTP request.
+ *
+ * @since 2.7.0
+ * 
+ * @param $response (array) (required) HTTP response array from an already performed HTTP request.
+ * @return a string. If there was an error returned by the existing HTTP request or a problem with the data then a blank string will be returned.
+ */
+function wp_remote_retrieve_body( $response ) {
+	return \WP_Mock\Handler::handle_function( 'wp_remote_retrieve_body', func_get_args() );
+}
