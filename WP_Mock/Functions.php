@@ -111,7 +111,15 @@ class Functions {
 			}, (array) $arguments['args'] );
 			call_user_func_array( array( $expectation, 'with' ), $arguments['args'] );
 		}
-		if ( isset( $arguments['return_in_order'] ) ) {
+		if ( isset( $arguments['return_arg'] ) ) {
+			$argument_position = true === $arguments['return_argument'] ? 0 : (int)$arguments['return_argument'];
+			$arguments['return'] = function() use ( $argument_position ) {
+				if( $argument_position >= func_num_args() ) {
+					return null;
+				}
+				return func_get_arg( $argument_position );
+			};
+		} elseif ( isset( $arguments['return_in_order'] ) ) {
 			$arguments['return'] = new ReturnSequence();
 			$arguments['return']->setReturnValues( (array) $arguments['return_in_order'] );
 		}
