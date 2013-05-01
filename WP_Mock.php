@@ -251,6 +251,11 @@ class WP_Mock {
 	 *   return false. The second and all subsequent times it will return true.
 	 *   Setting this value overrides return, so if you set both, return will be
 	 *   ignored.
+	 * - return_arg: Use this to specify that the function should return one of
+	 *   its arguments. return_arg should be the position of the argument in the
+	 *   arguments array, so 0 for the first argument, 1 for the second, etc.
+	 *   You can also set this to true, which is equivalent to 0. This will
+	 *   override both return and return_in_order.
 	 * - args: Use this to set expectations about what the arguments passed to
 	 *   the function should be. This value should always be an array with the
 	 *   arguments in order. Like with return, if you use a Closure, its return
