@@ -28,24 +28,34 @@ if ( ! defined( 'WPINC' ) ) {
 /**
  * @since 0.71
  */
-define( 'EZSQL_VERSION', 'WP1.25' );
+if ( ! defined( 'EZSQL_VERSION' ) ) {
+	define( 'EZSQL_VERSION', 'WP1.25' );
+}
 
 /**
  * @since 0.71
  */
-define( 'OBJECT', 'OBJECT', true );
+if ( ! defined( 'OBJECT' ) ) {
+	define( 'OBJECT', 'OBJECT', true );
+}
 
 /**
  * @since 2.5.0
  */
-define( 'OBJECT_K', 'OBJECT_K' );
+if ( ! defined( 'OBJECT_K' ) ) {
+	define( 'OBJECT_K', 'OBJECT_K' );
+}
 
 /**
  * @since 0.71
  */
-define( 'ARRAY_A', 'ARRAY_A' );
+if ( ! defined( 'ARRAY_A' ) ) {
+	define( 'ARRAY_A', 'ARRAY_A' );
+}
 
 /**
  * @since 0.71
  */
-define( 'ARRAY_N', 'ARRAY_N' );
+if ( ! defined( 'ARRAY_N' ) ) {
+	define( 'ARRAY_N', 'ARRAY_N' );
+}
