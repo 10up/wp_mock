@@ -3,7 +3,7 @@
  * Mock WordPress filters by substituting each filter with an advanced object
  * capable of intercepting calls and returning predictable data.
  *
- * @package WP_Mock
+ * @package    WP_Mock
  * @subpackage Hooks
  */
 
@@ -19,28 +19,39 @@ class Filter extends Hook {
 	 * @return mixed
 	 */
 	public function apply( $args ) {
+		if ( $args[0] === null ) {
+			if ( isset( $this->processors['argsnull'] ) ) {
+				return $this->processors['argsnull']->send();
+			}
+			return null;
+		}
 		$arg_num = count( $args );
 
 		$processors = $this->processors;
-		foreach( $args as $arg ) {
-			$key = $this->hash_key( $arg );
-			if ( ! isset( $processors[ $key ] ) ) {
+		foreach ( $args as $arg ) {
+			$key = $this->safe_offset( $arg );
+			if ( ! isset( $processors[$key] ) ) {
 				return $arg;
 			}
 
-			$processors = $processors[ $key ];
+			$processors = $processors[$key];
 		}
 
-		return $processors[ $this->hash_key( $args[ $arg_num - 1 ] ) ]->send();
+		return $processors[$this->safe_offset( $args[$arg_num - 1] )]->send();
+	}
+
+	public function with() {
+		$args = func_get_args();
+		if ( ! isset( $args[0] ) || ( empty( $args[0] ) && ! is_string( $args[0] ) && ! is_int( $args[0] ) ) ) {
+			$args = array( null );
+		}
+		return call_user_func_array( array( 'parent', 'with' ), $args );
 	}
 
 	protected function new_responder() {
 		return new Filter_Responder();
 	}
 
-	protected function hash_key( $arg ) {
-		return md5( serialize( $arg ) );
-	}
 }
 
 class Filter_Responder {
@@ -57,3 +68,4 @@ class Filter_Responder {
 		return $this->value;
 	}
 }
+
