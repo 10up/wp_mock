@@ -279,4 +279,22 @@ class WP_Mock {
 	public static function wpFunction( $function_name, $arguments = array() ) {
 		self::$function_manager->register( $function_name, $arguments );
 	}
+	
+	/**
+	 * A wrapper for wpFunction that will simply set/override the return to be 
+	 * a function that returns the value that its passed. For example, esc_attr
+	 * may need to be mocked, and it must return some value. wpPassthruFunction 
+	 * will set esc_attr to return the value its passed. 
+	 * 
+	 * 	\WP_Mock::wpPassthruFunction( 'esc_attr' );	
+	 * 	echo esc_attr( 'some_value' ); // echoes "some_value"
+	 * 
+	 * @param string $function_name
+	 * @param array $arguments
+	 */
+	public static function wpPassthruFunction( $function_name, $arguments = array() ){
+		$arguments = (array) $arguments;
+		$arguments['return'] = function( $param ){ return $param; };
+		self::$function_manager->register( $function_name, $arguments );
+	}
 }
