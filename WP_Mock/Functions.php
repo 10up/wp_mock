@@ -89,7 +89,7 @@ class Functions {
 			} elseif ( preg_match( '/^(\d+)([\-+])$/', $times, $matches ) ) {
 				$method = '+' === $matches[2] ? 'atLeast' : 'atMost';
 				$expectation->$method()->times( (int) $matches[1] );
-			} elseif ( preg_match( '/^(\d+)-(\d+)$', $times, $matches ) ) {
+			} elseif ( preg_match( '/^(\d+)-(\d+)$/', $times, $matches ) ) {
 				$num1 = (int) $matches[1];
 				$num2 = (int) $matches[2];
 				if ( $num1 === $num2 ) {
