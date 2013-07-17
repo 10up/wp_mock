@@ -37,15 +37,7 @@ class Filter extends Hook {
 			$processors = $processors[$key];
 		}
 
-		return $processors[$this->safe_offset( $args[$arg_num - 1] )]->send();
-	}
-
-	public function with() {
-		$args = func_get_args();
-		if ( ! isset( $args[0] ) || ( empty( $args[0] ) && ! is_string( $args[0] ) && ! is_int( $args[0] ) ) ) {
-			$args = array( null );
-		}
-		return call_user_func_array( array( 'parent', 'with' ), $args );
+		return $processors->send();
 	}
 
 	protected function new_responder() {
