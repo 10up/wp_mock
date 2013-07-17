@@ -21,7 +21,9 @@ abstract class Hook {
 	}
 
 	protected function safe_offset( $value ) {
-		if ( is_scalar( $value ) ) {
+		if(is_null($value)){
+			return 'null';
+		} elseif ( is_scalar( $value ) ) {
 			return $value;
 		} elseif ( is_object( $value ) ) {
 			return spl_object_hash( $value );
