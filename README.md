@@ -11,7 +11,7 @@ WP_Mock uses [Mockery](https://github.com/padraic/mockery) for most of its inter
 Use
 --------
 
-First, include the `WP_Mock` repository as a git submodule in your project.  Then, merely include the following code in your test boostrap file:
+First, include the `WP_Mock` repository as a git submodule in your project.  Then, merely include the following code in your test bootstrap file:
 
 ```php
 require_once 'wp_mock/WP_Mock/Loader.php';
