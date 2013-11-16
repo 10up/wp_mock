@@ -1,0 +1,6 @@
+{
+    "name": "10up/wp_mock",
+    "require": {
+        "php": ">=5.3.2"
+    }
+}
