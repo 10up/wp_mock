@@ -97,14 +97,14 @@ class Loader {
 	 * @param bool $prepend If true, prepend autoloader on the autoload stack
 	 */
 	public function register( $prepend = false ) {
-		spl_autoload_register( array( $this, 'loadClass' ), true, $prepend );
+		//spl_autoload_register( array( $this, 'loadClass' ), true, $prepend );
 	}
 
 	/**
 	 * Uninstalls this class loader from the SPL autoloader stack.
 	 */
 	public function unregister() {
-		spl_autoload_unregister( array( $this, 'loadClass' ) );
+		//spl_autoload_unregister( array( $this, 'loadClass' ) );
 	}
 
 	/**
@@ -115,6 +115,7 @@ class Loader {
 	 * @return void
 	 */
 	public function loadClass( $className ) {
+		return;
 		if ( $className === 'WP_Mock' ) {
 			require $this->getFullPath( 'WP_Mock.php' );
 
@@ -146,16 +147,3 @@ class Loader {
 		return ($this->_includePath !== null ? $this->_includePath . DIRECTORY_SEPARATOR : '') . $fileName;
 	}
 }
-
-if ( ! class_exists( '\Composer\Autoload\ClassLoader' ) ) {
-		require_once 'Mockery/Loader.php';
-}
-$loader = new \Mockery\Loader;
-$loader->register();
-
-require_once 'API/constant-mocks.php';
-require_once 'API/taxonomy-mocks.php';
-require_once 'API/template-mocks.php';
-require_once 'API/url-mocks.php';
-require_once 'API/vip-mocks.php';
-require_once 'API/function-mocks.php';
