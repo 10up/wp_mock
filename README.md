@@ -11,13 +11,17 @@ WP_Mock uses [Mockery](https://github.com/padraic/mockery) for most of its inter
 Use
 --------
 
-First, include the `WP_Mock` repository as a git submodule in your project.  Then, merely include the following code in your test bootstrap file:
+First, add WP Mock as a dependency with [Composer](http://getcomposer.org):
+
+```
+composer config repositories.wp_mock vcs https://github.com/10up/wp_mock
+composer require 10up/wp_mock:dev-master
+```
+
+Then, make sure your bootstrap file is loading the composer autoloader:
 
 ```php
-require_once 'wp_mock/WP_Mock/Loader.php';
-
-$loader = new \WP_Mock\Loader;
-$loader->register();
+require_once 'vendor/autoload.php';
 ```
 
 Finally, register calls inside your test class to instantiate and clean up the `WP_Mock` object:
