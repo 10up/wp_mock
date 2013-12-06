@@ -207,9 +207,10 @@ class WP_Mock {
 		$intercept = \Mockery::mock( 'intercept' );
 		$intercept->shouldReceive( 'intercepted' )->atLeast()->once();
 
-		self::onHookAdded( $action, $type )
-			->with( $callback, $priority, $args )
-			->perform( array( $intercept, 'intercepted' ) );
+		/** @var WP_Mock\HookedCallbackResponder $responder */
+		$responder = self::onHookAdded( $action, $type )
+			->with( $callback, $priority, $args );
+		$responder->perform( array( $intercept, 'intercepted' ) );
 	}
 
 	public static function assertHooksAdded() {
