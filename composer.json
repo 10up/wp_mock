@@ -3,8 +3,9 @@
 	"description": "A mocking library to take the pain out of unit testing for WordPress",
 	"license"    : "GPL-2.0+",
 	"require"    : {
-		"php"            : ">=5.3.2",
-		"mockery/mockery": "~0.8"
+		"php"                 : ">=5.3.2",
+		"mockery/mockery"     : "~0.8",
+		"antecedent/patchwork": "~1.2"
 	},
 	"autoload"   : {
 		"psr-0"   : {
