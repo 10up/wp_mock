@@ -48,7 +48,7 @@ class WP_Mock {
 	public static function setUp() {
 		\Mockery::close();
 
-		self::$event_manager = new \WP_Mock\EventManager();
+		self::$event_manager    = new \WP_Mock\EventManager();
 		self::$function_manager = new \WP_Mock\Functions();
 	}
 
@@ -127,12 +127,12 @@ class WP_Mock {
 		self::$event_manager->called( $action );
 	}
 
-	public static function addFilter( $hook ){
-		self::addHook($hook, 'filter');
+	public static function addFilter( $hook ) {
+		self::addHook( $hook, 'filter' );
 	}
 
-	public static function addAction( $hook ){
-		self::addHook($hook, 'action');
+	public static function addAction( $hook ) {
+		self::addHook( $hook, 'action' );
 	}
 
 	public static function addHook( $hook, $type = 'filter' ) {
@@ -152,9 +152,9 @@ class WP_Mock {
 		$intercept = \Mockery::mock( 'intercept' );
 		$intercept->shouldReceive( 'intercepted' )->atLeast()->once();
 		$args = func_get_args();
-		$args = count($args) > 1 ? array_slice( $args, 1 ) : array( null );
+		$args = count( $args ) > 1 ? array_slice( $args, 1 ) : array( null );
 
-		$action = self::onAction( $action );
+		$action    = self::onAction( $action );
 		$responder = call_user_func_array( array( $action, 'with' ), $args );
 		$responder->perform( array( $intercept, 'intercepted' ) );
 	}
@@ -279,22 +279,24 @@ class WP_Mock {
 	public static function wpFunction( $function_name, $arguments = array() ) {
 		self::$function_manager->register( $function_name, $arguments );
 	}
-	
+
 	/**
-	 * A wrapper for wpFunction that will simply set/override the return to be 
+	 * A wrapper for wpFunction that will simply set/override the return to be
 	 * a function that returns the value that its passed. For example, esc_attr
-	 * may need to be mocked, and it must return some value. wpPassthruFunction 
-	 * will set esc_attr to return the value its passed. 
-	 * 
-	 * 	\WP_Mock::wpPassthruFunction( 'esc_attr' );	
-	 * 	echo esc_attr( 'some_value' ); // echoes "some_value"
-	 * 
+	 * may need to be mocked, and it must return some value. wpPassthruFunction
+	 * will set esc_attr to return the value its passed.
+	 *
+	 *    \WP_Mock::wpPassthruFunction( 'esc_attr' );
+	 *    echo esc_attr( 'some_value' ); // echoes "some_value"
+	 *
 	 * @param string $function_name
-	 * @param array $arguments
+	 * @param array  $arguments
 	 */
-	public static function wpPassthruFunction( $function_name, $arguments = array() ){
-		$arguments = (array) $arguments;
-		$arguments['return'] = function( $param ){ return $param; };
+	public static function wpPassthruFunction( $function_name, $arguments = array() ) {
+		$arguments           = (array) $arguments;
+		$arguments['return'] = function ( $param ) {
+			return $param;
+		};
 		self::$function_manager->register( $function_name, $arguments );
 	}
 }
