@@ -112,9 +112,9 @@ class Functions {
 			call_user_func_array( array( $expectation, 'with' ), $arguments['args'] );
 		}
 		if ( isset( $arguments['return_arg'] ) ) {
-			$argument_position = true === $arguments['return_arg'] ? 0 : (int)$arguments['return_arg'];
-			$arguments['return'] = function() use ( $argument_position ) {
-				if( $argument_position >= func_num_args() ) {
+			$argument_position   = true === $arguments['return_arg'] ? 0 : (int) $arguments['return_arg'];
+			$arguments['return'] = function () use ( $argument_position ) {
+				if ( $argument_position >= func_num_args() ) {
 					return null;
 				}
 				return func_get_arg( $argument_position );
