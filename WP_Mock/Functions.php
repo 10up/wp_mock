@@ -10,6 +10,8 @@ class Functions {
 
 	private $internal_functions = array();
 
+	private $wp_mocked_functions = array();
+
 	/**
 	 * Constructor for the Functions object
 	 */
@@ -160,7 +162,7 @@ class Functions {
 	 * @return bool True if this function created the mock, false otherwise
 	 */
 	private function create_function( $function_name ) {
-		if ( in_array( $function_name, $this->internal_functions ) ) {
+		if ( in_array( $function_name, $this->wp_mocked_functions ) ) {
 			return true;
 		}
 		if ( function_exists( $function_name ) ) {
@@ -179,7 +181,7 @@ function $name() {
 EOF;
 		eval( $declaration );
 
-		$this->internal_functions[] = $function_name;
+		$this->wp_mocked_functions[] = $function_name;
 
 		return true;
 	}
@@ -222,8 +224,11 @@ EOF;
 	 */
 	private function validate_function_name( $function_name ) {
 		if ( function_exists( $function_name ) ) {
-			$defined_functions = get_defined_functions();
-			if ( ! in_array( $function_name, $defined_functions['user'] ) ) {
+			if ( empty( $this->internal_functions ) ) {
+				$defined_functions        = get_defined_functions();
+				$this->internal_functions = $defined_functions['internal'];
+			}
+			if ( in_array( $function_name, $this->internal_functions ) ) {
 				throw new \InvalidArgumentException;
 			}
 		}
