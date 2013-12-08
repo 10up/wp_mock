@@ -8,7 +8,7 @@ class Functions {
 
 	private $mocked_functions = array();
 
-	private $defined_here = array();
+	private $internal_functions = array();
 
 	/**
 	 * Constructor for the Functions object
@@ -160,7 +160,7 @@ class Functions {
 	 * @return bool True if this function created the mock, false otherwise
 	 */
 	private function create_function( $function_name ) {
-		if ( in_array( $function_name, $this->defined_here ) ) {
+		if ( in_array( $function_name, $this->internal_functions ) ) {
 			return true;
 		}
 		if ( function_exists( $function_name ) ) {
@@ -179,7 +179,7 @@ function $name() {
 EOF;
 		eval( $declaration );
 
-		$this->defined_here[] = $function_name;
+		$this->internal_functions[] = $function_name;
 
 		return true;
 	}
