@@ -8,6 +8,8 @@ class Functions {
 
 	private $mocked_functions = array();
 
+	private $defined_here = array();
+
 	/**
 	 * Constructor for the Functions object
 	 */
@@ -141,12 +143,84 @@ class Functions {
 	 * This function is namespace-aware.
 	 *
 	 * @param $function_name
-	 *
-	 * @throws \InvalidArgumentException If the function name is invalid (either by format or by being a reserved word)
 	 */
 	private function generate_function( $function_name ) {
-		$function_name = trim( $function_name, '\\' );
+		$function_name = $this->sanitize_function_name( $function_name );
 
+		$this->validate_function_name( $function_name );
+
+		$this->create_function( $function_name ) OR $this->replace_function( $function_name );
+	}
+
+	/**
+	 * Create a function with WP_Mock
+	 *
+	 * @param string $function_name
+	 *
+	 * @return bool True if this function created the mock, false otherwise
+	 */
+	private function create_function( $function_name ) {
+		if ( in_array( $function_name, $this->defined_here ) ) {
+			return true;
+		}
+		if ( function_exists( $function_name ) ) {
+			return false;
+		}
+
+		$parts     = explode( '\\', $function_name );
+		$name      = array_pop( $parts );
+		$namespace = empty( $parts ) ? '' : 'namespace ' . implode( '\\', $parts ) . ';' . PHP_EOL;
+
+		$declaration = <<<EOF
+$namespace
+function $name() {
+	return \\WP_Mock\\Handler::handle_function( '$function_name', func_get_args() );
+}
+EOF;
+		eval( $declaration );
+
+		$this->defined_here[] = $function_name;
+
+		return true;
+	}
+
+	/**
+	 * Replace a function with patchwork
+	 *
+	 * @param string $function_name
+	 *
+	 * @return bool
+	 */
+	private function replace_function( $function_name ) {
+		\Patchwork\replace( $function_name, function () use ( $function_name ) {
+			return Handler::handle_function( $function_name, func_get_args() );
+		} );
+		return true;
+	}
+
+	/**
+	 * Clean the function name to be of a standard shape
+	 *
+	 * @param string $function_name
+	 *
+	 * @return string
+	 */
+	private function sanitize_function_name( $function_name ) {
+		$function_name = trim( $function_name, '\\' );
+		return $function_name;
+	}
+
+	/**
+	 * Validate the function name for format and other considerations
+	 *
+	 * Validation will fail if the string doesn't match the regex, if it's an
+	 * internal function, or if it is a reserved word in PHP.
+	 *
+	 * @param string $function_name
+	 *
+	 * @throws \InvalidArgumentException
+	 */
+	private function validate_function_name( $function_name ) {
 		if ( function_exists( $function_name ) ) {
 			$defined_functions = get_defined_functions();
 			if ( ! in_array( $function_name, $defined_functions['user'] ) ) {
@@ -165,10 +239,6 @@ class Functions {
 		if ( false !== strpos( $reserved_words, " $name " ) ) {
 			throw new \InvalidArgumentException( 'Function name can not be a reserved word!' );
 		}
-
-		\Patchwork\replace( $function_name, function () use ( $function_name ) {
-			return Handler::handle_function( $function_name, func_get_args() );
-		} );
 	}
 
 }
