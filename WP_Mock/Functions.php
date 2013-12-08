@@ -10,7 +10,12 @@ class Functions {
 
 	private $internal_functions = array();
 
-	private $wp_mocked_functions = array();
+	private $wp_mocked_functions = array(
+		'add_action',
+		'do_action',
+		'add_filter',
+		'apply_filters',
+	);
 
 	/**
 	 * Constructor for the Functions object
