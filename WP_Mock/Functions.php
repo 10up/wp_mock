@@ -49,8 +49,9 @@ class Functions {
 			}
 			$mock = $this->mocked_functions[$function];
 
-			$this->set_up_mock( $mock, $function, $arguments );
-			Handler::register_handler( $function, array( $mock, $function ) );
+			$method = preg_replace( '/\\\\+/', '_', $function );
+			$this->set_up_mock( $mock, $method, $arguments );
+			Handler::register_handler( $function, array( $mock, $method ) );
 		} catch ( \Exception $e ) {
 			throw $e;
 		}
