@@ -42,14 +42,31 @@ class WP_Mock {
 	 */
 	protected static $function_manager;
 
+	private static $__bootstrapped = false;
+
+	/**
+	 * Bootstrap WP_Mock
+	 */
+	public static function bootstrap() {
+		if ( ! self::$__bootstrapped ) {
+			self::$__bootstrapped = true;
+			require_once __DIR__ . '/WP_Mock/API/constant-mocks.php';
+			self::setUp();
+		}
+	}
+
 	/**
 	 * Make sure Mockery doesn't have anything set up already.
 	 */
 	public static function setUp() {
-		\Mockery::close();
+		if ( self::$__bootstrapped ) {
+			\Mockery::close();
 
-		self::$event_manager    = new \WP_Mock\EventManager();
-		self::$function_manager = new \WP_Mock\Functions();
+			self::$event_manager    = new \WP_Mock\EventManager();
+			self::$function_manager = new \WP_Mock\Functions();
+		} else {
+			self::bootstrap();
+		}
 	}
 
 	/**

@@ -15,12 +15,6 @@
 			"WP_Mock\\": "./"
 		},
 		"classmap": ["WP_Mock.php"],
-		"files"   : [
-			"WP_Mock/API/constant-mocks.php",
-			"WP_Mock/API/template-mocks.php",
-			"WP_Mock/API/url-mocks.php",
-			"WP_Mock/API/vip-mocks.php",
-			"WP_Mock/API/function-mocks.php"
-		]
+		"files"   : ["WP_Mock/API/function-mocks.php"]
 	}
 }
