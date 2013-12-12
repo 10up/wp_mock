@@ -17,6 +17,8 @@ class Functions {
 		'apply_filters',
 	);
 
+	private $patchwork_functions = array();
+
 	/**
 	 * Constructor for the Functions object
 	 */
@@ -30,7 +32,14 @@ class Functions {
 	 */
 	public function flush() {
 		Handler::cleanup();
-		$this->mocked_functions = array();
+		$this->mocked_functions    = array();
+		$this->patchwork_functions = array();
+		$this->wp_mocked_functions = array(
+			'add_action',
+			'do_action',
+			'add_filter',
+			'apply_filters',
+		);
 	}
 
 	/**
@@ -200,6 +209,10 @@ EOF;
 	 * @return bool
 	 */
 	private function replace_function( $function_name ) {
+		if ( in_array( $function_name, $this->patchwork_functions ) ) {
+			return true;
+		}
+		$this->patchwork_functions[] = $function_name;
 		\Patchwork\replace( $function_name, function () use ( $function_name ) {
 			return Handler::handle_function( $function_name, func_get_args() );
 		} );
