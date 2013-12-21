@@ -29,6 +29,9 @@ class Functions {
 		Handler::cleanup();
 		$this->mocked_functions    = array();
 		$this->patchwork_functions = array();
+		if ( function_exists( 'Patchwork\undoAll' ) ) {
+			\Patchwork\undoAll();
+		}
 		if ( empty( self::$wp_mocked_functions ) ) {
 			self::$wp_mocked_functions = array(
 				'add_action',
@@ -207,6 +210,9 @@ EOF;
 	 */
 	private function replace_function( $function_name ) {
 		if ( in_array( $function_name, $this->patchwork_functions ) ) {
+			return true;
+		}
+		if ( ! function_exists( 'Patchwork\\replace' ) ) {
 			return true;
 		}
 		$this->patchwork_functions[] = $function_name;
