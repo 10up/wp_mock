@@ -10,12 +10,7 @@ class Functions {
 
 	private $internal_functions = array();
 
-	private $wp_mocked_functions = array(
-		'add_action',
-		'do_action',
-		'add_filter',
-		'apply_filters',
-	);
+	private static $wp_mocked_functions = array();
 
 	private $patchwork_functions = array();
 
@@ -34,12 +29,14 @@ class Functions {
 		Handler::cleanup();
 		$this->mocked_functions    = array();
 		$this->patchwork_functions = array();
-		$this->wp_mocked_functions = array(
-			'add_action',
-			'do_action',
-			'add_filter',
-			'apply_filters',
-		);
+		if ( empty( self::$wp_mocked_functions ) ) {
+			self::$wp_mocked_functions = array(
+				'add_action',
+				'do_action',
+				'add_filter',
+				'apply_filters',
+			);
+		}
 	}
 
 	/**
@@ -177,7 +174,7 @@ class Functions {
 	 * @return bool True if this function created the mock, false otherwise
 	 */
 	private function create_function( $function_name ) {
-		if ( in_array( $function_name, $this->wp_mocked_functions ) ) {
+		if ( in_array( $function_name, self::$wp_mocked_functions ) ) {
 			return true;
 		}
 		if ( function_exists( $function_name ) ) {
@@ -196,7 +193,7 @@ function $name() {
 EOF;
 		eval( $declaration );
 
-		$this->wp_mocked_functions[] = $function_name;
+		self::$wp_mocked_functions[] = $function_name;
 
 		return true;
 	}
