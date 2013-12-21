@@ -26,8 +26,8 @@ class Functions {
 	 * Emptys the mocked_functions array
 	 */
 	public function flush() {
+		$this->mocked_functions = array();
 		Handler::cleanup();
-		$this->mocked_functions    = array();
 		$this->patchwork_functions = array();
 		if ( function_exists( 'Patchwork\undoAll' ) ) {
 			\Patchwork\undoAll();

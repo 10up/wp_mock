@@ -73,10 +73,11 @@ class WP_Mock {
 	 * Tear down anything built up inside Mockery when we're ready to do so.
 	 */
 	public static function tearDown() {
-		\Mockery::close();
-
 		self::$event_manager->flush();
 		self::$function_manager->flush();
+
+		\Mockery::close();
+		\WP_Mock\Handler::cleanup();
 	}
 
 	/**
