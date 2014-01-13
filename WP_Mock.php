@@ -31,6 +31,8 @@
  * @license    MIT License
  */
 
+use WP_Mock\Matcher\FuzzyObject;
+
 class WP_Mock {
 	/**
 	 * @var \WP_Mock\EventManager
@@ -317,5 +319,22 @@ class WP_Mock {
 			return $param;
 		};
 		self::$function_manager->register( $function_name, $arguments );
+	}
+
+	/**
+	 * Generate a fuzzy object match expectation
+	 *
+	 * This will let you fuzzy match objects based on their properties without
+	 * needing to use the identical (===) operator. This is helpful when the
+	 * object being passed to a function is constructed inside the scope of the
+	 * function being tested but where you want to make assertions on more than
+	 * just the type of the object.
+	 *
+	 * @param $thing
+	 *
+	 * @return FuzzyObject
+	 */
+	public static function fuzzyObject( $thing ) {
+		return new FuzzyObject( $thing );
 	}
 }
