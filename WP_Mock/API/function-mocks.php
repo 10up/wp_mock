@@ -12,8 +12,10 @@
  * @param int      $priority                optional. Used to specify the order in which the functions associated with a particular action are executed (default: 10). Lower numbers correspond with earlier execution, and functions with the same priority are executed in the order in which they were added to the action.
  * @param int      $accepted_args           optional. The number of arguments the function accept (default 1).
  */
-function add_action( $tag, $function_to_add, $priority = 10, $accepted_args = 1 ) {
-	\WP_Mock::onActionAdded( $tag )->react( $function_to_add, (int) $priority, (int) $accepted_args );
+if ( ! function_exists( 'add_action' ) ) {
+	function add_action( $tag, $function_to_add, $priority = 10, $accepted_args = 1 ) {
+		\WP_Mock::onActionAdded( $tag )->react( $function_to_add, (int) $priority, (int) $accepted_args );
+	}
 }
 
 /**
@@ -24,18 +26,22 @@ function add_action( $tag, $function_to_add, $priority = 10, $accepted_args = 1 
  *
  * @return null Will return null if $tag does not exist in $wp_filter array
  */
-function do_action( $tag, $arg = '') {
-	$args = func_get_args();
-	$args = array_slice( $args, 1 );
-
-	return \WP_Mock::onAction( $tag )->react( $args );
+if ( ! function_exists( 'do_action' ) ) {
+	function do_action( $tag, $arg = '') {
+		$args = func_get_args();
+		$args = array_slice( $args, 1 );
+	
+		return \WP_Mock::onAction( $tag )->react( $args );
+	}
 }
 
 /**
  * Dummy method to prevent filter hooks in constructor from failing.
  */
-function add_filter( $tag, $function_to_add, $priority = 10, $accepted_args = 1 ) {
-	\WP_Mock::onFilterAdded( $tag )->react( $function_to_add, (int) $priority, (int) $accepted_args );
+if ( ! function_exists( 'add_filter' ) ) {
+	function add_filter( $tag, $function_to_add, $priority = 10, $accepted_args = 1 ) {
+		\WP_Mock::onFilterAdded( $tag )->react( $function_to_add, (int) $priority, (int) $accepted_args );
+	}
 }
 
 /**
@@ -47,10 +53,12 @@ function add_filter( $tag, $function_to_add, $priority = 10, $accepted_args = 1 
  *
  * @return mixed The filtered value after all hooked functions are applied to it.
  */
-function apply_filters( $tag, $value ) {
-	$args = func_get_args();
-	$args = array_slice( $args, 1 );
-	$args[0] = $value;
-
-	return \WP_Mock::onFilter( $tag )->apply( $args );
+if ( ! function_exists( 'apply_filters' ) ) {
+	function apply_filters( $tag, $value ) {
+		$args = func_get_args();
+		$args = array_slice( $args, 1 );
+		$args[0] = $value;
+	
+		return \WP_Mock::onFilter( $tag )->apply( $args );
+	}
 }
