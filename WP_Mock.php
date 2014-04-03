@@ -69,6 +69,21 @@ class WP_Mock {
 			self::$__bootstrapped = true;
 			require_once __DIR__ . '/WP_Mock/API/function-mocks.php';
 			require_once __DIR__ . '/WP_Mock/API/constant-mocks.php';
+			if ( self::usingPatchwork() ) {
+				$possible_locations = array(
+					'/vendor',
+					'/../..',
+				);
+				$patchwork_path     = 'antecedent/patchwork/Patchwork.php';
+				foreach ( $possible_locations as $loc ) {
+					$path = __DIR__ . "$loc/$patchwork_path";
+					if ( file_exists( $path ) ) {
+						break;
+					}
+				}
+				// Will cause a fatal error if patchwork can't be found
+				require_once( $path );
+			}
 			self::setUp();
 		}
 	}
