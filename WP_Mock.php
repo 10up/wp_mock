@@ -44,7 +44,22 @@ class WP_Mock {
 	 */
 	protected static $function_manager;
 
-	private static $__bootstrapped = false;
+	protected static $__bootstrapped = false;
+
+	protected static $__use_patchwork = false;
+
+	/**
+	 * @param boolean $use_patchwork
+	 */
+	public static function setUsePatchwork( $use_patchwork ) {
+		if ( ! self::$__bootstrapped ) {
+			self::$__use_patchwork = (bool) $use_patchwork;
+		}
+	}
+
+	public static function usingPatchwork() {
+		return (bool) self::$__use_patchwork;
+	}
 
 	/**
 	 * Bootstrap WP_Mock
