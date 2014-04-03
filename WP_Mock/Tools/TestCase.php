@@ -3,6 +3,7 @@
 namespace WP_Mock\Tools;
 
 use WP_Mock;
+use WP_Mock\Tools\Constraints\ExpectationsMet;
 
 class TestCase extends \PHPUnit_Framework_TestCase {
 
@@ -98,6 +99,14 @@ class TestCase extends \PHPUnit_Framework_TestCase {
 			$expectedString = call_user_func( $this->__contentFilterCallback, $expectedString );
 		}
 		parent::expectOutputString( $expectedString );
+	}
+
+	public function assertCurrentConditionsMet( $message = '' ) {
+		$this->assertThat( null, new ExpectationsMet, $message );
+	}
+
+	public function assertConditionsMet( $message = '' ) {
+		$this->assertCurrentConditionsMet( $message );
 	}
 
 	protected function cleanGlobals() {
