@@ -7,7 +7,7 @@ use Mockery;
 use Exception;
 use ReflectionMethod;
 use WP_Mock\Tools\Constraints\ExpectationsMet;
-use WP_Mock\Tools\Constraints\IsEqualHTML;
+use WP_Mock\Tools\Constraints\IsEqualHtml;
 
 class TestCase extends \PHPUnit_Framework_TestCase {
 
@@ -112,7 +112,7 @@ class TestCase extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function assertEqualsHTML( $expected, $actual, $message = '' ) {
-		$constraint = new IsEqualHTML( $expected );
+		$constraint = new IsEqualHtml( $expected );
 		$this->assertThat( $actual, $constraint, $message );
 	}
 
