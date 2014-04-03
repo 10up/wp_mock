@@ -67,6 +67,28 @@ class TestCase extends \PHPUnit_Framework_TestCase {
 		$_REQUEST = array();
 	}
 
+	public function assertActionsCalled() {
+		$actions_not_added = $expected_actions = 0;
+		try {
+			WP_Mock::assertActionsCalled();
+		} catch ( \Exception $e ) {
+			$actions_not_added = 1;
+			$expected_actions  = $e->getMessage();
+		}
+		$this->assertEmpty( $actions_not_added, $expected_actions );
+	}
+
+	public function assertHooksAdded() {
+		$hooks_not_added = $expected_hooks = 0;
+		try {
+			WP_Mock::assertHooksAdded();
+		} catch ( \Exception $e ) {
+			$hooks_not_added = 1;
+			$expected_hooks  = $e->getMessage();
+		}
+		$this->assertEmpty( $hooks_not_added, $expected_hooks );
+	}
+
 	public function stripTabsAndNewlines( $content ) {
 		return str_replace( array( "\t", "\r", "\n" ), '', $content );
 	}
