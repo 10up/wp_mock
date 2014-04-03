@@ -3,6 +3,7 @@
 namespace WP_Mock\Tools;
 
 use WP_Mock;
+use Exception;
 use WP_Mock\Tools\Constraints\ExpectationsMet;
 use WP_Mock\Tools\Constraints\IsEqualHTML;
 
@@ -73,7 +74,7 @@ class TestCase extends \PHPUnit_Framework_TestCase {
 		$actions_not_added = $expected_actions = 0;
 		try {
 			WP_Mock::assertActionsCalled();
-		} catch ( \Exception $e ) {
+		} catch ( Exception $e ) {
 			$actions_not_added = 1;
 			$expected_actions  = $e->getMessage();
 		}
@@ -84,7 +85,7 @@ class TestCase extends \PHPUnit_Framework_TestCase {
 		$hooks_not_added = $expected_hooks = 0;
 		try {
 			WP_Mock::assertHooksAdded();
-		} catch ( \Exception $e ) {
+		} catch ( Exception $e ) {
 			$hooks_not_added = 1;
 			$expected_hooks  = $e->getMessage();
 		}
