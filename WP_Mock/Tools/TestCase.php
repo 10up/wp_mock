@@ -33,8 +33,6 @@ class TestCase extends \PHPUnit_Framework_TestCase {
 	 */
 	protected $__contentFilterCallback = false;
 
-	protected $testFiles = array();
-
 	public function setUp() {
 		WP_Mock::setUp();
 
