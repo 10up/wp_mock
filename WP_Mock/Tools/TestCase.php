@@ -6,7 +6,7 @@ use WP_Mock;
 
 class TestCase extends \PHPUnit_Framework_TestCase {
 
-	protected $mockedStaticMethods = [ ];
+	protected $mockedStaticMethods = array();
 
 	/**
 	 * @var array
