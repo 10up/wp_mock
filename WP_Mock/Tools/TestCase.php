@@ -4,6 +4,7 @@ namespace WP_Mock\Tools;
 
 use WP_Mock;
 use WP_Mock\Tools\Constraints\ExpectationsMet;
+use WP_Mock\Tools\Constraints\IsEqualHTML;
 
 class TestCase extends \PHPUnit_Framework_TestCase {
 
@@ -107,6 +108,11 @@ class TestCase extends \PHPUnit_Framework_TestCase {
 
 	public function assertConditionsMet( $message = '' ) {
 		$this->assertCurrentConditionsMet( $message );
+	}
+
+	public function assertEqualsHTML( $expected, $actual, $message = '' ) {
+		$constraint = new IsEqualHTML( $expected );
+		$this->assertThat( $actual, $constraint, $message );
 	}
 
 	protected function cleanGlobals() {
