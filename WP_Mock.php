@@ -52,6 +52,7 @@ class WP_Mock {
 	public static function bootstrap() {
 		if ( ! self::$__bootstrapped ) {
 			self::$__bootstrapped = true;
+			require_once __DIR__ . '/WP_Mock/API/function-mocks.php';
 			require_once __DIR__ . '/WP_Mock/API/constant-mocks.php';
 			self::setUp();
 		}

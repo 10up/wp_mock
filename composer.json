@@ -14,7 +14,6 @@
 		"psr-0"   : {
 			"WP_Mock\\": "./"
 		},
-		"classmap": ["WP_Mock.php"],
-		"files"   : ["WP_Mock/API/function-mocks.php"]
+		"classmap": ["WP_Mock.php"]
 	}
 }
