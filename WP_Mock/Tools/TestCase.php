@@ -93,6 +93,13 @@ class TestCase extends \PHPUnit_Framework_TestCase {
 		return str_replace( array( "\t", "\r", "\n" ), '', $content );
 	}
 
+	public function expectOutputString( $expectedString ) {
+		if ( is_callable( $this->__contentFilterCallback ) ) {
+			$expectedString = call_user_func( $this->__contentFilterCallback, $expectedString );
+		}
+		parent::expectOutputString( $expectedString );
+	}
+
 	protected function cleanGlobals() {
 		$common_globals = array(
 			'post',
