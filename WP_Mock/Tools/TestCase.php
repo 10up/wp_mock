@@ -63,7 +63,7 @@ class TestCase extends \PHPUnit_Framework_TestCase {
 
 		$this->cleanGlobals();
 
-		$this->mockedStaticMethods = [ ];
+		$this->mockedStaticMethods = array();
 
 		$_GET     = array();
 		$_POST    = array();
