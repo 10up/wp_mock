@@ -7,7 +7,7 @@ use PHPUnit_Framework_Constraint_IsEqual;
 class IsEqualHtml extends PHPUnit_Framework_Constraint_IsEqual {
 
 	private function clean( $thing ) {
-		return str_replace( [ "\r", "\n", "\t" ], '', $thing );
+		return str_replace( array( "\r", "\n", "\t" ), '', $thing );
 	}
 
 	public function evaluate( $other, $description = '', $returnResult = FALSE ) {
