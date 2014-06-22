@@ -6,10 +6,9 @@ WordPress API Mocking Framework
 Use
 --------
 
-First, add WP Mock as a dependency with [Composer](http://getcomposer.org):
+First, add WP Mock as a dev-dependency with [Composer](http://getcomposer.org):
 
 ```
-composer config repositories.wp_mock vcs https://github.com/10up/wp_mock
 composer require --dev 10up/wp_mock:dev-master
 ```
 
