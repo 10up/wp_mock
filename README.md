@@ -10,7 +10,7 @@ First, add WP Mock as a dependency with [Composer](http://getcomposer.org):
 
 ```
 composer config repositories.wp_mock vcs https://github.com/10up/wp_mock
-composer require 10up/wp_mock:dev-master
+composer require --dev 10up/wp_mock:dev-master
 ```
 
 Then, make sure your bootstrap file is loading the composer autoloader:
