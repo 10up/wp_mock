@@ -7,6 +7,8 @@ use PHPUnit_Framework_Constraint_IsEqual;
 class IsEqualHtml extends PHPUnit_Framework_Constraint_IsEqual {
 
 	private function clean( $thing ) {
+		$thing = preg_replace( '/\n\s+/', '', $thing );
+		$thing = preg_replace( '/\s\s+/', ' ', $thing );
 		return str_replace( array( "\r", "\n", "\t" ), '', $thing );
 	}
 
