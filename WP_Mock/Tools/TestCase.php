@@ -9,7 +9,7 @@ use ReflectionMethod;
 use WP_Mock\Tools\Constraints\ExpectationsMet;
 use WP_Mock\Tools\Constraints\IsEqualHtml;
 
-class TestCase extends \PHPUnit_Framework_TestCase {
+abstract class TestCase extends \PHPUnit_Framework_TestCase {
 
 	protected $mockedStaticMethods = array();
 
