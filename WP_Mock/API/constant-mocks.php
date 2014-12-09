@@ -33,10 +33,21 @@ if ( ! defined( 'EZSQL_VERSION' ) ) {
 }
 
 /**
+ * HHVM does not support case-insensitive constants.
+ * 
  * @since 0.71
+ * @see   http://hhvm.com/blog/3095/getting-wordpress-running-on-hhvm
  */
 if ( ! defined( 'OBJECT' ) ) {
-	define( 'OBJECT', 'OBJECT', true );
+	define( 'OBJECT', 'OBJECT' );
+}
+
+if ( ! defined( 'Object' ) ) {
+	define( 'Object', 'OBJECT' );
+}
+
+if ( ! defined( 'object' ) ) {
+	define( 'object', 'OBJECT' );
 }
 
 /**
