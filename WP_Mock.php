@@ -373,6 +373,25 @@ class WP_Mock {
 	}
 
 	/**
+	 * Add a function mock that aliases another callable.
+	 *
+	 * e.g.: WP_Mock::alias( 'wp_hash', 'md5' );
+	 *
+	 * @param string   $function_name
+	 * @param callable $alias
+	 * @param array    $arguments
+	 */
+	public static function alias( $function_name, $alias, $arguments = array() ) {
+		$arguments = (array) $arguments;
+		if ( is_callable( $alias ) ) {
+			$arguments['return'] = function () use ( $alias ) {
+				return call_user_func_array( $alias, func_get_args() );
+			};
+		}
+		self::$function_manager->register( $function_name, $arguments );
+	}
+
+	/**
 	 * Generate a fuzzy object match expectation
 	 *
 	 * This will let you fuzzy match objects based on their properties without
