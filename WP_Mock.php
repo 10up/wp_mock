@@ -335,8 +335,8 @@ class WP_Mock {
 	/**
 	 * Alias for userFunction
 	 *
-	 * @param       $function_name
-	 * @param array $arguments
+	 * @param string $function_name
+	 * @param array  $arguments
 	 */
 	public static function wpFunction( $function_name, $arguments = array() ) {
 		self::userFunction( $function_name, $arguments );
@@ -345,21 +345,31 @@ class WP_Mock {
 	/**
 	 * A wrapper for userFunction that will simply set/override the return to be
 	 * a function that returns the value that its passed. For example, esc_attr
-	 * may need to be mocked, and it must return some value. wpPassthruFunction
+	 * may need to be mocked, and it must return some value. passthruFunction
 	 * will set esc_attr to return the value its passed.
 	 *
-	 *    \WP_Mock::wpPassthruFunction( 'esc_attr' );
+	 *    \WP_Mock::passthruFunction( 'esc_attr' );
 	 *    echo esc_attr( 'some_value' ); // echoes "some_value"
 	 *
 	 * @param string $function_name
 	 * @param array  $arguments
 	 */
-	public static function wpPassthruFunction( $function_name, $arguments = array() ) {
+	public static function passthruFunction( $function_name, $arguments = array() ) {
 		$arguments           = (array) $arguments;
 		$arguments['return'] = function ( $param ) {
 			return $param;
 		};
 		self::$function_manager->register( $function_name, $arguments );
+	}
+
+	/**
+	 * Alias for passthruFunction
+	 *
+	 * @param string $function_name
+	 * @param array  $arguments
+	 */
+	public static function wpPassthruFunction( $function_name, $arguments = array() ) {
+		self::passthruFunction( $function_name, $arguments );
 	}
 
 	/**
