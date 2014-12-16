@@ -402,6 +402,8 @@ class WP_Mock {
 	/**
 	 * Alias for userFunction
 	 *
+	 * @deprecated since 1.0
+	 *
 	 * @param string $function_name
 	 * @param array  $arguments
 	 *
@@ -457,6 +459,8 @@ class WP_Mock {
 
 	/**
 	 * Alias for passthruFunction
+	 *
+	 * @deprecated since 1.0
 	 *
 	 * @param string $function_name
 	 * @param array  $arguments
