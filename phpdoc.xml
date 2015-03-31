@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<phpdoc>
+	<parser>
+		<package>WP_Mock</package>
+		<target>docs</target>
+		<encoding>utf8</encoding>
+	</parser>
+	<transformer>
+		<target>docs</target>
+	</transformer>
+	<files>
+		<directory>./</directory>
+		<ignore>tests/*</ignore>
+		<ignore>vendor/*</ignore>
+	</files>
+</phpdoc>
