@@ -3,13 +3,13 @@
 	<parser>
 		<package>WP_Mock</package>
 		<target>docs</target>
-		<encoding>utf8</encoding>
+		<encoding>utf-8</encoding>
 	</parser>
 	<transformer>
 		<target>docs</target>
 	</transformer>
 	<files>
-		<directory>./</directory>
+		<directory>WP_Mock</directory>
 		<ignore>tests/*</ignore>
 		<ignore>vendor/*</ignore>
 	</files>
