@@ -46,7 +46,7 @@ class MyTestClass extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * Assume that my_test_function() is meant to do all of the following:
+	 * Assume that my_permalink_function() is meant to do all of the following:
 	 * - Run the given post ID through absint()
 	 * - Call get_permalink() on the $post_id
 	 * - Pass the permalink through the 'special_filter' filter
@@ -61,7 +61,7 @@ class MyTestClass extends PHPUnit_Framework_TestCase {
 
 		\WP_Mock::wpPassthruFunction( 'absint', array( 'times' => 1 ) );
 
-		\WP_Mock::onFilter( 'custom_content_filter' )
+		\WP_Mock::onFilter( 'special_filter' )
 			->with( 'http://example.com/foo' )
 			->reply( 'https://example.com/bar' );
 
