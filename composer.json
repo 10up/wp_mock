@@ -15,7 +15,7 @@
 			"WP_Mock\\": "./"
 		},
 		"classmap": ["WP_Mock.php"]
-	}
+	},
 	"extra"      : {
 		"branch-alias": {
 			"dev-dev": "1.0.x-dev"
