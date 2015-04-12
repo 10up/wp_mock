@@ -1,5 +1,7 @@
 # WP_Mock
 
+[![Build Status](http://45.33.25.19:8080/buildStatus/icon?job=WP_Mock Stable)](http://45.33.25.19:8080/job/WP_Mock%20Stable/)
+
 WP_Mock is an API mocking framework, built and maintained by [10up](http://10up.com) for the purpose of making it possible to properly unit test within WordPress.
 
 
