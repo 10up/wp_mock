@@ -4,9 +4,9 @@
 	"license"    : "GPL-2.0+",
 	"require"    : {
 		"php"                 : ">=5.3.2",
-		"phpunit/phpunit"     : ">=3.7",
+		"phpunit/phpunit"     : ">=3.7.38",
 		"mockery/mockery"     : "^0.9.5",
-		"antecedent/patchwork": "~1.2"
+		"antecedent/patchwork": "~1.3.4"
 	},
 	"require-dev": {
 		"phpunit/phpunit"     : ">=4.3",
