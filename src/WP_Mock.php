@@ -71,12 +71,12 @@ class WP_Mock {
 			require_once __DIR__ . '/WP_Mock/API/constant-mocks.php';
 			if ( self::usingPatchwork() ) {
 				$possible_locations = array(
-					'/vendor',
-					'/../..',
+					'vendor',
+					'../..',
 				);
 				$patchwork_path     = 'antecedent/patchwork/Patchwork.php';
 				foreach ( $possible_locations as $loc ) {
-					$path = __DIR__ . "$loc/$patchwork_path";
+					$path = __DIR__ . "/../$loc/$patchwork_path";
 					if ( file_exists( $path ) ) {
 						break;
 					}
