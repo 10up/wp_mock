@@ -12,9 +12,9 @@
 	},
 	"autoload"   : {
 		"psr-0"   : {
-			"WP_Mock\\": "./src/"
+			"WP_Mock\\": "./php/"
 		},
-		"classmap": ["src/WP_Mock.php"]
+		"classmap": ["php/WP_Mock.php"]
 	},
 	"extra"      : {
 		"branch-alias": {
