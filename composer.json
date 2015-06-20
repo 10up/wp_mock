@@ -11,9 +11,7 @@
 	"require-dev": {
 	},
 	"autoload"   : {
-		"psr-0"   : {
-			"WP_Mock\\": "./php/"
-		},
+		"psr-4"   : {"WP_Mock\\": "./php/WP_Mock"},
 		"classmap": ["php/WP_Mock.php"]
 	},
 	"extra"      : {
