@@ -105,6 +105,26 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 		$this->assertEmpty( $hooks_not_added, $expected_hooks );
 	}
 
+	public function ns( $function ) {
+		if ( ! is_string( $function ) || false !== strpos( $function, '\\' ) ) {
+			return $function;
+		}
+
+		$thisClassName = trim( get_class( $this ), '\\' );
+
+		if ( ! strpos( $thisClassName, '\\' ) ) {
+			return $function;
+		}
+
+		// $thisNamespace is constructed by exploding the current class name on
+		// namespace separators, running array_slice on that array starting at 0
+		// and ending one element from the end (chops the class name off) and
+		// imploding that using namespace separators as the glue.
+		$thisNamespace = implode( '\\', array_slice( explode( '\\', $thisClassName ), 0, - 1 ) );
+
+		return "$thisNamespace\\$function";
+	}
+
 	public function stripTabsAndNewlines( $content ) {
 		return str_replace( array( "\t", "\r", "\n" ), '', $content );
 	}
