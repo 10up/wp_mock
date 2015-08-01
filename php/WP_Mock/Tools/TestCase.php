@@ -40,13 +40,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 	protected $testFiles = array();
 
 	public function setUp() {
-		if ( ! empty( $this->testFiles ) && defined( 'WP_MOCK_INCLUDE_DIR' ) ) {
-			foreach ( $this->testFiles as $file ) {
-				if ( file_exists( WP_MOCK_INCLUDE_DIR . $file ) ) {
-					require_once( WP_MOCK_INCLUDE_DIR . $file );
-				}
-			}
-		}
+		$this->requireFileDependencies();
 
 		WP_Mock::setUp();
 
@@ -54,20 +48,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 		$_POST    = (array) $this->__default_post;
 		$_REQUEST = (array) $this->__default_request;
 
-		$this->__contentFilterCallback = false;
-
-		$annotations = $this->getAnnotations();
-		if (
-			! isset( $annotations['stripTabsAndNewlinesFromOutput'] ) ||
-			$annotations['stripTabsAndNewlinesFromOutput'][0] !== 'disabled' ||
-			(
-				is_numeric( $annotations['stripTabsAndNewlinesFromOutput'][0] ) &&
-				(int) $annotations['stripTabsAndNewlinesFromOutput'][0] !== 0
-			)
-		) {
-			$this->__contentFilterCallback = array( $this, 'stripTabsAndNewlines' );
-			$this->setOutputCallback( $this->__contentFilterCallback );
-		}
+		$this->setUpContentFiltering();
 
 		$this->cleanGlobals();
 	}
@@ -232,6 +213,39 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 			}
 		}
 
+	}
+
+	/**
+	 * Require any testFiles that are defined in a subclass
+	 *
+	 * This will only work if the WP_MOCK_INCLUDE_DIR is defined to point to the root directory you want to include
+	 * files from.
+	 */
+	protected function requireFileDependencies() {
+		if ( ! empty( $this->testFiles ) && defined( 'WP_MOCK_INCLUDE_DIR' ) ) {
+			foreach ( $this->testFiles as $file ) {
+				if ( file_exists( WP_MOCK_INCLUDE_DIR . $file ) ) {
+					require_once( WP_MOCK_INCLUDE_DIR . $file );
+				}
+			}
+		}
+	}
+
+	protected function setUpContentFiltering() {
+		$this->__contentFilterCallback = false;
+
+		$annotations = $this->getAnnotations();
+		if (
+			! isset( $annotations['stripTabsAndNewlinesFromOutput'] ) ||
+			$annotations['stripTabsAndNewlinesFromOutput'][0] !== 'disabled' ||
+			(
+				is_numeric( $annotations['stripTabsAndNewlinesFromOutput'][0] ) &&
+				(int) $annotations['stripTabsAndNewlinesFromOutput'][0] !== 0
+			)
+		) {
+			$this->__contentFilterCallback = array( $this, 'stripTabsAndNewlines' );
+			$this->setOutputCallback( $this->__contentFilterCallback );
+		}
 	}
 
 }
