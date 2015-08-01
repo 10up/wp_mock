@@ -5,6 +5,7 @@ namespace WP_Mock\Tools;
 use Exception;
 use Mockery;
 use ReflectionMethod;
+use Text_Template;
 use WP_Mock;
 use WP_Mock\Tools\Constraints\ExpectationsMet;
 use WP_Mock\Tools\Constraints\IsEqualHtml;
@@ -148,6 +149,22 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 		$constraint = new IsEqualHtml( $expected );
 		$this->assertThat( $actual, $constraint, $message );
 	}
+
+	/**
+	 * Nuke the globals from orbit for process isolation
+	 *
+	 * See http://kpayne.me/2012/07/02/phpunit-process-isolation-and-constant-already-defined/
+	 * for more details
+	 *
+	 * {@inheritdoc}
+	 */
+	protected function prepareTemplate( Text_Template $template ) {
+		$template->setVar( array(
+			'globals' => '$GLOBALS[\'__PHPUNIT_BOOTSTRAP\'] = \'' . $GLOBALS['__PHPUNIT_BOOTSTRAP'] . '\';',
+		) );
+		parent::prepareTemplate( $template );
+	}
+
 
 	/**
 	 * Mock a static method of a class
