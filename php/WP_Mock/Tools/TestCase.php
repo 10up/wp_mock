@@ -33,7 +33,20 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 	 */
 	protected $__contentFilterCallback = false;
 
+	/**
+	 * @var array
+	 */
+	protected $testFiles = array();
+
 	public function setUp() {
+		if ( ! empty( $this->testFiles ) && defined( 'WP_MOCK_INCLUDE_DIR' ) ) {
+			foreach ( $this->testFiles as $file ) {
+				if ( file_exists( WP_MOCK_INCLUDE_DIR . $file ) ) {
+					require_once( WP_MOCK_INCLUDE_DIR . $file );
+				}
+			}
+		}
+
 		WP_Mock::setUp();
 
 		$_GET     = (array) $this->__default_get;
