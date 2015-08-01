@@ -2,10 +2,10 @@
 
 namespace WP_Mock\Tools;
 
-use WP_Mock;
-use Mockery;
 use Exception;
+use Mockery;
 use ReflectionMethod;
+use WP_Mock;
 use WP_Mock\Tools\Constraints\ExpectationsMet;
 use WP_Mock\Tools\Constraints\IsEqualHtml;
 
@@ -151,8 +151,8 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 
 		$safe_method = "wp_mock_safe_$method";
 		$signature   = md5( "$class::$method" );
-		if ( ! empty( $this->mockedStaticMethods[$signature] ) ) {
-			$mock = $this->mockedStaticMethods[$signature];
+		if ( ! empty( $this->mockedStaticMethods[ $signature ] ) ) {
+			$mock = $this->mockedStaticMethods[ $signature ];
 		} else {
 
 			$rMethod = false;
@@ -173,7 +173,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 			/** @var \Mockery\Mock $mock */
 			$mock = Mockery::mock( $class );
 			$mock->shouldAllowMockingProtectedMethods();
-			$this->mockedStaticMethods[$signature] = $mock;
+			$this->mockedStaticMethods[ $signature ] = $mock;
 
 			\Patchwork\Interceptor\patch( "$class::$method", function () use ( $mock, $safe_method ) {
 				return call_user_func_array( array( $mock, $safe_method ), func_get_args() );
@@ -190,8 +190,8 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 			'wp_query',
 		);
 		foreach ( $common_globals as $var ) {
-			if ( isset( $GLOBALS[$var] ) ) {
-				unset( $GLOBALS[$var] );
+			if ( isset( $GLOBALS[ $var ] ) ) {
+				unset( $GLOBALS[ $var ] );
 			}
 		}
 
