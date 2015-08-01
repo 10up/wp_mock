@@ -236,6 +236,19 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 		return $post;
 	}
 
+	/**
+	 * @param array $query_vars
+	 *
+	 * @return \WP
+	 */
+	protected function mockWp( array $query_vars = array() ) {
+		/** @var \WP $wp */
+		$wp             = \Mockery::mock( 'WP' );
+		$wp->query_vars = $query_vars;
+
+		return $wp;
+	}
+
 	protected function cleanGlobals() {
 		$common_globals = array(
 			'post',
