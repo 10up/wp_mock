@@ -202,6 +202,40 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 		return $expectation;
 	}
 
+	/**
+	 * @param array|object $data The post data to add to the post
+	 *
+	 * @return \WP_Post
+	 */
+	protected function mockPost( $data ) {
+		/** @var \WP_Post $post */
+		$post = \Mockery::mock( 'WP_Post' );
+		$data = array_merge( array(
+			'ID'                => 0,
+			'post_author'       => 0,
+			'post_type'         => '',
+			'post_title'        => '',
+			'post_date'         => '',
+			'post_date_gmt'     => '',
+			'post_content'      => '',
+			'post_excerpt'      => '',
+			'post_status'       => '',
+			'comment_status'    => '',
+			'ping_status'       => '',
+			'post_password'     => '',
+			'post_parent'       => 0,
+			'post_modified'     => '',
+			'post_modified_gmt' => '',
+			'comment_count'     => 0,
+			'menu_order'        => 0,
+		), (array) $data );
+		array_walk( $data, function ( $value, $prop ) use ( $post ) {
+			$post->$prop = $value;
+		} );
+
+		return $post;
+	}
+
 	protected function cleanGlobals() {
 		$common_globals = array(
 			'post',
