@@ -8,7 +8,7 @@ use Mockery\Matcher\MatcherAbstract;
 class FuzzyObject extends MatcherAbstract {
 
 	/**
-	 * @param object|array $expected
+	 * @param object|array $expected Optional. Defaults to null.
 	 *
 	 * @throws \Mockery\Exception If a non-object non-array expectation is provided
 	 */

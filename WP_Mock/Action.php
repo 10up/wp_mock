@@ -11,6 +11,10 @@ namespace WP_Mock;
 
 
 class Action extends Hook {
+
+	/**
+	 * @param array $args
+	 */
 	public function react( $args ) {
 		\WP_Mock::invokeAction( $this->name );
 
@@ -43,6 +47,9 @@ class Action extends Hook {
 		}
 	}
 
+	/**
+	 * @return Action_Responder
+	 */
 	protected function new_responder() {
 		return new Action_Responder();
 	}
@@ -54,6 +61,9 @@ class Action_Responder {
 	 */
 	protected $callable;
 
+	/**
+	 * @param mixed $callable
+	 */
 	public function perform( $callable ) {
 		$this->callable = $callable;
 	}

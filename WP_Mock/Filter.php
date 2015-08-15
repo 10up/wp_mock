@@ -40,6 +40,9 @@ class Filter extends Hook {
 		return $processors->send();
 	}
 
+	/**
+	 * @return Filter_Responder
+	 */
 	protected function new_responder() {
 		return new Filter_Responder();
 	}
@@ -52,12 +55,17 @@ class Filter_Responder {
 	 */
 	protected $value;
 
+	/**
+	 * @param mixed $value
+	 */
 	public function reply( $value ) {
 		$this->value = $value;
 	}
 
+	/**
+	 * @return mixed
+	 */
 	public function send() {
 		return $this->value;
 	}
 }
-

@@ -21,16 +21,33 @@ namespace WP_Mock;
 
 
 class Loader {
+
+	/**
+	 * @var string
+	 */
 	private $_fileExtension = '.php';
+
+	/**
+	 * @var string
+	 */
 	private $_namespace;
+
+	/**
+	 * @var string
+	 */
 	private $_includePath;
+
+	/**
+	 * @var string
+	 */
 	private $_namespaceSeparator = '\\';
 
 	/**
 	 * Creates a new <tt>Loader</tt> that loads classes of the
 	 * specified namespace.
 	 *
-	 * @param string $ns The namespace to use.
+	 * @param string $ns          The namespace to use.
+	 * @param string $includePath Optional. Defaults to null.
 	 */
 	public function __construct( $ns = 'WP_Mock', $includePath = null ) {
 		$this->_namespace   = $ns;
@@ -49,7 +66,7 @@ class Loader {
 	/**
 	 * Gets the namespace seperator used by classes in the namespace of this class loader.
 	 *
-	 * @return void
+	 * @return string
 	 */
 	public function getNamespaceSeparator() {
 		return $this->_namespaceSeparator;
@@ -111,8 +128,6 @@ class Loader {
 	 * Loads the given class or interface.
 	 *
 	 * @param string $className The name of the class to load.
-	 *
-	 * @return void
 	 */
 	public function loadClass( $className ) {
 		return;

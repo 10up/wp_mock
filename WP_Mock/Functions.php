@@ -6,12 +6,24 @@ use Mockery;
 
 class Functions {
 
+	/**
+	 * @var array
+	 */
 	private $mocked_functions = array();
 
+	/**
+	 * @var array
+	 */
 	private $internal_functions = array();
 
+	/**
+	 * @var array
+	 */
 	private static $wp_mocked_functions = array();
 
+	/**
+	 * @var array
+	 */
 	private $patchwork_functions = array();
 
 	/**
@@ -94,11 +106,11 @@ class Functions {
 	/**
 	 * Set up the mock object with an expectation for this test.
 	 *
-	 * @param \Mockery\Mock $mock
+	 * @param Mockery\Mock $mock
 	 * @param string        $function
 	 * @param array         $arguments
 	 */
-	protected function set_up_mock( $mock, $function, $arguments ) {
+	protected function set_up_mock( Mockery\Mock $mock, $function, $arguments ) {
 		$expectation = $mock->shouldReceive( $function );
 
 		if ( isset( $arguments['times'] ) ) {
@@ -159,7 +171,7 @@ class Functions {
 	 *
 	 * This function is namespace-aware.
 	 *
-	 * @param $function_name
+	 * @param string $function_name
 	 */
 	private function generate_function( $function_name ) {
 		$function_name = $this->sanitize_function_name( $function_name );
@@ -269,4 +281,3 @@ EOF;
 	}
 
 }
-

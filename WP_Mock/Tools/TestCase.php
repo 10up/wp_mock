@@ -92,10 +92,18 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 		$this->assertEmpty( $hooks_not_added, $expected_hooks );
 	}
 
+	/**
+	 * @param string $content
+	 *
+	 * @return string
+	 */
 	public function stripTabsAndNewlines( $content ) {
 		return str_replace( array( "\t", "\r", "\n" ), '', $content );
 	}
 
+	/**
+	 * @param string $expectedString
+	 */
 	public function expectOutputString( $expectedString ) {
 		if ( is_callable( $this->__contentFilterCallback ) ) {
 			$expectedString = call_user_func( $this->__contentFilterCallback, $expectedString );
@@ -103,14 +111,25 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 		parent::expectOutputString( $expectedString );
 	}
 
+	/**
+	 * @param string $message Optional. Defaults to ''.
+	 */
 	public function assertCurrentConditionsMet( $message = '' ) {
 		$this->assertThat( null, new ExpectationsMet, $message );
 	}
 
+	/**
+	 * @param string $message Optional. Defaults to ''.
+	 */
 	public function assertConditionsMet( $message = '' ) {
 		$this->assertCurrentConditionsMet( $message );
 	}
 
+	/**
+	 * @param string $expected
+	 * @param string $actual
+	 * @param string $message  Optional. Defaults to ''.
+	 */
 	public function assertEqualsHTML( $expected, $actual, $message = '' ) {
 		$constraint = new IsEqualHtml( $expected );
 		$this->assertThat( $actual, $constraint, $message );
@@ -185,4 +204,3 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 	}
 
 }
-
