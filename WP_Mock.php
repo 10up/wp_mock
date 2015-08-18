@@ -353,6 +353,26 @@ class WP_Mock {
 	}
 
 	/**
+	 * A wrapper for wpFunction that will simply set/override the return to be
+	 * a function that echoes the value that its passed. For example, esc_attr_e
+	 * may need to be mocked, and it must echo some value. wpEchoFunction will
+	 * set esc_attr_e to echo the value its passed.
+	 *
+	 *    \WP_Mock::wpEchoFunction( 'esc_attr_e' );
+	 *    esc_attr_e( 'some_value' ); // echoes (maybe translated) "some_value"
+	 *
+	 * @param string $function_name Function name.
+	 * @param array  $arguments     Optional. Arguments. Defaults to array().
+	 */
+	public static function wpEchoFunction( $function_name, $arguments = array() ) {
+		$arguments           = (array) $arguments;
+		$arguments['return'] = function ( $param ) {
+			echo $param;
+		};
+		self::$function_manager->register( $function_name, $arguments );
+	}
+
+	/**
 	 * Generate a fuzzy object match expectation
 	 *
 	 * This will let you fuzzy match objects based on their properties without
