@@ -265,6 +265,12 @@ public function test_filter_content() {
 }
 ```
 
+## Credits
+
+* [Eric Mann](/ericmann)
+* [John Bloch](/johnpbloch)
+* [All Contributors](/10up/wp_mock/graphs/contributors)
+
 ## Contributing
 
 Thanks so much for being interested in contributing! Please read over our [guidelines](/10up/wp_mock/CONTRIBUTING.md) before you get started.
