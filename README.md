@@ -265,3 +265,9 @@ public function test_filter_content() {
 	$this->assertEquals( 'This is filtered', $response );
 }
 ```
+
+## Credits
+
+* [Eric Mann](/ericmann)
+* [John Bloch](/johnpbloch)
+* [All Contributors](/10up/wp_mock/graphs/contributors)
