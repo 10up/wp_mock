@@ -56,7 +56,7 @@ class MyTestClass extends PHPUnit_Framework_TestCase {
 	 */
 	public function test_my_permalink_function() {
 		\WP_Mock::wpFunction( 'get_permalink', array(
-			'args' => 42,
+			'args' => array( 42 ),
 			'times' => 1,
 			'return' => 'http://example.com/foo'
 		) );
