@@ -344,6 +344,26 @@ class WP_Mock {
 
 	/**
 	 * A wrapper for userFunction that will simply set/override the return to be
+	 * a function that echoes the value that its passed. For example, esc_attr_e
+	 * may need to be mocked, and it must echo some value. echoFunction will set
+	 * esc_attr_e to echo the value its passed.
+	 *
+	 *    \WP_Mock::echoFunction( 'esc_attr_e' );
+	 *    esc_attr_e( 'some_value' ); // echoes (translated) "some_value"
+	 *
+	 * @param string $function_name Function name.
+	 * @param array  $arguments     Optional. Arguments. Defaults to array().
+	 */
+	public static function echoFunction( $function_name, $arguments = array() ) {
+		$arguments           = (array) $arguments;
+		$arguments['return'] = function ( $param ) {
+			return $param;
+		};
+		self::$function_manager->register( $function_name, $arguments );
+	}
+
+	/**
+	 * A wrapper for userFunction that will simply set/override the return to be
 	 * a function that returns the value that its passed. For example, esc_attr
 	 * may need to be mocked, and it must return some value. passthruFunction
 	 * will set esc_attr to return the value its passed.
