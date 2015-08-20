@@ -357,7 +357,7 @@ class WP_Mock {
 	public static function echoFunction( $function_name, $arguments = array() ) {
 		$arguments           = (array) $arguments;
 		$arguments['return'] = function ( $param ) {
-			return $param;
+			echo $param;
 		};
 		self::$function_manager->register( $function_name, $arguments );
 	}
