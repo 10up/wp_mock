@@ -232,6 +232,17 @@ class WP_Mock {
 	}
 
 	/**
+	 * Add an expection that an action should not be added. A wrapper
+	 * around the expectHookNotAdded function.
+	 *
+	 * @param string   $action   The action hook name
+	 * @param callable $callback The action callback
+	 */
+	public static function expectActionNotAdded( $action, $callback ) {
+		self::expectHookNotAdded( 'action', $action, $callback );
+	}
+
+	/**
 	 * Add an expectation that a filter should be added
 	 *
 	 * Really just a wrapper function for expectHookAdded()
@@ -243,6 +254,17 @@ class WP_Mock {
 	 */
 	public static function expectFilterAdded( $filter, $callback, $priority = 10, $args = 1 ) {
 		self::expectHookAdded( 'filter', $filter, $callback, $priority, $args );
+	}
+
+	/**
+	 * Adds an expectation that a filter will not be added. A wrapper
+	 * around the expectHookNotAdded function.
+	 *
+	 * @param string   $action   The filter hook name
+	 * @param callable $callback The filter callback
+	 */
+	public static function expectFilterNotAdded( $filter, $callback ) {
+		self::expectHookNotAdded( 'filter', $filter, $callback );
 	}
 
 	/**
@@ -261,6 +283,24 @@ class WP_Mock {
 		/** @var WP_Mock\HookedCallbackResponder $responder */
 		$responder = self::onHookAdded( $action, $type )
 			->with( $callback, $priority, $args );
+		$responder->perform( array( $intercept, 'intercepted' ) );
+	}
+
+	/**
+	 * Adds an expectation that a hook should not be added. Based on the
+	 * shouldNotReceive API of Mocker.
+	 *
+	 * @param    string   $type     The hook type, 'action' or 'filter'
+	 * @param    string   $action   The name of the hook
+	 * @callback callable $callback The hooks callback handler.
+	 */
+	public static function expectHookNotAdded( $type, $action, $callback ) {
+		$intercept = \Mockery::mock( 'intercept' );
+		$intercept->shouldNotReceive( 'intercepted' );
+
+		/** @var WP_Mock\HookedCallbackResponder $responder */
+		$responder = self::onHookAdded( $action, $type )
+			->with( $callback, 10, 1 );
 		$responder->perform( array( $intercept, 'intercepted' ) );
 	}
 
