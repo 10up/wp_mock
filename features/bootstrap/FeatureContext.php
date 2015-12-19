@@ -2,7 +2,8 @@
 
 use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
-use Behat\Gherkin\Node\PyStringNode;
+use Behat\Behat\Hook\Scope\AfterScenarioScope;
+use Behat\Behat\Hook\Scope\BeforeScenarioScope;
 use Behat\Gherkin\Node\TableNode;
 
 /**
@@ -19,6 +20,22 @@ class FeatureContext implements Context, SnippetAcceptingContext
      */
     public function __construct()
     {
+    }
+
+    /**
+     * @BeforeScenario
+     */
+    public function setUpWpMock(BeforeScenarioScope $scope)
+    {
+        WP_Mock::setUp();
+    }
+
+    /**
+     * @AfterScenario
+     */
+    public function tearDownWpMock(AfterScenarioScope $scope)
+    {
+        WP_Mock::tearDown();
     }
 
     /**
