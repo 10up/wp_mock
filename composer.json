@@ -7,7 +7,7 @@
 		"phpunit/phpunit"     : ">=3.7",
 		"mockery/mockery"     : "~0.8",
 		"antecedent/patchwork": "~1.2",
-		"behat/behat": "^3.0"
+		"behat/behat"         : "^3.0"
 	},
 	"require-dev": {
 	},
