@@ -20,4 +20,28 @@ class FeatureContext implements Context, SnippetAcceptingContext
     public function __construct()
     {
     }
+
+    /**
+     * @Given I expect the following actions:
+     */
+    public function iExpectTheFollowingActions(TableNode $table)
+    {
+        throw new \Behat\Behat\Tester\Exception\PendingException();
+    }
+
+    /**
+     * @When I add the following actions:
+     */
+    public function iAddTheFollowingActions(TableNode $table)
+    {
+        throw new \Behat\Behat\Tester\Exception\PendingException();
+    }
+
+    /**
+     * @Then tearDown should not fail
+     */
+    public function teardownShouldNotFail()
+    {
+        throw new \Behat\Behat\Tester\Exception\PendingException();
+    }
 }
