@@ -22,7 +22,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @Given I expect the following actions:
+     * @Given I expect the following actions added:
      */
     public function iExpectTheFollowingActions(TableNode $table)
     {

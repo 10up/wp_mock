@@ -4,7 +4,7 @@ Feature: Hook mocking
 	I need to be able to mock actions and filters
 
 	Scenario: expectActionAdded sets up expectation
-		Given I expect the following actions:
+		Given I expect the following actions added:
 			| action | callback | priority | arguments |
 			| foobar | bazbat   | 10       | 2         |
 		When I add the following actions:
