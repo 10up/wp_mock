@@ -43,7 +43,22 @@ class FeatureContext implements Context, SnippetAcceptingContext
      */
     public function iExpectTheFollowingActions(TableNode $table)
     {
-        throw new \Behat\Behat\Tester\Exception\PendingException();
+        $actions  = $table->getHash();
+        $defaults = array(
+            'action'    => '',
+            'callback'  => '',
+            'priority'  => 10,
+            'arguments' => 1,
+        );
+        foreach ($actions as $action) {
+            $action += $defaults;
+            WP_Mock::expectActionAdded(
+                $action['action'],
+                $action['callback'],
+                $action['priority'],
+                $action['arguments']
+            );
+        }
     }
 
     /**
@@ -51,7 +66,22 @@ class FeatureContext implements Context, SnippetAcceptingContext
      */
     public function iAddTheFollowingActions(TableNode $table)
     {
-        throw new \Behat\Behat\Tester\Exception\PendingException();
+        $actions  = $table->getHash();
+        $defaults = array(
+            'action'    => '',
+            'callback'  => '',
+            'priority'  => 10,
+            'arguments' => 1,
+        );
+        foreach ($actions as $action) {
+            $action += $defaults;
+            add_action(
+                $action['action'],
+                $action['callback'],
+                $action['priority'],
+                $action['arguments']
+            );
+        }
     }
 
     /**
@@ -59,6 +89,6 @@ class FeatureContext implements Context, SnippetAcceptingContext
      */
     public function teardownShouldNotFail()
     {
-        throw new \Behat\Behat\Tester\Exception\PendingException();
+        WP_Mock::tearDown();
     }
 }
