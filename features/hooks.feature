@@ -75,3 +75,8 @@ Feature: Hook mocking
 		Given I expect the "foobar" action
 		When I do the "foobar" action
 		Then tearDown should not fail
+
+	Scenario: expectAction fails when unmet
+		Given I expect the "foobar" action
+		When I do nothing
+		Then tearDown should fail
