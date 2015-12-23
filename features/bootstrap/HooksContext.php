@@ -22,6 +22,14 @@ class HooksContext implements Context
     }
 
     /**
+     * @Given I expect the :action action
+     */
+    public function iExpectTheAction($action)
+    {
+        WP_Mock::expectAction($action);
+    }
+
+    /**
      * @When I add the following actions:
      */
     public function iAddTheFollowingActions(TableNode $table)
@@ -34,6 +42,14 @@ class HooksContext implements Context
                 $action['arguments']
             );
         }
+    }
+
+    /**
+     * @When I do the :action action
+     */
+    public function iDoTheAction($action)
+    {
+        do_action($action);
     }
 
     /**

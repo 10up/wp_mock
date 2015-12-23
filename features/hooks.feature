@@ -70,3 +70,8 @@ Feature: Hook mocking
 			| filter | callback | priority |
 			| foobar | bazbat   | 11       |
 		Then tearDown should fail
+
+	Scenario: expectAction sets up expectation
+		Given I expect the "foobar" action
+		When I do the "foobar" action
+		Then tearDown should not fail
