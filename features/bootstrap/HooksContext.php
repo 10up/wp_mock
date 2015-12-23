@@ -26,7 +26,20 @@ class HooksContext implements Context
      */
     public function iExpectTheAction($action)
     {
-        WP_Mock::expectAction($action);
+        $this->iExpectTheActionWith($action, new TableNode(array()));
+    }
+
+    /**
+     * @When I expect the :action action with:
+     */
+    public function iExpectTheActionWith($action, TableNode $table)
+    {
+        $args = array($action);
+        $rows = $table->getRows();
+        if (isset( $rows[0] ) && is_array($rows[0])) {
+            $args = array_merge($args, $rows[0]);
+        }
+        call_user_func_array(array('WP_Mock', 'expectAction'), $args);
     }
 
     /**
@@ -49,7 +62,20 @@ class HooksContext implements Context
      */
     public function iDoTheAction($action)
     {
-        do_action($action);
+        $this->iDoTheActionWith($action, new TableNode(array()));
+    }
+
+    /**
+     * @When I do the :action action with:
+     */
+    public function iDoTheActionWith($action, TableNode $table)
+    {
+        $args = array($action);
+        $rows = $table->getRows();
+        if (isset( $rows[0] ) && is_array($rows[0])) {
+            $args = array_merge($args, $rows[0]);
+        }
+        call_user_func_array('do_action', $args);
     }
 
     /**

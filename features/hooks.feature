@@ -80,3 +80,24 @@ Feature: Hook mocking
 		Given I expect the "foobar" action
 		When I do nothing
 		Then tearDown should fail
+
+	Scenario: expectAction with extra arguments
+		Given I expect the "foobar" action with:
+			| some | extra | data |
+		When I do the "foobar" action with:
+			| some | extra | data |
+		Then tearDown should not fail
+
+	Scenario: unexpected action does not fail tests
+		Given I do nothing
+		When I add the following actions:
+			| action | callback |
+			| foobar | bazbat   |
+		Then tearDown should not fail
+
+	Scenario: unexpected filter does not fail tests
+		Given I do nothing
+		When I add the following filters:
+			| filter | callback |
+			| foobar | bazbat   |
+		Then tearDown should not fail
