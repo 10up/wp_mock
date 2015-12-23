@@ -1,0 +1,6 @@
+default:
+  suites:
+    default:
+      contexts:
+        - FeatureContext
+        - HooksContext
