@@ -85,10 +85,77 @@ class FeatureContext implements Context, SnippetAcceptingContext
     }
 
     /**
+     * @Given I expect the following filters added:
+     */
+    public function iExpectTheFollowingFilters(TableNode $table)
+    {
+        $filters  = $table->getHash();
+        $defaults = array(
+            'filter'    => '',
+            'callback'  => '',
+            'priority'  => 10,
+            'arguments' => 1,
+        );
+        foreach ($filters as $filter) {
+            $filter += $defaults;
+            WP_Mock::expectFilterAdded(
+                $filter['filter'],
+                $filter['callback'],
+                $filter['priority'],
+                $filter['arguments']
+            );
+        }
+    }
+
+    /**
+     * @When I add the following filters:
+     */
+    public function iAddTheFollowingFilters(TableNode $table)
+    {
+        $filters  = $table->getHash();
+        $defaults = array(
+            'filter'    => '',
+            'callback'  => '',
+            'priority'  => 10,
+            'arguments' => 1,
+        );
+        foreach ($filters as $filter) {
+            $filter += $defaults;
+            add_filter(
+                $filter['filter'],
+                $filter['callback'],
+                $filter['priority'],
+                $filter['arguments']
+            );
+        }
+    }
+
+    /**
      * @Then tearDown should not fail
      */
     public function teardownShouldNotFail()
     {
         WP_Mock::tearDown();
+    }
+
+    /**
+     * @When I do nothing
+     */
+    public function iDoNothing()
+    {
+        // Move along...
+    }
+
+    /**
+     * @Then tearDown should fail
+     */
+    public function teardownShouldFail()
+    {
+        try {
+            $this->teardownShouldNotFail();
+            throw new PHPUnit_Framework_ExpectationFailedException('WP_Mock Teardown should have failed!');
+        } catch (\Mockery\Exception\InvalidCountException $e) {
+            // Move along
+        }
     }
 }
