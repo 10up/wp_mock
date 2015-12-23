@@ -88,6 +88,20 @@ Feature: Hook mocking
 			| some | extra | data |
 		Then tearDown should not fail
 
+	Scenario: action with the wrong arguments fails
+		Given I expect the "bazbat" action with:
+			| the correct data |
+		When I do the "bazbat" action with:
+			| Invalid information |
+		Then tearDown should fail
+
+	Scenario: action with extra arguments fails
+		Given I expect the "bazbat" action with:
+			| data |
+		When I do the "bazbat" action with:
+			| data | plus |
+		Then tearDown should fail
+
 	Scenario: unexpected action does not fail tests
 		Given I do nothing
 		When I add the following actions:
