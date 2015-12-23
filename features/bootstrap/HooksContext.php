@@ -9,7 +9,7 @@ class HooksContext implements Context
     /**
      * @Given I expect the following actions added:
      */
-    public function iExpectTheFollowingActions(TableNode $table)
+    public function iExpectTheFollowingActionsAdded(TableNode $table)
     {
         $actions  = $table->getHash();
         $defaults = array(
@@ -55,7 +55,7 @@ class HooksContext implements Context
     /**
      * @Given I expect the following filters added:
      */
-    public function iExpectTheFollowingFilters(TableNode $table)
+    public function iExpectTheFollowingFiltersAdded(TableNode $table)
     {
         $filters  = $table->getHash();
         $defaults = array(
