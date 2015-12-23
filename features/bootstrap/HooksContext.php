@@ -11,15 +11,7 @@ class HooksContext implements Context
      */
     public function iExpectTheFollowingActionsAdded(TableNode $table)
     {
-        $actions  = $table->getHash();
-        $defaults = array(
-            'action'    => '',
-            'callback'  => '',
-            'priority'  => 10,
-            'arguments' => 1,
-        );
-        foreach ($actions as $action) {
-            $action += $defaults;
+        foreach ($this->getActionsWithDefaults($table) as $action) {
             WP_Mock::expectActionAdded(
                 $action['action'],
                 $action['callback'],
@@ -34,15 +26,7 @@ class HooksContext implements Context
      */
     public function iAddTheFollowingActions(TableNode $table)
     {
-        $actions  = $table->getHash();
-        $defaults = array(
-            'action'    => '',
-            'callback'  => '',
-            'priority'  => 10,
-            'arguments' => 1,
-        );
-        foreach ($actions as $action) {
-            $action += $defaults;
+        foreach ($this->getActionsWithDefaults($table) as $action) {
             add_action(
                 $action['action'],
                 $action['callback'],
@@ -96,6 +80,23 @@ class HooksContext implements Context
                 $filter['arguments']
             );
         }
+    }
+
+    private function getActionsWithDefaults(TableNode $table)
+    {
+        $actions  = $table->getHash();
+        $defaults = array(
+            'action'    => '',
+            'callback'  => '',
+            'priority'  => 10,
+            'arguments' => 1,
+        );
+        foreach ($actions as &$action) {
+            $action += $defaults;
+        }
+        unset( $action );
+
+        return $actions;
     }
 
 }
