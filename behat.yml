@@ -4,3 +4,5 @@ default:
       contexts:
         - FeatureContext
         - HooksContext
+  formatters:
+    progress: true
