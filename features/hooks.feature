@@ -115,3 +115,18 @@ Feature: Hook mocking
 			| filter | callback |
 			| foobar | bazbat   |
 		Then tearDown should not fail
+
+	Scenario: filter responder works
+		Given I expect filter "the_content" to respond to "Test content" with "Responder works"
+		When I apply the filter "the_content" with "Test content"
+		Then The filter "the_content" should return "Responder works"
+
+	Scenario: filter returns default value when no filter defined
+		Given I do nothing
+		When I apply the filter "the_content" with "Apple"
+		Then The filter "the_content" should return "Apple"
+
+	Scenario: filter returns default value when unexpected value used
+		Given I expect filter "the_content" to respond to "Windows" with "OS X"
+		When I apply the filter "the_content" with "Linux"
+		Then The filter "the_content" should return "Linux"

@@ -1,10 +1,30 @@
 <?php
 
 use Behat\Behat\Context\Context;
+use Behat\Behat\Hook\Scope\AfterScenarioScope;
+use Behat\Behat\Hook\Scope\BeforeScenarioScope;
 use Behat\Gherkin\Node\TableNode;
 
 class HooksContext implements Context
 {
+
+    private $filterResults = array();
+
+    /**
+     * @BeforeScenario
+     */
+    public function setUpWpMock(BeforeScenarioScope $scope)
+    {
+        $this->filterResults = array();
+    }
+
+    /**
+     * @AfterScenario
+     */
+    public function tearDownWpMock(AfterScenarioScope $scope)
+    {
+        $this->filterResults = array();
+    }
 
     /**
      * @Given I expect the following actions added:
@@ -122,6 +142,39 @@ class HooksContext implements Context
                 $filter['arguments']
             );
         }
+    }
+
+    /**
+     * @Given I expect filter :filter to respond to :thing with :response
+     */
+    public function iExpectFilterToRespondToWith($filter, $thing, $response)
+    {
+        WP_Mock::onFilter($filter)->with($thing)->reply($response);
+    }
+
+    /**
+     * @Given I expect filter :filter to respond with :response
+     */
+    public function iExpectFilterToRespondWith($filter, $response)
+    {
+        $this->iExpectFilterToRespondToWith($filter, null, $response);
+    }
+
+    /**
+     * @When I apply the filter :filter with :with
+     */
+    public function iApplyFilterWith($filter, $with)
+    {
+        $this->filterResults[$filter] = apply_filters($filter, $with);
+    }
+
+    /**
+     * @Then The filter :filter should return :value
+     */
+    public function theFilterShouldReturn($filter, $value)
+    {
+        PHPUnit_Framework_Assert::assertArrayHasKey($filter, $this->filterResults);
+        PHPUnit_Framework_Assert::assertEquals($this->filterResults[$filter], $value);
     }
 
     private function getActionsWithDefaults(TableNode $table)
