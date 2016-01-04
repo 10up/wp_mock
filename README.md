@@ -54,13 +54,13 @@ class MyTestClass extends PHPUnit_Framework_TestCase {
 	 * - Trigger the 'special_action' WordPress action
 	 */
 	public function test_my_permalink_function() {
-		\WP_Mock::wpFunction( 'get_permalink', array(
+		\WP_Mock::userFunction( 'get_permalink', array(
 			'args' => 42,
 			'times' => 1,
 			'return' => 'http://example.com/foo'
 		) );
 
-		\WP_Mock::wpPassthruFunction( 'absint', array( 'times' => 1 ) );
+		\WP_Mock::passthruFunction( 'absint', array( 'times' => 1 ) );
 
 		\WP_Mock::onFilter( 'special_filter' )
 			->with( 'http://example.com/foo' )
@@ -98,7 +98,7 @@ function my_permalink_function( $post_id ) {
 
 ### Mocking WordPress core functions
 
-Ideally, a unit test will not depend on WordPress being loaded in order to test our code. By constructing **mocks**, it's possible to simulate WordPress core functionality by defining their expected arguments, responses, the number of times they are called, and more. In WP_Mock, this is done via the `\WP_Mock::wpFunction()` method:
+Ideally, a unit test will not depend on WordPress being loaded in order to test our code. By constructing **mocks**, it's possible to simulate WordPress core functionality by defining their expected arguments, responses, the number of times they are called, and more. In WP_Mock, this is done via the `\WP_Mock::userFunction()` method:
 
 ```php
 public function test_uses_get_post() {
@@ -108,7 +108,7 @@ public function test_uses_get_post() {
 	$post->ID = 42;
 	$post->special_meta = '<p>I am on the end</p>';
 
-	\WP_Mock::wpFunction( 'get_post', array(
+	\WP_Mock::userFunction( 'get_post', array(
 		'times' => 1,
 		'args' => array( $post->ID ),
 		'return' => $post,
@@ -132,7 +132,7 @@ In the example above, we're creating a simple `\stdClass` to represent a respons
 
 With our expectations set, we call `special_the_content()`, the function we're testing, then asserting that what we get back from it is equal to `<p>Some content</p><p>I am on the end</p>`, which proves that `special_the_content()` appended `$post->special_meta` to `<p>Some content</p>`.
 
-Calling `\WP_Mock::wpFunction()` will dynamically define the function for you if necessary, which means changes the internal WP_Mock API shouldn't break your mocks. If you really want to define your own function mocks, they should always end with this line:
+Calling `\WP_Mock::userFunction()` will dynamically define the function for you if necessary, which means changes the internal WP_Mock API shouldn't break your mocks. If you really want to define your own function mocks, they should always end with this line:
 
 ```php
 return \WP_Mock\Handler::handle_function( __FUNCTION__, func_get_args() );
@@ -140,7 +140,7 @@ return \WP_Mock\Handler::handle_function( __FUNCTION__, func_get_args() );
 
 #### Setting expectations
 
-`\WP_Mock::wpFunction()` accepts an associative array of arguments for its second parameter:
+`\WP_Mock::userFunction()` accepts an associative array of arguments for its second parameter:
 
 ##### args
 
@@ -156,12 +156,12 @@ WP_Mock has several helper functions to make this feature more flexible. The are
 In the following example, we're expecting `get_post_meta()` twice: once each for `some_meta_key` and `another_meta_key`, where an integer (in this case, a post ID) is the first argument, the meta key is the second, and a boolean TRUE is the third.
 
 ```php
-\WP_Mock::wpFunction( 'get_post_meta', array(
+\WP_Mock::userFunction( 'get_post_meta', array(
 	'times' => 1,
 	'args' => array( \WP_Mock\Functions::type( 'int' ), 'some_meta_key', true )
 ) );
 
-\WP_Mock::wpFunction( 'get_post_meta', array(
+\WP_Mock::userFunction( 'get_post_meta', array(
 	'times' => 1,
 	'args' => array( \WP_Mock\Functions::type( 'int' ), 'another_meta_key', true )
 ) );
@@ -188,7 +188,7 @@ Set an array of values that should be returned with each subsequent call, useful
 ###### Example
 
 ```php
-\WP_Mock::wpFunction( 'is_single', array(
+\WP_Mock::userFunction( 'is_single', array(
 	'return_in_order' => array( true, false )
 ) );
 
@@ -202,15 +202,15 @@ Use this to specify that the function should return one of its arguments. `retur
 
 ### Passthru functions
 
-It's not uncommon for tests to need to declare "passthrough/passthru" functions: empty functions that just return whatever they're passed (remember: you're testing your code, not the framework). In these situations you can use `\WP_Mock::wpPassthruFunction( 'function_name' )`, which is equivalent to the following:
+It's not uncommon for tests to need to declare "passthrough/passthru" functions: empty functions that just return whatever they're passed (remember: you're testing your code, not the framework). In these situations you can use `\WP_Mock::passthruFunction( 'function_name' )`, which is equivalent to the following:
 
 ```php
-\WP_Mock::wpFunction( 'function_name', array(
+\WP_Mock::userFunction( 'function_name', array(
 	'return_arg' => 0
 ) );
 ```
 
-You can still test things like invocation count by passing the `times` argument in the second parameter, just like `\WP_Mock::wpFunction()`.
+You can still test things like invocation count by passing the `times` argument in the second parameter, just like `\WP_Mock::userFunction()`.
 
 ### Mocking actions and filters
 
