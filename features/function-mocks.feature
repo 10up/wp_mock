@@ -7,3 +7,9 @@ Feature: Function mocking
 		Given function wpMockTest does not exist
 		When I mock function wpMockTest
 		Then function wpMockTest should exist
+
+	Scenario: Passthru function returns first argument
+		Given I mock passthru function wpMockPassthruTest with args:
+			| foobar | bazbat |
+		Then I expect foobar when I run wpMockPassthruTest with args:
+			| foobar | bazbat |
