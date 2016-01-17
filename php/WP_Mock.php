@@ -325,11 +325,18 @@ class WP_Mock {
 	 *   something like this:
 	 *     array( $post->ID, 'some_meta_key', true )
 	 *
+	 *  Returns the Mockery\Mock object with the function expectations added. It
+	 *  is possible to use Mockery methods to add expectations to the object
+	 *  returned, which will then be combined with any expectations that may have
+	 *  been passed as arguments.
+	 *
 	 * @param string $function_name
 	 * @param array  $arguments
+	 *
+	 * @return Mockery\Mock
 	 */
 	public static function userFunction( $function_name, $arguments = array() ) {
-		self::$function_manager->register( $function_name, $arguments );
+		return self::$function_manager->register( $function_name, $arguments );
 	}
 
 	/**
