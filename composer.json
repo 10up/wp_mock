@@ -24,5 +24,11 @@
 		"platform": {
 			"php": "5.3.3"
 		}
+	},
+	"scripts": {
+		"test:behat": "behat",
+		"test"      : [
+			"@test:behat"
+		]
 	}
 }
