@@ -200,6 +200,20 @@ $this->assertFalse( is_single() ); // All subsequent calls will use the last def
 
 Use this to specify that the function should return one of its arguments. `return_arg` should be the position of the argument in the arguments array, so `0` for the first argument, `1` for the second, etc. You can also set this to `true`, which is equivalent to `0`. This will override both `return` and `return_in_order`.
 
+### Using Mockery expectations
+
+The return value of `\WP_Mock::userFunction` will be a complete `Mockery\Mock` object with any expectations added to match the arguments passed to the function. This enables using [Mockery methods](http://docs.mockery.io/en/latest/reference/expectations.html) to add expectations in addition to, or instead of using the arguments array passed to `userFunction`.
+
+For example, the following are synonymous:
+
+```php
+\WP_Mock::userFunction( 'get_permalink', array( 'args' => 42, 'return' => 'http://example.com/foo' ) );
+```
+
+```php
+\WP_Mock::userFunction( 'get_permalink' )->with( 42 )->andReturn( 'http://example.com/foo' );
+```
+
 ### Passthru functions
 
 It's not uncommon for tests to need to declare "passthrough/passthru" functions: empty functions that just return whatever they're passed (remember: you're testing your code, not the framework). In these situations you can use `\WP_Mock::passthruFunction( 'function_name' )`, which is equivalent to the following:

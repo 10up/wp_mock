@@ -49,8 +49,11 @@ class Functions {
 	 * @param array  $arguments
 	 *
 	 * @throws \Exception If the function name is invalid
+	 *
+	 * @return Mockery\Mock
 	 */
 	public function register( $function, $arguments ) {
+		$expectation = null;
 		try {
 			$this->generate_function( $function );
 			if ( empty( $this->mocked_functions[$function] ) ) {
@@ -59,11 +62,12 @@ class Functions {
 			$mock = $this->mocked_functions[$function];
 
 			$method = preg_replace( '/\\\\+/', '_', $function );
-			$this->set_up_mock( $mock, $method, $arguments );
+			$expectation = $this->set_up_mock( $mock, $method, $arguments );
 			Handler::register_handler( $function, array( $mock, $method ) );
 		} catch ( \Exception $e ) {
 			throw $e;
 		}
+		return $expectation;
 	}
 
 	/**
@@ -97,6 +101,8 @@ class Functions {
 	 * @param \Mockery\Mock $mock
 	 * @param string        $function
 	 * @param array         $arguments
+	 *
+	 * @return Mockery\Mock
 	 */
 	protected function set_up_mock( $mock, $function, $arguments ) {
 		$expectation = $mock->shouldReceive( $function );
@@ -152,6 +158,7 @@ class Functions {
 				$expectation->andReturn( $return );
 			}
 		}
+		return $expectation;
 	}
 
 	/**
