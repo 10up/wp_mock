@@ -2,6 +2,7 @@
 
 use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\TableNode;
+use Mockery\Exception\NoMatchingExpectationException;
 
 class FunctionsContext implements Context
 {
@@ -62,6 +63,18 @@ class FunctionsContext implements Context
     public function iExcpectWhenIRun($return, $function)
     {
         $this->iExpectWhenIRunWithArgs($return, $function, new TableNode(array(array())));
+    }
+
+    /**
+     * @Then I expect an error when I run :function with args:
+     */
+    public function iExpectAnErrorWhenIRunWithArgs($function, TableNode $args)
+    {
+        try {
+            $this->iExpectWhenIRunWithArgs(null, $function, $args);
+        } catch (NoMatchingExpectationException $e) {
+            // Move along...
+        }
     }
 
 }

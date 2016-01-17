@@ -17,3 +17,9 @@ Feature: Function mocking
 	Scenario: return value works correctly
 		Given I mock function wpMockTest to return "test value"
 		Then I expect "test value" when I run wpMockTest
+
+	Scenario: expectations cause error on unexpected use
+		Given I mock passthru function wpMockTest with args:
+			| bazbat | foobar |
+		Then I expect an error when I run wpMockTest with args:
+			| bimbam | bobeep |
