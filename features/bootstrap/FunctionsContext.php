@@ -61,7 +61,7 @@ class FunctionsContext implements Context
      */
     public function iExcpectWhenIRun($return, $function)
     {
-        PHPUnit_Framework_Assert::assertEquals($return, call_user_func($function));
+        $this->iExpectWhenIRunWithArgs($return, $function, new TableNode(array(array())));
     }
 
 }
