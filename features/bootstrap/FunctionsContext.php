@@ -25,6 +25,14 @@ class FunctionsContext implements Context
     }
 
     /**
+     * @Given I mock function :function to return :value
+     */
+    public function iMockFunctionToReturn($function, $value)
+    {
+        WP_Mock::userFunction($function, array('return' => $value));
+    }
+
+    /**
      * @When I mock function :function
      */
     public function iMockFunction($function)
@@ -46,6 +54,14 @@ class FunctionsContext implements Context
     public function iExpectWhenIRunWithArgs($return, $function, TableNode $args)
     {
         PHPUnit_Framework_Assert::assertEquals($return, call_user_func_array($function, $args->getRow(0)));
+    }
+
+    /**
+     * @Then I expect :return when I run :function
+     */
+    public function iExcpectWhenIRun($return, $function)
+    {
+        PHPUnit_Framework_Assert::assertEquals($return, call_user_func($function));
     }
 
 }

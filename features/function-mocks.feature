@@ -13,3 +13,7 @@ Feature: Function mocking
 			| foobar | bazbat |
 		Then I expect foobar when I run wpMockPassthruTest with args:
 			| foobar | bazbat |
+
+	Scenario: return value works correctly
+		Given I mock function wpMockTest to return "test value"
+		Then I expect "test value" when I run wpMockTest
