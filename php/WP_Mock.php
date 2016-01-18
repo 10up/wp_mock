@@ -344,9 +344,11 @@ class WP_Mock {
 	 *
 	 * @param string $function_name
 	 * @param array  $arguments
+	 *
+	 * @return Mockery\Mock
 	 */
 	public static function wpFunction( $function_name, $arguments = array() ) {
-		self::userFunction( $function_name, $arguments );
+		return self::userFunction( $function_name, $arguments );
 	}
 
 	/**
