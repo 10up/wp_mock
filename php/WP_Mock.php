@@ -325,15 +325,15 @@ class WP_Mock {
 	 *   something like this:
 	 *     array( $post->ID, 'some_meta_key', true )
 	 *
-	 *  Returns the Mockery\Mock object with the function expectations added. It
-	 *  is possible to use Mockery methods to add expectations to the object
-	 *  returned, which will then be combined with any expectations that may have
-	 *  been passed as arguments.
+	 *  Returns the Mockery\Expectation object with the function expectations
+	 *  added. It is possible to use Mockery methods to add expectations to the
+	 *  object returned, which will then be combined with any expectations that
+	 *  may have been passed as arguments.
 	 *
 	 * @param string $function_name
 	 * @param array  $arguments
 	 *
-	 * @return Mockery\Mock
+	 * @return Mockery\Expectation
 	 */
 	public static function userFunction( $function_name, $arguments = array() ) {
 		return self::$function_manager->register( $function_name, $arguments );
@@ -345,7 +345,7 @@ class WP_Mock {
 	 * @param string $function_name
 	 * @param array  $arguments
 	 *
-	 * @return Mockery\Mock
+	 * @return Mockery\Expectation
 	 */
 	public static function wpFunction( $function_name, $arguments = array() ) {
 		return self::userFunction( $function_name, $arguments );
@@ -362,13 +362,15 @@ class WP_Mock {
 	 *
 	 * @param string $function_name Function name.
 	 * @param array  $arguments     Optional. Arguments. Defaults to array().
+	 *
+	 * @return Mockery\Expectation
 	 */
 	public static function echoFunction( $function_name, $arguments = array() ) {
 		$arguments           = (array) $arguments;
 		$arguments['return'] = function ( $param ) {
 			echo $param;
 		};
-		self::$function_manager->register( $function_name, $arguments );
+		return self::$function_manager->register( $function_name, $arguments );
 	}
 
 	/**
@@ -382,13 +384,15 @@ class WP_Mock {
 	 *
 	 * @param string $function_name
 	 * @param array  $arguments
+	 *
+	 * @return Mockery\Expectation
 	 */
 	public static function passthruFunction( $function_name, $arguments = array() ) {
 		$arguments           = (array) $arguments;
 		$arguments['return'] = function ( $param ) {
 			return $param;
 		};
-		self::$function_manager->register( $function_name, $arguments );
+		return self::$function_manager->register( $function_name, $arguments );
 	}
 
 	/**
@@ -396,9 +400,11 @@ class WP_Mock {
 	 *
 	 * @param string $function_name
 	 * @param array  $arguments
+	 *
+	 * @return Mockery\Expectation
 	 */
 	public static function wpPassthruFunction( $function_name, $arguments = array() ) {
-		self::passthruFunction( $function_name, $arguments );
+		return self::passthruFunction( $function_name, $arguments );
 	}
 
 	/**
@@ -409,6 +415,8 @@ class WP_Mock {
 	 * @param string   $function_name
 	 * @param callable $alias
 	 * @param array    $arguments
+	 *
+	 * @return Mockery\Expectation
 	 */
 	public static function alias( $function_name, $alias, $arguments = array() ) {
 		$arguments = (array) $arguments;
@@ -417,7 +425,7 @@ class WP_Mock {
 				return call_user_func_array( $alias, func_get_args() );
 			};
 		}
-		self::$function_manager->register( $function_name, $arguments );
+		return self::$function_manager->register( $function_name, $arguments );
 	}
 
 	/**

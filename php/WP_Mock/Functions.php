@@ -50,7 +50,7 @@ class Functions {
 	 *
 	 * @throws \Exception If the function name is invalid
 	 *
-	 * @return Mockery\Mock
+	 * @return Mockery\Expectation
 	 */
 	public function register( $function, $arguments ) {
 		$expectation = null;
@@ -102,7 +102,7 @@ class Functions {
 	 * @param string        $function
 	 * @param array         $arguments
 	 *
-	 * @return Mockery\Mock
+	 * @return Mockery\Expectation
 	 */
 	protected function set_up_mock( $mock, $function, $arguments ) {
 		$expectation = $mock->shouldReceive( $function );
