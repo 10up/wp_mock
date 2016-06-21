@@ -267,10 +267,10 @@ public function test_filter_content() {
 
 ## Credits
 
-* [Eric Mann](/ericmann)
-* [John Bloch](/johnpbloch)
-* [All Contributors](/10up/wp_mock/graphs/contributors)
+* [Eric Mann](https://github.com/ericmann)
+* [John Bloch](https://github.com/johnpbloch)
+* [All Contributors](https://github.com/10up/wp_mock/graphs/contributors)
 
 ## Contributing
 
-Thanks so much for being interested in contributing! Please read over our [guidelines](/10up/wp_mock/CONTRIBUTING.md) before you get started.
+Thanks so much for being interested in contributing! Please read over our [guidelines](https://github.com/10up/wp_mock/CONTRIBUTING.md) before you get started.
