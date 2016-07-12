@@ -279,6 +279,45 @@ public function test_filter_content() {
 }
 ```
 
+### Mocking WordPress objects
+
+Mocking calls to `wpdb`, `WP_Query`, etc. can be done using the [mockery](https://github.com/padraic/mockery) framework.  While this isn't part of WP Mock itself, complex code will often need these objects and this framework will let you incorporate those into your tests.  Installation can be done via composer.
+
+```
+composer require --dev mockery/mockery
+```
+
+#### $wpdb example
+
+Let's say we have a function that gets three post IDs from the database.
+```
+function get_post_ids() {
+	global $wpdb;
+	return $wpdb->get_col( "select ID from {$wpdb->posts} LIMIT 3" );
+}
+```
+
+When we mock the `$wpdb` object, we're not performing an actual database call, only mocking the results.  We need to call the `get_col` method with an SQL statement, and return three arbitrary post IDs.
+
+```
+use Mockery;
+
+function test_get_post_ids() {
+	global $wpdb;
+
+	$wpdb = Mockery::mock( '\WPDB' );
+	$wpdb->shouldReceive( 'get_col' )
+		->once()
+		->with( "select ID from wp_posts LIMIT 3" )
+		->andReturn( array( 1, 2, 3 ) );
+	$wpdb->posts = 'wp_posts';
+
+	$post_ids = get_post_ids();
+
+	$this->assertEquals( array( 1, 2, 3 ), $post_ids );
+}
+```
+
 ## Credits
 
 * [Eric Mann](/ericmann)
