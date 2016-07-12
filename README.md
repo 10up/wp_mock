@@ -281,11 +281,7 @@ public function test_filter_content() {
 
 ### Mocking WordPress objects
 
-Mocking calls to `wpdb`, `WP_Query`, etc. can be done using the [mockery](https://github.com/padraic/mockery) framework.  While this isn't part of WP Mock itself, complex code will often need these objects and this framework will let you incorporate those into your tests.  Installation can be done via composer.
-
-```
-composer require --dev mockery/mockery
-```
+Mocking calls to `wpdb`, `WP_Query`, etc. can be done using the [mockery](https://github.com/padraic/mockery) framework.  While this isn't part of WP Mock itself, complex code will often need these objects and this framework will let you incorporate those into your tests.  Since WP Mock requires Mockery, it should already be included as part of your install.
 
 #### $wpdb example
 
