@@ -34,6 +34,22 @@ class FunctionsContext implements Context
     }
 
     /**
+     * @Given I alias :alias to :function
+     */
+    public function iAliasTo($alias, $function)
+    {
+        WP_Mock::alias($alias, $function);
+    }
+
+    /**
+     * @Given I mock function :function to echo input
+     */
+    public function iMockFunctionWpMockTestToEcho($function)
+    {
+        WP_Mock::echoFunction($function);
+    }
+
+    /**
      * @When I mock function :function
      */
     public function iMockFunction($function)
@@ -75,6 +91,17 @@ class FunctionsContext implements Context
         } catch (NoMatchingExpectationException $e) {
             // Move along...
         }
+    }
+
+    /**
+     * @Then I expect function :function to echo :input
+     */
+    public function iExpectFunctionToEcho($function, $input)
+    {
+        ob_start();
+        $function($input);
+        $output = trim(ob_get_clean());
+        PHPUnit_Framework_Assert::assertEquals(trim($input), $output);
     }
 
 }
