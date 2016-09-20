@@ -27,8 +27,10 @@
 	},
 	"scripts": {
 		"test:behat": "behat",
+		"test:phpunit": "phpunit",
 		"test"      : [
-			"@test:behat"
+			"@test:behat",
+			"@test:phpunit"
 		]
 	}
 }
