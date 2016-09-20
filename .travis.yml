@@ -17,4 +17,9 @@ matrix:
 
 before_script:
   - if [ 1 -eq $WP_MOCK_INSTALL_LOWEST ]; then composer update --prefer-lowest; else composer update; fi
+
 script: composer test
+
+cache:
+  directories:
+    - vendor
