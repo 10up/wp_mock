@@ -42,6 +42,16 @@ class HooksContext implements Context
     }
 
     /**
+     * @Given I expect the following actions not to be added:
+     */
+    public function iExpectTheFollowingActionsNotToBeAdded(TableNode $table)
+    {
+        foreach ($this->getActionsWithDefaults($table) as $action) {
+            WP_Mock::expectActionNotAdded($action['action'], $action['callback']);
+        }
+    }
+
+    /**
      * @Given I expect the :action action
      */
     public function iExpectTheAction($action)
@@ -56,7 +66,7 @@ class HooksContext implements Context
     {
         $args = array($action);
         $rows = $table->getRows();
-        if (isset( $rows[0] ) && is_array($rows[0])) {
+        if (isset($rows[0]) && is_array($rows[0])) {
             $args = array_merge($args, $rows[0]);
         }
         call_user_func_array(array('WP_Mock', 'expectAction'), $args);
@@ -92,7 +102,7 @@ class HooksContext implements Context
     {
         $args = array($action);
         $rows = $table->getRows();
-        if (isset( $rows[0] ) && is_array($rows[0])) {
+        if (isset($rows[0]) && is_array($rows[0])) {
             $args = array_merge($args, $rows[0]);
         }
         call_user_func_array('do_action', $args);
@@ -103,11 +113,11 @@ class HooksContext implements Context
      */
     public function iExpectTheFollowingFiltersAdded(TableNode $table)
     {
-        $filters  = $table->getHash();
+        $filters = $table->getHash();
         $defaults = array(
-            'filter'    => '',
-            'callback'  => '',
-            'priority'  => 10,
+            'filter' => '',
+            'callback' => '',
+            'priority' => 10,
             'arguments' => 1,
         );
         foreach ($filters as $filter) {
@@ -122,19 +132,21 @@ class HooksContext implements Context
     }
 
     /**
+     * @Given I expect the following filters not to be added:
+     */
+    public function iExpectTheFollowingFiltersNotToBeAdded(TableNode $table)
+    {
+        foreach ($this->getFiltersWithDefaults($table) as $filter) {
+            WP_Mock::expectFilterNotAdded($filter['filter'], $filter['callback']);
+        }
+    }
+
+    /**
      * @When I add the following filters:
      */
     public function iAddTheFollowingFilters(TableNode $table)
     {
-        $filters  = $table->getHash();
-        $defaults = array(
-            'filter'    => '',
-            'callback'  => '',
-            'priority'  => 10,
-            'arguments' => 1,
-        );
-        foreach ($filters as $filter) {
-            $filter += $defaults;
+        foreach ($this->getFiltersWithDefaults($table) as $filter) {
             add_filter(
                 $filter['filter'],
                 $filter['callback'],
@@ -179,19 +191,36 @@ class HooksContext implements Context
 
     private function getActionsWithDefaults(TableNode $table)
     {
-        $actions  = $table->getHash();
+        $actions = $table->getHash();
         $defaults = array(
-            'action'    => '',
-            'callback'  => '',
-            'priority'  => 10,
+            'action' => '',
+            'callback' => '',
+            'priority' => 10,
             'arguments' => 1,
         );
         foreach ($actions as &$action) {
             $action += $defaults;
         }
-        unset( $action );
+        unset($action);
 
         return $actions;
+    }
+
+    private function getFiltersWithDefaults(TableNode $table)
+    {
+        $filters = $table->getHash();
+        $defaults = array(
+            'filter' => '',
+            'callback' => '',
+            'priority' => 10,
+            'arguments' => 1,
+        );
+        foreach ($filters as &$filter) {
+            $filter += $defaults;
+        }
+        unset($filter);
+
+        return $filters;
     }
 
 }

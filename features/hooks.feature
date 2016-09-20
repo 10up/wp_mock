@@ -37,6 +37,22 @@ Feature: Hook mocking
 			| foobar | bazbat   | 11       |
 		Then tearDown should fail
 
+	Scenario: expectActionNotAdded fails when action added
+		Given I expect the following actions not to be added:
+			| action | callback |
+			| foobar | bazbat   |
+		When I add the following actions:
+			| action | callback |
+			| foobar | bazbat   |
+		Then tearDown should fail
+
+	Scenario: expectActionNotAdded passes when action not added
+		Given I expect the following actions not to be added:
+			| action | callback |
+			| foobar | bazbat   |
+		When I do nothing
+		Then tearDown should not fail
+
 	Scenario: expectFilterAdded sets up expectation
 		Given I expect the following filters added:
 			| filter | callback | priority | arguments |
@@ -130,3 +146,19 @@ Feature: Hook mocking
 		Given I expect filter "the_content" to respond to "Windows" with "OS X"
 		When I apply the filter "the_content" with "Linux"
 		Then The filter "the_content" should return "Linux"
+
+	Scenario: expectFilterNotAdded fails when filter added
+		Given I expect the following filters not to be added:
+			| filter | callback |
+			| foobar | bazbat   |
+		When I add the following filters:
+			| filter | callback |
+			| foobar | bazbat   |
+		Then tearDown should fail
+
+	Scenario: expectFilterNotAdded passes when filter not added
+		Given I expect the following filters not to be added:
+			| filter | callback |
+			| foobar | bazbat   |
+		When I do nothing
+		Then tearDown should not fail
