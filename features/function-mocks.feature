@@ -23,3 +23,8 @@ Feature: Function mocking
 			| bazbat | foobar |
 		Then I expect an error when I run wpMockTest with args:
 			| bimbam | bobeep |
+
+	Scenario: alias uses the provided callback when called
+		Given I mock function wpMockTest to return "alias test"
+		And I alias wpAliasTest to wpMockTest
+		Then I expect "alias test" when I run wpAliasTest

@@ -77,4 +77,12 @@ class FunctionsContext implements Context
         }
     }
 
+    /**
+     * @Given I alias :alias to :function
+     */
+    public function iAliasTo($alias, $function)
+    {
+        WP_Mock::alias($alias, $function);
+    }
+
 }
