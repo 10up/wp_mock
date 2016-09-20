@@ -7,16 +7,6 @@ use Mockery\Exception\NoMatchingExpectationException;
 class FunctionsContext implements Context
 {
 
-    private $storedReturn;
-
-    /**
-     * @BeforeScenario
-     */
-    public function cleanStoredReturn()
-    {
-        $this->storedReturn=null;
-    }
-
     /**
      * @Given function :function does not exist
      */
