@@ -34,6 +34,22 @@ class FunctionsContext implements Context
     }
 
     /**
+     * @Given I alias :alias to :function
+     */
+    public function iAliasTo($alias, $function)
+    {
+        WP_Mock::alias($alias, $function);
+    }
+
+    /**
+     * @Given I mock function :function to echo input
+     */
+    public function iMockFunctionWpMockTestToEcho($function)
+    {
+        WP_Mock::echoFunction($function);
+    }
+
+    /**
      * @When I mock function :function
      */
     public function iMockFunction($function)
@@ -75,22 +91,6 @@ class FunctionsContext implements Context
         } catch (NoMatchingExpectationException $e) {
             // Move along...
         }
-    }
-
-    /**
-     * @Given I alias :alias to :function
-     */
-    public function iAliasTo($alias, $function)
-    {
-        WP_Mock::alias($alias, $function);
-    }
-
-    /**
-     * @Given I mock function :function to echo input
-     */
-    public function iMockFunctionWpMockTestToEcho($function)
-    {
-        WP_Mock::echoFunction($function);
     }
 
     /**
