@@ -23,3 +23,8 @@ script: composer test
 cache:
   directories:
     - vendor
+
+branches:
+  only:
+    - dev
+    - master
