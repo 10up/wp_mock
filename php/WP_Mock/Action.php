@@ -35,7 +35,7 @@ class Action extends Hook {
 			}
 
 			$arg = $this->safe_offset( $args[ $arg_num - 1 ] );
-			if ( ! isset( $processors[ $arg ] ) ) {
+			if ( ! is_array( $processors ) || ! isset( $processors[ $arg ] ) ) {
 				return;
 			}
 
