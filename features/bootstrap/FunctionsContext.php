@@ -7,6 +7,8 @@ use Mockery\Exception\NoMatchingExpectationException;
 class FunctionsContext implements Context
 {
 
+    private $storedReturn;
+
     /**
      * @Given function :function does not exist
      */
@@ -58,6 +60,14 @@ class FunctionsContext implements Context
     }
 
     /**
+     * @When I store the return value of function mock :function
+     */
+    public function iStoreTheReturnValueOfFunctionMock($function)
+    {
+        $this->storedReturn = WP_Mock::userFunction($function);
+    }
+
+    /**
      * @Then function :function should exist
      */
     public function functionShouldExist($function)
@@ -102,6 +112,14 @@ class FunctionsContext implements Context
         $function($input);
         $output = trim(ob_get_clean());
         PHPUnit_Framework_Assert::assertEquals(trim($input), $output);
+    }
+
+    /**
+     * @Then The stored return should be an instance of :class
+     */
+    public function theStoredReturnShouldBeAnInstanceOf($class)
+    {
+        PHPUnit_Framework_Assert::assertInstanceOf($class, $this->storedReturn);
     }
 
 }
