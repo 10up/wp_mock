@@ -85,4 +85,23 @@ class FunctionsContext implements Context
         WP_Mock::alias($alias, $function);
     }
 
+    /**
+     * @Given I mock function :function to echo input
+     */
+    public function iMockFunctionWpMockTestToEcho($function)
+    {
+        WP_Mock::echoFunction($function);
+    }
+
+    /**
+     * @Then I expect function :function to echo :input
+     */
+    public function iExpectFunctionToEcho($function, $input)
+    {
+        ob_start();
+        $function($input);
+        $output = trim(ob_get_clean());
+        PHPUnit_Framework_Assert::assertEquals(trim($input), $output);
+    }
+
 }

@@ -28,3 +28,7 @@ Feature: Function mocking
 		Given I mock function wpMockTest to return "alias test"
 		And I alias wpAliasTest to wpMockTest
 		Then I expect "alias test" when I run wpAliasTest
+
+	Scenario: echoFunction echoes the correct output
+		Given I mock function wpMockTest to echo input
+		Then I expect function wpMockTest to echo "echo test"
