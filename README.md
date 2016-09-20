@@ -318,9 +318,9 @@ public function test_filter_content() {
 
 ## Credits
 
-* [Eric Mann](/ericmann)
-* [John Bloch](/johnpbloch)
-* [All Contributors](/10up/wp_mock/graphs/contributors)
+* [Eric Mann](https://github.com/ericmann)
+* [John Bloch](https://github.com/johnpbloch)
+* [All Contributors](https://github.com/10up/wp_mock/graphs/contributors)
 
 ## Contributing
 
