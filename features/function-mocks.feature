@@ -8,10 +8,6 @@ Feature: Function mocking
 		When I mock function wpMockTest
 		Then function wpMockTest should exist
 
-	Scenario: userFunction should return its own Mockery expectations object
-		When I store the return value of function mock wpMockFunction
-		Then The stored return should be an instance of "\Mockery\ExpectationInterface"
-
 	Scenario: Passthru function returns first argument
 		Given I mock passthru function wpMockPassthruTest with args:
 			| foobar | bazbat |
