@@ -4,6 +4,8 @@ WP_Mock is an API mocking framework, built and maintained by [10up](http://10up.
 
 <a href="http://10up.com/contact/"><img src="https://10updotcom-wpengine.s3.amazonaws.com/uploads/2016/08/10up_github_banner-2.png" width="850"></a>
 
+[![Build Status](https://travis-ci.org/10up/wp_mock.svg?branch=dev)](https://travis-ci.org/10up/wp_mock)
+
 ## Installation
 
 First, add WP Mock as a dev-dependency with [Composer](http://getcomposer.org):
