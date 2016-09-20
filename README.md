@@ -32,6 +32,41 @@ class MyTestClass extends PHPUnit_Framework_TestCase {
 }
 ```
 
+## Bootstrapping WP_Mock
+
+Before you can start using WP_Mock to test your code, you'll need to bootstrap the library. The easiest way is to use a bootstrap file. See the PHPUnit documentation for how to define a bootstrap script either [from the command line](https://phpunit.de/manual/current/en/textui.html#textui.clioptions) or [from the xml config file](https://phpunit.de/manual/current/en/appendixes.configuration.html). Here is an example of a bootstrap you might use:
+
+```php
+<?php
+
+// First we need to load the composer autoloader so we can use WP Mock
+require_once __DIR__ . '/vendor/autoload.php';
+
+// Now call the bootstrap method of WP Mock
+WP_Mock::bootstrap();
+
+/**
+ * Now we include any plugin files that we need to be able to run the tests. This
+ * should be files that define the functions and classes you're going to test.
+ */
+require_once __DIR__ . '/plugin.php';
+```
+
+The bootstrap method does a few things:
+
+- Defines action and filter functions
+- Defines some common WordPress constants
+- Sets up Patchwork if it has been turned on
+
+If you'd like to use Patchwork in your tests, you need to specifically turn it on before bootstrapping WP_Mock:
+
+```php
+WP_Mock::setUsePatchwork( true );
+WP_Mock::bootstrap();
+```
+
+Patchwork is a library that enables temporarily overwriting user-defined functions and static methods. This means you can better isolate your system under test by mocking your plugin's functions that are tested elsewhere. If Patchwork is turned on, WP_Mock will transparently use it behind the scenes. For most use cases, you won't need to worry about using it directly.
+
 ## Using WP_Mock
 
 Write your tests as you normally would. If you desire specific responses from WordPress API calls, wire those specifically.
