@@ -32,3 +32,11 @@ Feature: Function mocking
 	Scenario: echoFunction echoes the correct output
 		Given I mock function wpMockTest to echo input
 		Then I expect function wpMockTest to echo "echo test"
+
+	@strictmode
+	Scenario: Strict mode causes unexpected but previously defined functions to fail
+		Given strict mode is on
+		And I mock function wpMockTest
+		When I tear down the test
+		Then I expect an error when I run wpMockTest with args:
+			||

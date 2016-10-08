@@ -6,6 +6,28 @@ use Mockery\Exception\NoMatchingExpectationException;
 
 class FunctionsContext implements Context {
 
+	private $old_strict = false;
+
+	/**
+	 * @BeforeScenario @strictmode
+	 */
+	public function forceStrictModeOn() {
+		$property = new ReflectionProperty( 'WP_Mock', '__strict_mode' );
+		$property->setAccessible( true );
+		$this->old_strict = $property->getValue();
+		$property->setValue( true );
+	}
+
+	/**
+	 * @AfterScenario @strictmode
+	 */
+	public function forceStrictModeOff() {
+		$property = new ReflectionProperty( 'WP_Mock', '__strict_mode' );
+		$property->setAccessible( true );
+		$property->setValue( (bool) $this->old_strict );
+		$this->old_strict = false;
+	}
+
 	/**
 	 * @Given function :function does not exist
 	 */
@@ -44,10 +66,24 @@ class FunctionsContext implements Context {
 	}
 
 	/**
+	 * @Given strict mode is on
+	 */
+	public function strictModeIsOn() {
+		PHPUnit_Framework_Assert::assertTrue( WP_Mock::strictMode() );
+	}
+
+	/**
 	 * @When I mock function :function
 	 */
 	public function iMockFunction( $function ) {
 		WP_Mock::userFunction( $function );
+	}
+
+	/**
+	 * @When I tear down the test
+	 */
+	public function iTearDownTheTest() {
+		WP_Mock::tearDown();
 	}
 
 	/**
@@ -78,6 +114,8 @@ class FunctionsContext implements Context {
 		try {
 			$this->iExpectWhenIRunWithArgs( null, $function, $args );
 		} catch ( NoMatchingExpectationException $e ) {
+			// Move along...
+		} catch ( \PHPUnit_Framework_ExpectationFailedException $e ) {
 			// Move along...
 		}
 	}
