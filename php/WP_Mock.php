@@ -73,6 +73,13 @@ class WP_Mock {
 	}
 
 	/**
+	 * Turns on strict mode
+	 */
+	public static function activateStrictMode() {
+		self::$__strict_mode = true;
+	}
+
+	/**
 	 * Bootstrap WP_Mock
 	 */
 	public static function bootstrap() {
