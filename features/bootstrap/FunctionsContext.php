@@ -6,28 +6,6 @@ use Mockery\Exception\NoMatchingExpectationException;
 
 class FunctionsContext implements Context {
 
-	private $old_strict = false;
-
-	/**
-	 * @BeforeScenario @strictmode
-	 */
-	public function forceStrictModeOn() {
-		$property = new ReflectionProperty( 'WP_Mock', '__strict_mode' );
-		$property->setAccessible( true );
-		$this->old_strict = $property->getValue();
-		$property->setValue( true );
-	}
-
-	/**
-	 * @AfterScenario @strictmode
-	 */
-	public function forceStrictModeOff() {
-		$property = new ReflectionProperty( 'WP_Mock', '__strict_mode' );
-		$property->setAccessible( true );
-		$property->setValue( (bool) $this->old_strict );
-		$this->old_strict = false;
-	}
-
 	/**
 	 * @Given function :function does not exist
 	 */
@@ -69,7 +47,7 @@ class FunctionsContext implements Context {
 	 * @Given strict mode is on
 	 */
 	public function strictModeIsOn() {
-		$this->forceStrictModeOn();
+		FeatureContext::forceStrictModeOn();
 		PHPUnit_Framework_Assert::assertTrue( WP_Mock::strictMode() );
 	}
 
@@ -77,7 +55,7 @@ class FunctionsContext implements Context {
 	 * @Given strict mode is off
 	 */
 	public function strictModeIsOff() {
-		$this->forceStrictModeOff();
+		FeatureContext::forceStrictModeOff();
 		PHPUnit_Framework_Assert::assertFalse( WP_Mock::strictMode() );
 	}
 
