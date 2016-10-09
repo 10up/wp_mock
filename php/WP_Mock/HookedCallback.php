@@ -7,10 +7,18 @@ class HookedCallback extends Hook {
 	public function react( $callback, $priority, $argument_count ) {
 		\WP_Mock::addHook( $this->name );
 
-		return ( isset( $this->processors[$this->safe_offset( $callback )] ) &&
-			isset( $this->processors[$this->safe_offset( $callback )][$priority] ) &&
-			isset( $this->processors[$this->safe_offset( $callback )][$priority][$argument_count] )
-		) ? $this->processors[$this->safe_offset( $callback )][$priority][$argument_count]->react() : null;
+		$safe_callback = $this->safe_offset( $callback );
+		if (
+			empty( $this->processors[ $safe_callback ] ) ||
+			empty( $this->processors[ $safe_callback ][ $priority ] ) ||
+			empty( $this->processors[ $safe_callback ][ $priority ][ $argument_count ] )
+		) {
+			$this->strict_check( $callback );
+
+			return null;
+		}
+
+		return $this->processors[ $this->safe_offset( $callback ) ][ $priority ][ $argument_count ]->react();
 	}
 
 	protected function new_responder() {

@@ -20,6 +20,37 @@ abstract class Hook {
 		$this->name = $name;
 	}
 
+	protected function callback_to_string( $callback ) {
+		if ( ! is_string( $callback ) ) {
+			if ( $callback instanceof \Closure ) {
+				$callback = 'Closure';
+			} elseif ( is_object( $callback ) ) {
+				$callback = get_class( $callback ) . '::__invoke';
+			} else {
+				$class  = $callback[0];
+				$method = $callback[1];
+				if ( ! is_string( $class ) ) {
+					$class = get_class( $class );
+				}
+				$callback = "{$class}::$method";
+			}
+		}
+
+		return $callback;
+	}
+
+	protected function strict_check( $callback ) {
+		if ( \WP_Mock::strictMode() ) {
+			throw new \PHPUnit_Framework_ExpectationFailedException(
+				sprintf(
+					'Unexpected use of add action for action %s with callback %s',
+					$this->name,
+					$this->callback_to_string( $callback )
+				)
+			);
+		}
+	}
+
 	protected function safe_offset( $value ) {
 		if(is_null($value)){
 			return 'null';
