@@ -69,7 +69,16 @@ class FunctionsContext implements Context {
 	 * @Given strict mode is on
 	 */
 	public function strictModeIsOn() {
+		$this->forceStrictModeOn();
 		PHPUnit_Framework_Assert::assertTrue( WP_Mock::strictMode() );
+	}
+
+	/**
+	 * @Given strict mode is off
+	 */
+	public function strictModeIsOff() {
+		$this->forceStrictModeOff();
+		PHPUnit_Framework_Assert::assertFalse( WP_Mock::strictMode() );
 	}
 
 	/**
@@ -128,6 +137,13 @@ class FunctionsContext implements Context {
 		$function( $input );
 		$output = trim( ob_get_clean() );
 		PHPUnit_Framework_Assert::assertEquals( trim( $input ), $output );
+	}
+
+	/**
+	 * @Then Nothing happens when I run function :function
+	 */
+	public function iRunFunction( $function ) {
+		$function();
 	}
 
 }

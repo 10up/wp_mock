@@ -33,6 +33,12 @@ Feature: Function mocking
     Given I mock function wpMockTest to echo input
     Then I expect function wpMockTest to echo "echo test"
 
+  Scenario: Previously defined functions do not cause failure when called without being expected
+    Given strict mode is off
+    And I mock function wpMockStrictTest
+    And I tear down the test
+    Then Nothing happens when I run function wpMockStrictTest
+
   @strictmode
   Scenario: Strict mode causes unexpected but previously defined functions to fail
     Given strict mode is on
