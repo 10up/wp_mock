@@ -132,6 +132,20 @@ Feature: Hook mocking
       | foobar | bazbat   |
     Then tearDown should not fail
 
+  @strictmode
+  Scenario: unexpected action fails in strict mode
+    Given strict mode is on
+    When I do nothing
+    Then I expect an error when I run add_action with args:
+      | foobar | bazbat |
+
+  @strictmode
+  Scenario: unexpected action fails in strict mode
+    Given strict mode is on
+    When I do nothing
+    Then I expect an error when I run add_filter with args:
+      | foobar | bazbat |
+
   Scenario: filter responder works
     Given I expect filter "the_content" to respond to "Test content" with "Responder works"
     When I apply the filter "the_content" with "Test content"
