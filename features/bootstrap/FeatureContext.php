@@ -10,8 +10,6 @@ use Behat\Behat\Hook\Scope\BeforeScenarioScope;
  */
 class FeatureContext implements Context, SnippetAcceptingContext {
 
-	private static $old_strict;
-
 	/**
 	 * Initializes context.
 	 *
@@ -46,7 +44,6 @@ class FeatureContext implements Context, SnippetAcceptingContext {
 	public static function forceStrictModeOn() {
 		$property = new ReflectionProperty( 'WP_Mock', '__strict_mode' );
 		$property->setAccessible( true );
-		self::$old_strict = $property->getValue();
 		$property->setValue( true );
 	}
 
@@ -60,8 +57,7 @@ class FeatureContext implements Context, SnippetAcceptingContext {
 	public static function forceStrictModeOff() {
 		$property = new ReflectionProperty( 'WP_Mock', '__strict_mode' );
 		$property->setAccessible( true );
-		$property->setValue( (bool) self::$old_strict );
-		self::$old_strict = false;
+		$property->setValue( false );
 	}
 
 	/**
