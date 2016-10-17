@@ -52,7 +52,7 @@ abstract class Hook {
 	}
 
 	protected function safe_offset( $value ) {
-		if(is_null($value)){
+		if ( is_null( $value ) ) {
 			return 'null';
 		} elseif ( is_scalar( $value ) ) {
 			return $value;
@@ -64,13 +64,15 @@ abstract class Hook {
 				$k = is_numeric( $k ) ? '' : $k;
 				$return .= $k . $this->safe_offset( $v );
 			}
+
 			return $return;
 		}
+
 		return '';
 	}
 
 	public function with() {
-		$args = func_get_args();
+		$args      = func_get_args();
 		$responder = $this->new_responder();
 
 		if ( $args === array( null ) ) {
@@ -79,7 +81,7 @@ abstract class Hook {
 			$num_args = count( $args );
 
 			$processors = &$this->processors;
-			for( $i = 0; $i < $num_args - 1; $i++ ) {
+			for ( $i = 0; $i < $num_args - 1; $i ++ ) {
 				$arg = $this->safe_offset( $args[ $i ] );
 
 				if ( ! isset( $processors[ $arg ] ) ) {
