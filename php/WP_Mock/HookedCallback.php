@@ -4,6 +4,15 @@ namespace WP_Mock;
 
 class HookedCallback extends Hook {
 
+	protected $type = 'filter';
+
+	/**
+	 * @param string $type
+	 */
+	public function setType( $type ) {
+		$this->type = $type;
+	}
+
 	public function react( $callback, $priority, $argument_count ) {
 		\WP_Mock::addHook( $this->name );
 
@@ -29,6 +38,7 @@ class HookedCallback extends Hook {
 		if ( $value instanceof \Closure ) {
 			$value = '__CLOSURE__';
 		}
+
 		return parent::safe_offset( $value );
 	}
 
@@ -72,7 +82,8 @@ class HookedCallback extends Hook {
 		if ( \WP_Mock::strictMode() ) {
 			throw new \PHPUnit_Framework_ExpectationFailedException(
 				sprintf(
-					'Unexpected use of add action for action %s with callback %s',
+					'Unexpected use of add_%s for action %s with callback %s',
+					$this->type,
 					$this->name,
 					$this->callback_to_string( $callback )
 				)

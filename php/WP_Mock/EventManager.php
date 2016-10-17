@@ -63,12 +63,14 @@ class EventManager {
 
 	public function callback( $name, $type = 'filter' ) {
 		$type_name = "$type::$name";
-		if ( ! isset( $this->callbacks[$type_name] ) ) {
-			$this->callbacks[$type_name] = new HookedCallback( $name );
-			$this->expected[]     = "callback::$type_name";
+		if ( ! isset( $this->callbacks[ $type_name ] ) ) {
+			$hookedCallback = new HookedCallback( $name );
+			$hookedCallback->setType( $type );
+			$this->callbacks[ $type_name ] = $hookedCallback;
+			$this->expected[]              = "callback::$type_name";
 		}
 
-		return $this->callbacks[$type_name];
+		return $this->callbacks[ $type_name ];
 	}
 
 	/**
