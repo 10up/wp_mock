@@ -67,4 +67,21 @@ abstract class Hook {
 	}
 
 	protected abstract function new_responder();
+
+	/**
+	 * Throw an exception if strict mode is on
+	 *
+	 * @throws \PHPUnit_Framework_ExpectationFailedException
+	 */
+	protected function strict_check() {
+		if ( \WP_Mock::strictMode() ) {
+			throw new \PHPUnit_Framework_ExpectationFailedException( $this->get_strict_mode_message() );
+		}
+	}
+
+	/**
+	 * @return string
+	 */
+	abstract protected function get_strict_mode_message();
+
 }

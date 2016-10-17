@@ -44,6 +44,12 @@ class Filter extends Hook {
 		return new Filter_Responder();
 	}
 
+	/**
+	 * @return string
+	 */
+	protected function get_strict_mode_message() {
+		// TODO: Implement get_strict_mode_message() method.
+	}
 }
 
 class Filter_Responder {

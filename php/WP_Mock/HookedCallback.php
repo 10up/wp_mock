@@ -5,6 +5,7 @@ namespace WP_Mock;
 class HookedCallback extends Hook {
 
 	protected $type = 'filter';
+	protected $callback;
 
 	/**
 	 * @param string $type
@@ -22,7 +23,8 @@ class HookedCallback extends Hook {
 			empty( $this->processors[ $safe_callback ][ $priority ] ) ||
 			empty( $this->processors[ $safe_callback ][ $priority ][ $argument_count ] )
 		) {
-			$this->strict_check( $callback );
+			$this->callback=$callback;
+			$this->strict_check();
 
 			return null;
 		}
@@ -72,23 +74,17 @@ class HookedCallback extends Hook {
 	}
 
 	/**
-	 * Throw an exception if strict mode is on
+	 * @param $callback
 	 *
-	 * @throws \PHPUnit_Framework_ExpectationFailedException
-	 *
-	 * @param callable $callback
+	 * @return string
 	 */
-	protected function strict_check( $callback ) {
-		if ( \WP_Mock::strictMode() ) {
-			throw new \PHPUnit_Framework_ExpectationFailedException(
-				sprintf(
-					'Unexpected use of add_%s for action %s with callback %s',
-					$this->type,
-					$this->name,
-					$this->callback_to_string( $callback )
-				)
-			);
-		}
+	protected function get_strict_mode_message() {
+		return sprintf(
+			'Unexpected use of add_%s for action %s with callback %s',
+			$this->type,
+			$this->name,
+			$this->callback_to_string( $this->callback )
+		);
 	}
 
 }

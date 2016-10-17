@@ -46,6 +46,13 @@ class Action extends Hook {
 	protected function new_responder() {
 		return new Action_Responder();
 	}
+
+	/**
+	 * @return string
+	 */
+	protected function get_strict_mode_message() {
+		// TODO: Implement get_strict_mode_message() method.
+	}
 }
 
 class Action_Responder {
