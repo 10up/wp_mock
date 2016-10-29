@@ -132,6 +132,13 @@ Feature: Hook mocking
       | foobar | bazbat   |
     Then tearDown should not fail
 
+  @strictmode
+  Scenario: Unexpected filter fails in strict mode
+    Given strict mode is on
+    When I do nothing
+    Then I expect an error when I run apply_filters with args:
+      | foobar | bazbat |
+
   Scenario: unexpected filter does not fail tests
     Given I do nothing
     When I add the following filters:
