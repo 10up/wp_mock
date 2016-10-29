@@ -69,6 +69,17 @@ WP_Mock::bootstrap();
 
 Patchwork is a library that enables temporarily overwriting user-defined functions and static methods. This means you can better isolate your system under test by mocking your plugin's functions that are tested elsewhere. If Patchwork is turned on, WP_Mock will transparently use it behind the scenes. For most use cases, you won't need to worry about using it directly.
 
+### Strict Mode
+
+WP_Mock has a strict mode that developers may optionally activate. By default, it is off and not the default behavior. If activated, strict mode will cause tests to fail if they use previously mocked functions without first explicitly declaring an expectation for how that function will be used. This provides an easy way to enforce an extra layer of specificity in unit tests. Previously, the only way to simulate a strict mode was to run every single test in process isolation. Like using patchwork, strict mode has to be turned on *before* the WP_Mock framework is bootstrapped:
+
+```php
+WP_Mock::activateStrictMode();
+WP_Mock::bootstrap();
+```
+
+WP_Mock will ignore any attempts to activate strict mode after the first time it is bootstrapped.
+
 ## Using WP_Mock
 
 Write your tests as you normally would. If you desire specific responses from WordPress API calls, wire those specifically.
