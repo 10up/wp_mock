@@ -23,7 +23,7 @@ class HookedCallback extends Hook {
 			empty( $this->processors[ $safe_callback ][ $priority ] ) ||
 			empty( $this->processors[ $safe_callback ][ $priority ][ $argument_count ] )
 		) {
-			$this->callback=$callback;
+			$this->callback = $callback;
 			$this->strict_check();
 
 			return null;
