@@ -118,6 +118,13 @@ Feature: Hook mocking
       | data | plus |
     Then tearDown should fail
 
+  @strictmode
+  Scenario: Unexpected action fails in strict mode
+    Given strict mode is on
+    When I do nothing
+    Then I expect an error when I run do_action with args:
+      | bimbam | bazbat |
+
   Scenario: unexpected action does not fail tests
     Given I do nothing
     When I add the following actions:
