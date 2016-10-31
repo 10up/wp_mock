@@ -23,6 +23,8 @@ class Filter extends Hook {
 			if ( isset( $this->processors['argsnull'] ) ) {
 				return $this->processors['argsnull']->send();
 			}
+			$this->strict_check();
+
 			return null;
 		}
 		$arg_num = count( $args );
@@ -30,11 +32,13 @@ class Filter extends Hook {
 		$processors = $this->processors;
 		foreach ( $args as $arg ) {
 			$key = $this->safe_offset( $arg );
-			if ( ! isset( $processors[$key] ) ) {
+			if ( ! isset( $processors[ $key ] ) ) {
+				$this->strict_check();
+
 				return $arg;
 			}
 
-			$processors = $processors[$key];
+			$processors = $processors[ $key ];
 		}
 
 		return $processors->send();
@@ -44,6 +48,12 @@ class Filter extends Hook {
 		return new Filter_Responder();
 	}
 
+	/**
+	 * @return string
+	 */
+	protected function get_strict_mode_message() {
+		return sprintf( 'Unexpected use of apply_filters for filter %s', $this->name );
+	}
 }
 
 class Filter_Responder {

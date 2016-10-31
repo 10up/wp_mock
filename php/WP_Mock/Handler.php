@@ -41,6 +41,10 @@ class Handler {
 			$callback = self::$handlers[ $function_name ];
 
 			return call_user_func_array( $callback, $args );
+		} elseif ( \WP_Mock::strictMode() ) {
+			throw new \PHPUnit_Framework_ExpectationFailedException(
+				sprintf( 'No handler found for %s', $function_name )
+			);
 		}
 	}
 

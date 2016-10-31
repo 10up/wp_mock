@@ -48,6 +48,8 @@ class WP_Mock {
 
 	protected static $__use_patchwork = false;
 
+	protected static $__strict_mode = false;
+
 	/**
 	 * @param boolean $use_patchwork
 	 */
@@ -59,6 +61,24 @@ class WP_Mock {
 
 	public static function usingPatchwork() {
 		return (bool) self::$__use_patchwork;
+	}
+
+	/**
+	 * Check whether strict mode is turned on
+	 *
+	 * @return bool
+	 */
+	public static function strictMode() {
+		return (bool) self::$__strict_mode;
+	}
+
+	/**
+	 * Turns on strict mode
+	 */
+	public static function activateStrictMode() {
+		if ( ! self::$__bootstrapped ) {
+			self::$__strict_mode = true;
+		}
 	}
 
 	/**
