@@ -37,7 +37,7 @@ class Handler {
 	 * @return mixed
 	 */
 	public static function handle_function( $function_name, $args = array() ) {
-		if ( isset( self::$handlers[ $function_name ] ) ) {
+		if ( self::handler_exists( $function_name ) ) {
 			$callback = self::$handlers[ $function_name ];
 
 			return call_user_func_array( $callback, $args );
@@ -46,6 +46,17 @@ class Handler {
 				sprintf( 'No handler found for %s', $function_name )
 			);
 		}
+	}
+
+	/**
+	 * Check if a handler exists
+	 *
+	 * @param string $function_name
+	 *
+	 * @return bool
+	 */
+	public static function handler_exists( $function_name ) {
+		return isset( self::$handlers[ $function_name ] );
 	}
 
 	/**
