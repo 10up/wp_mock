@@ -52,6 +52,17 @@ class FunctionMocksTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals( $expected, call_user_func( $function, $input ) );
 	}
 
+	/**
+	 * @runInSeparateProcess
+	 * @expectedException PHPUnit_Framework_ExpectationFailedException
+	 * @expectedExceptionMessageRegExp /No handler found for \w+/
+	 */
+	public function testDefaultFailsInStrictMode() {
+		WP_Mock::activateStrictMode();
+		WP_Mock::bootstrap();
+		_e('Test');
+	}
+
 	public function dataCommonFunctionsDefaultFunctionality() {
 		return array_map( function ( $function ) {
 			return array( $function, '_e' === substr( $function, - 2 ) ? 'echo' : 'return' );
