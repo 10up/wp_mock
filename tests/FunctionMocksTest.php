@@ -21,6 +21,12 @@ class FunctionMocksTest extends PHPUnit_Framework_TestCase {
 		'_n',
 	);
 
+	protected function setUp() {
+		if ( ! $this->isInIsolation() ) {
+			WP_Mock::setUp();
+		}
+	}
+
 	/**
 	 * @runInSeparateProcess
 	 */
@@ -32,6 +38,24 @@ class FunctionMocksTest extends PHPUnit_Framework_TestCase {
 		// Now we assert that the array doesn't lose any items after bootstrap, meaning all expected functions got
 		// defined correctly.
 		$this->assertEquals( $this->common_functions, array_filter( $this->common_functions, 'function_exists' ) );
+	}
+
+	/**
+	 * @dataProvider dataCommonFunctionsDefaultFunctionality
+	 */
+	public function testCommonFunctionsDefaultFunctionality( $function, $action ) {
+		$input = $expected = 'Something Random' . rand( 0, 99 );
+		if ( 'echo' === $action ) {
+			$this->expectOutputString( $input );
+			$expected = null;
+		}
+		$this->assertEquals( $expected, call_user_func( $function, $input ) );
+	}
+
+	public function dataCommonFunctionsDefaultFunctionality() {
+		return array_map( function ( $function ) {
+			return array( $function, '_e' === substr( $function, - 2 ) ? 'echo' : 'return' );
+		}, $this->common_functions );
 	}
 
 }
