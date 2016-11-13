@@ -6,6 +6,7 @@ class FunctionMocksTest extends PHPUnit_Framework_TestCase {
 	 * @runInSeparateProcess
 	 */
 	public function testCommonFunctionsAreDefined() {
+		WP_Mock::bootstrap();
 		$this->assertTrue( function_exists( 'esc_attr' ) );
 		$this->assertTrue( function_exists( 'esc_html' ) );
 		$this->assertTrue( function_exists( 'esc_js' ) );
