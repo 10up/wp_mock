@@ -44,7 +44,7 @@ class FunctionMocksTest extends PHPUnit_Framework_TestCase {
 	 * @dataProvider dataCommonFunctionsDefaultFunctionality
 	 */
 	public function testCommonFunctionsDefaultFunctionality( $function, $action ) {
-		$input = $expected = 'Something Random' . rand( 0, 99 );
+		$input = $expected = 'Something Random ' . rand( 0, 99 );
 		if ( 'echo' === $action ) {
 			$this->expectOutputString( $input );
 			$expected = null;
@@ -56,6 +56,17 @@ class FunctionMocksTest extends PHPUnit_Framework_TestCase {
 		return array_map( function ( $function ) {
 			return array( $function, '_e' === substr( $function, - 2 ) ? 'echo' : 'return' );
 		}, $this->common_functions );
+	}
+
+	public function testMockingOverridesDefaults() {
+		$this->assertEquals( 'Input', __( 'Input' ) );
+		WP_Mock::userFunction( '__' )->andReturn( 'Output' );
+		$this->assertEquals( 'Output', __( 'Input' ) );
+	}
+
+	public function testBotchedMocksStillOverrideDefault() {
+		WP_Mock::userFunction( 'esc_html' );
+		$this->assertEmpty( esc_html( 'Input' ) );
 	}
 
 }
