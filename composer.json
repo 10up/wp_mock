@@ -9,7 +9,7 @@
 		"antecedent/patchwork": "~1.2"
 	},
 	"require-dev": {
-		"phpunit/phpunit"     : ">=4.0",
+		"phpunit/phpunit"     : ">=4.3",
 		"behat/behat"         : "^3.0"
 	},
 	"autoload"   : {
