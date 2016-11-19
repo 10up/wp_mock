@@ -23,16 +23,7 @@ class DeprecatedListener {
 		if ( empty( $this->calls ) ) {
 			return;
 		}
-		if ( class_exists( 'PHPUnit_Framework_RiskyTestError' ) ) {
-			throw new \PHPUnit_Framework_RiskyTestError( $this->getMessage() );
-		} else {
-			$this->testResult->addDeprecatedFeature(
-				new \PHPUnit_Util_DeprecatedFeature(
-					$this->getMessage(),
-					debug_backtrace()
-				)
-			);
-		}
+		throw new \PHPUnit_Framework_RiskyTestError( $this->getMessage() );
 	}
 
 	/**
