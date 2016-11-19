@@ -63,3 +63,99 @@ if ( ! function_exists( 'apply_filters' ) ) {
 		return \WP_Mock::onFilter( $tag )->apply( $args );
 	}
 }
+
+if ( ! function_exists( 'esc_html' ) ) {
+	function esc_html() {
+		return \WP_Mock\Handler::predefined_return_function_helper( __FUNCTION__, func_get_args() );
+	}
+}
+
+if ( ! function_exists( 'esc_attr' ) ) {
+	function esc_attr() {
+		return \WP_Mock\Handler::predefined_return_function_helper( __FUNCTION__, func_get_args() );
+	}
+}
+
+if ( ! function_exists( 'esc_url' ) ) {
+	function esc_url() {
+		return \WP_Mock\Handler::predefined_return_function_helper( __FUNCTION__, func_get_args() );
+	}
+}
+
+if ( ! function_exists( 'esc_url_raw' ) ) {
+	function esc_url_raw() {
+		return \WP_Mock\Handler::predefined_return_function_helper( __FUNCTION__, func_get_args() );
+	}
+}
+
+if ( ! function_exists( 'esc_js' ) ) {
+	function esc_js() {
+		return \WP_Mock\Handler::predefined_return_function_helper( __FUNCTION__, func_get_args() );
+	}
+}
+
+if ( ! function_exists( 'esc_textarea' ) ) {
+	function esc_textarea() {
+		return \WP_Mock\Handler::predefined_return_function_helper( __FUNCTION__, func_get_args() );
+	}
+}
+
+if ( ! function_exists( '__' ) ) {
+	function __() {
+		return \WP_Mock\Handler::predefined_return_function_helper( __FUNCTION__, func_get_args() );
+	}
+}
+
+if ( ! function_exists( '_e' ) ) {
+	function _e() {
+		\WP_Mock\Handler::predefined_echo_function_helper( __FUNCTION__, func_get_args() );
+	}
+}
+
+if ( ! function_exists( '_x' ) ) {
+	function _x() {
+		return \WP_Mock\Handler::predefined_return_function_helper( __FUNCTION__, func_get_args() );
+	}
+}
+
+if ( ! function_exists( 'esc_html__' ) ) {
+	function esc_html__() {
+		return \WP_Mock\Handler::predefined_return_function_helper( __FUNCTION__, func_get_args() );
+	}
+}
+
+if ( ! function_exists( 'esc_html_e' ) ) {
+	function esc_html_e() {
+		\WP_Mock\Handler::predefined_echo_function_helper( __FUNCTION__, func_get_args() );
+	}
+}
+
+if ( ! function_exists( 'esc_html_x' ) ) {
+	function esc_html_x() {
+		return \WP_Mock\Handler::predefined_return_function_helper( __FUNCTION__, func_get_args() );
+	}
+}
+
+if ( ! function_exists( 'esc_attr__' ) ) {
+	function esc_attr__() {
+		return \WP_Mock\Handler::predefined_return_function_helper( __FUNCTION__, func_get_args() );
+	}
+}
+
+if ( ! function_exists( 'esc_attr_e' ) ) {
+	function esc_attr_e() {
+		\WP_Mock\Handler::predefined_echo_function_helper( __FUNCTION__, func_get_args() );
+	}
+}
+
+if ( ! function_exists( 'esc_attr_x' ) ) {
+	function esc_attr_x() {
+		return \WP_Mock\Handler::predefined_return_function_helper( __FUNCTION__, func_get_args() );
+	}
+}
+
+if ( ! function_exists( '_n' ) ) {
+	function _n() {
+		return \WP_Mock\Handler::predefined_return_function_helper( __FUNCTION__, func_get_args() );
+	}
+}

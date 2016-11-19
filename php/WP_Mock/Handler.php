@@ -37,7 +37,7 @@ class Handler {
 	 * @return mixed
 	 */
 	public static function handle_function( $function_name, $args = array() ) {
-		if ( isset( self::$handlers[ $function_name ] ) ) {
+		if ( self::handler_exists( $function_name ) ) {
 			$callback = self::$handlers[ $function_name ];
 
 			return call_user_func_array( $callback, $args );
@@ -49,9 +49,62 @@ class Handler {
 	}
 
 	/**
+	 * Check if a handler exists
+	 *
+	 * @param string $function_name
+	 *
+	 * @return bool
+	 */
+	public static function handler_exists( $function_name ) {
+		return isset( self::$handlers[ $function_name ] );
+	}
+
+	/**
 	 * Clear all registered handlers.
 	 */
 	public static function cleanup() {
 		self::$handlers = array();
 	}
+
+	/**
+	 * Helper function for common passthru return functions
+	 *
+	 * @param string $function_name
+	 * @param array  $args
+	 *
+	 * @return mixed
+	 */
+	public static function predefined_return_function_helper( $function_name, array $args ) {
+		$result = self::handle_function( $function_name, $args );
+		if ( ! self::handler_exists( $function_name ) ) {
+			$result = isset( $args[0] ) ? $args[0] : $result;
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Helper function for common echo functions
+	 *
+	 * @param string $function_name
+	 * @param array  $args
+	 *
+	 * @throws \Exception
+	 */
+	public static function predefined_echo_function_helper( $function_name, array $args ) {
+		ob_start();
+		try {
+			self::handle_function( $function_name, $args );
+		} catch ( \Exception $exception ) {
+			ob_end_clean();
+			throw $exception;
+		}
+		$result = ob_get_clean();
+		if ( ! self::handler_exists( $function_name ) ) {
+			$result = isset( $args[0] ) ? $args[0] : $result;
+		}
+
+		echo $result;
+	}
+
 }
