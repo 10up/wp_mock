@@ -131,7 +131,6 @@ class WP_Mock {
 	public static function tearDown() {
 		self::$event_manager->flush();
 		self::$function_manager->flush();
-		static::getDeprecatedListener()->reset();
 
 		\Mockery::close();
 		\WP_Mock\Handler::cleanup();

@@ -302,6 +302,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 		}
 
 		WP_Mock::getDeprecatedListener()->setTestResult( $result );
+		WP_Mock::getDeprecatedListener()->setTestCase($this);
 
 		return parent::run( $result );
 	}
@@ -309,8 +310,9 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 	/**
 	 * @after
 	 */
-	protected function checkDeprecatedCalls() {
+	public function checkDeprecatedCalls() {
 		WP_Mock::getDeprecatedListener()->checkCalls();
+		WP_Mock::getDeprecatedListener()->reset();
 	}
 
 }
