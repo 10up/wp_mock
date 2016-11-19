@@ -306,9 +306,10 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 		return parent::run( $result );
 	}
 
-	public function runBare() {
-		parent::runBare();
-
+	/**
+	 * @after
+	 */
+	protected function checkDeprecatedCalls() {
 		WP_Mock::getDeprecatedListener()->checkCalls();
 	}
 
