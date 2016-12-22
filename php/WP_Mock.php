@@ -50,7 +50,7 @@ class WP_Mock {
 
 	protected static $__strict_mode = false;
 
-	protected static $deprecated_listener = array();
+	protected static $deprecated_listener;
 
 	/**
 	 * @param boolean $use_patchwork
