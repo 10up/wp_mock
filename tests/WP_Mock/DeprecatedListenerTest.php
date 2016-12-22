@@ -36,6 +36,15 @@ class DeprecatedListenerTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals( array(), $this->getCalls( $this->object ) );
 	}
 
+	public function testCheckCallsNoCalls() {
+		$result = Mockery::mock( 'PHPUnit_Framework_TestResult' );
+		$result->shouldReceive( 'addFailure' )->never();
+		/** @var \PHPUnit_Framework_TestResult $result */
+		$this->object->setTestResult( $result );
+
+		$this->object->checkCalls();
+	}
+
 	public function testCheckCalls_scalar_only() {
 		$this->object->logDeprecatedCall( 'FooBar::bazBat', array( 'string', true, 42 ) );
 		$this->object->setTestName( 'TestName' );
