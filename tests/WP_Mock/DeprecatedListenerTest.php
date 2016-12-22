@@ -70,6 +70,51 @@ EOT;
 		$this->object->checkCalls();
 	}
 
+	public function testCheckCalls_non_scalars() {
+		$callback1 = function () {
+		};
+		$object1   = Mockery::mock( 'WP_Query' );
+		$range     = rand( 5, 10 );
+		$resource  = fopen( 'php://temp', 'r' );
+		$this->object->logDeprecatedCall( 'BazBat::fooBar', array( $callback1 ) );
+		$this->object->logDeprecatedCall( 'BazBat::fooBar', array( $object1 ) );
+		$this->object->logDeprecatedCall( 'LongerClassName::callback', array( array( $object1, 'shouldReceive' ) ) );
+		$this->object->logDeprecatedCall( 'BazBat::fooBar', array( range( 1, $range ), $resource ) );
+		$this->object->setTestName( 'OtherTest' );
+		$testCase = Mockery::mock( 'PHPUnit_Framework_TestCase' );
+		/** @var PHPUnit_Framework_TestCase $testCase */
+		$this->object->setTestCase( $testCase );
+		$result      = Mockery::mock( 'PHPUnit_Framework_TestResult' );
+		$testClosure = function ( $case, $exception, $int ) use ( $testCase, $callback1, $object1, $range ) {
+			$callback1 = get_class( $callback1 ) . ':' . spl_object_hash( $callback1 );
+			$object1   = get_class( $object1 ) . ':' . spl_object_hash( $object1 );
+			PHPUnit_Framework_Assert::assertSame( $testCase, $case );
+			PHPUnit_Framework_Assert::assertTrue( $exception instanceof PHPUnit_Framework_RiskyTest );
+			$message = <<<EOT
+Deprecated WP Mock calls inside OtherTest:
+  BazBat::fooBar            ["<$callback1>"]
+                            ["<$object1>"]
+                            ["Array([$range] ...)","Resource"]
+  LongerClassName::callback ["[<$object1>,shouldReceive]"]
+EOT;
+			PHPUnit_Framework_Assert::assertEquals( $message, $exception->getMessage() );
+			PHPUnit_Framework_Assert::assertTrue( 0 === $int );
+		};
+		$result->shouldReceive( 'addFailure' )
+			->once()
+			->andReturnUsing( $testClosure );
+		/** @var \PHPUnit_Framework_TestResult $result */
+		$this->object->setTestResult( $result );
+
+		try {
+			$this->object->checkCalls();
+		} catch ( \Exception $e ) {
+			fclose( $resource );
+			throw $e;
+		}
+		fclose( $resource );
+	}
+
 	protected function getCalls( $listener ) {
 		$prop = new ReflectionProperty( $listener, 'calls' );
 		$prop->setAccessible( true );
