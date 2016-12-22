@@ -23,6 +23,13 @@ class DeprecatedListenerTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals( array( array( $method, $args ) ), $this->getCalls( $this->object ) );
 	}
 
+	public function testReset() {
+		$this->object->logDeprecatedCall( 'Asdf', array( 'foobar' ) );
+		$this->object->reset();
+
+		$this->assertEquals( array(), $this->getCalls( $this->object ) );
+	}
+
 	protected function getCalls( $listener ) {
 		$prop = new ReflectionProperty( $listener, 'calls' );
 		$prop->setAccessible( true );
