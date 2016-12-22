@@ -79,7 +79,7 @@ class DeprecatedListener {
 	protected function getDeprecatedMethods() {
 		$methods = array();
 		foreach ( $this->calls as $call ) {
-			$methods = $call[0];
+			$methods[] = $call[0];
 		}
 
 		return array_unique( $methods );
