@@ -13,7 +13,6 @@ class DeprecatedMethodsTest extends PHPUnit_Framework_TestCase {
 	}
 
 	public function testWpFunctionLogsDeprecationNotice() {
-		$rand     = rand( 1, 999 );
 		$listener = WP_Mock::getDeprecatedListener();
 		$result   = Mockery::mock( 'PHPUnit_Framework_TestResult' );
 		$case     = Mockery::mock( 'PHPUnit_Framework_TestCase' );
@@ -22,7 +21,20 @@ class DeprecatedMethodsTest extends PHPUnit_Framework_TestCase {
 		$result->shouldReceive( 'addFailure' )
 			->once()
 			->with( $case, Mockery::type( 'PHPUnit_Framework_RiskyTestError' ), 0 );
-		WP_Mock::wpFunction( 'foobar', array( 'return' => $rand ) );
+		WP_Mock::wpFunction( 'foobar' );
+		$listener->checkCalls();
+	}
+
+	public function testWpPassthruFunctionLogsDeprecationNotice() {
+		$listener = WP_Mock::getDeprecatedListener();
+		$result   = Mockery::mock( 'PHPUnit_Framework_TestResult' );
+		$case     = Mockery::mock( 'PHPUnit_Framework_TestCase' );
+		$listener->setTestCase( $case );
+		$listener->setTestResult( $result );
+		$result->shouldReceive( 'addFailure' )
+			->once()
+			->with( $case, Mockery::type( 'PHPUnit_Framework_RiskyTestError' ), 0 );
+		WP_Mock::wpPassthruFunction( 'foobar' );
 		$listener->checkCalls();
 	}
 
