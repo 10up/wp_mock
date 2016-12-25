@@ -370,4 +370,4 @@ function test_get_post_ids() {
 
 ## Contributing
 
-Thanks so much for being interested in contributing! Please read over our [guidelines](/10up/wp_mock/CONTRIBUTING.md) before you get started.
+Thanks so much for being interested in contributing! Please read over our [guidelines](https://github.com/10up/wp_mock/blob/dev/CONTRIBUTING.md) before you get started.
