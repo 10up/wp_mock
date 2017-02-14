@@ -2,6 +2,7 @@
 
 namespace WP_Mock\Tools;
 
+use PHPUnit_Framework_TestResult;
 use Exception;
 use Mockery;
 use ReflectionMethod;
@@ -293,6 +294,25 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 			$this->__contentFilterCallback = array( $this, 'stripTabsAndNewlines' );
 			$this->setOutputCallback( $this->__contentFilterCallback );
 		}
+	}
+
+	public function run( PHPUnit_Framework_TestResult $result = null ) {
+		if ( $result === null ) {
+			$result = $this->createResult();
+		}
+
+		WP_Mock::getDeprecatedListener()->setTestResult( $result );
+		WP_Mock::getDeprecatedListener()->setTestCase($this);
+
+		return parent::run( $result );
+	}
+
+	/**
+	 * @after
+	 */
+	public function checkDeprecatedCalls() {
+		WP_Mock::getDeprecatedListener()->checkCalls();
+		WP_Mock::getDeprecatedListener()->reset();
 	}
 
 }

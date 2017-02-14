@@ -274,6 +274,10 @@ It's not uncommon for tests to need to declare "passthrough/passthru" functions:
 
 You can still test things like invocation count by passing the `times` argument in the second parameter, just like `\WP_Mock::userFunction()`.
 
+### Deprecated methods
+
+Please note that `WP_Mock::wpFunction()` and `WP_Mock::wpPassthruFunction()` are both officially deprecated. Replace all uses of them with `WP_Mock::userFunction()` and `WP_Mock::passthruFunction()`. If you use either of the deprecated methods, WP_Mock will mark those tests as risky. Your tests will still count as passing, but PHPUnit will start telling you which tests are causing issues.
+
 ### Mocking actions and filters
 
 The [hooks and filters of the WordPress Plugin API](http://codex.wordpress.org/Plugin_API) are common (and preferred) entry points for third-party scripts, and WP_Mock makes it easy to test that these are being registered and executed within your code.

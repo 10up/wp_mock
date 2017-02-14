@@ -29,6 +29,7 @@ class FunctionMocksTest extends PHPUnit_Framework_TestCase {
 
 	/**
 	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
 	 */
 	public function testCommonFunctionsAreDefined() {
 		// First we assert that all common functions get removed from the returned array. If any one of these functions
@@ -54,6 +55,7 @@ class FunctionMocksTest extends PHPUnit_Framework_TestCase {
 
 	/**
 	 * @runInSeparateProcess
+	 * @preserveGlobalState disabled
 	 * @expectedException PHPUnit_Framework_ExpectationFailedException
 	 * @expectedExceptionMessageRegExp /No handler found for \w+/
 	 */
