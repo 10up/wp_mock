@@ -38,6 +38,22 @@ class Functions {
 				'do_action',
 				'add_filter',
 				'apply_filters',
+				'esc_attr',
+				'esc_html',
+				'esc_js',
+				'esc_textarea',
+				'esc_url',
+				'esc_url_raw',
+				'__',
+				'_e',
+				'_x',
+				'esc_attr__',
+				'esc_attr_e',
+				'esc_attr_x',
+				'esc_html__',
+				'esc_html_e',
+				'esc_html_x',
+				'_n',
 			);
 		}
 	}
