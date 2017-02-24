@@ -11,6 +11,9 @@
 	"require-dev": {
 		"behat/behat"         : "^3.0"
 	},
+	"conflict": {
+		"phpunit/phpunit": ">=6.0"
+	},
 	"autoload"   : {
 		"psr-4"   : {"WP_Mock\\": "./php/WP_Mock"},
 		"classmap": ["php/WP_Mock.php"]
