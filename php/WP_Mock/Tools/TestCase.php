@@ -194,7 +194,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 			$mock->shouldAllowMockingProtectedMethods();
 			$this->mockedStaticMethods[ $signature ] = $mock;
 
-			\Patchwork\Interceptor\patch( "$class::$method", function () use ( $mock, $safe_method ) {
+			\Patchwork\redefine( "$class::$method", function () use ( $mock, $safe_method ) {
 				return call_user_func_array( array( $mock, $safe_method ), func_get_args() );
 			}, ! ( $rMethod ) );
 		}
