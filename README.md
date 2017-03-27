@@ -1,5 +1,7 @@
 # WP_Mock
 
+[![Join the chat at https://gitter.im/10up/wp_mock](https://badges.gitter.im/10up/wp_mock.svg)](https://gitter.im/10up/wp_mock?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 WP_Mock is an API mocking framework, built and maintained by [10up](http://10up.com) for the purpose of making it possible to properly unit test within WordPress.
 
 <a href="http://10up.com/contact/"><img src="https://10updotcom-wpengine.s3.amazonaws.com/uploads/2016/08/10up_github_banner-2.png" width="850"></a>
