@@ -10,7 +10,7 @@ class ExpectationsMet extends PHPUnit_Framework_Constraint {
 
 	private $_mockery_message;
 
-	public function matches( $other ) {
+	public function matches() {
 		try {
 			Mockery::getContainer()->mockery_verify();
 		} catch ( Exception $e ) {
@@ -29,11 +29,11 @@ class ExpectationsMet extends PHPUnit_Framework_Constraint {
 		return 'WP Mock expectations are met';
 	}
 
-	protected function additionalFailureDescription( $other ) {
+	protected function additionalFailureDescription() {
 		return str_replace( array( "\r", "\n" ), '', (string) $this->_mockery_message );
 	}
 
-	protected function failureDescription( $other ) {
+	protected function failureDescription() {
 		return $this->toString();
 	}
 

@@ -25,7 +25,6 @@ class Filter extends Hook {
 			}
 			return null;
 		}
-		$arg_num = count( $args );
 
 		$processors = $this->processors;
 		foreach ( $args as $arg ) {
