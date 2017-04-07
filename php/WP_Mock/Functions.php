@@ -18,7 +18,6 @@ class Functions {
 	 * Constructor for the Functions object
 	 */
 	public function __construct() {
-		Handler::cleanup();
 		$this->flush();
 	}
 
