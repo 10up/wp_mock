@@ -4,20 +4,23 @@ namespace WP_Mock;
 
 class EventManager {
 	/**
-	 * @var array
+	 * @var Filter[]
 	 */
 	protected $filters;
 
 	/**
-	 * @var array
+	 * @var Action[]
 	 */
 	protected $actions;
 
 	/**
-	 * @var array
+	 * @var string[]
 	 */
 	protected $expected;
 
+	/**
+	 * @var HookedCallback[]
+	 */
 	protected $callbacks;
 
 	public function __construct() {
@@ -61,6 +64,12 @@ class EventManager {
 		return $this->filters[ $name ];
 	}
 
+	/**
+	 * @param string $name
+	 * @param string $type Optional. Defaults to 'filter'.
+	 *
+	 * @return HookedCallback
+	 */
 	public function callback( $name, $type = 'filter' ) {
 		$type_name = "$type::$name";
 		if ( ! isset( $this->callbacks[$type_name] ) ) {
@@ -75,7 +84,7 @@ class EventManager {
 	 * Remember that a particular hook has been invoked during operation.
 	 *
 	 * @param string $hook
-	 * @param string $type
+	 * @param string $type Optional. Defaults to 'action'.
 	 */
 	public function called( $hook, $type = 'action' ) {
 		$position = array_search( $type . '::' . $hook, $this->expected );
@@ -91,6 +100,11 @@ class EventManager {
 		return array_keys( $this->actions );
 	}
 
+	/**
+	 * Return a list of all the callbacks we're expecting a test to invoke.
+	 *
+	 * @return array
+	 */
 	public function expectedHooks() {
 		return array_keys( $this->callbacks );
 	}
@@ -110,6 +124,11 @@ class EventManager {
 		return true;
 	}
 
+	/**
+	 * Check whether or not all actions have been added at least once.
+	 *
+	 * @return bool
+	 */
 	public function allHooksAdded() {
 		foreach( $this->expected as $hook ) {
 			if ( 0 === strpos( $hook, 'callback::' ) ) {

@@ -16,10 +16,18 @@ abstract class Hook {
 	/** @var array Collection of processors */
 	protected $processors = array();
 
+	/**
+	 * @param string $name
+	 */
 	public function __construct( $name ) {
 		$this->name = $name;
 	}
 
+	/**
+	 * @param mixed $value
+	 *
+	 * @return string
+	 */
 	protected function safe_offset( $value ) {
 		if(is_null($value)){
 			return 'null';

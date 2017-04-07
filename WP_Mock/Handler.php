@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by JetBrains PhpStorm.
- * User: Eric
- * Date: 3/26/13
- * Time: 8:56 AM
- * To change this template use File | Settings | File Templates.
- */
 
 namespace WP_Mock;
 
@@ -32,7 +25,7 @@ class Handler {
 	 * Handle a mocked function call.
 	 *
 	 * @param string $function_name
-	 * @param array  $args
+	 * @param array  $args          Optional. Defaults to array().
 	 *
 	 * @return mixed
 	 */

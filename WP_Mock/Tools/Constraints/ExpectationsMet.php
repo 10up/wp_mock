@@ -10,6 +10,11 @@ class ExpectationsMet extends PHPUnit_Framework_Constraint {
 
 	private $_mockery_message;
 
+	/**
+	 * @param mixed $other Unused.
+	 *
+	 * @return bool
+	 */
 	public function matches( $other ) {
 		try {
 			Mockery::getContainer()->mockery_verify();
@@ -29,10 +34,20 @@ class ExpectationsMet extends PHPUnit_Framework_Constraint {
 		return 'WP Mock expectations are met';
 	}
 
+	/**
+	 * @param mixed $other Unused.
+	 *
+	 * @return string
+	 */
 	protected function additionalFailureDescription( $other ) {
 		return str_replace( array( "\r", "\n" ), '', (string) $this->_mockery_message );
 	}
 
+	/**
+	 * @param mixed $other Unused.
+	 *
+	 * @return string
+	 */
 	protected function failureDescription( $other ) {
 		return $this->toString();
 	}

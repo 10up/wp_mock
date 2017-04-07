@@ -4,6 +4,9 @@ namespace WP_Mock;
 
 class ReturnSequence {
 
+	/**
+	 * @var array
+	 */
 	private $return_values = array();
 
 	/**
