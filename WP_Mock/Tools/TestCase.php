@@ -117,6 +117,16 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * @param string $expected Expected HTML string.
+	 * @param string $message  Optional. Additional information about the test. Defaults to ''.
+	 */
+	public function assertOutputEqualsHTML( $expected, $message = '' ) {
+		$actual = $this->getActualOutput();
+		$constraint = new IsEqualHtml( $expected );
+		$this->assertThat( $actual, $constraint, $message );
+	}
+
+	/**
 	 * Mock a static method of a class
 	 *
 	 * @param string      $class  The classname or class::method name
