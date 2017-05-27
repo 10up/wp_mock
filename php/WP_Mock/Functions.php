@@ -30,7 +30,7 @@ class Functions {
 		Handler::cleanup();
 		$this->patchwork_functions = array();
 		if ( function_exists( 'Patchwork\undoAll' ) ) {
-			\Patchwork\undoAll();
+			\Patchwork\restoreAll();
 		}
 		if ( empty( self::$wp_mocked_functions ) ) {
 			self::$wp_mocked_functions = array(
@@ -239,7 +239,7 @@ EOF;
 			return true;
 		}
 		$this->patchwork_functions[] = $function_name;
-		\Patchwork\replace( $function_name, function () use ( $function_name ) {
+		\Patchwork\redefine( $function_name, function () use ( $function_name ) {
 			return Handler::handle_function( $function_name, func_get_args() );
 		} );
 		return true;
