@@ -222,10 +222,10 @@ class WP_Mock {
 	 *
 	 * Really just a wrapper function for expectHookAdded()
 	 *
-	 * @param string $action   The action name
-	 * @param string $callback The callback that should be registered
-	 * @param int    $priority The priority it should be registered at
-	 * @param int    $args     The number of arguments that should be allowed
+	 * @param string   $action   The action name
+	 * @param callable $callback The callback that should be registered
+	 * @param int      $priority The priority it should be registered at
+	 * @param int      $args     The number of arguments that should be allowed
 	 */
 	public static function expectActionAdded( $action, $callback, $priority = 10, $args = 1 ) {
 		self::expectHookAdded( 'action', $action, $callback, $priority, $args );
@@ -236,10 +236,10 @@ class WP_Mock {
 	 *
 	 * Really just a wrapper function for expectHookAdded()
 	 *
-	 * @param string $filter   The action name
-	 * @param string $callback The callback that should be registered
-	 * @param int    $priority The priority it should be registered at
-	 * @param int    $args     The number of arguments that should be allowed
+	 * @param string   $filter   The filter name
+	 * @param callable $callback The callback that should be registered
+	 * @param int      $priority The priority it should be registered at
+	 * @param int      $args     The number of arguments that should be allowed
 	 */
 	public static function expectFilterAdded( $filter, $callback, $priority = 10, $args = 1 ) {
 		self::expectHookAdded( 'filter', $filter, $callback, $priority, $args );
@@ -248,11 +248,11 @@ class WP_Mock {
 	/**
 	 * Add an expectation that a hook should be added
 	 *
-	 * @param string $type     The type of hook being added
-	 * @param string $action   The action name
-	 * @param string $callback The callback that should be registered
-	 * @param int    $priority The priority it should be registered at
-	 * @param int    $args     The number of arguments that should be allowed
+	 * @param string   $type     The type of hook being added
+	 * @param string   $action   The hook tag name
+	 * @param callable $callback The callback that should be registered
+	 * @param int      $priority The priority it should be registered at
+	 * @param int      $args     The number of arguments that should be allowed
 	 */
 	public static function expectHookAdded( $type, $action, $callback, $priority = 10, $args = 1 ) {
 		$intercept = \Mockery::mock( 'intercept' );
