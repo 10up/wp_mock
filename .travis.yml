@@ -2,18 +2,18 @@ language: php
 
 matrix:
   include:
-    - php: '5.3'
-      env: WP_MOCK_INSTALL_LOWEST=0
     - php: '5.6'
       env: WP_MOCK_INSTALL_LOWEST=0
     - php: '7.0'
       env: WP_MOCK_INSTALL_LOWEST=0
-    - php: '5.3'
-      env: WP_MOCK_INSTALL_LOWEST=1
+    - php: '7.1'
+      env: WP_MOCK_INSTALL_LOWEST=0
     - php: '5.6'
       env: WP_MOCK_INSTALL_LOWEST=1
     - php: '7.0'
       env: WP_MOCK_INSTALL_LOWEST=1
+    - php: '7.1'
+      env: WP_MOCK_INSTALL_LOWEST=0
 
 before_script:
   - if [ 1 -eq $WP_MOCK_INSTALL_LOWEST ]; then composer update --prefer-lowest; else composer update; fi
