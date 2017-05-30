@@ -228,8 +228,8 @@ class WP_Mock {
 		$args = func_get_args();
 		$args = count( $args ) > 1 ? array_slice( $args, 1 ) : array( null );
 
-		$action    = self::onAction( $action );
-		$responder = call_user_func_array( array( $action, 'with' ), $args );
+		$mocked_action = self::onAction( $action );
+		$responder     = call_user_func_array( array( $mocked_action, 'with' ), $args );
 		$responder->perform( array( $intercept, 'intercepted' ) );
 	}
 
@@ -245,10 +245,10 @@ class WP_Mock {
 	 *
 	 * Really just a wrapper function for expectHookAdded()
 	 *
-	 * @param string $action   The action name
-	 * @param string $callback The callback that should be registered
-	 * @param int    $priority The priority it should be registered at
-	 * @param int    $args     The number of arguments that should be allowed
+	 * @param string   $action   The action name
+	 * @param callable $callback The callback that should be registered
+	 * @param int      $priority The priority it should be registered at
+	 * @param int      $args     The number of arguments that should be allowed
 	 */
 	public static function expectActionAdded( $action, $callback, $priority = 10, $args = 1 ) {
 		self::expectHookAdded( 'action', $action, $callback, $priority, $args );
@@ -283,7 +283,7 @@ class WP_Mock {
 	 * Adds an expectation that a filter will not be added. A wrapper
 	 * around the expectHookNotAdded function.
 	 *
-	 * @param string   $action   The filter hook name
+	 * @param string   $filter   The filter hook name
 	 * @param callable $callback The filter callback
 	 */
 	public static function expectFilterNotAdded( $filter, $callback ) {
@@ -293,11 +293,11 @@ class WP_Mock {
 	/**
 	 * Add an expectation that a hook should be added
 	 *
-	 * @param string $type     The type of hook being added
-	 * @param string $action   The action name
-	 * @param string $callback The callback that should be registered
-	 * @param int    $priority The priority it should be registered at
-	 * @param int    $args     The number of arguments that should be allowed
+	 * @param string   $type     The type of hook being added
+	 * @param string   $action   The action name
+	 * @param callable $callback The callback that should be registered
+	 * @param int      $priority The priority it should be registered at
+	 * @param int      $args     The number of arguments that should be allowed
 	 */
 	public static function expectHookAdded( $type, $action, $callback, $priority = 10, $args = 1 ) {
 		$intercept = \Mockery::mock( 'intercept' );
@@ -313,9 +313,9 @@ class WP_Mock {
 	 * Adds an expectation that a hook should not be added. Based on the
 	 * shouldNotReceive API of Mocker.
 	 *
-	 * @param    string   $type     The hook type, 'action' or 'filter'
-	 * @param    string   $action   The name of the hook
-	 * @callback callable $callback The hooks callback handler.
+	 * @param string   $type     The hook type, 'action' or 'filter'
+	 * @param string   $action   The name of the hook
+	 * @param callable $callback The hooks callback handler.
 	 */
 	public static function expectHookNotAdded( $type, $action, $callback ) {
 		$intercept = \Mockery::mock( 'intercept' );
