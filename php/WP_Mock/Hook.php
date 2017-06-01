@@ -40,6 +40,7 @@ abstract class Hook {
 		return '';
 	}
 
+	/** @return Action_Responder|Filter_Responder */
 	public function with() {
 		$args      = func_get_args();
 		$responder = $this->new_responder();
