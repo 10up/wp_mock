@@ -270,10 +270,10 @@ class WP_Mock {
 	 *
 	 * Really just a wrapper function for expectHookAdded()
 	 *
-	 * @param string $filter   The action name
-	 * @param string $callback The callback that should be registered
-	 * @param int    $priority The priority it should be registered at
-	 * @param int    $args     The number of arguments that should be allowed
+	 * @param string   $filter   The action name
+	 * @param callable $callback The callback that should be registered
+	 * @param int      $priority The priority it should be registered at
+	 * @param int      $args     The number of arguments that should be allowed
 	 */
 	public static function expectFilterAdded( $filter, $callback, $priority = 10, $args = 1 ) {
 		self::expectHookAdded( 'filter', $filter, $callback, $priority, $args );
