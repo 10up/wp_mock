@@ -331,6 +331,30 @@ public function test_filter_content() {
 }
 ```
 
+Alternatively, there is a method `\WP_Mock::expectFilter()` that will add a bare assertion that the filter will be applied without changing the value:
+
+```php
+class SUT {
+	public function filter_content() {
+		$value = apply_filters( 'custom_content_filter', 'Default' );
+		if ( $value === 'Default' ) {
+			do_action( 'default_value' );
+		}
+
+		return $value;
+	}
+}
+
+class SUTTest {
+	public function test_filter_content() {
+		\WP_Mock::expectFilter( 'custom_content_filter', 'Default' );
+		\WP_Mock::expectAction( 'default_value' );
+
+		$this->assertEquals( 'Default', (new SUT)->filter_content() );
+	}
+}
+```
+
 ### Mocking WordPress objects
 
 Mocking calls to `wpdb`, `WP_Query`, etc. can be done using the [mockery](https://github.com/padraic/mockery) framework.  While this isn't part of WP Mock itself, complex code will often need these objects and this framework will let you incorporate those into your tests.  Since WP Mock requires Mockery, it should already be included as part of your install.
