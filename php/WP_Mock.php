@@ -240,12 +240,13 @@ class WP_Mock {
 	 * in order to fulfill the expectation.
 	 *
 	 * @param string $filter
-	 * @param mixed $value
 	 */
-	public static function expectFilter( $filter, $value ) {
+	public static function expectFilter( $filter ) {
 		$intercept = \Mockery::mock( 'intercept' );
-		$intercept->shouldReceive( 'intercepted' )->atLeast()->once()->andReturn( $value );
-		$args = array_slice( func_get_args(), 1 );
+		$intercept->shouldReceive( 'intercepted' )->atLeast()->once()->andReturnUsing( function( $value ) {
+			return $value;
+		} );
+		$args = func_num_args() > 1 ? array_slice( func_get_args(), 1 ) : array( null );
 
 		$mocked_filter = self::onFilter( $filter );
 		$responder     = call_user_func_array( array( $mocked_filter, 'with' ), $args );
