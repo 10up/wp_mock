@@ -10,7 +10,8 @@
 		"antecedent/patchwork": "~2.0.3"
 	},
 	"require-dev": {
-		"behat/behat"         : "^3.0"
+		"behat/behat"         : "^3.0",
+		"sebastian/comparator": ">=1.2.3"
 	},
 	"conflict": {
 		"phpunit/phpunit": ">=6.0"
