@@ -118,6 +118,42 @@ Feature: Hook mocking
       | data | plus |
     Then tearDown should fail
 
+  Scenario: expectFilter sets up expectation
+    Given I expect the "foobar" filter with "bazbat"
+    When I apply the filter "foobar" with "bazbat"
+    Then tearDown should not fail
+
+  Scenario: expectFilter fails when unmet
+    Given I expect the "foobar" filter with "bazbat"
+    When I do nothing
+    Then tearDown should fail
+
+  Scenario: expectFilter with extra arguments
+    Given I expect the "foobar" filter with:
+      | some | extra | data |
+    When I apply the filter "foobar" with:
+      | some | extra | data |
+    Then tearDown should not fail
+
+  Scenario: filter with the wrong arguments fails
+    Given I expect the "bazbat" filter with:
+      | the correct data |
+    When I apply the filter "bazbat" with:
+      | Invalid information |
+    Then tearDown should fail
+
+  Scenario: expectFilter fails when called with wrong argument
+    Given I expect the "foobar" filter with "bazbat"
+    When I apply the filter "foobar" with "bimbam"
+    Then tearDown should fail
+
+  Scenario: filter with extra arguments fails
+    Given I expect the "bazbat" filter with:
+      | data |
+    When I apply the filter "bazbat" with:
+      | data | plus |
+    Then tearDown should fail
+
   @strictmode
   Scenario: Unexpected action fails in strict mode
     Given strict mode is on
