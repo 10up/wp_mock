@@ -233,6 +233,25 @@ class WP_Mock {
 		$responder->perform( array( $intercept, 'intercepted' ) );
 	}
 
+	/**
+	 * Set up the expectation that a filter will be applied during the test.
+	 *
+	 * Mock a WordPress filter with specific arguments. You need all arguments that you expect
+	 * in order to fulfill the expectation.
+	 *
+	 * @param string $filter
+	 * @param mixed $value
+	 */
+	public static function expectFilter( $filter, $value ) {
+		$intercept = \Mockery::mock( 'intercept' );
+		$intercept->shouldReceive( 'intercepted' )->atLeast()->once()->andReturn( $value );
+		$args = array_slice( func_get_args(), 1 );
+
+		$mocked_filter = self::onFilter( $filter );
+		$responder     = call_user_func_array( array( $mocked_filter, 'with' ), $args );
+		$responder->reply( new \WP_Mock\InvokedFilterValue( array( $intercept, 'intercepted' ) ) );
+	}
+
 	public static function assertActionsCalled() {
 		if ( ! self::$event_manager->allActionsCalled() ) {
 			$failed = implode( ', ', self::$event_manager->expectedActions() );

@@ -32,7 +32,7 @@ class Filter extends Hook {
 		$processors = $this->processors;
 		foreach ( $args as $arg ) {
 			$key = $this->safe_offset( $arg );
-			if ( ! isset( $processors[ $key ] ) ) {
+			if ( ! is_array( $processors ) || ! isset( $processors[ $key ] ) ) {
 				$this->strict_check();
 
 				return $arg;
@@ -67,6 +67,10 @@ class Filter_Responder {
 	}
 
 	public function send() {
+		if ( $this->value instanceof InvokedFilterValue ) {
+			return call_user_func( $this->value );
+		}
+
 		return $this->value;
 	}
 }
