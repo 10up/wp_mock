@@ -2,23 +2,32 @@ language: php
 
 matrix:
   include:
-    - php: '5.6'
-      env: WP_MOCK_INSTALL_LOWEST=0
     - php: '7.0'
       env: WP_MOCK_INSTALL_LOWEST=0
     - php: '7.1'
       env: WP_MOCK_INSTALL_LOWEST=0
-    - php: '5.6'
-      env: WP_MOCK_INSTALL_LOWEST=1
+    - php: '7.2'
+      env: WP_MOCK_INSTALL_LOWEST=0
+    - php: nightly
+      env: WP_MOCK_INSTALL_LOWEST=0
     - php: '7.0'
       env: WP_MOCK_INSTALL_LOWEST=1
     - php: '7.1'
-      env: WP_MOCK_INSTALL_LOWEST=0
+      env: WP_MOCK_INSTALL_LOWEST=1
+    - php: '7.2'
+      env: WP_MOCK_INSTALL_LOWEST=1
+    - php: nightly
+      env: WP_MOCK_INSTALL_LOWEST=1
 
 before_script:
   - if [ 1 -eq $WP_MOCK_INSTALL_LOWEST ]; then composer update --prefer-lowest; else composer update; fi
 
-script: composer test
+script:
+  - mkdir -p build/logs
+  - composer run-script coverage
+
+after_script:
+  - php vendor/bin/coveralls -v
 
 cache:
   directories:
@@ -28,3 +37,6 @@ branches:
   only:
     - dev
     - master
+
+after_success:
+  - travis_retry php vendor/bin/coveralls

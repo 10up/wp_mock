@@ -66,6 +66,25 @@ class HooksContext implements Context {
 	}
 
 	/**
+	 * @Given I expect the :filter filter with :value
+	 */
+	public function iExpectTheFilterWith( $filter, $value ) {
+		$this->iExpectTheFilterWithValues( $filter, new TableNode( array( array( $value ) ) ) );
+	}
+
+	/**
+	 * @When I expect the :filter filter with:
+	 */
+	public function iExpectTheFilterWithValues( $filter, TableNode $table ) {
+		$args = array( $filter );
+		$rows = $table->getRows();
+		if ( isset( $rows[0] ) && is_array( $rows[0] ) ) {
+			$args = array_merge( $args, $rows[0] );
+		}
+		call_user_func_array( array( 'WP_Mock', 'expectFilter' ), $args );
+	}
+
+	/**
 	 * @When I add the following actions:
 	 */
 	public function iAddTheFollowingActions( TableNode $table ) {
@@ -161,15 +180,24 @@ class HooksContext implements Context {
 	 * @When I apply the filter :filter with :with
 	 */
 	public function iApplyFilterWith( $filter, $with ) {
-		$this->filterResults[ $filter ] = apply_filters( $filter, $with );
+		$this->iApplyFilterWithData( $filter, new TableNode( array( array( $with ) ) ) );
+	}
+
+	/**
+	 * @When I apply the filter :filter with:
+	 */
+	public function iApplyFilterWithData( $filter, TableNode $table ) {
+		$row = $table->getRow( 0 );
+		array_unshift( $row, $filter );
+		$this->filterResults[ $filter ] = call_user_func_array( 'apply_filters', $row );
 	}
 
 	/**
 	 * @Then The filter :filter should return :value
 	 */
 	public function theFilterShouldReturn( $filter, $value ) {
-		PHPUnit_Framework_Assert::assertArrayHasKey( $filter, $this->filterResults );
-		PHPUnit_Framework_Assert::assertEquals( $this->filterResults[ $filter ], $value );
+		\PHPUnit\Framework\Assert::assertArrayHasKey( $filter, $this->filterResults );
+		\PHPUnit\Framework\Assert::assertEquals( $this->filterResults[ $filter ], $value );
 	}
 
 	private function getActionsWithDefaults( TableNode $table ) {

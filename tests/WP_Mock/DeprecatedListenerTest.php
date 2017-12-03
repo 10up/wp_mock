@@ -3,12 +3,12 @@
 namespace WP_Mock;
 
 use Mockery;
-use PHPUnit_Framework_Assert;
-use PHPUnit_Framework_RiskyTest;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\Assert;
+use PHPUnit\Framework\RiskyTest;
+use PHPUnit\Framework\TestCase;
 use ReflectionProperty;
 
-class DeprecatedListenerTest extends PHPUnit_Framework_TestCase {
+class DeprecatedListenerTest extends \PHPUnit\Framework\TestCase {
 
 	/** @var DeprecatedListener */
 	protected $object;
@@ -37,9 +37,9 @@ class DeprecatedListenerTest extends PHPUnit_Framework_TestCase {
 	}
 
 	public function testCheckCallsNoCalls() {
-		$result = Mockery::mock( 'PHPUnit_Framework_TestResult' );
+		$result = Mockery::mock( '\PHPUnit\Framework\TestResult' );
 		$result->shouldReceive( 'addFailure' )->never();
-		/** @var \PHPUnit_Framework_TestResult $result */
+		/** @var \\PHPUnit\Framework\TestResult $result */
 		$this->object->setTestResult( $result );
 
 		$this->object->checkCalls();
@@ -48,23 +48,23 @@ class DeprecatedListenerTest extends PHPUnit_Framework_TestCase {
 	public function testCheckCalls_scalar_only() {
 		$this->object->logDeprecatedCall( 'FooBar::bazBat', array( 'string', true, 42 ) );
 		$this->object->setTestName( 'TestName' );
-		$testCase = Mockery::mock( 'PHPUnit_Framework_TestCase' );
-		/** @var PHPUnit_Framework_TestCase $testCase */
+		$testCase = Mockery::mock( '\PHPUnit\Framework\TestCase' );
+		/** @var \PHPUnit\Framework\TestCase $testCase */
 		$this->object->setTestCase( $testCase );
-		$result = Mockery::mock( 'PHPUnit_Framework_TestResult' );
+		$result = Mockery::mock( '\PHPUnit\Framework\TestResult' );
 		$result->shouldReceive( 'addFailure' )
 			->once()
 			->andReturnUsing( function ( $case, $exception, $int ) use ( $testCase ) {
-				PHPUnit_Framework_Assert::assertSame( $testCase, $case );
-				PHPUnit_Framework_Assert::assertTrue( $exception instanceof PHPUnit_Framework_RiskyTest );
+				\PHPUnit\Framework\Assert::assertSame( $testCase, $case );
+				\PHPUnit\Framework\Assert::assertTrue( $exception instanceof \PHPUnit\Framework\RiskyTest );
 				$message = <<<EOT
 Deprecated WP Mock calls inside TestName:
   FooBar::bazBat ["string",true,42]
 EOT;
-				PHPUnit_Framework_Assert::assertEquals( $message, $exception->getMessage() );
-				PHPUnit_Framework_Assert::assertTrue( 0 === $int );
+				\PHPUnit\Framework\Assert::assertEquals( $message, $exception->getMessage() );
+				\PHPUnit\Framework\Assert::assertTrue( 0 === $int );
 			} );
-		/** @var \PHPUnit_Framework_TestResult $result */
+		/** @var \\PHPUnit\Framework\TestResult $result */
 		$this->object->setTestResult( $result );
 
 		$this->object->checkCalls();
@@ -81,15 +81,15 @@ EOT;
 		$this->object->logDeprecatedCall( 'LongerClassName::callback', array( array( $object1, 'shouldReceive' ) ) );
 		$this->object->logDeprecatedCall( 'BazBat::fooBar', array( range( 1, $range ), $resource ) );
 		$this->object->setTestName( 'OtherTest' );
-		$testCase = Mockery::mock( 'PHPUnit_Framework_TestCase' );
-		/** @var PHPUnit_Framework_TestCase $testCase */
+		$testCase = Mockery::mock( '\PHPUnit\Framework\TestCase' );
+		/** @var \PHPUnit\Framework\TestCase $testCase */
 		$this->object->setTestCase( $testCase );
-		$result      = Mockery::mock( 'PHPUnit_Framework_TestResult' );
+		$result      = Mockery::mock( '\PHPUnit\Framework\TestResult' );
 		$testClosure = function ( $case, $exception, $int ) use ( $testCase, $callback1, $object1, $range ) {
 			$callback1 = get_class( $callback1 ) . ':' . spl_object_hash( $callback1 );
 			$object1   = get_class( $object1 ) . ':' . spl_object_hash( $object1 );
-			PHPUnit_Framework_Assert::assertSame( $testCase, $case );
-			PHPUnit_Framework_Assert::assertTrue( $exception instanceof PHPUnit_Framework_RiskyTest );
+			\PHPUnit\Framework\Assert::assertSame( $testCase, $case );
+			\PHPUnit\Framework\Assert::assertTrue( $exception instanceof \PHPUnit\Framework\RiskyTest );
 			$message = <<<EOT
 Deprecated WP Mock calls inside OtherTest:
   BazBat::fooBar            ["<$callback1>"]
@@ -97,13 +97,13 @@ Deprecated WP Mock calls inside OtherTest:
                             ["Array([$range] ...)","Resource"]
   LongerClassName::callback ["[<$object1>,shouldReceive]"]
 EOT;
-			PHPUnit_Framework_Assert::assertEquals( $message, $exception->getMessage() );
-			PHPUnit_Framework_Assert::assertTrue( 0 === $int );
+			\PHPUnit\Framework\Assert::assertEquals( $message, $exception->getMessage() );
+			\PHPUnit\Framework\Assert::assertTrue( 0 === $int );
 		};
 		$result->shouldReceive( 'addFailure' )
 			->once()
 			->andReturnUsing( $testClosure );
-		/** @var \PHPUnit_Framework_TestResult $result */
+		/** @var \\PHPUnit\Framework\TestResult $result */
 		$this->object->setTestResult( $result );
 
 		try {

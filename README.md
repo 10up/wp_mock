@@ -1,17 +1,15 @@
-# WP_Mock
+# WP_Mock ![PHP 7.0+][php-image] [![Build Status][travis-image]][travis-url] [![Coverage Status][coveralls-image]][coveralls-url] [![Packagist][packagist-image]][packagist-url]
 
 WP_Mock is an API mocking framework, built and maintained by [10up](http://10up.com) for the purpose of making it possible to properly unit test within WordPress.
 
 <a href="http://10up.com/contact/"><img src="https://10updotcom-wpengine.s3.amazonaws.com/uploads/2016/10/10up-Github-Banner.png" width="850"></a>
-
-[![Build Status](https://travis-ci.org/10up/wp_mock.svg?branch=dev)](https://travis-ci.org/10up/wp_mock)
 
 ## Installation
 
 First, add WP Mock as a dev-dependency with [Composer](http://getcomposer.org):
 
 ```bash
-composer require --dev 10up/wp_mock:0.2.0
+composer require --dev 10up/wp_mock:0.3.0
 ```
 
 Then, make sure your bootstrap file is loading the composer autoloader:
@@ -23,7 +21,7 @@ require_once 'vendor/autoload.php';
 Finally, register calls inside your test class to instantiate and clean up the `WP_Mock` object:
 
 ```php
-class MyTestClass extends PHPUnit_Framework_TestCase {
+class MyTestClass extends \WP_Mock\Tools\TestCase {
 	public function setUp() {
 		\WP_Mock::setUp();
 	}
@@ -85,7 +83,7 @@ WP_Mock will ignore any attempts to activate strict mode after the first time it
 Write your tests as you normally would. If you desire specific responses from WordPress API calls, wire those specifically.
 
 ```php
-class MyTestClass extends PHPUnit_Framework_TestCase {
+class MyTestClass extends \WP_Mock\Tools\TestCase {
 	public function setUp() {
 		\WP_Mock::setUp();
 	}
@@ -331,6 +329,30 @@ public function test_filter_content() {
 }
 ```
 
+Alternatively, there is a method `\WP_Mock::expectFilter()` that will add a bare assertion that the filter will be applied without changing the value:
+
+```php
+class SUT {
+	public function filter_content() {
+		$value = apply_filters( 'custom_content_filter', 'Default' );
+		if ( $value === 'Default' ) {
+			do_action( 'default_value' );
+		}
+
+		return $value;
+	}
+}
+
+class SUTTest {
+	public function test_filter_content() {
+		\WP_Mock::expectFilter( 'custom_content_filter', 'Default' );
+		\WP_Mock::expectAction( 'default_value' );
+
+		$this->assertEquals( 'Default', (new SUT)->filter_content() );
+	}
+}
+```
+
 ### Mocking WordPress objects
 
 Mocking calls to `wpdb`, `WP_Query`, etc. can be done using the [mockery](https://github.com/padraic/mockery) framework.  While this isn't part of WP Mock itself, complex code will often need these objects and this framework will let you incorporate those into your tests.  Since WP Mock requires Mockery, it should already be included as part of your install.
@@ -375,3 +397,11 @@ function test_get_post_ids() {
 ## Contributing
 
 Thanks so much for being interested in contributing! Please read over our [guidelines](https://github.com/10up/wp_mock/blob/dev/CONTRIBUTING.md) before you get started.
+
+[php-image]: https://img.shields.io/badge/php-7.0%2B-green.svg
+[packagist-image]: https://img.shields.io/packagist/dt/10up/wp_mock.svg
+[packagist-url]: https://packagist.org/packages/10up/wp_mock
+[travis-image]: https://travis-ci.org/10up/wp_mock.svg?branch=master
+[travis-url]: https://travis-ci.org/10up/wp_mock
+[coveralls-image]: https://coveralls.io/repos/github/10up/wp_mock/badge.svg?branch=master
+[coveralls-url]: https://coveralls.io/github/10up/wp_mock?branch=master

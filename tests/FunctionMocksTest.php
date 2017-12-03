@@ -1,6 +1,6 @@
 <?php
 
-class FunctionMocksTest extends PHPUnit_Framework_TestCase {
+class FunctionMocksTest extends \PHPUnit\Framework\TestCase {
 
 	private $common_functions = array(
 		'esc_attr',
@@ -56,7 +56,7 @@ class FunctionMocksTest extends PHPUnit_Framework_TestCase {
 	/**
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
-	 * @expectedException PHPUnit_Framework_ExpectationFailedException
+	 * @expectedException \PHPUnit\Framework\ExpectationFailedException
 	 * @expectedExceptionMessageRegExp /No handler found for \w+/
 	 */
 	public function testDefaultFailsInStrictMode() {

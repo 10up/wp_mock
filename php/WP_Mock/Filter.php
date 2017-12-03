@@ -19,7 +19,7 @@ class Filter extends Hook {
 	 * @return mixed
 	 */
 	public function apply( $args ) {
-		if ( $args[0] === null ) {
+		if ( $args[0] === null && count( $args ) === 1 ) {
 			if ( isset( $this->processors['argsnull'] ) ) {
 				return $this->processors['argsnull']->send();
 			}
@@ -27,12 +27,11 @@ class Filter extends Hook {
 
 			return null;
 		}
-		$arg_num = count( $args );
 
 		$processors = $this->processors;
 		foreach ( $args as $arg ) {
 			$key = $this->safe_offset( $arg );
-			if ( ! isset( $processors[ $key ] ) ) {
+			if ( ! is_array( $processors ) || ! isset( $processors[ $key ] ) ) {
 				$this->strict_check();
 
 				return $arg;
@@ -41,7 +40,7 @@ class Filter extends Hook {
 			$processors = $processors[ $key ];
 		}
 
-		return $processors->send();
+		return call_user_func_array( array($processors, 'send'), $args );
 	}
 
 	protected function new_responder() {
@@ -67,6 +66,10 @@ class Filter_Responder {
 	}
 
 	public function send() {
+		if ( $this->value instanceof InvokedFilterValue ) {
+			return call_user_func_array( $this->value, func_get_args() );
+		}
+
 		return $this->value;
 	}
 }
