@@ -42,7 +42,7 @@ class Handler {
 
 			return call_user_func_array( $callback, $args );
 		} elseif ( \WP_Mock::strictMode() ) {
-			throw new \PHPUnit_Framework_ExpectationFailedException(
+			throw new \PHPUnit\Framework\ExpectationFailedException(
 				sprintf( 'No handler found for %s', $function_name )
 			);
 		}

@@ -10,7 +10,7 @@ class FunctionsContext implements Context {
 	 * @Given function :function does not exist
 	 */
 	public function functionDoesNotExist( $function ) {
-		PHPUnit_Framework_Assert::assertFalse( function_exists( $function ) );
+		\PHPUnit\Framework\Assert::assertFalse( function_exists( $function ) );
 	}
 
 	/**
@@ -48,7 +48,7 @@ class FunctionsContext implements Context {
 	 */
 	public function strictModeIsOn() {
 		FeatureContext::forceStrictModeOn();
-		PHPUnit_Framework_Assert::assertTrue( WP_Mock::strictMode() );
+		\PHPUnit\Framework\Assert::assertTrue( WP_Mock::strictMode() );
 	}
 
 	/**
@@ -56,7 +56,7 @@ class FunctionsContext implements Context {
 	 */
 	public function strictModeIsOff() {
 		FeatureContext::forceStrictModeOff();
-		PHPUnit_Framework_Assert::assertFalse( WP_Mock::strictMode() );
+		\PHPUnit\Framework\Assert::assertFalse( WP_Mock::strictMode() );
 	}
 
 	/**
@@ -77,14 +77,14 @@ class FunctionsContext implements Context {
 	 * @Then function :function should exist
 	 */
 	public function functionShouldExist( $function ) {
-		PHPUnit_Framework_Assert::assertTrue( function_exists( $function ) );
+		\PHPUnit\Framework\Assert::assertTrue( function_exists( $function ) );
 	}
 
 	/**
 	 * @Then I expect :return when I run :function with args:
 	 */
 	public function iExpectWhenIRunWithArgs( $return, $function, TableNode $args ) {
-		PHPUnit_Framework_Assert::assertEquals( $return, call_user_func_array( $function, $args->getRow( 0 ) ) );
+		\PHPUnit\Framework\Assert::assertEquals( $return, call_user_func_array( $function, $args->getRow( 0 ) ) );
 	}
 
 	/**
@@ -102,7 +102,7 @@ class FunctionsContext implements Context {
 			$this->iExpectWhenIRunWithArgs( null, $function, $args );
 		} catch ( NoMatchingExpectationException $e ) {
 			// Move along...
-		} catch ( \PHPUnit_Framework_ExpectationFailedException $e ) {
+		} catch ( \PHPUnit\Framework\ExpectationFailedException $e ) {
 			// Move along...
 		}
 	}
@@ -114,7 +114,7 @@ class FunctionsContext implements Context {
 		ob_start();
 		$function( $input );
 		$output = trim( ob_get_clean() );
-		PHPUnit_Framework_Assert::assertEquals( trim( $input ), $output );
+		\PHPUnit\Framework\Assert::assertEquals( trim( $input ), $output );
 	}
 
 	/**

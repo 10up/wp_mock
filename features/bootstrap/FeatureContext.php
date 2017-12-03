@@ -80,7 +80,7 @@ class FeatureContext implements Context, SnippetAcceptingContext {
 	public function teardownShouldFail() {
 		try {
 			$this->teardownShouldNotFail();
-			throw new PHPUnit_Framework_ExpectationFailedException( 'WP_Mock Teardown should have failed!' );
+			throw new \PHPUnit\Framework\ExpectationFailedException( 'WP_Mock Teardown should have failed!' );
 		} catch ( \Mockery\Exception\InvalidCountException $e ) {
 			// Move along
 		}
