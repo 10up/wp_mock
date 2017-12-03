@@ -24,7 +24,7 @@ before_script:
 
 script:
   - mkdir -p build/logs
-  - composer test
+  - composer run-script coverage
 
 after_script:
   - php vendor/bin/coveralls -v
