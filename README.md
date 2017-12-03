@@ -1,17 +1,15 @@
-# WP_Mock
+# WP_Mock ![PHP 7.0+][php-image] [![Build Status][travis-image]][travis-url] [![Coverage Status][coveralls-image]][coveralls-url] [![Packagist][packagist-image]][packagist-url]
 
 WP_Mock is an API mocking framework, built and maintained by [10up](http://10up.com) for the purpose of making it possible to properly unit test within WordPress.
 
 <a href="http://10up.com/contact/"><img src="https://10updotcom-wpengine.s3.amazonaws.com/uploads/2016/10/10up-Github-Banner.png" width="850"></a>
-
-[![Build Status](https://travis-ci.org/10up/wp_mock.svg?branch=dev)](https://travis-ci.org/10up/wp_mock)
 
 ## Installation
 
 First, add WP Mock as a dev-dependency with [Composer](http://getcomposer.org):
 
 ```bash
-composer require --dev 10up/wp_mock:0.2.0
+composer require --dev 10up/wp_mock:0.3.0
 ```
 
 Then, make sure your bootstrap file is loading the composer autoloader:
@@ -399,3 +397,11 @@ function test_get_post_ids() {
 ## Contributing
 
 Thanks so much for being interested in contributing! Please read over our [guidelines](https://github.com/10up/wp_mock/blob/dev/CONTRIBUTING.md) before you get started.
+
+[php-image]: https://img.shields.io/badge/php-7.0%2B-green.svg
+[packagist-image]: https://img.shields.io/packagist/dt/10up/wp_mock.svg
+[packagist-url]: https://packagist.org/packages/10up/wp_mock
+[travis-image]: https://travis-ci.org/10up/wp_mock.svg?branch=master
+[travis-url]: https://travis-ci.org/10up/wp_mock
+[coveralls-image]: https://coveralls.io/repos/github/10up/wp_mock/badge.svg?branch=master
+[coveralls-url]: https://coveralls.io/github/10up/wp_mock?branch=master
