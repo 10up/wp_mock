@@ -196,8 +196,8 @@ class HooksContext implements Context {
 	 * @Then The filter :filter should return :value
 	 */
 	public function theFilterShouldReturn( $filter, $value ) {
-		PHPUnit_Framework_Assert::assertArrayHasKey( $filter, $this->filterResults );
-		PHPUnit_Framework_Assert::assertEquals( $this->filterResults[ $filter ], $value );
+		\PHPUnit\Framework\Assert::assertArrayHasKey( $filter, $this->filterResults );
+		\PHPUnit\Framework\Assert::assertEquals( $this->filterResults[ $filter ], $value );
 	}
 
 	private function getActionsWithDefaults( TableNode $table ) {

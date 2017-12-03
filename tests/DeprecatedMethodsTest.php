@@ -1,6 +1,6 @@
 <?php
 
-class DeprecatedMethodsTest extends PHPUnit_Framework_TestCase {
+class DeprecatedMethodsTest extends \PHPUnit\Framework\TestCase {
 
 	public function setUp() {
 		WP_Mock::setUp();
@@ -14,26 +14,26 @@ class DeprecatedMethodsTest extends PHPUnit_Framework_TestCase {
 
 	public function testWpFunctionLogsDeprecationNotice() {
 		$listener = WP_Mock::getDeprecatedListener();
-		$result   = Mockery::mock( 'PHPUnit_Framework_TestResult' );
-		$case     = Mockery::mock( 'PHPUnit_Framework_TestCase' );
+		$result   = Mockery::mock( '\PHPUnit\Framework\TestResult' );
+		$case     = Mockery::mock( '\PHPUnit\Framework\TestCase' );
 		$listener->setTestCase( $case );
 		$listener->setTestResult( $result );
 		$result->shouldReceive( 'addFailure' )
 			->once()
-			->with( $case, Mockery::type( 'PHPUnit_Framework_RiskyTestError' ), 0 );
+			->with( $case, Mockery::type( '\PHPUnit\Framework\RiskyTestError' ), 0 );
 		WP_Mock::wpFunction( 'foobar' );
 		$listener->checkCalls();
 	}
 
 	public function testWpPassthruFunctionLogsDeprecationNotice() {
 		$listener = WP_Mock::getDeprecatedListener();
-		$result   = Mockery::mock( 'PHPUnit_Framework_TestResult' );
-		$case     = Mockery::mock( 'PHPUnit_Framework_TestCase' );
+		$result   = Mockery::mock( '\PHPUnit\Framework\TestResult' );
+		$case     = Mockery::mock( '\PHPUnit\Framework\TestCase' );
 		$listener->setTestCase( $case );
 		$listener->setTestResult( $result );
 		$result->shouldReceive( 'addFailure' )
 			->once()
-			->with( $case, Mockery::type( 'PHPUnit_Framework_RiskyTestError' ), 0 );
+			->with( $case, Mockery::type( '\PHPUnit\Framework\RiskyTestError' ), 0 );
 		WP_Mock::wpPassthruFunction( 'foobar' );
 		$listener->checkCalls();
 	}

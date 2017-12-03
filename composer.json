@@ -4,26 +4,18 @@
 	"license"    : "GPL-2.0+",
 	"version"    : "0.2.0",
 	"require"    : {
-		"php"                 : ">=5.6",
-		"phpunit/phpunit"     : ">=4.3",
-		"mockery/mockery"     : "^0.9.5",
-		"antecedent/patchwork": "~2.0.3"
+		"php"                 : ">=7.0",
+		"phpunit/phpunit"     : ">=6.0",
+		"mockery/mockery"     : "^1.0",
+		"antecedent/patchwork": "^2.1"
 	},
 	"require-dev": {
 		"behat/behat"         : "^3.0",
 		"sebastian/comparator": ">=1.2.3"
 	},
-	"conflict": {
-		"phpunit/phpunit": ">=6.0"
-	},
 	"autoload"   : {
 		"psr-4"   : {"WP_Mock\\": "./php/WP_Mock"},
 		"classmap": ["php/WP_Mock.php"]
-	},
-	"config": {
-		"platform": {
-			"php": "5.6.0"
-		}
 	},
 	"scripts": {
 		"test:behat": "behat",

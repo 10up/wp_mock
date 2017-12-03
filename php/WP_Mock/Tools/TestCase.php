@@ -2,7 +2,7 @@
 
 namespace WP_Mock\Tools;
 
-use PHPUnit_Framework_TestResult;
+use PHPUnit\Framework\TestResult;
 use Exception;
 use Mockery;
 use ReflectionMethod;
@@ -11,7 +11,7 @@ use WP_Mock;
 use WP_Mock\Tools\Constraints\ExpectationsMet;
 use WP_Mock\Tools\Constraints\IsEqualHtml;
 
-abstract class TestCase extends \PHPUnit_Framework_TestCase {
+abstract class TestCase extends \PHPUnit\Framework\TestCase {
 
 	protected $mockedStaticMethods = array();
 
@@ -296,7 +296,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 		}
 	}
 
-	public function run( PHPUnit_Framework_TestResult $result = null ) {
+	public function run( \PHPUnit\Framework\TestResult $result = null ) {
 		if ( $result === null ) {
 			$result = $this->createResult();
 		}

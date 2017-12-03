@@ -256,7 +256,7 @@ class WP_Mock {
 	public static function assertActionsCalled() {
 		if ( ! self::$event_manager->allActionsCalled() ) {
 			$failed = implode( ', ', self::$event_manager->expectedActions() );
-			throw new PHPUnit_Framework_ExpectationFailedException( 'Method failed to invoke actions: ' . $failed, null );
+			throw new \PHPUnit\Framework\ExpectationFailedException( 'Method failed to invoke actions: ' . $failed, null );
 		}
 	}
 
@@ -350,7 +350,7 @@ class WP_Mock {
 	public static function assertHooksAdded() {
 		if ( ! self:: $event_manager->allHooksAdded() ) {
 			$failed = implode( ', ', self::$event_manager->expectedHooks() );
-			throw new PHPUnit_Framework_ExpectationFailedException( 'Method failed to add hooks: ' . $failed, null );
+			throw new \PHPUnit\Framework\ExpectationFailedException( 'Method failed to add hooks: ' . $failed, null );
 		}
 	}
 

@@ -2,9 +2,9 @@
 
 namespace WP_Mock\Tools\Constraints;
 
-use PHPUnit_Framework_Constraint_IsEqual;
+use PHPUnit\Framework\Constraint\IsEqual;
 
-class IsEqualHtml extends PHPUnit_Framework_Constraint_IsEqual {
+class IsEqualHtml extends \PHPUnit\Framework\Constraint\IsEqual {
 
 	private function clean( $thing ) {
 		$thing = preg_replace( '/\n\s+/', '', $thing );

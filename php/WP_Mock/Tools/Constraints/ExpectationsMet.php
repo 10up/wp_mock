@@ -2,11 +2,11 @@
 
 namespace WP_Mock\Tools\Constraints;
 
-use PHPUnit_Framework_Constraint;
+use PHPUnit\Framework\Constraint\Constraint;
 use Mockery;
 use Exception;
 
-class ExpectationsMet extends PHPUnit_Framework_Constraint {
+class ExpectationsMet extends \PHPUnit\Framework\Constraint\Constraint {
 
 	private $_mockery_message;
 
