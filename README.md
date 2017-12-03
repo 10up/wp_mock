@@ -23,7 +23,7 @@ require_once 'vendor/autoload.php';
 Finally, register calls inside your test class to instantiate and clean up the `WP_Mock` object:
 
 ```php
-class MyTestClass extends PHPUnit_Framework_TestCase {
+class MyTestClass extends \WP_Mock\Tools\TestCase {
 	public function setUp() {
 		\WP_Mock::setUp();
 	}
@@ -85,7 +85,7 @@ WP_Mock will ignore any attempts to activate strict mode after the first time it
 Write your tests as you normally would. If you desire specific responses from WordPress API calls, wire those specifically.
 
 ```php
-class MyTestClass extends PHPUnit_Framework_TestCase {
+class MyTestClass extends \WP_Mock\Tools\TestCase {
 	public function setUp() {
 		\WP_Mock::setUp();
 	}
