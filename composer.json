@@ -11,18 +11,24 @@
 	},
 	"require-dev": {
 		"behat/behat"         : "^3.0",
-		"sebastian/comparator": ">=1.2.3"
+		"sebastian/comparator": ">=1.2.3",
+		"satooshi/php-coveralls": "^1.0"
 	},
 	"autoload"   : {
 		"psr-4"   : {"WP_Mock\\": "./php/WP_Mock"},
 		"classmap": ["php/WP_Mock.php"]
 	},
 	"scripts": {
-		"test:behat": "behat",
-		"test:phpunit": "phpunit",
-		"test"      : [
+		"test:behat"     : "behat",
+		"test:phpunit"   : "phpunit",
+		"test:phpunitcov": "phpunit --coverage-clover build/logs/clover.xml",
+		"test"           : [
 			"@test:behat",
 			"@test:phpunit"
+		],
+		"testcov"        : [
+			"@test:behat",
+			"@test:phpunitcov"
 		]
 	}
 }
