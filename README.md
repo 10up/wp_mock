@@ -360,7 +360,7 @@ Mocking calls to `wpdb`, `WP_Query`, etc. can be done using the [mockery](https:
 #### $wpdb example
 
 Let's say we have a function that gets three post IDs from the database.
-```
+```php
 function get_post_ids() {
 	global $wpdb;
 	return $wpdb->get_col( "select ID from {$wpdb->posts} LIMIT 3" );
@@ -369,7 +369,7 @@ function get_post_ids() {
 
 When we mock the `$wpdb` object, we're not performing an actual database call, only mocking the results.  We need to call the `get_col` method with an SQL statement, and return three arbitrary post IDs.
 
-```
+```php
 use Mockery;
 
 function test_get_post_ids() {
