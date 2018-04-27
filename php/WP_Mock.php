@@ -327,6 +327,7 @@ class WP_Mock {
 		$responder = self::onHookAdded( $action, $type )
 			->with( $callback, $priority, $args );
 		$responder->perform( array( $intercept, 'intercepted' ) );
+		$responder->react();
 	}
 
 	/**
