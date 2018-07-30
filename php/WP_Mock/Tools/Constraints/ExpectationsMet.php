@@ -10,7 +10,7 @@ class ExpectationsMet extends \PHPUnit\Framework\Constraint\Constraint {
 
 	private $_mockery_message;
 
-	public function matches( $other ) {
+	public function matches( $other ): bool {
 		try {
 			Mockery::getContainer()->mockery_verify();
 		} catch ( Exception $e ) {
@@ -25,15 +25,15 @@ class ExpectationsMet extends \PHPUnit\Framework\Constraint\Constraint {
 	 *
 	 * @return string
 	 */
-	public function toString() {
+	public function toString(): string {
 		return 'WP Mock expectations are met';
 	}
 
-	protected function additionalFailureDescription( $other ) {
+	protected function additionalFailureDescription( $other ): string {
 		return str_replace( array( "\r", "\n" ), '', (string) $this->_mockery_message );
 	}
 
-	protected function failureDescription( $other ) {
+	protected function failureDescription( $other ): string {
 		return $this->toString();
 	}
 

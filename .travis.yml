@@ -2,16 +2,12 @@ language: php
 
 matrix:
   include:
-    - php: '7.0'
-      env: WP_MOCK_INSTALL_LOWEST=0
     - php: '7.1'
       env: WP_MOCK_INSTALL_LOWEST=0
     - php: '7.2'
       env: WP_MOCK_INSTALL_LOWEST=0
     - php: nightly
       env: WP_MOCK_INSTALL_LOWEST=0
-    - php: '7.0'
-      env: WP_MOCK_INSTALL_LOWEST=1
     - php: '7.1'
       env: WP_MOCK_INSTALL_LOWEST=1
     - php: '7.2'
