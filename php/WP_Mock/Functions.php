@@ -274,7 +274,7 @@ EOF;
 				$this->internal_functions = $defined_functions['internal'];
 			}
 			if ( in_array( $function_name, $this->internal_functions ) ) {
-				throw new \InvalidArgumentException;
+				throw new \InvalidArgumentException( 'Cannot override internal PHP functions!' );
 			}
 		}
 
