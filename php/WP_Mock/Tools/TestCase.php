@@ -112,7 +112,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 		return str_replace( array( "\t", "\r", "\n" ), '', $content );
 	}
 
-	public function expectOutputString( $expectedString ) {
+	public function expectOutputString( string $expectedString ): void {
 		if ( is_callable( $this->__contentFilterCallback ) ) {
 			$expectedString = call_user_func( $this->__contentFilterCallback, $expectedString );
 		}
@@ -296,7 +296,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 		}
 	}
 
-	public function run( \PHPUnit\Framework\TestResult $result = null ) {
+	public function run( TestResult $result = null ): TestResult {
 		if ( $result === null ) {
 			$result = $this->createResult();
 		}

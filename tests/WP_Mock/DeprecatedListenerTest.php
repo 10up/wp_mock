@@ -55,6 +55,7 @@ class DeprecatedListenerTest extends \PHPUnit\Framework\TestCase {
 		$result->shouldReceive( 'addFailure' )
 			->once()
 			->andReturnUsing( function ( $case, $exception, $int ) use ( $testCase ) {
+				$int = (int) $int; // It's coming as 0.0
 				\PHPUnit\Framework\Assert::assertSame( $testCase, $case );
 				\PHPUnit\Framework\Assert::assertTrue( $exception instanceof \PHPUnit\Framework\RiskyTest );
 				$message = <<<EOT
@@ -86,6 +87,7 @@ EOT;
 		$this->object->setTestCase( $testCase );
 		$result      = Mockery::mock( '\PHPUnit\Framework\TestResult' );
 		$testClosure = function ( $case, $exception, $int ) use ( $testCase, $callback1, $object1, $range ) {
+			$int = (int) $int; // It's coming as 0.0
 			$callback1 = get_class( $callback1 ) . ':' . spl_object_hash( $callback1 );
 			$object1   = get_class( $object1 ) . ':' . spl_object_hash( $object1 );
 			\PHPUnit\Framework\Assert::assertSame( $testCase, $case );

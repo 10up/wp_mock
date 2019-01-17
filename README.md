@@ -1,4 +1,4 @@
-# WP_Mock ![PHP 7.0+][php-image] [![Build Status][travis-image]][travis-url] [![Coverage Status][coveralls-image]][coveralls-url] [![Packagist][packagist-image]][packagist-url]
+# WP_Mock ![PHP 7.1+][php-image] [![Build Status][travis-image]][travis-url] [![Coverage Status][coveralls-image]][coveralls-url] [![Packagist][packagist-image]][packagist-url]
 
 WP_Mock is an API mocking framework, built and maintained by [10up](http://10up.com) for the purpose of making it possible to properly unit test within WordPress.
 
@@ -398,7 +398,7 @@ function test_get_post_ids() {
 
 Thanks so much for being interested in contributing! Please read over our [guidelines](https://github.com/10up/wp_mock/blob/dev/CONTRIBUTING.md) before you get started.
 
-[php-image]: https://img.shields.io/badge/php-7.0%2B-green.svg
+[php-image]: https://img.shields.io/badge/php-7.1%2B-green.svg
 [packagist-image]: https://img.shields.io/packagist/dt/10up/wp_mock.svg
 [packagist-url]: https://packagist.org/packages/10up/wp_mock
 [travis-image]: https://travis-ci.org/10up/wp_mock.svg?branch=master
