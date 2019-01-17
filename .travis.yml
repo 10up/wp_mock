@@ -6,11 +6,15 @@ matrix:
       env: WP_MOCK_INSTALL_LOWEST=0
     - php: '7.2'
       env: WP_MOCK_INSTALL_LOWEST=0
+    - php: '7.3'
+      env: WP_MOCK_INSTALL_LOWEST=0
     - php: nightly
       env: WP_MOCK_INSTALL_LOWEST=0
     - php: '7.1'
       env: WP_MOCK_INSTALL_LOWEST=1
     - php: '7.2'
+      env: WP_MOCK_INSTALL_LOWEST=1
+    - php: '7.3'
       env: WP_MOCK_INSTALL_LOWEST=1
     - php: nightly
       env: WP_MOCK_INSTALL_LOWEST=1
@@ -22,9 +26,6 @@ script:
   - mkdir -p build/logs
   - composer run-script coverage
 
-after_script:
-  - php vendor/bin/coveralls -v
-
 cache:
   directories:
     - vendor
@@ -35,4 +36,4 @@ branches:
     - master
 
 after_success:
-  - travis_retry php vendor/bin/coveralls
+  - travis_retry php vendor/bin/php-coveralls
