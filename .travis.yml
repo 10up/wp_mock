@@ -18,6 +18,11 @@ matrix:
       env: WP_MOCK_INSTALL_LOWEST=1
     - php: nightly
       env: WP_MOCK_INSTALL_LOWEST=1
+  allow_failures:
+    - php: nightly
+      env: WP_MOCK_INSTALL_LOWEST=0
+    - php: nightly
+      env: WP_MOCK_INSTALL_LOWEST=1
 
 before_script:
   - if [ 1 -eq $WP_MOCK_INSTALL_LOWEST ]; then composer update --prefer-lowest; else composer update; fi
