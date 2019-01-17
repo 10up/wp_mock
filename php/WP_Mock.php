@@ -345,6 +345,7 @@ class WP_Mock {
 		$responder = self::onHookAdded( $action, $type )
 			->with( $callback, 10, 1 );
 		$responder->perform( array( $intercept, 'intercepted' ) );
+		$responder->react();
 	}
 
 	public static function assertHooksAdded() {
