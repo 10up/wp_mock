@@ -42,7 +42,9 @@ class DeprecatedListenerTest extends \PHPUnit\Framework\TestCase {
 		/** @var \\PHPUnit\Framework\TestResult $result */
 		$this->object->setTestResult( $result );
 
-		$this->object->checkCalls();
+		// The meaningful assertion is really that addFailure() is never called
+		// (above), but here we just want to stop PHPUnit from complaining.
+		$this->assertNull($this->object->checkCalls());
 	}
 
 	public function testCheckCalls_scalar_only() {
@@ -62,7 +64,7 @@ Deprecated WP Mock calls inside TestName:
   FooBar::bazBat ["string",true,42]
 EOT;
 				\PHPUnit\Framework\Assert::assertEquals( $message, $exception->getMessage() );
-				\PHPUnit\Framework\Assert::assertTrue( 0 === $int );
+				\PHPUnit\Framework\Assert::assertTrue( 0.0 === $int );
 			} );
 		/** @var \\PHPUnit\Framework\TestResult $result */
 		$this->object->setTestResult( $result );
@@ -98,7 +100,7 @@ Deprecated WP Mock calls inside OtherTest:
   LongerClassName::callback ["[<$object1>,shouldReceive]"]
 EOT;
 			\PHPUnit\Framework\Assert::assertEquals( $message, $exception->getMessage() );
-			\PHPUnit\Framework\Assert::assertTrue( 0 === $int );
+			\PHPUnit\Framework\Assert::assertTrue( 0.0 === $int );
 		};
 		$result->shouldReceive( 'addFailure' )
 			->once()
