@@ -84,6 +84,38 @@ class HooksContext implements Context {
 		call_user_func_array( array( 'WP_Mock', 'expectFilter' ), $args );
 	}
 
+		/**
+		 * @Given I expect a Closure action to have been added
+		 */
+		public function iExpectAClosureActionToHaveBeenAdded()
+		{
+			WP_Mock::expectActionAdded( 'some_action', \WP_Mock\Functions::type( 'closure' ) );
+		}
+
+		/**
+		 * @When I add a closure action
+		 */
+		public function iAddAClosureAction()
+		{
+			add_action( 'some_action', function() {} );
+    }
+
+		/**
+		 * @Given I expect a Closure filter to have been added
+		 */
+		public function iExpectAClosureFilterToHaveBeenAdded()
+		{
+			WP_Mock::expectFilterAdded( 'some_filter', \WP_Mock\Functions::type( 'closure' ) );
+		}
+
+		/**
+		 * @When I add a closure filter
+		 */
+		public function iAddAClosureFilter()
+		{
+			add_filter( 'some_filter', function() {} );
+    }
+
 	/**
 	 * @When I add the following actions:
 	 */
