@@ -332,6 +332,20 @@ public function test_special_function() {
 
 It's important to note that the `$priority` and `$parameter_count` arguments (parameters 3 and 4 for both `add_action()` and `add_filter()`) are significant. If `special_function()` were to call `add_action( 'save_post', 'special_save_post', 99, 3 )` instead of the expected `add_action( 'save_post', 'special_save_post', 10, 2 )`, our test would fail.
 
+#### Asserting that Closure hooks have been added
+
+Sometimes it's handy to add a [Closure](https://secure.php.net/manual/en/class.closure.php) as a WordPress hook instead of defining a function in the global namespace. To assert that such a hook has been added, you can use the special `closure` type:
+
+```php
+public function test_anonymous_function_hook() {
+	\WP_Mock::expectActionAdded( 'save_post', \WP_Mock\Functions::type( 'closure' ) );
+	\WP_Mock::expectFilterAdded( 'the_content', \WP_Mock\Functions::type( 'closure' ) );
+
+  add_action( 'save_post', function( $post_id ) { /* ... */ } );
+  add_filter( 'the_content', function( $html ) { /* ... */ } );
+}
+```
+
 #### Asserting that actions and filters are applied
 
 Now that we're testing whether or not we're adding actions and/or filters, the next step is to ensure our code is calling those hooks when expected.
