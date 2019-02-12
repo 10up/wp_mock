@@ -13,11 +13,11 @@ class DeprecatedListenerTest extends \PHPUnit\Framework\TestCase {
 	/** @var DeprecatedListener */
 	protected $object;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		$this->object = new DeprecatedListener();
 	}
 
-	public function tearDown() {
+	public function tearDown(): void {
 		$this->object->reset();
 	}
 
@@ -37,7 +37,8 @@ class DeprecatedListenerTest extends \PHPUnit\Framework\TestCase {
 	}
 
 	public function testCheckCallsNoCalls() {
-		$result = Mockery::mock( '\PHPUnit\Framework\TestResult' );
+    $testResult = new \PHPUnit\Framework\TestResult();
+    $result     = Mockery::mock( $testResult );
 		$result->shouldReceive( 'addFailure' )->never();
 		/** @var \\PHPUnit\Framework\TestResult $result */
 		$this->object->setTestResult( $result );
@@ -51,7 +52,8 @@ class DeprecatedListenerTest extends \PHPUnit\Framework\TestCase {
 		$testCase = Mockery::mock( '\PHPUnit\Framework\TestCase' );
 		/** @var \PHPUnit\Framework\TestCase $testCase */
 		$this->object->setTestCase( $testCase );
-		$result = Mockery::mock( '\PHPUnit\Framework\TestResult' );
+    $testResult = new \PHPUnit\Framework\TestResult();
+    $result     = Mockery::mock( $testResult );
 		$result->shouldReceive( 'addFailure' )
 			->once()
 			->andReturnUsing( function ( $case, $exception, $int ) use ( $testCase ) {
@@ -85,7 +87,8 @@ EOT;
 		$testCase = Mockery::mock( '\PHPUnit\Framework\TestCase' );
 		/** @var \PHPUnit\Framework\TestCase $testCase */
 		$this->object->setTestCase( $testCase );
-		$result      = Mockery::mock( '\PHPUnit\Framework\TestResult' );
+    $testResult = new \PHPUnit\Framework\TestResult();
+    $result     = Mockery::mock( $testResult );;
 		$testClosure = function ( $case, $exception, $int ) use ( $testCase, $callback1, $object1, $range ) {
 			$int = (int) $int; // It's coming as 0.0
 			$callback1 = get_class( $callback1 ) . ':' . spl_object_hash( $callback1 );
