@@ -21,7 +21,7 @@ class FunctionMocksTest extends \PHPUnit\Framework\TestCase {
 		'_n',
 	);
 
-	protected function setUp() {
+	protected function setUp() : void {
 		if ( ! $this->isInIsolation() ) {
 			WP_Mock::setUp();
 		}
@@ -56,10 +56,10 @@ class FunctionMocksTest extends \PHPUnit\Framework\TestCase {
 	/**
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
-	 * @expectedException \PHPUnit\Framework\ExpectationFailedException
-	 * @expectedExceptionMessageRegExp /No handler found for \w+/
 	 */
 	public function testDefaultFailsInStrictMode() {
+		$this->expectExceptionMessageRegExp('/No handler found for \w+/');
+		$this->expectException('\PHPUnit\Framework\ExpectationFailedException');
 		WP_Mock::activateStrictMode();
 		WP_Mock::bootstrap();
 		_e('Test');

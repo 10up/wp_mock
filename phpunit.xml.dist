@@ -9,7 +9,7 @@
 				 colors="true"
          verbose="true">
 	<testsuites>
-		<testsuite>
+		<testsuite name="All Tests">
 			<directory suffix="Test.php">./tests/</directory>
 		</testsuite>
 	</testsuites>

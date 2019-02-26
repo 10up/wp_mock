@@ -2,7 +2,7 @@
 	"name"       : "10up/wp_mock",
 	"description": "A mocking library to take the pain out of unit testing for WordPress",
 	"license"    : "GPL-2.0-or-later",
-	"version"    : "0.4.0",
+	"version"    : "0.4.1",
 	"require"    : {
 		"php"                 : ">=7.1",
 		"phpunit/phpunit"     : ">=7.0",
