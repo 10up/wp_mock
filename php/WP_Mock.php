@@ -114,7 +114,7 @@ class WP_Mock {
 	/**
 	 * Make sure Mockery doesn't have anything set up already.
 	 */
-	public static function setUp():void {
+	public static function setUp() : void {
 		if ( self::$__bootstrapped ) {
 			\Mockery::close();
 
@@ -128,7 +128,7 @@ class WP_Mock {
 	/**
 	 * Tear down anything built up inside Mockery when we're ready to do so.
 	 */
-	public static function tearDown():void {
+	public static function tearDown() : void {
 		self::$event_manager->flush();
 		self::$function_manager->flush();
 
