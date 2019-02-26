@@ -9,7 +9,7 @@ WP_Mock is an API mocking framework, built and maintained by [10up](http://10up.
 First, add WP Mock as a dev-dependency with [Composer](http://getcomposer.org):
 
 ```bash
-composer require --dev 10up/wp_mock:0.3.0
+composer require --dev 10up/wp_mock:0.4.1
 ```
 
 Then, make sure your bootstrap file is loading the composer autoloader:
