@@ -42,8 +42,9 @@ class DeprecatedListenerTest extends \PHPUnit\Framework\TestCase {
 		$result->shouldReceive( 'addFailure' )->never();
 		/** @var \\PHPUnit\Framework\TestResult $result */
 		$this->object->setTestResult( $result );
-
-		$this->object->checkCalls();
+    
+    /** @noinspection PhpVoidFunctionResultUsedInspection */
+    $this->assertNull($this->object->checkCalls());
 	}
 
 	public function testCheckCalls_scalar_only() {

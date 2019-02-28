@@ -96,7 +96,10 @@ class EventManager {
 	public function expectedHooks() {
 		return array_keys( $this->callbacks );
 	}
-
+  
+  public function expectedFilters() {
+    return array_keys( $this->filters );
+  }
 	/**
 	 * Check whether or not all actions have been invoked at least once.
 	 *
@@ -111,7 +114,16 @@ class EventManager {
 
 		return true;
 	}
-
+  
+  public function allFiltersCalled() {
+    foreach ( $this->expected as $hook ) {
+      if ( 0 === strpos( $hook, 'filter::' ) ) {
+        return false;
+      }
+    }
+    
+    return true;
+  }
 	public function allHooksAdded() {
 		foreach( $this->expected as $hook ) {
 			if ( 0 === strpos( $hook, 'callback::' ) ) {

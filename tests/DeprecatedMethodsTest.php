@@ -23,7 +23,7 @@ class DeprecatedMethodsTest extends \PHPUnit\Framework\TestCase {
 			->once()
 			->with( $case, Mockery::type( '\PHPUnit\Framework\RiskyTestError' ), 0 );
 		WP_Mock::wpFunction( 'foobar' );
-		$listener->checkCalls();
+		$this->assertNull($listener->checkCalls());
 	}
 
 	public function testWpPassthruFunctionLogsDeprecationNotice() {
@@ -37,7 +37,7 @@ class DeprecatedMethodsTest extends \PHPUnit\Framework\TestCase {
 			->once()
 			->with( $case, Mockery::type( '\PHPUnit\Framework\RiskyTestError' ), 0 );
 		WP_Mock::wpPassthruFunction( 'foobar' );
-		$listener->checkCalls();
+    $this->assertNull( $listener->checkCalls() );
 	}
 
 }

@@ -144,6 +144,7 @@ class WP_Mock {
 	 * @return \WP_Mock\Filter
 	 */
 	public static function onFilter( $filter ) {
+	  self::$event_manager->called($filter,'filter');
 		return self::$event_manager->filter( $filter );
 	}
 
@@ -254,12 +255,16 @@ class WP_Mock {
 	}
 
 	public static function assertActionsCalled() {
-		if ( ! self::$event_manager->allActionsCalled() ) {
-			$failed = implode( ', ', self::$event_manager->expectedActions() );
-			throw new \PHPUnit\Framework\ExpectationFailedException( 'Method failed to invoke actions: ' . $failed, null );
-		}
+    $allActionsCalled = self::$event_manager->allActionsCalled();
+    $failed = implode( ', ', self::$event_manager->expectedActions() );
+		\PHPUnit\Framework\Assert::assertTrue( $allActionsCalled, 'Method failed to invoke actions: ' . $failed );
 	}
-
+  
+  public static function assertFiltersCalled() {
+    $allFiltersCalled = self::$event_manager->allFiltersCalled();
+    $failed           = implode( ', ', self::$event_manager->expectedFilters() );
+    \PHPUnit\Framework\Assert::assertTrue( $allFiltersCalled, 'Method failed to invoke filters: ' . $failed );
+  }
 	/**
 	 * Add an expectation that an action should be added
 	 *
@@ -348,10 +353,9 @@ class WP_Mock {
 	}
 
 	public static function assertHooksAdded() {
-		if ( ! self:: $event_manager->allHooksAdded() ) {
-			$failed = implode( ', ', self::$event_manager->expectedHooks() );
-			throw new \PHPUnit\Framework\ExpectationFailedException( 'Method failed to add hooks: ' . $failed, null );
-		}
+    $allHooksAdded = self:: $event_manager->allHooksAdded();
+    $failed = implode( ', ', self::$event_manager->expectedHooks() );
+    PHPUnit\Framework\Assert::assertTrue( $allHooksAdded, 'Method failed to add hooks: ' . $failed );
 	}
 
 	/**
