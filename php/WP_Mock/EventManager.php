@@ -93,6 +93,18 @@ class EventManager {
 		return array_keys( $this->actions );
 	}
 
+	/**
+	 * Return a list of all the filters we're expecting a test to invoke.
+	 * @return array
+	 */
+	public function expectedFilters() {
+		return array_keys( $this->filters );
+	}
+
+	/**
+	 * Return a list of all the hooks we're expecting a test to invoke.
+	 * @return array
+	 */
 	public function expectedHooks() {
 		return array_keys( $this->callbacks );
 	}
@@ -112,6 +124,26 @@ class EventManager {
 		return true;
 	}
 
+	/**
+	 * Check whether or not all filters have been invoked at least once.
+	 *
+	 * @return bool
+	 */
+	public function allFiltersCalled() {
+		foreach ( $this->expected as $hook ) {
+			if ( 0 === strpos( $hook, 'filter::' ) ) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * Check whether or not all hooks have been invoked at least once.
+	 *
+	 * @return bool
+	 */
 	public function allHooksAdded() {
 		foreach( $this->expected as $hook ) {
 			if ( 0 === strpos( $hook, 'callback::' ) ) {
