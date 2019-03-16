@@ -40,7 +40,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 	 */
 	protected $testFiles = array();
 
-	public function setUp() {
+	public function setUp() : void {
 		$this->requireFileDependencies();
 
 		WP_Mock::setUp();
@@ -54,7 +54,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 		$this->cleanGlobals();
 	}
 
-	public function tearDown() {
+	public function tearDown() : void {
 		WP_Mock::tearDown();
 
 		$this->cleanGlobals();
