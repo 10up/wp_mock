@@ -22,11 +22,11 @@ Finally, register calls inside your test class to instantiate and clean up the `
 
 ```php
 class MyTestClass extends \WP_Mock\Tools\TestCase {
-	public function setUp() {
+	public function setUp(): void {
 		\WP_Mock::setUp();
 	}
 
-	public function tearDown() {
+	public function tearDown(): void {
 		\WP_Mock::tearDown();
 	}
 }
@@ -84,11 +84,11 @@ Write your tests as you normally would. If you desire specific responses from Wo
 
 ```php
 class MyTestClass extends \WP_Mock\Tools\TestCase {
-	public function setUp() {
+	public function setUp(): void {
 		\WP_Mock::setUp();
 	}
 
-	public function tearDown() {
+	public function tearDown(): void {
 		\WP_Mock::tearDown();
 	}
 
