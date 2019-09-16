@@ -1,8 +1,8 @@
-# WP_Mock ![PHP 7.1+][php-image] [![Build Status][travis-image]][travis-url] [![Coverage Status][coveralls-image]][coveralls-url] [![Packagist][packagist-image]][packagist-url]
+# WP_Mock 
 
-WP_Mock is an API mocking framework, built and maintained by [10up](http://10up.com) for the purpose of making it possible to properly unit test within WordPress.
+> WP_Mock is an API mocking framework, built and maintained by [10up](http://10up.com) for the purpose of making it possible to properly unit test within WordPress.
 
-<a href="http://10up.com/contact/"><img src="https://10updotcom-wpengine.s3.amazonaws.com/uploads/2016/10/10up-Github-Banner.png" width="850"></a>
+[![Support Level](https://img.shields.io/badge/support-active-green.svg)](#support-level) ![PHP 7.1+][php-image] [![Build Status][travis-image]][travis-url] [![Coverage Status][coveralls-image]][coveralls-url] [![Packagist][packagist-image]][packagist-url] [![GPLv2 License](https://img.shields.io/badge/license-GPL--2.0-orange)](https://github.com/10up/wp_mock/blob/master/LICENSE.md)
 
 ## Installation
 
@@ -388,6 +388,10 @@ function test_get_post_ids() {
 }
 ```
 
+## Support Level
+
+**Active:** 10up is actively working on this, and we expect to continue work for the foreseeable future including keeping tested up to the most recent version of WordPress.  Bug reports, feature requests, questions, and pull requests are welcome.
+
 ## Credits
 
 * [Eric Mann](https://github.com/ericmann)
@@ -397,6 +401,10 @@ function test_get_post_ids() {
 ## Contributing
 
 Thanks so much for being interested in contributing! Please read over our [guidelines](https://github.com/10up/wp_mock/blob/dev/CONTRIBUTING.md) before you get started.
+
+## Like what you see?
+
+<a href="http://10up.com/contact/"><img src="https://10updotcom-wpengine.s3.amazonaws.com/uploads/2016/10/10up-Github-Banner.png" width="850"></a>
 
 [php-image]: https://img.shields.io/badge/php-7.1%2B-green.svg
 [packagist-image]: https://img.shields.io/packagist/dt/10up/wp_mock.svg
