@@ -4,7 +4,7 @@ namespace WP_Mock\Tools\Constraints;
 
 use PHPUnit\Framework\Constraint\IsEqual;
 
-class IsEqualHtml {
+class IsEqualHtml extends \PHPUnit\Framework\Constraint\Constraint {
 	protected $IsEqual;
 	protected $value;
 
@@ -53,5 +53,10 @@ class IsEqualHtml {
 		$this->value = $this->clean( $this->value );
 		$isEqual = new IsEqual( $this->value, $this->delta, $this->maxDepth, $this->canonicalize, $this->ignoreCase );
 		return $isEqual->evaluate( $other, $description, $returnResult );
+	}
+
+	public function toString( ) :string {
+		$isEqual = new IsEqual( $this->value, $this->delta, $this->maxDepth, $this->canonicalize, $this->ignoreCase );
+		return 'html ' . $isEqual->toString();
 	}
 }
