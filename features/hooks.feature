@@ -19,6 +19,11 @@ Feature: Hook mocking
     When I do nothing
     Then tearDown should fail
 
+  Scenario: expectActionAdded passes when a closure has been added
+    Given I expect a Closure action to have been added
+		When I add a closure action
+    Then tearDown should not fail
+
   Scenario: expectActionAdded fails when argument count is different
     Given I expect the following actions added:
       | action | callback | priority | arguments |
@@ -68,6 +73,11 @@ Feature: Hook mocking
       | foobar | bazbat   |
     When I do nothing
     Then tearDown should fail
+
+  Scenario: expectFilterAdded passes when a closure has been added
+    Given I expect a Closure filter to have been added
+		When I add a closure filter
+    Then tearDown should not fail
 
   Scenario: expectFilterAdded fails when argument count is different
     Given I expect the following filters added:

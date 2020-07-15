@@ -25,6 +25,8 @@ abstract class Hook {
 			return 'null';
 		} elseif ( is_scalar( $value ) ) {
 			return $value;
+		} elseif ( ''.$value === '<Closure>' ) {
+			return '__CLOSURE__';
 		} elseif ( is_object( $value ) ) {
 			return spl_object_hash( $value );
 		} elseif ( is_array( $value ) ) {
