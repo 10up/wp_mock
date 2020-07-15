@@ -417,7 +417,7 @@ Please read [CODE_OF_CONDUCT.md](https://github.com/10up/wp_mock/blob/develop/CO
 
 ## Like what you see?
 
-<a href="http://10up.com/contact/"><img src="https://10updotcom-wpengine.s3.amazonaws.com/uploads/2016/10/10up-Github-Banner.png" width="850"></a>
+<a href="http://10up.com/contact/"><img src="https://10up.com/uploads/2016/10/10up-Github-Banner.png" width="850"></a>
 
 [php-image]: https://img.shields.io/badge/php-7.1%2B-green.svg
 [packagist-image]: https://img.shields.io/packagist/dt/10up/wp_mock.svg
