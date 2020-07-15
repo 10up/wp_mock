@@ -41,7 +41,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## [0.1.0] - 2014-12-30
 ### Added
 - **Unstable Distributable Release**
-- Currently, we only have source releases on Packagist (dev-master and 1.0.x-dev). This will be a distributable release that will allow local caching of the library so that not every use needs to be a git clone.
+- Currently, we only have source releases on Packagist (dev-trunk and 1.0.x-dev). This will be a distributable release that will allow local caching of the library so that not every use needs to be a git clone.
 - **Please note:** this is not a stable release! We strongly encourage you to use the 1.0.x-dev source release until we release a stable 1.0 version.
 
 [Unreleased]: https://github.com/10up/wp_mock/compare/trunk...develop
