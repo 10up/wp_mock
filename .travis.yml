@@ -38,7 +38,7 @@ cache:
 branches:
   only:
     - dev
-    - master
+    - trunk
 
 after_success:
   - travis_retry php vendor/bin/php-coveralls
