@@ -64,7 +64,8 @@ class AnyInstance extends FuzzyObject {
 	 * @return string
 	 */
 	public function __toString() {
-		return "<AnyInstance[{$this->_expected}]>";
+	    $classname = get_class($this->_expected);
+		return "<AnyInstance[{$classname}]>";
 	}
 
 }
