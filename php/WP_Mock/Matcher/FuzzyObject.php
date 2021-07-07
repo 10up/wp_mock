@@ -96,6 +96,6 @@ class FuzzyObject extends MatcherAbstract {
 		}
 		$inheritance1 = class_parents( $class1 );
 		$inheritance2 = class_parents( $class2 );
-		return (bool) array_intersect_assoc( $inheritance1, $inheritance2 );
-	}
+        return in_array( $class1, $inheritance2 ) || in_array( $class2, $inheritance1 );
+    }
 }
