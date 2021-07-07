@@ -40,23 +40,18 @@ class AnyInstance extends FuzzyObject {
 			return false;
 		}
 
-		$classname = get_class( $actual );
+		if( $actual instanceof \Closure ) {
+		    return false;
+        }
 
-		if ( ! $this->haveCommonAncestor( $actual, $this->_expected ) ) {
-			return false;
-		}
+        if( get_class( $actual ) === get_class( $this->_expected ) ) {
+            return true;
+        }
 
-		$expected_properties = get_object_vars( $this->_expected );
-
-		foreach ( $expected_properties as $prop => $value ) {
-			if ( ! isset( $actual->$prop ) || $value !== $actual->$prop ) {
-				return false;
-			}
-		}
-
-		$actual_keys  = array_keys( get_object_vars( $actual ) );
-		$extra_actual = array_diff( $actual_keys, array_keys( $expected_properties ) );
-		if ( ! empty( $extra_actual ) ) {
+        // parent::haveCommonAncestor() expects two objects.
+        $reflectedExpected = new \ReflectionClass( $this->_expected );
+        $expectedInstance = $reflectedExpected->newInstanceWithoutConstructor();
+		if ( ! $this->haveCommonAncestor( $actual, $expectedInstance ) ) {
 			return false;
 		}
 
