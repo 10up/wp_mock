@@ -14,17 +14,16 @@ class AnyInstance extends FuzzyObject {
 	 * @throws \Mockery\Exception
 	 */
 	public function __construct( $expected = null ) {
-		if( is_string( $expected ) && class_exists( $expected )) {
-			$classname = $expected;
-		}elseif ( is_object( $expected ) ) {
-			$classname = get_class( $expected );
+		if( is_string( $expected ) && class_exists( $expected ) ) {
+            $reflectedExpected = new \ReflectionClass( $expected );
+            $expectedInstance = $reflectedExpected->newInstanceWithoutConstructor();
+		} elseif ( is_object( $expected ) ) {
+            $expectedInstance = $expected;
 		} else {
-			throw new Exception( 'AnyInstance
-			 matcher can only match objects!' );
+			throw new Exception( 'AnyInstance matcher can only match objects!' );
 		}
 
-		$this->_expected = $classname;
-
+		parent::__construct($expectedInstance);
 	}
 
 	/**
