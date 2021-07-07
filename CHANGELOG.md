@@ -6,6 +6,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased] - TBD
 
+### Added
+- AnyInstance matcher
+
 ## [0.4.2] - 2019-03-15
 ### Added
 - **Minor Filter/Action/Hook Assertion Bugfix**

@@ -9,6 +9,8 @@
 namespace WP_Mock;
 
 
+use WP_Mock\Matcher\AnyInstance;
+
 abstract class Hook {
 	/** @var string Hook name */
 	protected $name;
@@ -25,6 +27,8 @@ abstract class Hook {
 			return 'null';
 		} elseif ( is_scalar( $value ) ) {
 			return $value;
+		}elseif( $value instanceof AnyInstance ) {
+			return (string) $value;
 		} elseif ( is_object( $value ) ) {
 			return spl_object_hash( $value );
 		} elseif ( is_array( $value ) ) {

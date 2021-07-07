@@ -2,6 +2,7 @@
 
 namespace WP_Mock;
 
+use WP_Mock\Matcher\AnyInstance;
 class HookedCallback extends Hook {
 
 	protected $type = 'filter';
@@ -18,6 +19,15 @@ class HookedCallback extends Hook {
 		\WP_Mock::addHook( $this->name );
 
 		$safe_callback = $this->safe_offset( $callback );
+
+		if( is_array( $callback ) ) {
+			$any_instance_callback = array( new AnyInstance( $callback[0] ), $callback[1] );
+			$safe_any_instance_callback = $this->safe_offset( $any_instance_callback );
+			if( ! empty( $this->processors[ $safe_any_instance_callback ])) {
+				$safe_callback = $safe_any_instance_callback;
+			}
+		}
+		
 		if (
 			empty( $this->processors[ $safe_callback ] ) ||
 			empty( $this->processors[ $safe_callback ][ $priority ] ) ||
@@ -29,7 +39,7 @@ class HookedCallback extends Hook {
 			return null;
 		}
 
-		return $this->processors[ $this->safe_offset( $callback ) ][ $priority ][ $argument_count ]->react();
+		return $this->processors[ $safe_callback ][ $priority ][ $argument_count ]->react();
 	}
 
 	protected function new_responder() {
