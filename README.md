@@ -310,6 +310,12 @@ public function test_special_function() {
 
 It's important to note that the `$priority` and `$parameter_count` arguments (parameters 3 and 4 for both `add_action()` and `add_filter()`) are significant. If `special_function()` were to call `add_action( 'save_post', 'special_save_post', 99, 3 )` instead of the expected `add_action( 'save_post', 'special_save_post', 10, 2 )`, our test would fail.
 
+If the actual instance of an expected class cannot be passed, `AnyInstance` can be used:
+
+```php
+\WP_Mock::expectFilterAdded( 'the_content', array( new \WP_Mock\Matcher\AnyInstance( Special::class ), 'the_content' ) );
+```
+
 #### Asserting that actions and filters are applied
 
 Now that we're testing whether or not we're adding actions and/or filters, the next step is to ensure our code is calling those hooks when expected.

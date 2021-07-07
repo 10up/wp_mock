@@ -18,6 +18,9 @@
 		"psr-4"   : {"WP_Mock\\": "./php/WP_Mock"},
 		"classmap": ["php/WP_Mock.php"]
 	},
+	"autoload-dev"   : {
+		"classmap": ["tests"]
+	},
 	"scripts": {
 		"test:behat"     : "behat",
 		"test:phpunit"   : "phpunit",
