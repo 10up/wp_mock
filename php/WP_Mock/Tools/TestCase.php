@@ -284,9 +284,9 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 		$this->__contentFilterCallback = false;
 
 		$annotations = TestUtil::parseTestMethodAnnotations(
-            static::class,
-            $this->getName(false)
-        );
+			static::class,
+			$this->getName( false )
+		);
 		if (
 			! isset( $annotations['stripTabsAndNewlinesFromOutput'] ) ||
 			$annotations['stripTabsAndNewlinesFromOutput'][0] !== 'disabled' ||
