@@ -12,7 +12,7 @@ We accept contributions via Pull Requests on [Github](https://github.com/10up/wp
 
 ## Pull Requests
 
-* New features must be submitted against the the **trunk** branch
+* New features must be submitted against the **trunk** branch
 * Bug fixes should be submitted against the branch in which the bug exists, which is likely **trunk**.
 * If you're not sure whether a feature idea would be something we'd be interested in, please open an issue before you start working on it. We'd be happy to discuss your idea with you.
 
