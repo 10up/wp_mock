@@ -164,7 +164,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 		if ( ! $method ) {
 			throw new Exception( sprintf( 'Could not mock %s::%s', $class, $method ) );
 		}
-		if ( ! WP_Mock::usingPatchwork() || ! function_exists( 'Patchwork\Interceptor\patch' ) ) {
+		if ( ! WP_Mock::usingPatchwork() || ! function_exists( 'Patchwork\redefine' ) ) {
 			throw new Exception( 'Patchwork is not loaded! Please load patchwork before mocking static methods!' );
 		}
 
