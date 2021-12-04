@@ -196,7 +196,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 
 			\Patchwork\redefine( "$class::$method", function () use ( $mock, $safe_method ) {
 				return call_user_func_array( array( $mock, $safe_method ), func_get_args() );
-			}, ! ( $rMethod ) );
+			} );
 		}
 		$expectation = $mock->shouldReceive( $safe_method );
 
