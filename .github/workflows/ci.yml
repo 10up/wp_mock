@@ -1,0 +1,70 @@
+name: CI
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - trunk
+  pull_request:
+
+jobs:
+  php-tests:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        php: ['8.1', '8.0', '7.4', '7.3']
+        os: ['ubuntu-latest']
+        include:
+          - php: '7.3'
+            os: 'ubuntu-18.04'
+      fail-fast: false
+    env:
+      COVERAGE_CACHE_PATH: phpunit-coverage-cache
+      PHP_VERSION: ${{ matrix.php }}
+
+    steps:
+      - uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f # v2.3.4
+
+      - name: Switch to PHP ${{ env.PHP_VERSION }}
+        run: |
+          sudo update-alternatives --set php /usr/bin/php$PHP_VERSION
+          sudo update-alternatives --set phar /usr/bin/phar$PHP_VERSION
+          sudo update-alternatives --set phar.phar /usr/bin/phar.phar$PHP_VERSION
+          sudo update-alternatives --set phpize /usr/bin/phpize$PHP_VERSION
+          sudo update-alternatives --set php-config /usr/bin/php-config$PHP_VERSION
+
+      - name: Enable pcov
+        run: |
+          sudo phpdismod xdebug
+          sudo phpenmod pcov
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: |
+          echo "::set-output name=dir::$(composer config cache-files-dir)"
+      - uses: actions/cache@26968a09c0ea4f3e233fdddbafd1166051a095f6 # v2.1.4
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+
+      - name: Install Dependencies
+        run: composer install --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+
+      - name: Restore phpunit coverage cache
+        uses: actions/cache@26968a09c0ea4f3e233fdddbafd1166051a095f6 # v2.1.4
+        with:
+          path: ${{ env.COVERAGE_CACHE_PATH }}
+          key: ${{ runner.os }}-coverage-${{ github.ref }}-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-coverage-${{ github.ref }}-
+            ${{ runner.os }}-coverage-
+      - name: Execute tests (Unit and Feature tests) via PHPUnit
+        env:
+          DB_CONNECTION: sqlite
+          DB_DATABASE: database/database.sqlite
+        # Generate coverage file, so it can be uploaded later if we choose.
+        # Otherwise, current coverage can be viewed in the action output.
+        # Tests should be run randomly to catch any test dependency issue.
+        run: |
+          vendor/bin/phpunit --order-by="random" --coverage-cache="$COVERAGE_CACHE_PATH" --coverage-clover=coverage.xml --coverage-text
