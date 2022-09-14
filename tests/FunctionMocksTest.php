@@ -28,6 +28,8 @@ class FunctionMocksTest extends \PHPUnit\Framework\TestCase {
 	}
 
 	/**
+	 * @covers \WP_Mock::bootstrap()
+	 *
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
 	 */
@@ -42,6 +44,7 @@ class FunctionMocksTest extends \PHPUnit\Framework\TestCase {
 	}
 
 	/**
+	 * @covers \WP_Mock::userFunction()
 	 * @dataProvider dataCommonFunctionsDefaultFunctionality
 	 */
 	public function testCommonFunctionsDefaultFunctionality( $function, $action ) {
@@ -54,6 +57,9 @@ class FunctionMocksTest extends \PHPUnit\Framework\TestCase {
 	}
 
 	/**
+	 * @covers \WP_Mock::activateStrictMode()
+	 * @covers \WP_Mock::bootstrap()
+	 *
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
 	 */
@@ -71,12 +77,22 @@ class FunctionMocksTest extends \PHPUnit\Framework\TestCase {
 		}, $this->common_functions );
 	}
 
+	/**
+	 * @covers \WP_Mock::userFunction()
+	 *
+	 * @return void
+	 */
 	public function testMockingOverridesDefaults() {
 		$this->assertEquals( 'Input', __( 'Input' ) );
 		WP_Mock::userFunction( '__' )->andReturn( 'Output' );
 		$this->assertEquals( 'Output', __( 'Input' ) );
 	}
 
+	/**
+	 * @covers \WP_Mock::userFunction()
+	 *
+	 * @return void
+	 */
 	public function testBotchedMocksStillOverrideDefault() {
 		WP_Mock::userFunction( 'esc_html' );
 		$this->assertEmpty( esc_html( 'Input' ) );
