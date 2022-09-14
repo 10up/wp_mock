@@ -5,6 +5,7 @@ namespace WP_Mock;
 use Exception;
 use Mockery;
 use PHPUnit\Framework\RiskyTest;
+use PHPUnit\Framework\RiskyTestError;
 use ReflectionProperty;
 
 /**
@@ -82,7 +83,7 @@ class DeprecatedListenerTest extends \PHPUnit\Framework\TestCase {
 			->andReturnUsing( function ( $case, $exception, $int ) use ( $testCase ) {
 				$int = (int) $int; // It's coming as 0.0
 				\PHPUnit\Framework\Assert::assertSame( $testCase, $case );
-				\PHPUnit\Framework\Assert::assertTrue( $exception instanceof \PHPUnit\Framework\RiskyTest );
+				\PHPUnit\Framework\Assert::assertTrue( $exception instanceof RiskyTestError );
 				$message = <<<EOT
 Deprecated WP Mock calls inside TestName:
   FooBar::bazBat ["string",true,42]
@@ -123,7 +124,7 @@ EOT;
 			$callback1 = get_class( $callback1 ) . ':' . spl_object_hash( $callback1 );
 			$object1   = get_class( $object1 ) . ':' . spl_object_hash( $object1 );
 			\PHPUnit\Framework\Assert::assertSame( $testCase, $case );
-			\PHPUnit\Framework\Assert::assertTrue( $exception instanceof \PHPUnit\Framework\RiskyTest );
+			\PHPUnit\Framework\Assert::assertTrue( $exception instanceof RiskyTestError );
 			$message = <<<EOT
 Deprecated WP Mock calls inside OtherTest:
   BazBat::fooBar            ["<$callback1>"]
