@@ -16,8 +16,15 @@
 		"sempro/phpunit-pretty-print": "^1.4"
 	},
 	"autoload"   : {
-		"psr-4"   : {"WP_Mock\\": "./php/WP_Mock"},
-		"classmap": ["php/WP_Mock.php"]
+		"psr-4"   : {
+		  "WP_Mock\\": "./php/WP_Mock"
+		},
+		"classmap": [
+		  "php/WP_Mock.php"
+		]
+	},
+	"config": {
+		"platform-check": false
 	},
 	"scripts": {
 		"test:behat"     : "behat",
