@@ -7,7 +7,7 @@
 		 bootstrap="./bootstrap.php.dist"
 		 executionOrder="random"
 		 forceCoversAnnotation="true"
-		 beStrictAboutCoversAnnotation="true"
+		 beStrictAboutCoversAnnotation="false"
 		 beStrictAboutOutputDuringTests="true"
 		 beStrictAboutTodoAnnotatedTests="true"
 		 convertDeprecationsToExceptions="true"
