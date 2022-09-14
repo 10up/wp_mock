@@ -1,7 +1,7 @@
 name: CI
 
 on:
-  workflow_dispatch:
+  workflow_dispatch: # Can manually run from any branch
   push:
     branches:
       - trunk
@@ -16,7 +16,7 @@ jobs:
         os: ['ubuntu-latest']
         include:
           - php: '7.3'
-            os: 'ubuntu-18.04'
+            os: 'ubuntu-18.04' # PHP 7.3 is not pre-installed in ubuntu-latest
       fail-fast: false
     env:
       COVERAGE_CACHE_PATH: phpunit-coverage-cache
