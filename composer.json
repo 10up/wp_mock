@@ -12,7 +12,8 @@
 	"require-dev": {
 		"behat/behat"         : "^3.0",
 		"sebastian/comparator": ">=1.2.3",
-		"php-coveralls/php-coveralls": "^2.1"
+		"php-coveralls/php-coveralls": "^2.1",
+		"sempro/phpunit-pretty-print": "^1.4"
 	},
 	"autoload"   : {
 		"psr-4"   : {"WP_Mock\\": "./php/WP_Mock"},
