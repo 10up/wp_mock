@@ -64,6 +64,7 @@ class FunctionMocksTest extends \PHPUnit\Framework\TestCase {
 	 * @preserveGlobalState disabled
 	 */
 	public function testDefaultFailsInStrictMode() {
+		$this->expectExceptionMessageMatches('/No handler found for \w+/');
 		$this->expectException('\PHPUnit\Framework\ExpectationFailedException');
 		WP_Mock::activateStrictMode();
 		WP_Mock::bootstrap();
