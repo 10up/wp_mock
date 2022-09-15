@@ -96,4 +96,4 @@ jobs:
         if: ${{ env.PHP_VERSION == '8.1' && github.event_name == 'pull_request'}}
         with:
           recreate: true
-          message: ${{ join(steps.code_coverage_badge.outputs.*, '\n') }}
+          message: echo ${{ join(steps.code_coverage_badge.outputs.*, '\n') }}
