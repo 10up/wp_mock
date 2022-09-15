@@ -72,10 +72,11 @@ jobs:
         run: |
           vendor/bin/phpunit --order-by="random" --coverage-cache="$COVERAGE_CACHE_PATH" --coverage-cobertura=./cobertura.xml --coverage-clover=./clover.xml --coverage-text
 
-      - name: Upload coverage results to Coveralls
-        if: ${{ env.PHP_VERSION == '8.1' }}
-        run: |
-          vendor/bin/php-coveralls --coverage_clover="./clover.xml" --json_path="./coveralls-upload.json" -v
+      # TODO decide later if to keep using Coveralls
+      #- name: Upload coverage results to Coveralls
+      #  if: ${{ env.PHP_VERSION == '8.1' }}
+      #  run: |
+      #    vendor/bin/php-coveralls --coverage_clover="./clover.xml" --json_path="./coveralls-upload.json" -v
 
       - name: Generate code coverage summary
         # https://github.com/irongut/CodeCoverageSummary
