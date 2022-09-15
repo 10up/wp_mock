@@ -27,6 +27,7 @@ composer.lock
 **/vendor
 
 # Tests
+/build/**
 .phpunit.cache
 coverage.xml
 phpunit.local.xml

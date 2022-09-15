@@ -70,14 +70,19 @@ jobs:
         # Otherwise, current coverage can be viewed in the action output.
         # Tests should be run randomly to catch any test dependency issue.
         run: |
-          vendor/bin/phpunit --order-by="random" --coverage-cache="$COVERAGE_CACHE_PATH" --coverage-cobertura=./coverage.xml --coverage-text
+          vendor/bin/phpunit --order-by="random" --coverage-cache="$COVERAGE_CACHE_PATH" --coverage-cobertura=./cobertura.xml --coverage-clover=./clover.xml --coverage-text
+
+      - name: Upload coverage results to Coveralls
+        if: ${{ env.PHP_VERSION == '8.1' }}
+        run: |
+          vendor/bin/php-coveralls --coverage_clover="./clover.xml" -v
 
       - name: Generate code coverage summary
         # https://github.com/irongut/CodeCoverageSummary
         uses: irongut/CodeCoverageSummary@51cc3a756ddcd398d447c044c02cb6aa83fdae95 # v1.3.0
         if: ${{ env.PHP_VERSION == '8.1' }}
         with:
-          filename: "./coverage.xml"
+          filename: "./cobertura.xml"
           badge: true
           format: markdown
           fail_below_min: false
