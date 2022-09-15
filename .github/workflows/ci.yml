@@ -98,4 +98,4 @@ jobs:
         if: ${{ env.PHP_VERSION == '8.1' && github.event_name == 'pull_request'}}
         with:
           recreate: true
-          path: "./code-coverage-badge.md"
+          path: ./code-coverage-badge.md
