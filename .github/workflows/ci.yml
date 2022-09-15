@@ -89,11 +89,11 @@ jobs:
       - name: Grab code coverage badge
         id: code_coverage_badge
         if: ${{ env.PHP_VERSION == '8.1' && github.event_name == 'pull_request'}}
-        run: read -r -e firstline<"./code-coverage-results.md"
+        run: read -r -e firstline<"./code-coverage-results.md" > code-coverage-badge.md
       - name: Add or update comment to PR with coverage results
         # https://github.com/marocchino/sticky-pull-request-comment
         uses: marocchino/sticky-pull-request-comment@39c5b5dc7717447d0cba270cd115037d32d28443 # v2.2.0
         if: ${{ env.PHP_VERSION == '8.1' && github.event_name == 'pull_request'}}
         with:
           recreate: true
-          message: echo ${{ join(steps.code_coverage_badge.outputs.*, '\n') }}
+          path: ./code-coverage-badge.md
