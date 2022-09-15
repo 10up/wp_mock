@@ -75,7 +75,7 @@ jobs:
       - name: Upload coverage results to Coveralls
         if: ${{ env.PHP_VERSION == '8.1' }}
         run: |
-          vendor/bin/php-coveralls --coverage_clover="./clover.xml" -v
+          vendor/bin/php-coveralls --coverage_clover="./clover.xml" --json_path="./coveralls-upload.json" -v
 
       - name: Generate code coverage summary
         # https://github.com/irongut/CodeCoverageSummary
