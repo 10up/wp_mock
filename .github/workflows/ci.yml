@@ -25,6 +25,7 @@ jobs:
     steps:
       - uses: actions/checkout@7884fcad6b5d53d10323aee724dc68d8b9096a2e # v2.4.2
 
+      # TODO: replace with https://github.com/marketplace/actions/setup-php-action
       - name: Switch to PHP ${{ env.PHP_VERSION }}
         run: |
           sudo update-alternatives --set php /usr/bin/php$PHP_VERSION
@@ -70,9 +71,9 @@ jobs:
         # Tests should be run randomly to catch any test dependency issue.
         run: |
           vendor/bin/phpunit --order-by="random" --coverage-cache="$COVERAGE_CACHE_PATH" --coverage-cobertura=./coverage.xml --coverage-text
-          cat ./coverage.xml
 
       - name: Generate code coverage summary
+        # https://github.com/irongut/CodeCoverageSummary
         uses: irongut/CodeCoverageSummary@51cc3a756ddcd398d447c044c02cb6aa83fdae95 # v1.3.0
         if: ${{ env.PHP_VERSION == '8.1' }}
         with:
@@ -81,12 +82,14 @@ jobs:
           format: markdown
           fail_below_min: false
           hide_branch_rate: false
-          hide_complexity: true
-          indicators: false
+          hide_complexity: false
+          indicators: true
           output: both
-      - name: Add Coverage PR Comment
+
+      - name: Add comment to PR with coverage results
+        # https://github.com/marocchino/sticky-pull-request-comment
         uses: marocchino/sticky-pull-request-comment@39c5b5dc7717447d0cba270cd115037d32d28443 # v2.2.0
         if: ${{ env.PHP_VERSION == '8.1' && github.event_name == 'pull_request'}}
         with:
           recreate: true
-          path: code-coverage-results.md
+          message: ${{ read -r firstline<file code-coverage-results.md}}

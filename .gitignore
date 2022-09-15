@@ -28,6 +28,7 @@ composer.lock
 
 # Tests
 .phpunit.cache
+coverage.xml
 phpunit.local.xml
 .phpunit.local.xml
 /html
