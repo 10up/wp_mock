@@ -71,10 +71,14 @@ jobs:
         run: |
           vendor/bin/phpunit --order-by="random" --coverage-cache="$COVERAGE_CACHE_PATH" --coverage-clover=coverage.xml --coverage-text
 
+  php-code-coverage-report:
+    runs-on: ubuntu-latest
+
+    steps:
       - name: Generate code coverage summary
         uses: irongut/CodeCoverageSummary@51cc3a756ddcd398d447c044c02cb6aa83fdae95 # v1.3.0
         with:
-          filename: /home/runner/work/wp_mock/wp_mock/coverage.xml
+          filename: "./coverage.xml"
           badge: true
           format: markdown
           fail_below_min: false
