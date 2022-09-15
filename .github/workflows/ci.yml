@@ -72,6 +72,7 @@ jobs:
         run: |
           vendor/bin/phpunit --order-by="random" --coverage-cache="$COVERAGE_CACHE_PATH" --coverage-cobertura=./coverage.xml --coverage-text
 
+      # The following code coverage reports only need to run once (after PHP 8.1 tests generate a coverage output)
       - name: Generate code coverage summary
         # https://github.com/irongut/CodeCoverageSummary
         uses: irongut/CodeCoverageSummary@51cc3a756ddcd398d447c044c02cb6aa83fdae95 # v1.3.0
@@ -85,12 +86,11 @@ jobs:
           hide_complexity: false
           indicators: true
           output: both
-
       - name: Grab code coverage badge
         id: code_coverage_badge
-        run: read -r -e firstline<code-coverage-results.md
-
-      - name: Add comment to PR with coverage results
+        if: ${{ env.PHP_VERSION == '8.1' && github.event_name == 'pull_request'}}
+        run: read -r -e firstline<"./code-coverage-results.md"
+      - name: Add or update comment to PR with coverage results
         # https://github.com/marocchino/sticky-pull-request-comment
         uses: marocchino/sticky-pull-request-comment@39c5b5dc7717447d0cba270cd115037d32d28443 # v2.2.0
         if: ${{ env.PHP_VERSION == '8.1' && github.event_name == 'pull_request'}}
