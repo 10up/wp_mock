@@ -86,7 +86,6 @@ jobs:
           hide_complexity: false
           indicators: true
           output: both
-        run: read -r firstline<file code-coverage-results.md
 
       - name: Add comment to PR with coverage results
         # https://github.com/marocchino/sticky-pull-request-comment
