@@ -70,6 +70,7 @@ jobs:
         # Tests should be run randomly to catch any test dependency issue.
         run: |
           vendor/bin/phpunit --order-by="random" --coverage-cache="$COVERAGE_CACHE_PATH" --coverage-clover=./coverage.xml --coverage-text
+          cat ./coverage.xml
 
       - name: Generate code coverage summary
         uses: irongut/CodeCoverageSummary@51cc3a756ddcd398d447c044c02cb6aa83fdae95 # v1.3.0
