@@ -84,3 +84,9 @@ jobs:
           hide_complexity: true
           indicators: false
           output: both
+      - name: Add Coverage PR Comment
+        uses: marocchino/sticky-pull-request-comment@39c5b5dc7717447d0cba270cd115037d32d28443 # v2.2.0
+        if: ${{ env.PHP_VERSION == '8.1' && github.event_name == 'pull_request'}}
+        with:
+          recreate: true
+          path: code-coverage-results.md
