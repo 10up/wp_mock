@@ -75,6 +75,7 @@ jobs:
       - name: Generate code coverage summary
         # https://github.com/irongut/CodeCoverageSummary
         uses: irongut/CodeCoverageSummary@51cc3a756ddcd398d447c044c02cb6aa83fdae95 # v1.3.0
+        id: code_coverage_summary
         if: ${{ env.PHP_VERSION == '8.1' }}
         with:
           filename: "./coverage.xml"
@@ -85,6 +86,7 @@ jobs:
           hide_complexity: false
           indicators: true
           output: both
+        run: read -r firstline<file code-coverage-results.md
 
       - name: Add comment to PR with coverage results
         # https://github.com/marocchino/sticky-pull-request-comment
@@ -92,4 +94,4 @@ jobs:
         if: ${{ env.PHP_VERSION == '8.1' && github.event_name == 'pull_request'}}
         with:
           recreate: true
-          message: ${{ read -r firstline<file code-coverage-results.md}}
+          message: ${{ join(steps.code_coverage_summary.outputs.18, '\n') }
