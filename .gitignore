@@ -1,7 +1,35 @@
-/.idea
+# TODO: start including composer.lock
 composer.lock
-vendor/
-docs/
-.editorconfig
+
+# OSX
+**/.DS_Store
+
+# IDEs
+.project/
+.settings/
+.idea/
+*.code-workspace
+*.sublime-project
+*.sublime-workspace
+*.iml
+.vscode/
+
+# dotfiles
+*.env
 .phpunit.result.cache
-build/
+.php-cs-fixer.cache
+
+# Logs
+*.log
+
+# Dependencies
+**/node_modules/**
+**/vendor
+
+# Tests
+/build/**
+.phpunit.cache
+coverage.xml
+phpunit.local.xml
+.phpunit.local.xml
+/html
