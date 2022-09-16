@@ -3,6 +3,8 @@
 class WP_MockTest extends \PHPUnit\Framework\TestCase {
 
 	/**
+	 * @covers \WP_Mock::strictMode()
+	 *
 	 * @runInSeparateProcess
 	 */
 	public function test_strictMode_off_by_default() {
@@ -10,6 +12,8 @@ class WP_MockTest extends \PHPUnit\Framework\TestCase {
 	}
 
 	/**
+	 * @covers \WP_Mock::activateStrictMode()
+	 *
 	 * @runInSeparateProcess
 	 */
 	public function test_activateStrictMode_turns_strict_mode_on() {
@@ -18,6 +22,8 @@ class WP_MockTest extends \PHPUnit\Framework\TestCase {
 	}
 
 	/**
+	 * @covers \WP_Mock::strictMode()
+	 *
 	 * @runInSeparateProcess
 	 */
 	public function test_activateStrictMode_does_not_work_after_bootstrap() {
@@ -27,6 +33,8 @@ class WP_MockTest extends \PHPUnit\Framework\TestCase {
 	}
 
 	/**
+	 * @covers \WP_Mock::userFunction()
+	 *
 	 * @runInSeparateProcess
 	 */
 	public function test_userFunction_returns_expectation() {
@@ -38,6 +46,8 @@ class WP_MockTest extends \PHPUnit\Framework\TestCase {
 	}
 
 	/**
+	 * @covers \WP_Mock::assertHooksAdded()
+	 *
 	 * @runInSeparateProcess
 	 */
 	public function test_assertHooksAdded_for_filters_and_actions() {
@@ -51,6 +61,8 @@ class WP_MockTest extends \PHPUnit\Framework\TestCase {
 	}
 
 	/**
+	 * @covers WP_Mock::assertHooksAdded()
+	 *
 	 * @runInSeparateProcess
 	 */
 	public function test_assertHooksAdded_for_filters_and_actions_fails() {
@@ -63,6 +75,8 @@ class WP_MockTest extends \PHPUnit\Framework\TestCase {
 	}
 
 	/**
+	 * @covers \WP_Mock::assertActionsCalled()
+	 *
 	 * @runInSeparateProcess
 	 */
 	public function test_assertActionsCalled_actions() {
@@ -74,6 +88,8 @@ class WP_MockTest extends \PHPUnit\Framework\TestCase {
 	}
 
 	/**
+	 * @covers \WP_Mock::assertActionsCalled()
+	 *
 	 * @runInSeparateProcess
 	 */
 	public function test_assertActionsCalled_actions_fails() {
@@ -85,6 +101,8 @@ class WP_MockTest extends \PHPUnit\Framework\TestCase {
 	}
 
 	/**
+	 * @covers \WP_Mock::assertFiltersCalled()
+	 *
 	 * @runInSeparateProcess
 	 */
 	public function test_assertActionsCalled_filters() {
@@ -97,6 +115,8 @@ class WP_MockTest extends \PHPUnit\Framework\TestCase {
 	}
 
 	/**
+	 * @covers \WP_Mock::assertFiltersCalled()
+	 *
 	 * @runInSeparateProcess
 	 */
 	public function test_assertActionsCalled_filters_fails() {
