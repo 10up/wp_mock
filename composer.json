@@ -1,35 +1,45 @@
 {
-	"name"       : "10up/wp_mock",
+	"name": "10up/wp_mock",
 	"description": "A mocking library to take the pain out of unit testing for WordPress",
-	"license"    : "GPL-2.0-or-later",
-	"version"    : "0.4.2",
-	"require"    : {
-		"php"                 : ">=7.1",
-		"phpunit/phpunit"     : ">=7.0",
-		"mockery/mockery"     : "^1.0",
+	"license": "GPL-2.0-or-later",
+	"version": "0.4.2",
+	"require": {
+		"php": ">=7.3 < 9.0",
+		"phpunit/phpunit": "^9.5.24",
+		"mockery/mockery": "^1.5",
 		"antecedent/patchwork": "^2.1"
 	},
 	"require-dev": {
-		"behat/behat"         : "^3.0",
+		"behat/behat": "^v3.11.0",
 		"sebastian/comparator": ">=1.2.3",
-		"php-coveralls/php-coveralls": "^2.1"
+		"php-coveralls/php-coveralls": "^v2.5.2",
+		"sempro/phpunit-pretty-print": "^1.4"
 	},
-	"autoload"   : {
-		"psr-4"   : {"WP_Mock\\": "./php/WP_Mock"},
-		"classmap": ["php/WP_Mock.php"]
+	"autoload": {
+		"psr-4": {
+			"WP_Mock\\": "./php/WP_Mock"
+		},
+		"classmap": [
+			"php/WP_Mock.php"
+		]
+	},
+	"config": {
+		"platform": {
+			"php" : "7.3"
+		}
 	},
 	"autoload-dev"   : {
 		"classmap": ["tests"]
 	},
 	"scripts": {
-		"test:behat"     : "behat",
-		"test:phpunit"   : "phpunit",
+		"test:behat": "behat",
+		"test:phpunit": "phpunit",
 		"test:phpunitcov": "phpunit --coverage-clover build/logs/clover.xml",
-		"test"           : [
+		"test": [
 			"@test:behat",
 			"@test:phpunit"
 		],
-		"coverage"        : [
+		"coverage": [
 			"@test:behat",
 			"@test:phpunitcov"
 		]
