@@ -21,7 +21,7 @@ jobs:
     env:
       COVERAGE_CACHE_PATH: phpunit-coverage-cache
       PHP_VERSION: ${{ matrix.php }}
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GITHUB_TOKEN: ${{ secrets.token }}
 
     steps:
       - uses: actions/checkout@7884fcad6b5d53d10323aee724dc68d8b9096a2e # v2.4.2
