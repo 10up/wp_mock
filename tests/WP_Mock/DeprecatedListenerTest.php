@@ -2,12 +2,15 @@
 
 namespace WP_Mock;
 
+use Exception;
 use Mockery;
-use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\RiskyTest;
-use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\RiskyTestError;
 use ReflectionProperty;
 
+/**
+ * @covers \WP_Mock\DeprecatedListener
+ */
 class DeprecatedListenerTest extends \PHPUnit\Framework\TestCase {
 
 	/** @var DeprecatedListener */
@@ -21,6 +24,11 @@ class DeprecatedListenerTest extends \PHPUnit\Framework\TestCase {
 		$this->object->reset();
 	}
 
+	/**
+	 * @covers \WP_Mock\DeprecatedListener::logDeprecatedCall()
+	 *
+	 * @return void
+	 */
 	public function testLogDeprecatedCall() {
 		$method = 'Foobar::asdf' . rand( 0, 9 );
 		$args   = array( rand( 10, 99 ) );
@@ -29,6 +37,11 @@ class DeprecatedListenerTest extends \PHPUnit\Framework\TestCase {
 		$this->assertEquals( array( array( $method, $args ) ), $this->getCalls( $this->object ) );
 	}
 
+	/**
+	 * @covers \WP_Mock\DeprecatedListener::reset()
+	 *
+	 * @return void
+	 */
 	public function testReset() {
 		$this->object->logDeprecatedCall( 'Asdf', array( 'foobar' ) );
 		$this->object->reset();
@@ -36,6 +49,11 @@ class DeprecatedListenerTest extends \PHPUnit\Framework\TestCase {
 		$this->assertEquals( array(), $this->getCalls( $this->object ) );
 	}
 
+	/**
+	 * @covers \WP_Mock\DeprecatedListener::checkCalls()
+	 *
+	 * @return void
+	 */
 	public function testCheckCallsNoCalls() {
 		$testResult = new \PHPUnit\Framework\TestResult();
 		$result     = Mockery::mock( $testResult );
@@ -47,6 +65,11 @@ class DeprecatedListenerTest extends \PHPUnit\Framework\TestCase {
 		$this->assertNull($this->object->checkCalls());
 	}
 
+	/**
+	 * @covers \WP_Mock\DeprecatedListener::checkCalls()
+	 *
+	 * @return void
+	 */
 	public function testCheckCalls_scalar_only() {
 		$this->object->logDeprecatedCall( 'FooBar::bazBat', array( 'string', true, 42 ) );
 		$this->object->setTestName( 'TestName' );
@@ -60,7 +83,7 @@ class DeprecatedListenerTest extends \PHPUnit\Framework\TestCase {
 			->andReturnUsing( function ( $case, $exception, $int ) use ( $testCase ) {
 				$int = (int) $int; // It's coming as 0.0
 				\PHPUnit\Framework\Assert::assertSame( $testCase, $case );
-				\PHPUnit\Framework\Assert::assertTrue( $exception instanceof \PHPUnit\Framework\RiskyTest );
+				\PHPUnit\Framework\Assert::assertTrue( $exception instanceof RiskyTestError );
 				$message = <<<EOT
 Deprecated WP Mock calls inside TestName:
   FooBar::bazBat ["string",true,42]
@@ -74,6 +97,12 @@ EOT;
 		$this->object->checkCalls();
 	}
 
+	/**
+	 * @covers \WP_Mock\DeprecatedListener::checkCalls()
+	 *
+	 * @return void
+	 * @throws Exception
+	 */
 	public function testCheckCalls_non_scalars() {
 		$callback1 = function () {
 		};
@@ -95,7 +124,7 @@ EOT;
 			$callback1 = get_class( $callback1 ) . ':' . spl_object_hash( $callback1 );
 			$object1   = get_class( $object1 ) . ':' . spl_object_hash( $object1 );
 			\PHPUnit\Framework\Assert::assertSame( $testCase, $case );
-			\PHPUnit\Framework\Assert::assertTrue( $exception instanceof \PHPUnit\Framework\RiskyTest );
+			\PHPUnit\Framework\Assert::assertTrue( $exception instanceof RiskyTestError );
 			$message = <<<EOT
 Deprecated WP Mock calls inside OtherTest:
   BazBat::fooBar            ["<$callback1>"]
