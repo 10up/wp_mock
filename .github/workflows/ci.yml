@@ -21,7 +21,6 @@ jobs:
     env:
       COVERAGE_CACHE_PATH: phpunit-coverage-cache
       PHP_VERSION: ${{ matrix.php }}
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
       - uses: actions/checkout@7884fcad6b5d53d10323aee724dc68d8b9096a2e # v2.4.2
@@ -71,40 +70,11 @@ jobs:
         # Otherwise, current coverage can be viewed in the action output.
         # Tests should be run randomly to catch any test dependency issue.
         run: |
-          vendor/bin/phpunit --order-by="random" --coverage-cache="$COVERAGE_CACHE_PATH" --coverage-cobertura=./cobertura.xml --coverage-clover=./clover.xml --coverage-text
+          vendor/bin/phpunit --order-by="random" --coverage-cache="$COVERAGE_CACHE_PATH" --coverage-clover=./clover.xml --coverage-text
 
-      # TODO decide later if to keep using Coveralls
-      #- name: Upload coverage results to Coveralls
-      #  if: ${{ env.PHP_VERSION == '8.1' }}
-      #  run: |
-      #    vendor/bin/php-coveralls --coverage_clover="./clover.xml" --json_path="./coveralls-upload.json" -v
-
-      - name: Generate code coverage summary
-        # https://github.com/irongut/CodeCoverageSummary
-        uses: irongut/CodeCoverageSummary@51cc3a756ddcd398d447c044c02cb6aa83fdae95 # v1.3.0
+      - name: Upload test coverage results to Coveralls
         if: ${{ env.PHP_VERSION == '8.1' }}
-        with:
-          filename: "./cobertura.xml"
-          badge: true
-          format: markdown
-          fail_below_min: false
-          hide_branch_rate: true
-          hide_complexity: true
-          indicators: false
-          output: file
-
-      - name: Grab code coverage badge
-        if: ${{ env.PHP_VERSION == '8.1' && github.event_name == 'pull_request'}}
+        env:
+          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          head -1 ./code-coverage-results.md > ./code-coverage-badge.md
-          cat ./code-coverage-badge.md
-
-      - name: Add or update comment to PR with coverage results
-        # https://github.com/marocchino/sticky-pull-request-comment
-        uses: marocchino/sticky-pull-request-comment@39c5b5dc7717447d0cba270cd115037d32d28443 # v2.2.0
-        if: ${{ env.PHP_VERSION == '8.1' && github.event_name == 'pull_request'}}
-        with:
-          header: code-coverage-badge
-          recreate: true
-          path: ./code-coverage-badge.md
-          GITHUB_TOKEN: ${{ env.GITHUB_TOKEN }}
+          vendor/bin/php-coveralls --coverage_clover="./clover.xml" --json_path="./coveralls-upload.json" -v
