@@ -11,7 +11,7 @@
 	},
 	"require-dev": {
 		"behat/behat": "^v3.11.0",
-		"sebastian/comparator": ">=1.2.3",
+		"sebastian/comparator": "^4.0.8",
 		"php-coveralls/php-coveralls": "^v2.5.2",
 		"sempro/phpunit-pretty-print": "^1.4"
 	},
