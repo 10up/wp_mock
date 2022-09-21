@@ -165,7 +165,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 		if ( ! $method ) {
 			throw new Exception( sprintf( 'Could not mock %s::%s', $class, $method ) );
 		}
-		if ( ! WP_Mock::usingPatchwork() || ! function_exists( 'Patchwork\Interceptor\patch' ) ) {
+		if ( ! WP_Mock::usingPatchwork() || ! function_exists( 'Patchwork\redefine' ) ) {
 			throw new Exception( 'Patchwork is not loaded! Please load patchwork before mocking static methods!' );
 		}
 
@@ -197,7 +197,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 
 			\Patchwork\redefine( "$class::$method", function () use ( $mock, $safe_method ) {
 				return call_user_func_array( array( $mock, $safe_method ), func_get_args() );
-			}, ! ( $rMethod ) );
+			} );
 		}
 		$expectation = $mock->shouldReceive( $safe_method );
 
