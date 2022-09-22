@@ -5,6 +5,7 @@ namespace WP_Mock\Tools;
 use PHPUnit\Framework\TestResult;
 use Exception;
 use Mockery;
+use PHPUnit\Util\Test as TestUtil;
 use ReflectionMethod;
 use Text_Template;
 use WP_Mock;
@@ -282,7 +283,10 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 	protected function setUpContentFiltering() {
 		$this->__contentFilterCallback = false;
 
-		$annotations = $this->getAnnotations();
+		$annotations = TestUtil::parseTestMethodAnnotations(
+			static::class,
+			$this->getName( false )
+		);
 		if (
 			! isset( $annotations['stripTabsAndNewlinesFromOutput'] ) ||
 			$annotations['stripTabsAndNewlinesFromOutput'][0] !== 'disabled' ||
