@@ -55,7 +55,7 @@ class FunctionMocksTest extends \PHPUnit\Framework\TestCase {
 		}
 
 		if ('_n' === $function) {
-			$this->assertEquals($expected, call_user_func($function, $input, 'foo', 'bar', 'baz'));
+			$this->assertEquals($expected, call_user_func($function, $input, 'foo', 1, 'bar'));
 		} else {
 			$this->assertEquals($expected, call_user_func($function, $input));
 		}
