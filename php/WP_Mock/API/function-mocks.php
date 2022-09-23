@@ -155,7 +155,27 @@ if ( ! function_exists( 'esc_attr_x' ) ) {
 }
 
 if ( ! function_exists( '_n' ) ) {
+
+	/**
+	 * Dummy method for _n().
+	 *
+	 * @throws \PHPUnit\Framework\ExpectationFailedException Throws error if too few arguments.
+	 *
+	 * @return mixed singular or plural string based on number.
+	 */
 	function _n() {
-		return \WP_Mock\Handler::predefined_return_function_helper( __FUNCTION__, func_get_args() );
+		$args = func_get_args();
+
+		if ( count( $args ) >= 3 ) {
+			if ( isset( $args[0] ) && 1 >= intval( $args[2] ) ) {
+				return $args[0];
+			} else {
+				return $args[1];
+			}
+		} else {
+			throw new \PHPUnit\Framework\ExpectationFailedException(
+				sprintf( 'Too few arguments to function %s', __FUNCTION__ )
+			);
+		}
 	}
 }
