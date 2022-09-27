@@ -430,7 +430,7 @@ function test_get_post_ids() {
 
 ## Changelog
 
-A complete listing of all notable changes to WP_Mock are documented in [CHANGELOG.md](https://github.com/10up/wp_mock/blob/develop/CHANGELOG.md).
+A complete listing of all notable changes to WP_Mock are documented in [CHANGELOG.md](https://github.com/10up/wp_mock/blob/trunk/CHANGELOG.md).
 
 ## Contributing
 
