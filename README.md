@@ -434,7 +434,7 @@ A complete listing of all notable changes to WP_Mock are documented in [CHANGELO
 
 ## Contributing
 
-Please read [CODE_OF_CONDUCT.md](https://github.com/10up/wp_mock/blob/trunk/CODE_OF_CONDUCT.md) for details on our code of conduct, [CONTRIBUTING.md](https://github.com/10up/wp_mock/blob/trunk/CONTRIBUTING.md) for details on the process for submitting pull requests to us, and [CREDITS.md](https://github.com/10up/wp_mock/blob/trunk/CREDITS.md) for a listing of maintainers of, contributors to, and libraries used by Apple Maps for WordPress.
+Please read [CODE_OF_CONDUCT.md](https://github.com/10up/wp_mock/blob/trunk/CODE_OF_CONDUCT.md) for details on our code of conduct, [CONTRIBUTING.md](https://github.com/10up/wp_mock/blob/trunk/CONTRIBUTING.md) for details on the process for submitting pull requests to us, and [CREDITS.md](https://github.com/10up/wp_mock/blob/trunk/CREDITS.md) for a listing of maintainers of, contributors to, and libraries used by WP_Mock.
 
 ## Like what you see?
 
