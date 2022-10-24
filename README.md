@@ -15,6 +15,7 @@
   * [Deprecated methods](#deprecated-methods)
   * [Mocking actions and filters](#mocking-actions-and-filters)
   * [Mocking WordPress objects](#mocking-wordpress-objects)
+  * [Mocking constants](#mocking-constants)
 * [Changelog](#changelog)
 * [Contributing](#contributing)
 
@@ -430,17 +431,48 @@ function test_get_post_ids() {
 }
 ```
 
+### Mocking constants
+
+Certain constants need to be mocked, otherwise various WordPress functions will attempt to include files that just don't exist.
+
+For example, nearly all uses of the `WP_Http` API require first including:
+
+```
+ABSPATH . WPINC . '/class-http.php'
+```
+
+If these constants are not set, and files do not exist at the location they specify, functions referencing them will fatally err.
+
+By default, WP_Mock will [mock the following constants](./php/WP_Mock/API/constant-mocks.php):
+
+| Constant         | Default mocked value                   |
+|------------------|----------------------------------------|
+| `WP_CONTENT_DIR` | `__DIR__ . '/dummy-files'`             |
+| `ABSPATH`        | `''`                                   |
+| `WPINC`          | `__DIR__ . '/dummy-files/wp-includes'` |
+| `EZSQL_VERSION`  | `'WP1.25'`                             |
+| `OBJECT`         | `'OBJECT'`                             |
+| `Object`         | `'OBJECT'`                             |
+| `object`         | `'OBJECT'`                             |
+| `OBJECT_K`       | `'OBJECT_K'`                           |
+| `ARRAY_A`        | `'ARRAY_A'`                            |
+| `ARRAY_N`        | `'ARRAY_N'`                            |
+
+WP_Mock provides a few dummy files, located in the `./php/WP_Mock/API/dummy-files/` directory. These files are used to mock the `WP_CONTENT_DIR` and `WPINC` constants, as shown in the table above.
+
+The `! defined` check is used for all constants, so that individual test environments can override the normal default by setting constants in a bootstrap configuration file.
+
 ## Support Level
 
 **Active:** 10up is actively working on this, and we expect to continue work for the foreseeable future including keeping tested up to the most recent version of WordPress.  Bug reports, feature requests, questions, and pull requests are welcome.
 
 ## Changelog
 
-A complete listing of all notable changes to WP_Mock are documented in [CHANGELOG.md](https://github.com/10up/wp_mock/blob/develop/CHANGELOG.md).
+A complete listing of all notable changes to WP_Mock are documented in [CHANGELOG.md](https://github.com/10up/wp_mock/blob/trunk/CHANGELOG.md).
 
 ## Contributing
 
-Please read [CODE_OF_CONDUCT.md](https://github.com/10up/wp_mock/blob/develop/CODE_OF_CONDUCT.md) for details on our code of conduct, [CONTRIBUTING.md](https://github.com/10up/wp_mock/blob/develop/CONTRIBUTING.md) for details on the process for submitting pull requests to us, and [CREDITS.md](https://github.com/10up/wp_mock/blob/develop/CREDITS.md) for a listing of maintainers of, contributors to, and libraries used by Apple Maps for WordPress.
+Please read [CODE_OF_CONDUCT.md](https://github.com/10up/wp_mock/blob/trunk/CODE_OF_CONDUCT.md) for details on our code of conduct, [CONTRIBUTING.md](https://github.com/10up/wp_mock/blob/trunk/CONTRIBUTING.md) for details on the process for submitting pull requests to us, and [CREDITS.md](https://github.com/10up/wp_mock/blob/trunk/CREDITS.md) for a listing of maintainers of, contributors to, and libraries used by WP_Mock.
 
 ## Like what you see?
 
