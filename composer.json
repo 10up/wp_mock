@@ -28,6 +28,9 @@
 			"php" : "7.3"
 		}
 	},
+	"autoload-dev"   : {
+		"classmap": ["tests"]
+	},
 	"scripts": {
 		"test:behat": "behat",
 		"test:phpunit": "phpunit",
