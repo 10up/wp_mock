@@ -2,7 +2,7 @@
 	"name": "10up/wp_mock",
 	"description": "A mocking library to take the pain out of unit testing for WordPress",
 	"license": "GPL-2.0-or-later",
-	"version": "0.4.2",
+	"version": "0.5.0",
 	"require": {
 		"php": ">=7.3 < 9.0",
 		"phpunit/phpunit": "^9.5.24",
@@ -12,7 +12,7 @@
 	"require-dev": {
 		"behat/behat": "^v3.11.0",
 		"sebastian/comparator": "^4.0.8",
-		"php-coveralls/php-coveralls": "^v2.5.2",
+		"php-coveralls/php-coveralls": "^v2.5.3",
 		"sempro/phpunit-pretty-print": "^1.4"
 	},
 	"autoload": {
