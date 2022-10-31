@@ -24,8 +24,10 @@
 First, add WP Mock as a dev-dependency with [Composer](http://getcomposer.org):
 
 ```bash
-composer require --dev 10up/wp_mock:0.4.2
+composer require --dev 10up/wp_mock:dev-trunk
 ```
+
+_**Note:** you may specify any tagged version other than `dev-trunk`._
 
 Then, make sure your bootstrap file is loading the composer autoloader:
 
@@ -481,7 +483,5 @@ Please read [CODE_OF_CONDUCT.md](https://github.com/10up/wp_mock/blob/trunk/CODE
 [php-image]: https://img.shields.io/badge/php-7.1%2B-green.svg
 [packagist-image]: https://img.shields.io/packagist/dt/10up/wp_mock.svg
 [packagist-url]: https://packagist.org/packages/10up/wp_mock
-[travis-image]: https://travis-ci.org/10up/wp_mock.svg?branch=trunk
-[travis-url]: https://travis-ci.org/10up/wp_mock
 [coveralls-image]: https://coveralls.io/repos/github/10up/wp_mock/badge.svg?branch=trunk
 [coveralls-url]: https://coveralls.io/github/10up/wp_mock?branch=trunk
