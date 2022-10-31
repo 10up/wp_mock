@@ -12,7 +12,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Fixed
 - Patchwork not loaded error (`WP_Mock::setUsePatchwork(true)` was broken)
 - Address call to undefined method `getAnnotations` error from test class
-- Support for latest PhpUnit versions
+- Support for latest PHPUnit versions
 
 ## [0.4.2] - 2019-03-15
 ### Added
