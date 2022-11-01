@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "929c0be2da54eacf4e72eae522f71e42",
+    "content-hash": "06d1e3dc1c89b760c9298da5b403c2a6",
     "packages": [
         {
             "name": "antecedent/patchwork",
@@ -2317,16 +2317,16 @@
         },
         {
             "name": "guzzlehttp/psr7",
-            "version": "2.4.1",
+            "version": "2.4.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/psr7.git",
-                "reference": "69568e4293f4fa993f3b0e51c9723e1e17c41379"
+                "reference": "67c26b443f348a51926030c83481b85718457d3d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/psr7/zipball/69568e4293f4fa993f3b0e51c9723e1e17c41379",
-                "reference": "69568e4293f4fa993f3b0e51c9723e1e17c41379",
+                "url": "https://api.github.com/repos/guzzle/psr7/zipball/67c26b443f348a51926030c83481b85718457d3d",
+                "reference": "67c26b443f348a51926030c83481b85718457d3d",
                 "shasum": ""
             },
             "require": {
@@ -2416,7 +2416,7 @@
             ],
             "support": {
                 "issues": "https://github.com/guzzle/psr7/issues",
-                "source": "https://github.com/guzzle/psr7/tree/2.4.1"
+                "source": "https://github.com/guzzle/psr7/tree/2.4.3"
             },
             "funding": [
                 {
@@ -2432,7 +2432,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-08-28T14:45:39+00:00"
+            "time": "2022-10-26T14:07:24+00:00"
         },
         {
             "name": "php-coveralls/php-coveralls",
@@ -2988,16 +2988,16 @@
         },
         {
             "name": "symfony/console",
-            "version": "v5.4.12",
+            "version": "v5.4.15",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
-                "reference": "c072aa8f724c3af64e2c7a96b796a4863d24dba1"
+                "reference": "ea59bb0edfaf9f28d18d8791410ee0355f317669"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/console/zipball/c072aa8f724c3af64e2c7a96b796a4863d24dba1",
-                "reference": "c072aa8f724c3af64e2c7a96b796a4863d24dba1",
+                "url": "https://api.github.com/repos/symfony/console/zipball/ea59bb0edfaf9f28d18d8791410ee0355f317669",
+                "reference": "ea59bb0edfaf9f28d18d8791410ee0355f317669",
                 "shasum": ""
             },
             "require": {
@@ -3067,7 +3067,7 @@
                 "terminal"
             ],
             "support": {
-                "source": "https://github.com/symfony/console/tree/v5.4.12"
+                "source": "https://github.com/symfony/console/tree/v5.4.15"
             },
             "funding": [
                 {
@@ -3083,7 +3083,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-08-17T13:18:05+00:00"
+            "time": "2022-10-26T21:41:52+00:00"
         },
         {
             "name": "symfony/dependency-injection",
@@ -3407,16 +3407,16 @@
         },
         {
             "name": "symfony/filesystem",
-            "version": "v5.4.12",
+            "version": "v5.4.13",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/filesystem.git",
-                "reference": "2d67c1f9a1937406a9be3171b4b22250c0a11447"
+                "reference": "ac09569844a9109a5966b9438fc29113ce77cf51"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/filesystem/zipball/2d67c1f9a1937406a9be3171b4b22250c0a11447",
-                "reference": "2d67c1f9a1937406a9be3171b4b22250c0a11447",
+                "url": "https://api.github.com/repos/symfony/filesystem/zipball/ac09569844a9109a5966b9438fc29113ce77cf51",
+                "reference": "ac09569844a9109a5966b9438fc29113ce77cf51",
                 "shasum": ""
             },
             "require": {
@@ -3451,7 +3451,7 @@
             "description": "Provides basic utilities for the filesystem",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/filesystem/tree/v5.4.12"
+                "source": "https://github.com/symfony/filesystem/tree/v5.4.13"
             },
             "funding": [
                 {
@@ -3467,7 +3467,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-08-02T13:48:16+00:00"
+            "time": "2022-09-21T19:53:16+00:00"
         },
         {
             "name": "symfony/polyfill-ctype",
@@ -4125,16 +4125,16 @@
         },
         {
             "name": "symfony/stopwatch",
-            "version": "v5.4.5",
+            "version": "v5.4.13",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/stopwatch.git",
-                "reference": "4d04b5c24f3c9a1a168a131f6cbe297155bc0d30"
+                "reference": "6df7a3effde34d81717bbef4591e5ffe32226d69"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/stopwatch/zipball/4d04b5c24f3c9a1a168a131f6cbe297155bc0d30",
-                "reference": "4d04b5c24f3c9a1a168a131f6cbe297155bc0d30",
+                "url": "https://api.github.com/repos/symfony/stopwatch/zipball/6df7a3effde34d81717bbef4591e5ffe32226d69",
+                "reference": "6df7a3effde34d81717bbef4591e5ffe32226d69",
                 "shasum": ""
             },
             "require": {
@@ -4167,7 +4167,7 @@
             "description": "Provides a way to profile code",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/stopwatch/tree/v5.4.5"
+                "source": "https://github.com/symfony/stopwatch/tree/v5.4.13"
             },
             "funding": [
                 {
@@ -4183,20 +4183,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-02-18T16:06:09+00:00"
+            "time": "2022-09-28T13:19:49+00:00"
         },
         {
             "name": "symfony/string",
-            "version": "v5.4.12",
+            "version": "v5.4.15",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/string.git",
-                "reference": "2fc515e512d721bf31ea76bd02fe23ada4640058"
+                "reference": "571334ce9f687e3e6af72db4d3b2a9431e4fd9ed"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/string/zipball/2fc515e512d721bf31ea76bd02fe23ada4640058",
-                "reference": "2fc515e512d721bf31ea76bd02fe23ada4640058",
+                "url": "https://api.github.com/repos/symfony/string/zipball/571334ce9f687e3e6af72db4d3b2a9431e4fd9ed",
+                "reference": "571334ce9f687e3e6af72db4d3b2a9431e4fd9ed",
                 "shasum": ""
             },
             "require": {
@@ -4253,7 +4253,7 @@
                 "utf8"
             ],
             "support": {
-                "source": "https://github.com/symfony/string/tree/v5.4.12"
+                "source": "https://github.com/symfony/string/tree/v5.4.15"
             },
             "funding": [
                 {
@@ -4269,7 +4269,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-08-12T17:03:11+00:00"
+            "time": "2022-10-05T15:16:54+00:00"
         },
         {
             "name": "symfony/translation",
@@ -4448,16 +4448,16 @@
         },
         {
             "name": "symfony/yaml",
-            "version": "v5.4.12",
+            "version": "v5.4.14",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",
-                "reference": "7a3aa21ac8ab1a96cc6de5bbcab4bc9fc943b18c"
+                "reference": "e83fe9a72011f07c662da46a05603d66deeeb487"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/yaml/zipball/7a3aa21ac8ab1a96cc6de5bbcab4bc9fc943b18c",
-                "reference": "7a3aa21ac8ab1a96cc6de5bbcab4bc9fc943b18c",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/e83fe9a72011f07c662da46a05603d66deeeb487",
+                "reference": "e83fe9a72011f07c662da46a05603d66deeeb487",
                 "shasum": ""
             },
             "require": {
@@ -4503,7 +4503,7 @@
             "description": "Loads and dumps YAML files",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/yaml/tree/v5.4.12"
+                "source": "https://github.com/symfony/yaml/tree/v5.4.14"
             },
             "funding": [
                 {
@@ -4519,7 +4519,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-08-02T15:52:22+00:00"
+            "time": "2022-10-03T15:15:50+00:00"
         }
     ],
     "aliases": [],
