@@ -7,14 +7,6 @@ parameters:
 			tooWideThrowType: true
 	paths:
 		- php
-		- php/WP_Mock
-		- php/WP_Mock/API
-		- php/WP_Mock/API/dummy-files
-		- php/WP_Mock/Matcher
-		- php/WP_Mock/Tools
-		- php/WP_Mock/Tools/Constraints
 		- tests
-		- tests/WP_Mock
-		- tests/WP_Mock/Matcher
 	scanFiles:
 		- vendor/antecedent/patchwork/Patchwork.php
