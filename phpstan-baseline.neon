@@ -61,7 +61,22 @@ parameters:
 			path: php/WP_Mock.php
 
 		-
+			message: "#^Method WP_Mock\\:\\:alias\\(\\) throws checked exception Exception but it's missing from the PHPDoc @throws tag\\.$#"
+			count: 1
+			path: php/WP_Mock.php
+
+		-
 			message: "#^Method WP_Mock\\:\\:assertActionsCalled\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: php/WP_Mock.php
+
+		-
+			message: "#^Method WP_Mock\\:\\:assertActionsCalled\\(\\) throws checked exception PHPUnit\\\\Framework\\\\ExpectationFailedException but it's missing from the PHPDoc @throws tag\\.$#"
+			count: 1
+			path: php/WP_Mock.php
+
+		-
+			message: "#^Method WP_Mock\\:\\:assertActionsCalled\\(\\) throws checked exception SebastianBergmann\\\\RecursionContext\\\\InvalidArgumentException but it's missing from the PHPDoc @throws tag\\.$#"
 			count: 1
 			path: php/WP_Mock.php
 
@@ -71,7 +86,27 @@ parameters:
 			path: php/WP_Mock.php
 
 		-
+			message: "#^Method WP_Mock\\:\\:assertFiltersCalled\\(\\) throws checked exception PHPUnit\\\\Framework\\\\ExpectationFailedException but it's missing from the PHPDoc @throws tag\\.$#"
+			count: 1
+			path: php/WP_Mock.php
+
+		-
+			message: "#^Method WP_Mock\\:\\:assertFiltersCalled\\(\\) throws checked exception SebastianBergmann\\\\RecursionContext\\\\InvalidArgumentException but it's missing from the PHPDoc @throws tag\\.$#"
+			count: 1
+			path: php/WP_Mock.php
+
+		-
 			message: "#^Method WP_Mock\\:\\:assertHooksAdded\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: php/WP_Mock.php
+
+		-
+			message: "#^Method WP_Mock\\:\\:assertHooksAdded\\(\\) throws checked exception PHPUnit\\\\Framework\\\\ExpectationFailedException but it's missing from the PHPDoc @throws tag\\.$#"
+			count: 1
+			path: php/WP_Mock.php
+
+		-
+			message: "#^Method WP_Mock\\:\\:assertHooksAdded\\(\\) throws checked exception SebastianBergmann\\\\RecursionContext\\\\InvalidArgumentException but it's missing from the PHPDoc @throws tag\\.$#"
 			count: 1
 			path: php/WP_Mock.php
 
@@ -82,6 +117,11 @@ parameters:
 
 		-
 			message: "#^Method WP_Mock\\:\\:echoFunction\\(\\) has parameter \\$arguments with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: php/WP_Mock.php
+
+		-
+			message: "#^Method WP_Mock\\:\\:echoFunction\\(\\) throws checked exception Exception but it's missing from the PHPDoc @throws tag\\.$#"
 			count: 1
 			path: php/WP_Mock.php
 
@@ -131,6 +171,11 @@ parameters:
 			path: php/WP_Mock.php
 
 		-
+			message: "#^Method WP_Mock\\:\\:fuzzyObject\\(\\) throws checked exception Mockery\\\\Exception but it's missing from the PHPDoc @throws tag\\.$#"
+			count: 1
+			path: php/WP_Mock.php
+
+		-
 			message: "#^Method WP_Mock\\:\\:invokeAction\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: php/WP_Mock.php
@@ -141,12 +186,22 @@ parameters:
 			path: php/WP_Mock.php
 
 		-
+			message: "#^Method WP_Mock\\:\\:passthruFunction\\(\\) throws checked exception Exception but it's missing from the PHPDoc @throws tag\\.$#"
+			count: 1
+			path: php/WP_Mock.php
+
+		-
 			message: "#^Method WP_Mock\\:\\:setUsePatchwork\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: php/WP_Mock.php
 
 		-
 			message: "#^Method WP_Mock\\:\\:userFunction\\(\\) has parameter \\$arguments with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: php/WP_Mock.php
+
+		-
+			message: "#^Method WP_Mock\\:\\:userFunction\\(\\) throws checked exception Exception but it's missing from the PHPDoc @throws tag\\.$#"
 			count: 1
 			path: php/WP_Mock.php
 
@@ -201,6 +256,11 @@ parameters:
 			path: php/WP_Mock/API/function-mocks.php
 
 		-
+			message: "#^Function _e\\(\\) throws checked exception Exception but it's missing from the PHPDoc @throws tag\\.$#"
+			count: 1
+			path: php/WP_Mock/API/function-mocks.php
+
+		-
 			message: "#^Function _x\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: php/WP_Mock/API/function-mocks.php
@@ -251,6 +311,11 @@ parameters:
 			path: php/WP_Mock/API/function-mocks.php
 
 		-
+			message: "#^Function esc_attr_e\\(\\) throws checked exception Exception but it's missing from the PHPDoc @throws tag\\.$#"
+			count: 1
+			path: php/WP_Mock/API/function-mocks.php
+
+		-
 			message: "#^Function esc_attr_x\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: php/WP_Mock/API/function-mocks.php
@@ -267,6 +332,11 @@ parameters:
 
 		-
 			message: "#^Function esc_html_e\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: php/WP_Mock/API/function-mocks.php
+
+		-
+			message: "#^Function esc_html_e\\(\\) throws checked exception Exception but it's missing from the PHPDoc @throws tag\\.$#"
 			count: 1
 			path: php/WP_Mock/API/function-mocks.php
 
@@ -318,6 +388,11 @@ parameters:
 		-
 			message: "#^Method WP_Mock\\\\Action\\:\\:react\\(\\) has parameter \\$args with no type specified\\.$#"
 			count: 1
+			path: php/WP_Mock/Action.php
+
+		-
+			message: "#^Method WP_Mock\\\\Action\\:\\:react\\(\\) throws checked exception PHPUnit\\\\Framework\\\\ExpectationFailedException but it's missing from the PHPDoc @throws tag\\.$#"
+			count: 3
 			path: php/WP_Mock/Action.php
 
 		-
@@ -496,6 +571,11 @@ parameters:
 			path: php/WP_Mock/Filter.php
 
 		-
+			message: "#^Method WP_Mock\\\\Filter\\:\\:apply\\(\\) throws checked exception PHPUnit\\\\Framework\\\\ExpectationFailedException but it's missing from the PHPDoc @throws tag\\.$#"
+			count: 2
+			path: php/WP_Mock/Filter.php
+
+		-
 			message: "#^Method WP_Mock\\\\Filter\\:\\:new_responder\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: php/WP_Mock/Filter.php
@@ -551,16 +631,6 @@ parameters:
 			path: php/WP_Mock/Functions.php
 
 		-
-			message: "#^Function Patchwork\\\\redefine not found\\.$#"
-			count: 1
-			path: php/WP_Mock/Functions.php
-
-		-
-			message: "#^Function Patchwork\\\\restoreAll not found\\.$#"
-			count: 1
-			path: php/WP_Mock/Functions.php
-
-		-
 			message: "#^Method WP_Mock\\\\Functions\\:\\:anyOf\\(\\) should return Mockery\\\\Matcher\\\\AnyOf but returns mixed\\.$#"
 			count: 1
 			path: php/WP_Mock/Functions.php
@@ -577,6 +647,11 @@ parameters:
 
 		-
 			message: "#^Method WP_Mock\\\\Functions\\:\\:generate_function\\(\\) has parameter \\$function_name with no type specified\\.$#"
+			count: 1
+			path: php/WP_Mock/Functions.php
+
+		-
+			message: "#^Method WP_Mock\\\\Functions\\:\\:generate_function\\(\\) throws checked exception InvalidArgumentException but it's missing from the PHPDoc @throws tag\\.$#"
 			count: 1
 			path: php/WP_Mock/Functions.php
 
@@ -647,6 +722,11 @@ parameters:
 
 		-
 			message: "#^Method WP_Mock\\\\Handler\\:\\:handle_function\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: php/WP_Mock/Handler.php
+
+		-
+			message: "#^Method WP_Mock\\\\Handler\\:\\:handle_function\\(\\) throws checked exception PHPUnit\\\\Framework\\\\ExpectationFailedException but it's missing from the PHPDoc @throws tag\\.$#"
 			count: 1
 			path: php/WP_Mock/Handler.php
 
@@ -737,6 +817,16 @@ parameters:
 
 		-
 			message: "#^Method WP_Mock\\\\HookedCallback\\:\\:react\\(\\) has parameter \\$priority with no type specified\\.$#"
+			count: 1
+			path: php/WP_Mock/HookedCallback.php
+
+		-
+			message: "#^Method WP_Mock\\\\HookedCallback\\:\\:react\\(\\) throws checked exception Mockery\\\\Exception but it's missing from the PHPDoc @throws tag\\.$#"
+			count: 1
+			path: php/WP_Mock/HookedCallback.php
+
+		-
+			message: "#^Method WP_Mock\\\\HookedCallback\\:\\:react\\(\\) throws checked exception PHPUnit\\\\Framework\\\\ExpectationFailedException but it's missing from the PHPDoc @throws tag\\.$#"
 			count: 1
 			path: php/WP_Mock/HookedCallback.php
 
@@ -856,6 +946,11 @@ parameters:
 			path: php/WP_Mock/Loader.php
 
 		-
+			message: "#^Method WP_Mock\\\\Matcher\\\\AnyInstance\\:\\:match\\(\\) throws checked exception ReflectionException but it's missing from the PHPDoc @throws tag\\.$#"
+			count: 1
+			path: php/WP_Mock/Matcher/AnyInstance.php
+
+		-
 			message: "#^Parameter \\#1 \\$argument of class ReflectionClass constructor expects class\\-string\\<T of object\\>\\|T of object, mixed given\\.$#"
 			count: 1
 			path: php/WP_Mock/Matcher/AnyInstance.php
@@ -951,6 +1046,11 @@ parameters:
 			path: php/WP_Mock/Tools/Constraints/IsEqualHtml.php
 
 		-
+			message: "#^Method WP_Mock\\\\Tools\\\\Constraints\\\\IsEqualHtml\\:\\:evaluate\\(\\) throws checked exception PHPUnit\\\\Framework\\\\ExpectationFailedException but it's missing from the PHPDoc @throws tag\\.$#"
+			count: 1
+			path: php/WP_Mock/Tools/Constraints/IsEqualHtml.php
+
+		-
 			message: "#^Parameter \\#3 \\$canonicalize of class PHPUnit\\\\Framework\\\\Constraint\\\\IsEqual constructor expects bool, int given\\.$#"
 			count: 1
 			path: php/WP_Mock/Tools/Constraints/IsEqualHtml.php
@@ -991,6 +1091,16 @@ parameters:
 			path: php/WP_Mock/Tools/TestCase.php
 
 		-
+			message: "#^Method WP_Mock\\\\Tools\\\\TestCase\\:\\:assertActionsCalled\\(\\) throws checked exception PHPUnit\\\\Framework\\\\ExpectationFailedException but it's missing from the PHPDoc @throws tag\\.$#"
+			count: 1
+			path: php/WP_Mock/Tools/TestCase.php
+
+		-
+			message: "#^Method WP_Mock\\\\Tools\\\\TestCase\\:\\:assertActionsCalled\\(\\) throws checked exception SebastianBergmann\\\\RecursionContext\\\\InvalidArgumentException but it's missing from the PHPDoc @throws tag\\.$#"
+			count: 1
+			path: php/WP_Mock/Tools/TestCase.php
+
+		-
 			message: "#^Method WP_Mock\\\\Tools\\\\TestCase\\:\\:assertConditionsMet\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: php/WP_Mock/Tools/TestCase.php
@@ -1007,6 +1117,16 @@ parameters:
 
 		-
 			message: "#^Method WP_Mock\\\\Tools\\\\TestCase\\:\\:assertCurrentConditionsMet\\(\\) has parameter \\$message with no type specified\\.$#"
+			count: 1
+			path: php/WP_Mock/Tools/TestCase.php
+
+		-
+			message: "#^Method WP_Mock\\\\Tools\\\\TestCase\\:\\:assertCurrentConditionsMet\\(\\) throws checked exception PHPUnit\\\\Framework\\\\ExpectationFailedException but it's missing from the PHPDoc @throws tag\\.$#"
+			count: 1
+			path: php/WP_Mock/Tools/TestCase.php
+
+		-
+			message: "#^Method WP_Mock\\\\Tools\\\\TestCase\\:\\:assertCurrentConditionsMet\\(\\) throws checked exception SebastianBergmann\\\\RecursionContext\\\\InvalidArgumentException but it's missing from the PHPDoc @throws tag\\.$#"
 			count: 1
 			path: php/WP_Mock/Tools/TestCase.php
 
@@ -1031,7 +1151,27 @@ parameters:
 			path: php/WP_Mock/Tools/TestCase.php
 
 		-
+			message: "#^Method WP_Mock\\\\Tools\\\\TestCase\\:\\:assertEqualsHTML\\(\\) throws checked exception PHPUnit\\\\Framework\\\\ExpectationFailedException but it's missing from the PHPDoc @throws tag\\.$#"
+			count: 1
+			path: php/WP_Mock/Tools/TestCase.php
+
+		-
+			message: "#^Method WP_Mock\\\\Tools\\\\TestCase\\:\\:assertEqualsHTML\\(\\) throws checked exception SebastianBergmann\\\\RecursionContext\\\\InvalidArgumentException but it's missing from the PHPDoc @throws tag\\.$#"
+			count: 1
+			path: php/WP_Mock/Tools/TestCase.php
+
+		-
 			message: "#^Method WP_Mock\\\\Tools\\\\TestCase\\:\\:assertHooksAdded\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: php/WP_Mock/Tools/TestCase.php
+
+		-
+			message: "#^Method WP_Mock\\\\Tools\\\\TestCase\\:\\:assertHooksAdded\\(\\) throws checked exception PHPUnit\\\\Framework\\\\ExpectationFailedException but it's missing from the PHPDoc @throws tag\\.$#"
+			count: 1
+			path: php/WP_Mock/Tools/TestCase.php
+
+		-
+			message: "#^Method WP_Mock\\\\Tools\\\\TestCase\\:\\:assertHooksAdded\\(\\) throws checked exception SebastianBergmann\\\\RecursionContext\\\\InvalidArgumentException but it's missing from the PHPDoc @throws tag\\.$#"
 			count: 1
 			path: php/WP_Mock/Tools/TestCase.php
 
@@ -1087,6 +1227,11 @@ parameters:
 
 		-
 			message: "#^Method WP_Mock\\\\Tools\\\\TestCase\\:\\:setUpContentFiltering\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: php/WP_Mock/Tools/TestCase.php
+
+		-
+			message: "#^Method WP_Mock\\\\Tools\\\\TestCase\\:\\:setUpContentFiltering\\(\\) throws checked exception SebastianBergmann\\\\RecursionContext\\\\InvalidArgumentException but it's missing from the PHPDoc @throws tag\\.$#"
 			count: 1
 			path: php/WP_Mock/Tools/TestCase.php
 
@@ -1176,6 +1321,26 @@ parameters:
 			path: tests/DeprecatedMethodsTest.php
 
 		-
+			message: "#^Method DeprecatedMethodsTest\\:\\:testWpFunctionLogsDeprecationNotice\\(\\) throws checked exception PHPUnit\\\\Framework\\\\ExpectationFailedException but it's missing from the PHPDoc @throws tag\\.$#"
+			count: 1
+			path: tests/DeprecatedMethodsTest.php
+
+		-
+			message: "#^Method DeprecatedMethodsTest\\:\\:testWpFunctionLogsDeprecationNotice\\(\\) throws checked exception SebastianBergmann\\\\RecursionContext\\\\InvalidArgumentException but it's missing from the PHPDoc @throws tag\\.$#"
+			count: 1
+			path: tests/DeprecatedMethodsTest.php
+
+		-
+			message: "#^Method DeprecatedMethodsTest\\:\\:testWpPassthruFunctionLogsDeprecationNotice\\(\\) throws checked exception PHPUnit\\\\Framework\\\\ExpectationFailedException but it's missing from the PHPDoc @throws tag\\.$#"
+			count: 1
+			path: tests/DeprecatedMethodsTest.php
+
+		-
+			message: "#^Method DeprecatedMethodsTest\\:\\:testWpPassthruFunctionLogsDeprecationNotice\\(\\) throws checked exception SebastianBergmann\\\\RecursionContext\\\\InvalidArgumentException but it's missing from the PHPDoc @throws tag\\.$#"
+			count: 1
+			path: tests/DeprecatedMethodsTest.php
+
+		-
 			message: "#^Parameter \\#1 \\$testCase of method WP_Mock\\\\DeprecatedListener\\:\\:setTestCase\\(\\) expects PHPUnit\\\\Framework\\\\TestCase, Mockery\\\\LegacyMockInterface given\\.$#"
 			count: 2
 			path: tests/DeprecatedMethodsTest.php
@@ -1206,8 +1371,28 @@ parameters:
 			path: tests/FunctionMocksTest.php
 
 		-
+			message: "#^Method FunctionMocksTest\\:\\:testBotchedMocksStillOverrideDefault\\(\\) throws checked exception PHPUnit\\\\Framework\\\\ExpectationFailedException but it's missing from the PHPDoc @throws tag\\.$#"
+			count: 1
+			path: tests/FunctionMocksTest.php
+
+		-
+			message: "#^Method FunctionMocksTest\\:\\:testBotchedMocksStillOverrideDefault\\(\\) throws checked exception SebastianBergmann\\\\RecursionContext\\\\InvalidArgumentException but it's missing from the PHPDoc @throws tag\\.$#"
+			count: 1
+			path: tests/FunctionMocksTest.php
+
+		-
 			message: "#^Method FunctionMocksTest\\:\\:testCommonFunctionsAreDefined\\(\\) has no return type specified\\.$#"
 			count: 1
+			path: tests/FunctionMocksTest.php
+
+		-
+			message: "#^Method FunctionMocksTest\\:\\:testCommonFunctionsAreDefined\\(\\) throws checked exception PHPUnit\\\\Framework\\\\ExpectationFailedException but it's missing from the PHPDoc @throws tag\\.$#"
+			count: 2
+			path: tests/FunctionMocksTest.php
+
+		-
+			message: "#^Method FunctionMocksTest\\:\\:testCommonFunctionsAreDefined\\(\\) throws checked exception SebastianBergmann\\\\RecursionContext\\\\InvalidArgumentException but it's missing from the PHPDoc @throws tag\\.$#"
+			count: 2
 			path: tests/FunctionMocksTest.php
 
 		-
@@ -1226,8 +1411,28 @@ parameters:
 			path: tests/FunctionMocksTest.php
 
 		-
+			message: "#^Method FunctionMocksTest\\:\\:testCommonFunctionsDefaultFunctionality\\(\\) throws checked exception PHPUnit\\\\Framework\\\\ExpectationFailedException but it's missing from the PHPDoc @throws tag\\.$#"
+			count: 2
+			path: tests/FunctionMocksTest.php
+
+		-
+			message: "#^Method FunctionMocksTest\\:\\:testCommonFunctionsDefaultFunctionality\\(\\) throws checked exception SebastianBergmann\\\\RecursionContext\\\\InvalidArgumentException but it's missing from the PHPDoc @throws tag\\.$#"
+			count: 2
+			path: tests/FunctionMocksTest.php
+
+		-
 			message: "#^Method FunctionMocksTest\\:\\:testDefaultFailsInStrictMode\\(\\) has no return type specified\\.$#"
 			count: 1
+			path: tests/FunctionMocksTest.php
+
+		-
+			message: "#^Method FunctionMocksTest\\:\\:testMockingOverridesDefaults\\(\\) throws checked exception PHPUnit\\\\Framework\\\\ExpectationFailedException but it's missing from the PHPDoc @throws tag\\.$#"
+			count: 2
+			path: tests/FunctionMocksTest.php
+
+		-
+			message: "#^Method FunctionMocksTest\\:\\:testMockingOverridesDefaults\\(\\) throws checked exception SebastianBergmann\\\\RecursionContext\\\\InvalidArgumentException but it's missing from the PHPDoc @throws tag\\.$#"
+			count: 2
 			path: tests/FunctionMocksTest.php
 
 		-
@@ -1256,6 +1461,41 @@ parameters:
 			path: tests/WP_Mock/DeprecatedListenerTest.php
 
 		-
+			message: "#^Method WP_Mock\\\\DeprecatedListenerTest\\:\\:getCalls\\(\\) throws checked exception ReflectionException but it's missing from the PHPDoc @throws tag\\.$#"
+			count: 1
+			path: tests/WP_Mock/DeprecatedListenerTest.php
+
+		-
+			message: "#^Method WP_Mock\\\\DeprecatedListenerTest\\:\\:testCheckCallsNoCalls\\(\\) throws checked exception PHPUnit\\\\Framework\\\\ExpectationFailedException but it's missing from the PHPDoc @throws tag\\.$#"
+			count: 1
+			path: tests/WP_Mock/DeprecatedListenerTest.php
+
+		-
+			message: "#^Method WP_Mock\\\\DeprecatedListenerTest\\:\\:testCheckCallsNoCalls\\(\\) throws checked exception SebastianBergmann\\\\RecursionContext\\\\InvalidArgumentException but it's missing from the PHPDoc @throws tag\\.$#"
+			count: 1
+			path: tests/WP_Mock/DeprecatedListenerTest.php
+
+		-
+			message: "#^Method WP_Mock\\\\DeprecatedListenerTest\\:\\:testLogDeprecatedCall\\(\\) throws checked exception PHPUnit\\\\Framework\\\\ExpectationFailedException but it's missing from the PHPDoc @throws tag\\.$#"
+			count: 1
+			path: tests/WP_Mock/DeprecatedListenerTest.php
+
+		-
+			message: "#^Method WP_Mock\\\\DeprecatedListenerTest\\:\\:testLogDeprecatedCall\\(\\) throws checked exception SebastianBergmann\\\\RecursionContext\\\\InvalidArgumentException but it's missing from the PHPDoc @throws tag\\.$#"
+			count: 1
+			path: tests/WP_Mock/DeprecatedListenerTest.php
+
+		-
+			message: "#^Method WP_Mock\\\\DeprecatedListenerTest\\:\\:testReset\\(\\) throws checked exception PHPUnit\\\\Framework\\\\ExpectationFailedException but it's missing from the PHPDoc @throws tag\\.$#"
+			count: 1
+			path: tests/WP_Mock/DeprecatedListenerTest.php
+
+		-
+			message: "#^Method WP_Mock\\\\DeprecatedListenerTest\\:\\:testReset\\(\\) throws checked exception SebastianBergmann\\\\RecursionContext\\\\InvalidArgumentException but it's missing from the PHPDoc @throws tag\\.$#"
+			count: 1
+			path: tests/WP_Mock/DeprecatedListenerTest.php
+
+		-
 			message: "#^Parameter \\#1 \\$fp of function fclose expects resource, resource\\|false given\\.$#"
 			count: 2
 			path: tests/WP_Mock/DeprecatedListenerTest.php
@@ -1271,7 +1511,27 @@ parameters:
 			path: tests/WP_Mock/Matcher/AnyInstanceTest.php
 
 		-
+			message: "#^Method WP_Mock\\\\Matcher\\\\AnyInstanceTest\\:\\:testCannotConstructWithoutObject\\(\\) throws checked exception Mockery\\\\Exception but it's missing from the PHPDoc @throws tag\\.$#"
+			count: 1
+			path: tests/WP_Mock/Matcher/AnyInstanceTest.php
+
+		-
 			message: "#^Method WP_Mock\\\\Matcher\\\\AnyInstanceTest\\:\\:testClosureMatchesFalse\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: tests/WP_Mock/Matcher/AnyInstanceTest.php
+
+		-
+			message: "#^Method WP_Mock\\\\Matcher\\\\AnyInstanceTest\\:\\:testClosureMatchesFalse\\(\\) throws checked exception Mockery\\\\Exception but it's missing from the PHPDoc @throws tag\\.$#"
+			count: 1
+			path: tests/WP_Mock/Matcher/AnyInstanceTest.php
+
+		-
+			message: "#^Method WP_Mock\\\\Matcher\\\\AnyInstanceTest\\:\\:testClosureMatchesFalse\\(\\) throws checked exception PHPUnit\\\\Framework\\\\ExpectationFailedException but it's missing from the PHPDoc @throws tag\\.$#"
+			count: 1
+			path: tests/WP_Mock/Matcher/AnyInstanceTest.php
+
+		-
+			message: "#^Method WP_Mock\\\\Matcher\\\\AnyInstanceTest\\:\\:testClosureMatchesFalse\\(\\) throws checked exception SebastianBergmann\\\\RecursionContext\\\\InvalidArgumentException but it's missing from the PHPDoc @throws tag\\.$#"
 			count: 1
 			path: tests/WP_Mock/Matcher/AnyInstanceTest.php
 
@@ -1281,7 +1541,37 @@ parameters:
 			path: tests/WP_Mock/Matcher/AnyInstanceTest.php
 
 		-
+			message: "#^Method WP_Mock\\\\Matcher\\\\AnyInstanceTest\\:\\:testExactClassInstanceMatchesTrue\\(\\) throws checked exception Mockery\\\\Exception but it's missing from the PHPDoc @throws tag\\.$#"
+			count: 1
+			path: tests/WP_Mock/Matcher/AnyInstanceTest.php
+
+		-
+			message: "#^Method WP_Mock\\\\Matcher\\\\AnyInstanceTest\\:\\:testExactClassInstanceMatchesTrue\\(\\) throws checked exception PHPUnit\\\\Framework\\\\ExpectationFailedException but it's missing from the PHPDoc @throws tag\\.$#"
+			count: 1
+			path: tests/WP_Mock/Matcher/AnyInstanceTest.php
+
+		-
+			message: "#^Method WP_Mock\\\\Matcher\\\\AnyInstanceTest\\:\\:testExactClassInstanceMatchesTrue\\(\\) throws checked exception SebastianBergmann\\\\RecursionContext\\\\InvalidArgumentException but it's missing from the PHPDoc @throws tag\\.$#"
+			count: 1
+			path: tests/WP_Mock/Matcher/AnyInstanceTest.php
+
+		-
 			message: "#^Method WP_Mock\\\\Matcher\\\\AnyInstanceTest\\:\\:testExactClassStringMatchesTrue\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: tests/WP_Mock/Matcher/AnyInstanceTest.php
+
+		-
+			message: "#^Method WP_Mock\\\\Matcher\\\\AnyInstanceTest\\:\\:testExactClassStringMatchesTrue\\(\\) throws checked exception Mockery\\\\Exception but it's missing from the PHPDoc @throws tag\\.$#"
+			count: 1
+			path: tests/WP_Mock/Matcher/AnyInstanceTest.php
+
+		-
+			message: "#^Method WP_Mock\\\\Matcher\\\\AnyInstanceTest\\:\\:testExactClassStringMatchesTrue\\(\\) throws checked exception PHPUnit\\\\Framework\\\\ExpectationFailedException but it's missing from the PHPDoc @throws tag\\.$#"
+			count: 1
+			path: tests/WP_Mock/Matcher/AnyInstanceTest.php
+
+		-
+			message: "#^Method WP_Mock\\\\Matcher\\\\AnyInstanceTest\\:\\:testExactClassStringMatchesTrue\\(\\) throws checked exception SebastianBergmann\\\\RecursionContext\\\\InvalidArgumentException but it's missing from the PHPDoc @throws tag\\.$#"
 			count: 1
 			path: tests/WP_Mock/Matcher/AnyInstanceTest.php
 
@@ -1291,7 +1581,37 @@ parameters:
 			path: tests/WP_Mock/Matcher/AnyInstanceTest.php
 
 		-
+			message: "#^Method WP_Mock\\\\Matcher\\\\AnyInstanceTest\\:\\:testStringFunctionMatchesFalse\\(\\) throws checked exception Mockery\\\\Exception but it's missing from the PHPDoc @throws tag\\.$#"
+			count: 1
+			path: tests/WP_Mock/Matcher/AnyInstanceTest.php
+
+		-
+			message: "#^Method WP_Mock\\\\Matcher\\\\AnyInstanceTest\\:\\:testStringFunctionMatchesFalse\\(\\) throws checked exception PHPUnit\\\\Framework\\\\ExpectationFailedException but it's missing from the PHPDoc @throws tag\\.$#"
+			count: 1
+			path: tests/WP_Mock/Matcher/AnyInstanceTest.php
+
+		-
+			message: "#^Method WP_Mock\\\\Matcher\\\\AnyInstanceTest\\:\\:testStringFunctionMatchesFalse\\(\\) throws checked exception SebastianBergmann\\\\RecursionContext\\\\InvalidArgumentException but it's missing from the PHPDoc @throws tag\\.$#"
+			count: 1
+			path: tests/WP_Mock/Matcher/AnyInstanceTest.php
+
+		-
 			message: "#^Method WP_Mock\\\\Matcher\\\\AnyInstanceTest\\:\\:testSubClassMatchesTrue\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: tests/WP_Mock/Matcher/AnyInstanceTest.php
+
+		-
+			message: "#^Method WP_Mock\\\\Matcher\\\\AnyInstanceTest\\:\\:testSubClassMatchesTrue\\(\\) throws checked exception Mockery\\\\Exception but it's missing from the PHPDoc @throws tag\\.$#"
+			count: 1
+			path: tests/WP_Mock/Matcher/AnyInstanceTest.php
+
+		-
+			message: "#^Method WP_Mock\\\\Matcher\\\\AnyInstanceTest\\:\\:testSubClassMatchesTrue\\(\\) throws checked exception PHPUnit\\\\Framework\\\\ExpectationFailedException but it's missing from the PHPDoc @throws tag\\.$#"
+			count: 1
+			path: tests/WP_Mock/Matcher/AnyInstanceTest.php
+
+		-
+			message: "#^Method WP_Mock\\\\Matcher\\\\AnyInstanceTest\\:\\:testSubClassMatchesTrue\\(\\) throws checked exception SebastianBergmann\\\\RecursionContext\\\\InvalidArgumentException but it's missing from the PHPDoc @throws tag\\.$#"
 			count: 1
 			path: tests/WP_Mock/Matcher/AnyInstanceTest.php
 
@@ -1301,7 +1621,37 @@ parameters:
 			path: tests/WP_Mock/Matcher/AnyInstanceTest.php
 
 		-
+			message: "#^Method WP_Mock\\\\Matcher\\\\AnyInstanceTest\\:\\:testToString\\(\\) throws checked exception Mockery\\\\Exception but it's missing from the PHPDoc @throws tag\\.$#"
+			count: 1
+			path: tests/WP_Mock/Matcher/AnyInstanceTest.php
+
+		-
+			message: "#^Method WP_Mock\\\\Matcher\\\\AnyInstanceTest\\:\\:testToString\\(\\) throws checked exception PHPUnit\\\\Framework\\\\ExpectationFailedException but it's missing from the PHPDoc @throws tag\\.$#"
+			count: 1
+			path: tests/WP_Mock/Matcher/AnyInstanceTest.php
+
+		-
+			message: "#^Method WP_Mock\\\\Matcher\\\\AnyInstanceTest\\:\\:testToString\\(\\) throws checked exception SebastianBergmann\\\\RecursionContext\\\\InvalidArgumentException but it's missing from the PHPDoc @throws tag\\.$#"
+			count: 1
+			path: tests/WP_Mock/Matcher/AnyInstanceTest.php
+
+		-
 			message: "#^Method WP_Mock\\\\Matcher\\\\AnyInstanceTest\\:\\:testWrongClassMatchesFalse\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: tests/WP_Mock/Matcher/AnyInstanceTest.php
+
+		-
+			message: "#^Method WP_Mock\\\\Matcher\\\\AnyInstanceTest\\:\\:testWrongClassMatchesFalse\\(\\) throws checked exception Mockery\\\\Exception but it's missing from the PHPDoc @throws tag\\.$#"
+			count: 1
+			path: tests/WP_Mock/Matcher/AnyInstanceTest.php
+
+		-
+			message: "#^Method WP_Mock\\\\Matcher\\\\AnyInstanceTest\\:\\:testWrongClassMatchesFalse\\(\\) throws checked exception PHPUnit\\\\Framework\\\\ExpectationFailedException but it's missing from the PHPDoc @throws tag\\.$#"
+			count: 1
+			path: tests/WP_Mock/Matcher/AnyInstanceTest.php
+
+		-
+			message: "#^Method WP_Mock\\\\Matcher\\\\AnyInstanceTest\\:\\:testWrongClassMatchesFalse\\(\\) throws checked exception SebastianBergmann\\\\RecursionContext\\\\InvalidArgumentException but it's missing from the PHPDoc @throws tag\\.$#"
 			count: 1
 			path: tests/WP_Mock/Matcher/AnyInstanceTest.php
 
@@ -1321,7 +1671,27 @@ parameters:
 			path: tests/WP_MockTest.php
 
 		-
+			message: "#^Method WP_MockTest\\:\\:test_activateStrictMode_does_not_work_after_bootstrap\\(\\) throws checked exception PHPUnit\\\\Framework\\\\ExpectationFailedException but it's missing from the PHPDoc @throws tag\\.$#"
+			count: 1
+			path: tests/WP_MockTest.php
+
+		-
+			message: "#^Method WP_MockTest\\:\\:test_activateStrictMode_does_not_work_after_bootstrap\\(\\) throws checked exception SebastianBergmann\\\\RecursionContext\\\\InvalidArgumentException but it's missing from the PHPDoc @throws tag\\.$#"
+			count: 1
+			path: tests/WP_MockTest.php
+
+		-
 			message: "#^Method WP_MockTest\\:\\:test_activateStrictMode_turns_strict_mode_on\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: tests/WP_MockTest.php
+
+		-
+			message: "#^Method WP_MockTest\\:\\:test_activateStrictMode_turns_strict_mode_on\\(\\) throws checked exception PHPUnit\\\\Framework\\\\ExpectationFailedException but it's missing from the PHPDoc @throws tag\\.$#"
+			count: 1
+			path: tests/WP_MockTest.php
+
+		-
+			message: "#^Method WP_MockTest\\:\\:test_activateStrictMode_turns_strict_mode_on\\(\\) throws checked exception SebastianBergmann\\\\RecursionContext\\\\InvalidArgumentException but it's missing from the PHPDoc @throws tag\\.$#"
 			count: 1
 			path: tests/WP_MockTest.php
 
@@ -1361,7 +1731,27 @@ parameters:
 			path: tests/WP_MockTest.php
 
 		-
+			message: "#^Method WP_MockTest\\:\\:test_strictMode_off_by_default\\(\\) throws checked exception PHPUnit\\\\Framework\\\\ExpectationFailedException but it's missing from the PHPDoc @throws tag\\.$#"
+			count: 1
+			path: tests/WP_MockTest.php
+
+		-
+			message: "#^Method WP_MockTest\\:\\:test_strictMode_off_by_default\\(\\) throws checked exception SebastianBergmann\\\\RecursionContext\\\\InvalidArgumentException but it's missing from the PHPDoc @throws tag\\.$#"
+			count: 1
+			path: tests/WP_MockTest.php
+
+		-
 			message: "#^Method WP_MockTest\\:\\:test_userFunction_returns_expectation\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: tests/WP_MockTest.php
+
+		-
+			message: "#^Method WP_MockTest\\:\\:test_userFunction_returns_expectation\\(\\) throws checked exception PHPUnit\\\\Framework\\\\Exception but it's missing from the PHPDoc @throws tag\\.$#"
+			count: 1
+			path: tests/WP_MockTest.php
+
+		-
+			message: "#^Method WP_MockTest\\:\\:test_userFunction_returns_expectation\\(\\) throws checked exception SebastianBergmann\\\\RecursionContext\\\\InvalidArgumentException but it's missing from the PHPDoc @throws tag\\.$#"
 			count: 1
 			path: tests/WP_MockTest.php
 
