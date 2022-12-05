@@ -16,7 +16,8 @@
 		"sempro/phpunit-pretty-print": "^1.4",
 		"phpstan/phpstan": "^1.9",
 		"phpstan/phpstan-phpunit": "^1.2",
-		"phpstan/phpstan-mockery": "^1.1"
+		"phpstan/phpstan-mockery": "^1.1",
+		"phpcompatibility/php-compatibility": "^9.3"
 	},
 	"autoload": {
 		"psr-4": {
