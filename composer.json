@@ -3,6 +3,7 @@
 	"description": "A mocking library to take the pain out of unit testing for WordPress",
 	"license": "GPL-2.0-or-later",
 	"version": "0.5.0",
+	"prefer-stable" : true,
 	"require": {
 		"php": ">=7.3 < 9.0",
 		"phpunit/phpunit": "^9.5.24",
@@ -46,6 +47,8 @@
 		"coverage": [
 			"@test:behat",
 			"@test:phpunitcov"
-		]
+		],
+		"post-install-cmd": "\"vendor/bin/phpcs\" --config-set installed_paths vendor/phpcompatibility/php-compatibility",
+		"post-update-cmd" : "\"vendor/bin/phpcs\" --config-set installed_paths vendor/phpcompatibility/php-compatibility"
 	}
 }
