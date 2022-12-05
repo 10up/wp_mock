@@ -1769,3 +1769,13 @@ parameters:
 			message: "#^Parameter \\#2 \\$function_to_add of function add_action expects callback, string given\\.$#"
 			count: 1
 			path: tests/WP_MockTest.php
+
+		-
+			message: "#^Method WP_Mock\\\\Functions\\:\\:anyOf\\(\\) has invalid return type Mockery\\\\Matcher\\\\anyOf.$#"
+			count: 1
+			path: php/WP_Mock/Functions.php
+
+		-
+			message: "#^Method WP_Mock\\\\Functions\\:\\:anyOf\\(\\) should return Mockery\\\\Matcher\\\\anyOf but returns mixed.$#"
+			count: 1
+			path: php/WP_Mock/Functions.php
