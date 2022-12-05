@@ -1,6 +1,5 @@
 includes:
-    - phpstan-baseline.neon
-
+	- phpstan-baseline.neon
 parameters:
 	level: max
 	reportUnmatchedIgnoredErrors: false
