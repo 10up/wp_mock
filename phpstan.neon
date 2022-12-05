@@ -1,0 +1,14 @@
+includes:
+	- phpstan-baseline.neon
+parameters:
+	level: max
+	reportUnmatchedIgnoredErrors: false
+	exceptions:
+		check:
+			missingCheckedExceptionInThrows: true
+			tooWideThrowType: true
+	paths:
+		- php
+		- tests
+	scanFiles:
+		- vendor/antecedent/patchwork/Patchwork.php

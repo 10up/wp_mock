@@ -13,7 +13,10 @@
 		"behat/behat": "^v3.11.0",
 		"sebastian/comparator": "^4.0.8",
 		"php-coveralls/php-coveralls": "^v2.5.3",
-		"sempro/phpunit-pretty-print": "^1.4"
+		"sempro/phpunit-pretty-print": "^1.4",
+		"phpstan/phpstan": "^1.9",
+		"phpstan/phpstan-phpunit": "^1.2",
+		"phpstan/phpstan-mockery": "^1.1"
 	},
 	"autoload": {
 		"psr-4": {
