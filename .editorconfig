@@ -1,0 +1,26 @@
+# This file is for unifying the coding style for different editors and IDEs
+# editorconfig.org
+
+root = true
+
+[*.md]
+charset = utf-8
+end_of_line = lf
+
+[{*.neon, *.xml}]
+indent_style = tab
+indent_size = 4
+
+[*.json]
+indent_style = space
+indent_size = 4
+
+# PHP PSR-12 Coding Standards
+# http://www.php-fig.org/psr/psr-12/
+[*.php]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+indent_style = space
+indent_size = 4
