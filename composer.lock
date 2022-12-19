@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "db1e63489e66a58f3c1eefe202d2f244",
+    "content-hash": "4fd16463059c0d0c57b88f07666c413a",
     "packages": [
         {
             "name": "antecedent/patchwork",
@@ -3017,55 +3017,6 @@
                 }
             ],
             "time": "2022-10-26T14:07:24+00:00"
-        },
-        {
-            "name": "isaac/php-code-sniffer-baseliner",
-            "version": "v2.3.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/isaaceindhoven/php-code-sniffer-baseliner.git",
-                "reference": "2c4e8ef2763b925cb0bb6aa2a0b3542f107db3b2"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/isaaceindhoven/php-code-sniffer-baseliner/zipball/2c4e8ef2763b925cb0bb6aa2a0b3542f107db3b2",
-                "reference": "2c4e8ef2763b925cb0bb6aa2a0b3542f107db3b2",
-                "shasum": ""
-            },
-            "require": {
-                "ext-dom": "*",
-                "ext-json": "*",
-                "ext-simplexml": "*",
-                "php": "~7.3.0 || ~7.4.0 || ~8.0.0 || ~8.1.0 || ~8.2.0",
-                "squizlabs/php_codesniffer": "^3.5"
-            },
-            "require-dev": {
-                "isaac/php-code-sniffer-standard": "^28.0",
-                "phpstan/extension-installer": "^1.1",
-                "phpstan/phpstan": "^1.6.8",
-                "phpstan/phpstan-phpunit": "^1.1.1",
-                "phpstan/phpstan-strict-rules": "^1.2.3",
-                "phpunit/phpunit": "^9.5"
-            },
-            "bin": [
-                "bin/phpcs-baseliner"
-            ],
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "ISAAC\\CodeSnifferBaseliner\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "ISAAC PHP Code Sniffer Baseliner",
-            "support": {
-                "issues": "https://github.com/isaaceindhoven/php-code-sniffer-baseliner/issues",
-                "source": "https://github.com/isaaceindhoven/php-code-sniffer-baseliner/tree/v2.3.1"
-            },
-            "time": "2022-11-16T13:51:09+00:00"
         },
         {
             "name": "php-coveralls/php-coveralls",

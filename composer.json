@@ -20,8 +20,7 @@
         "phpstan/phpstan-mockery": "^1.1",
         "phpcompatibility/php-compatibility": "^9.3",
         "friendsofphp/php-cs-fixer": "^3.4",
-        "dealerdirect/phpcodesniffer-composer-installer": "^0.7.2",
-        "isaac/php-code-sniffer-baseliner": "^2.3"
+        "dealerdirect/phpcodesniffer-composer-installer": "^0.7.2"
     },
     "autoload": {
         "psr-4": {
