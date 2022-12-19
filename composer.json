@@ -18,7 +18,10 @@
         "phpstan/phpstan": "^1.9",
         "phpstan/phpstan-phpunit": "^1.2",
         "phpstan/phpstan-mockery": "^1.1",
-        "phpcompatibility/php-compatibility": "^9.3"
+        "phpcompatibility/php-compatibility": "^9.3",
+        "friendsofphp/php-cs-fixer": "^3.4",
+        "dealerdirect/phpcodesniffer-composer-installer": "^0.7.2",
+        "isaac/php-code-sniffer-baseliner": "^2.3"
     },
     "autoload": {
         "psr-4": {
@@ -31,6 +34,9 @@
     "config": {
         "platform": {
             "php" : "7.3"
+        },
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
         }
     },
     "autoload-dev"   : {

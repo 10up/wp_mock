@@ -2,6 +2,9 @@
 
 namespace WP_Mock\Matcher;
 
-class SampleClass {
-    public function action(){}
+class SampleClass
+{
+    public function action()
+    {
+    }
 }
