@@ -4,10 +4,9 @@ namespace WP_Mock\Matcher;
 
 class AnyInstanceTest extends \PHPUnit\Framework\TestCase
 {
-
-	/**
-	 * @covers \WP_Mock\Matcher\AnyInstance::match
-	 */
+    /**
+     * @covers \WP_Mock\Matcher\AnyInstance::match
+     */
     public function testExactClassInstanceMatchesTrue()
     {
         $sut = new AnyInstance(new SampleClass());
@@ -19,9 +18,9 @@ class AnyInstanceTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($result);
     }
 
-	/**
-	 * @covers \WP_Mock\Matcher\AnyInstance::match
-	 */
+    /**
+     * @covers \WP_Mock\Matcher\AnyInstance::match
+     */
     public function testExactClassStringMatchesTrue()
     {
         $sut = new AnyInstance(SampleClass::class);
@@ -33,9 +32,9 @@ class AnyInstanceTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($result);
     }
 
-	/**
-	 * @covers \WP_Mock\Matcher\AnyInstance::match
-	 */
+    /**
+     * @covers \WP_Mock\Matcher\AnyInstance::match
+     */
     public function testSubClassMatchesTrue()
     {
         $sut = new AnyInstance(SampleClass::class);
@@ -47,9 +46,9 @@ class AnyInstanceTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($result);
     }
 
-	/**
-	 * @covers \WP_Mock\Matcher\AnyInstance::match
-	 */
+    /**
+     * @covers \WP_Mock\Matcher\AnyInstance::match
+     */
     public function testWrongClassMatchesFalse()
     {
         $sut = new AnyInstance(SampleClass::class);
@@ -61,9 +60,9 @@ class AnyInstanceTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($result);
     }
 
-	/**
-	 * @covers \WP_Mock\Matcher\AnyInstance::match
-	 */
+    /**
+     * @covers \WP_Mock\Matcher\AnyInstance::match
+     */
     public function testClosureMatchesFalse()
     {
         $sut = new AnyInstance(SampleClass::class);
@@ -76,9 +75,9 @@ class AnyInstanceTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($result);
     }
 
-	/**
-	 * @covers \WP_Mock\Matcher\AnyInstance::match
-	 */
+    /**
+     * @covers \WP_Mock\Matcher\AnyInstance::match
+     */
     public function testStringFunctionMatchesFalse()
     {
         $sut = new AnyInstance(SampleClass::class);
@@ -90,10 +89,11 @@ class AnyInstanceTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($result);
     }
 
-	/**
-	 * @covers \WP_Mock\Matcher\AnyInstance::__toString
-	 */
-    public function testToString() {
+    /**
+     * @covers \WP_Mock\Matcher\AnyInstance::__toString
+     */
+    public function testToString()
+    {
         $sut = new AnyInstance(SampleClass::class);
 
         $result = "$sut";
@@ -101,13 +101,13 @@ class AnyInstanceTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals("<AnyInstance[WP_Mock\Matcher\SampleClass]>", $result);
     }
 
-	/**
-	 * @covers \WP_Mock\Matcher\AnyInstance::__construct
-	 */
-    public function testCannotConstructWithoutObject() {
+    /**
+     * @covers \WP_Mock\Matcher\AnyInstance::__construct
+     */
+    public function testCannotConstructWithoutObject()
+    {
         $this->expectException(\Exception::class);
 
-        new AnyInstance('NotAClass' );
+        new AnyInstance('NotAClass');
     }
 }
-

@@ -1,50 +1,59 @@
 {
-	"name": "10up/wp_mock",
-	"description": "A mocking library to take the pain out of unit testing for WordPress",
-	"license": "GPL-2.0-or-later",
-	"version": "0.5.0",
-	"require": {
-		"php": ">=7.3 < 9.0",
-		"phpunit/phpunit": "^9.5.24",
-		"mockery/mockery": "^1.5",
-		"antecedent/patchwork": "^2.1"
-	},
-	"require-dev": {
-		"behat/behat": "^v3.11.0",
-		"sebastian/comparator": "^4.0.8",
-		"php-coveralls/php-coveralls": "^v2.5.3",
-		"sempro/phpunit-pretty-print": "^1.4",
-		"phpstan/phpstan": "^1.9",
-		"phpstan/phpstan-phpunit": "^1.2",
-		"phpstan/phpstan-mockery": "^1.1"
-	},
-	"autoload": {
-		"psr-4": {
-			"WP_Mock\\": "./php/WP_Mock"
-		},
-		"classmap": [
-			"php/WP_Mock.php"
-		]
-	},
-	"config": {
-		"platform": {
-			"php" : "7.3"
-		}
-	},
-	"autoload-dev"   : {
-		"classmap": ["tests"]
-	},
-	"scripts": {
-		"test:behat": "behat",
-		"test:phpunit": "phpunit",
-		"test:phpunitcov": "phpunit --coverage-clover build/logs/clover.xml",
-		"test": [
-			"@test:behat",
-			"@test:phpunit"
-		],
-		"coverage": [
-			"@test:behat",
-			"@test:phpunitcov"
-		]
-	}
+    "name": "10up/wp_mock",
+    "description": "A mocking library to take the pain out of unit testing for WordPress",
+    "license": "GPL-2.0-or-later",
+    "version": "0.5.0",
+    "prefer-stable" : true,
+    "require": {
+        "php": ">=7.3 < 9.0",
+        "phpunit/phpunit": "^9.5.24",
+        "mockery/mockery": "^1.5",
+        "antecedent/patchwork": "^2.1"
+    },
+    "require-dev": {
+        "behat/behat": "^v3.11.0",
+        "sebastian/comparator": "^4.0.8",
+        "php-coveralls/php-coveralls": "^v2.5.3",
+        "sempro/phpunit-pretty-print": "^1.4",
+        "phpstan/phpstan": "^1.9",
+        "phpstan/phpstan-phpunit": "^1.2",
+        "phpstan/phpstan-mockery": "^1.1",
+        "phpcompatibility/php-compatibility": "^9.3",
+        "friendsofphp/php-cs-fixer": "^3.4",
+        "dealerdirect/phpcodesniffer-composer-installer": "^0.7.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "WP_Mock\\": "./php/WP_Mock"
+        },
+        "classmap": [
+            "php/WP_Mock.php"
+        ]
+    },
+    "config": {
+        "platform": {
+            "php" : "7.3"
+        },
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
+    },
+    "autoload-dev"   : {
+        "classmap": ["tests"]
+    },
+    "scripts": {
+        "test:behat": "behat",
+        "test:phpunit": "phpunit",
+        "test:phpunitcov": "phpunit --coverage-clover build/logs/clover.xml",
+        "test": [
+            "@test:behat",
+            "@test:phpunit"
+        ],
+        "coverage": [
+            "@test:behat",
+            "@test:phpunitcov"
+        ],
+        "post-install-cmd": "\"vendor/bin/phpcs\" --config-set installed_paths vendor/phpcompatibility/php-compatibility",
+        "post-update-cmd" : "\"vendor/bin/phpcs\" --config-set installed_paths vendor/phpcompatibility/php-compatibility"
+    }
 }

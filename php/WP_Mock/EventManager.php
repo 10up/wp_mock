@@ -2,155 +2,168 @@
 
 namespace WP_Mock;
 
-class EventManager {
-	/**
-	 * @var array
-	 */
-	protected $filters;
+class EventManager
+{
+    /**
+     * @var array
+     */
+    protected $filters;
 
-	/**
-	 * @var array
-	 */
-	protected $actions;
+    /**
+     * @var array
+     */
+    protected $actions;
 
-	/**
-	 * @var array
-	 */
-	protected $expected;
+    /**
+     * @var array
+     */
+    protected $expected;
 
-	protected $callbacks;
+    protected $callbacks;
 
-	public function __construct() {
-		$this->flush();
-	}
+    public function __construct()
+    {
+        $this->flush();
+    }
 
-	/**
-	 * Clear internal storage.
-	 */
-	public function flush() {
-		$this->filters = array();
-		$this->actions = array();
-		$this->expected = array();
-	}
+    /**
+     * Clear internal storage.
+     */
+    public function flush()
+    {
+        $this->filters = array();
+        $this->actions = array();
+        $this->expected = array();
+    }
 
-	/**
-	 * @param string $name Action handler to retrieve
-	 *
-	 * @return Action
-	 */
-	public function action( $name ) {
-		if ( ! isset( $this->actions[ $name ] ) ) {
-			$this->actions[ $name ] = new Action( $name );
-			$this->expected[] = 'action::' . $name;
-		}
+    /**
+     * @param string $name Action handler to retrieve
+     *
+     * @return Action
+     */
+    public function action($name)
+    {
+        if (! isset($this->actions[ $name ])) {
+            $this->actions[ $name ] = new Action($name);
+            $this->expected[] = 'action::' . $name;
+        }
 
-		return $this->actions[ $name ];
-	}
+        return $this->actions[ $name ];
+    }
 
-	/**
-	 * @param string $name Filter handler to retrieve
-	 *
-	 * @return Filter
-	 */
-	public function filter( $name ) {
-		if ( ! isset( $this->filters[ $name ] ) ) {
-			$this->filters[ $name ] = new Filter( $name );
-			$this->expected[] = 'filter::' . $name;
-		}
+    /**
+     * @param string $name Filter handler to retrieve
+     *
+     * @return Filter
+     */
+    public function filter($name)
+    {
+        if (! isset($this->filters[ $name ])) {
+            $this->filters[ $name ] = new Filter($name);
+            $this->expected[] = 'filter::' . $name;
+        }
 
-		return $this->filters[ $name ];
-	}
+        return $this->filters[ $name ];
+    }
 
-	public function callback( $name, $type = 'filter' ) {
-		$type_name = "$type::$name";
-		if ( ! isset( $this->callbacks[ $type_name ] ) ) {
-			$hookedCallback = new HookedCallback( $name );
-			$hookedCallback->setType( $type );
-			$this->callbacks[ $type_name ] = $hookedCallback;
-			$this->expected[]              = "callback::$type_name";
-		}
+    public function callback($name, $type = 'filter')
+    {
+        $type_name = "$type::$name";
+        if (! isset($this->callbacks[ $type_name ])) {
+            $hookedCallback = new HookedCallback($name);
+            $hookedCallback->setType($type);
+            $this->callbacks[ $type_name ] = $hookedCallback;
+            $this->expected[]              = "callback::$type_name";
+        }
 
-		return $this->callbacks[ $type_name ];
-	}
+        return $this->callbacks[ $type_name ];
+    }
 
-	/**
-	 * Remember that a particular hook has been invoked during operation.
-	 *
-	 * @param string $hook
-	 * @param string $type
-	 */
-	public function called( $hook, $type = 'action' ) {
-		$position = array_search( $type . '::' . $hook, $this->expected );
-		array_splice( $this->expected, $position, 1 );
-	}
+    /**
+     * Remember that a particular hook has been invoked during operation.
+     *
+     * @param string $hook
+     * @param string $type
+     */
+    public function called($hook, $type = 'action')
+    {
+        $position = array_search($type . '::' . $hook, $this->expected);
+        array_splice($this->expected, $position, 1);
+    }
 
-	/**
-	 * Return a list of all the actions we're expecting a test to invoke.
-	 *
-	 * @return array
-	 */
-	public function expectedActions() {
-		return array_keys( $this->actions );
-	}
+    /**
+     * Return a list of all the actions we're expecting a test to invoke.
+     *
+     * @return array
+     */
+    public function expectedActions()
+    {
+        return array_keys($this->actions);
+    }
 
-	/**
-	 * Return a list of all the filters we're expecting a test to invoke.
-	 * @return array
-	 */
-	public function expectedFilters() {
-		return array_keys( $this->filters );
-	}
+    /**
+     * Return a list of all the filters we're expecting a test to invoke.
+     * @return array
+     */
+    public function expectedFilters()
+    {
+        return array_keys($this->filters);
+    }
 
-	/**
-	 * Return a list of all the hooks we're expecting a test to invoke.
-	 * @return array
-	 */
-	public function expectedHooks() {
-		return array_keys( $this->callbacks );
-	}
+    /**
+     * Return a list of all the hooks we're expecting a test to invoke.
+     * @return array
+     */
+    public function expectedHooks()
+    {
+        return array_keys($this->callbacks);
+    }
 
-	/**
-	 * Check whether or not all actions have been invoked at least once.
-	 *
-	 * @return bool
-	 */
-	public function allActionsCalled() {
-		foreach( $this->expected as $hook ) {
-			if ( 0 === strpos( $hook, 'action::' ) ) {
-				return false;
-			}
-		}
+    /**
+     * Check whether or not all actions have been invoked at least once.
+     *
+     * @return bool
+     */
+    public function allActionsCalled()
+    {
+        foreach ($this->expected as $hook) {
+            if (0 === strpos($hook, 'action::')) {
+                return false;
+            }
+        }
 
-		return true;
-	}
+        return true;
+    }
 
-	/**
-	 * Check whether or not all filters have been invoked at least once.
-	 *
-	 * @return bool
-	 */
-	public function allFiltersCalled() {
-		foreach ( $this->expected as $hook ) {
-			if ( 0 === strpos( $hook, 'filter::' ) ) {
-				return false;
-			}
-		}
+    /**
+     * Check whether or not all filters have been invoked at least once.
+     *
+     * @return bool
+     */
+    public function allFiltersCalled()
+    {
+        foreach ($this->expected as $hook) {
+            if (0 === strpos($hook, 'filter::')) {
+                return false;
+            }
+        }
 
-		return true;
-	}
+        return true;
+    }
 
-	/**
-	 * Check whether or not all hooks have been invoked at least once.
-	 *
-	 * @return bool
-	 */
-	public function allHooksAdded() {
-		foreach( $this->expected as $hook ) {
-			if ( 0 === strpos( $hook, 'callback::' ) ) {
-				return false;
-			}
-		}
+    /**
+     * Check whether or not all hooks have been invoked at least once.
+     *
+     * @return bool
+     */
+    public function allHooksAdded()
+    {
+        foreach ($this->expected as $hook) {
+            if (0 === strpos($hook, 'callback::')) {
+                return false;
+            }
+        }
 
-		return true;
-	}
+        return true;
+    }
 }

@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<ruleset name="Custom ruleset">
+	<file>./php</file>
+	<file>./tests</file>
+	<arg value="sp"/>
+	<rule ref="PHPCompatibility"/>
+	<config name="testVersion" value="7.3"/>
+</ruleset>
