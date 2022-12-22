@@ -8,35 +8,46 @@ use Mockery;
 use PHPUnit\Util\Test as TestUtil;
 use ReflectionException;
 use ReflectionMethod;
+use PHPUnit\Framework\TestCase as PhpUnitTestCase;
+use Text_Template;
 use WP_Mock;
 use WP_Mock\Tools\Constraints\ExpectationsMet;
 use WP_Mock\Tools\Constraints\IsEqualHtml;
 use WP_Mock\Traits\AccessInaccessibleClassMembersTrait;
 
 /**
- * WP_Mock test case.
+ * WP_Mock unit test case.
+ *
+ * This class can be used by third parties when implementing their unit tests instead of {@see PhpUnitTestCase}.
  */
-abstract class TestCase extends \PHPUnit\Framework\TestCase
+abstract class TestCase extends PhpUnitTestCase
 {
     use AccessInaccessibleClassMembersTrait;
 
-    /** @var Mockery\Mock[] mocked methods */
-    protected $mockedStaticMethods = [];
+    /**
+     * @var array
+     */
+    protected $__default_post = array();
 
-    /** @var array<string, mixed> default $_POST value */
-    protected $__default_post = [];
+    /**
+     * @var array
+     */
+    protected $__default_get = array();
 
-    /** @var array<string, mixed> default $_GET value */
-    protected $__default_get = [];
+    /**
+     * @var array
+     */
+    protected $__default_request = array();
 
-    /** @var array<string, mixed> default $_REQUEST value */
-    protected $__default_request = [];
-
-    /** @var bool|callable */
+    /**
+     * @var bool|callable
+     */
     protected $__contentFilterCallback = false;
 
-    /** @var string[] */
-    protected $testFiles = [];
+    /**
+     * @var array
+     */
+    protected $testFiles = array();
 
     /**
      * Sets up the tests.
@@ -69,11 +80,11 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
 
         $this->cleanGlobals();
 
-        $this->mockedStaticMethods = [];
+        $this->mockedStaticMethods = array();
 
-        $_GET     = [];
-        $_POST    = [];
-        $_REQUEST = [];
+        $_GET     = array();
+        $_POST    = array();
+        $_REQUEST = array();
     }
 
     public function assertActionsCalled()
@@ -151,17 +162,34 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Mocks a static method of a class.
+     * Nuke the globals from orbit for process isolation
      *
-     * @param string $class the classname or class::method name
-     * @param null|string $method the method name (optional if class::method used for $class)
-     * @return Mockery\Expectation|Mockery\ExpectationInterface|Mockery\HigherOrderMessage
-     * @throws ReflectionException|Exception
+     * See http://kpayne.me/2012/07/02/phpunit-process-isolation-and-constant-already-defined/
+     * for more details
+     *
+     * {@inheritdoc}
      */
-    protected function mockStaticMethod(string $class, ?string $method = null)
+    protected function prepareTemplate(Text_Template $template)
+    {
+        $template->setVar(array(
+            'globals' => '$GLOBALS[\'__PHPUNIT_BOOTSTRAP\'] = \'' . $GLOBALS['__PHPUNIT_BOOTSTRAP'] . '\';',
+        ));
+        parent::prepareTemplate($template);
+    }
+
+    /**
+     * Mock a static method of a class
+     *
+     * @param string      $class  The classname or class::method name
+     * @param null|string $method The method name. Optional if class::method used for $class
+     *
+     * @return \Mockery\Expectation
+     * @throws Exception
+     */
+    protected function mockStaticMethod($class, $method = null)
     {
         if (! $method) {
-            [$class, $method] = (explode('::', $class) + array( null, null ));
+            list($class, $method) = (explode('::', $class) + array( null, null ));
         }
         if (! $method) {
             throw new Exception(sprintf('Could not mock %s::%s', $class, $method));
@@ -173,7 +201,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         $safe_method = "wp_mock_safe_$method";
         $signature   = md5("$class::$method");
         if (! empty($this->mockedStaticMethods[ $signature ])) {
-            /** @var Mockery\Mock $mock */
+            /** @var \Mockery\Mock $mock */
             $mock = $this->mockedStaticMethods[ $signature ];
         } else {
             $rMethod = false;
@@ -191,7 +219,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
                 throw new Exception(sprintf('%s::%s is not a user-defined non-private static method!', $class, $method));
             }
 
-            /** @var Mockery\Mock $mock */
+            /** @var \Mockery\Mock $mock */
             $mock = Mockery::mock($class);
             $mock->shouldAllowMockingProtectedMethods();
             $this->mockedStaticMethods[ $signature ] = $mock;
@@ -307,18 +335,12 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
 
     public function run(TestResult $result = null): TestResult
     {
-        if (null === $result) {
+        if ($result === null) {
             $result = $this->createResult();
         }
 
-        $deprecatedListener = WP_Mock::getDeprecatedListener();
-
-        if (null === $deprecatedListener) {
-            return $result;
-        }
-
-        $deprecatedListener->setTestResult($result);
-        $deprecatedListener->setTestCase($this);
+        WP_Mock::getDeprecatedListener()->setTestResult($result);
+        WP_Mock::getDeprecatedListener()->setTestCase($this);
 
         return parent::run($result);
     }
