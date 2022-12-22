@@ -7,10 +7,10 @@ assignees: ''
 
 ---
 
-## Feature request
+## Feature request <!-- Required -->
 
-Please write a clear and concise description of what problem you'd like to solve with WP_Mock.
+<!-- Please write a clear and concise description of what problem you'd like to solve with WP_Mock. -->
 
-### Proposed solution
+### Proposed solution <!-- Required -->
 
-Please write a clear and concise description of what you'd like to happen in WP_Mock to support the feature you are proposing. 
+<!-- Please write a clear and concise description of what you'd like to happen in WP_Mock to support the feature you are proposing. --> 

@@ -7,19 +7,19 @@ assignees: ''
 
 ---
 
-## Bug report
+## Bug report <!-- Required -->
 
-Please write a clear and concise description of what the bug is.
+<!-- Please write a clear and concise description of what the bug is. -->
 
-### Replication steps
+### Replication steps <!-- Required -->
 
-Please describe the steps to reproduce the behavior you've seen.
+<!-- Please describe the steps to reproduce the behavior you've seen. -->
 
-### Expected behavior
+### Expected behavior <!-- Required -->
 
-Please write a clear and concise description of what you expected to happen.
+<!-- Please write a clear and concise description of what you expected to happen. -->
 
-### Logs
+### Logs <!-- Optional -->
 
 <details>
 <summary>Log</summary>
@@ -28,6 +28,6 @@ If applicable, please replace this line with any logs related to the problem you
 ```
 </details>
 
-### Screenshots
+### Screenshots <!-- Optional -->
 
-If applicable, please add here any screenshots to help explain the problem.
+<!-- If applicable, please add here any screenshots to help explain the problem. -->
