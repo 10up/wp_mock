@@ -1,14 +1,12 @@
 <?php
-/**
- * Mock WordPress filters by substituting each filter with an advanced object
- * capable of intercepting calls and returning predictable data.
- *
- * @package    WP_Mock
- * @subpackage Hooks
- */
 
 namespace WP_Mock;
 
+/**
+ * Mock representation of a WordPress filter as an object.
+ *
+ * Mocks WordPress filters by substituting each filter with an object capable of intercepting calls and returning predictable behavior.
+ */
 class Filter extends Hook
 {
     /**

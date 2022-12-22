@@ -1,14 +1,12 @@
 <?php
-/**
- * Mock WordPress actions by substituting each action with an advanced object
- * capable of intercepting calls and returning predictable behavior.
- *
- * @package WP_Mock
- * @subpackage Hooks
- */
 
 namespace WP_Mock;
 
+/**
+ * Mock representation of a WordPress action as an object.
+ *
+ * Mocks WordPress actions by substituting each action with an object capable of intercepting calls and returning predictable behavior.
+ */
 class Action extends Hook
 {
     public function react($args)

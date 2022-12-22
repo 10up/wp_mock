@@ -6,41 +6,42 @@ use PHPUnit\Framework\TestResult;
 use Exception;
 use Mockery;
 use PHPUnit\Util\Test as TestUtil;
+use ReflectionClass;
+use ReflectionException;
 use ReflectionMethod;
-use Text_Template;
+use ReflectionProperty;
 use WP_Mock;
 use WP_Mock\Tools\Constraints\ExpectationsMet;
 use WP_Mock\Tools\Constraints\IsEqualHtml;
 
+/**
+ * WP_Mock test case.
+ */
 abstract class TestCase extends \PHPUnit\Framework\TestCase
 {
-    protected $mockedStaticMethods = array();
+    /** @var string[] */
+    protected $mockedStaticMethods = [];
 
-    /**
-     * @var array
-     */
-    protected $__default_post = array();
+    /** @var array<string, mixed> default $_POST value */
+    protected $__default_post = [];
 
-    /**
-     * @var array
-     */
-    protected $__default_get = array();
+    /** @var array<string, mixed> default $_GET value */
+    protected $__default_get = [];
 
-    /**
-     * @var array
-     */
-    protected $__default_request = array();
+    /** @var array<string, mixed> default $_REQUEST value */
+    protected $__default_request = [];
 
-    /**
-     * @var bool|callable
-     */
+    /** @var bool|callable */
     protected $__contentFilterCallback = false;
 
-    /**
-     * @var array
-     */
-    protected $testFiles = array();
+    /** @var string[] */
+    protected $testFiles = [];
 
+    /**
+     * Sets up the tests.
+     *
+     * @return void
+     */
     public function setUp(): void
     {
         $this->requireFileDependencies();
@@ -56,17 +57,22 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         $this->cleanGlobals();
     }
 
+    /**
+     * Tear downs the tests.[]
+     *
+     * @return void
+     */
     public function tearDown(): void
     {
         WP_Mock::tearDown();
 
         $this->cleanGlobals();
 
-        $this->mockedStaticMethods = array();
+        $this->mockedStaticMethods = [];
 
-        $_GET     = array();
-        $_POST    = array();
-        $_REQUEST = array();
+        $_GET     = [];
+        $_POST    = [];
+        $_REQUEST = [];
     }
 
     public function assertActionsCalled()
@@ -144,23 +150,6 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Nuke the globals from orbit for process isolation
-     *
-     * See http://kpayne.me/2012/07/02/phpunit-process-isolation-and-constant-already-defined/
-     * for more details
-     *
-     * {@inheritdoc}
-     */
-    protected function prepareTemplate(Text_Template $template)
-    {
-        $template->setVar(array(
-            'globals' => '$GLOBALS[\'__PHPUNIT_BOOTSTRAP\'] = \'' . $GLOBALS['__PHPUNIT_BOOTSTRAP'] . '\';',
-        ));
-        parent::prepareTemplate($template);
-    }
-
-
-    /**
      * Mock a static method of a class
      *
      * @param string      $class  The classname or class::method name
@@ -172,7 +161,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
     protected function mockStaticMethod($class, $method = null)
     {
         if (! $method) {
-            list($class, $method) = (explode('::', $class) + array( null, null ));
+            [$class, $method] = (explode('::', $class) + array( null, null ));
         }
         if (! $method) {
             throw new Exception(sprintf('Could not mock %s::%s', $class, $method));
@@ -334,5 +323,66 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
     {
         WP_Mock::getDeprecatedListener()->checkCalls();
         WP_Mock::getDeprecatedListener()->reset();
+    }
+
+    /**
+     * Gets the given inaccessible method for the given class.
+     *
+     * Allows for calling protected and private methods on a class.
+     *
+     * @param class-string|object $class the class name or instance
+     * @param string $methodName the method name
+     * @return ReflectionMethod
+     * @throws ReflectionException
+     */
+    protected function getInaccessibleMethod($class, string $methodName): ReflectionMethod
+    {
+        $class = new ReflectionClass($class);
+
+        $method = $class->getMethod($methodName);
+        $method->setAccessible(true);
+
+        return $method;
+    }
+
+    /**
+     * Gets the given inaccessible property for the given class.
+     *
+     * Allows for calling protected and private properties on a class.
+     *
+     * @param class-string|object $class the class name or instance
+     * @param string $propertyName the property name
+     * @return ReflectionProperty
+     * @throws ReflectionException
+     */
+    protected function getInaccessibleProperty($class, string $propertyName): ReflectionProperty
+    {
+        $class = new ReflectionClass($class);
+
+        $property = $class->getProperty($propertyName);
+        $property->setAccessible(true);
+
+        return $property;
+    }
+
+    /**
+     * Allows for setting private or protected properties in a class.
+     *
+     * @param object|null $instance class instance or null for static classes
+     * @param class-string $class
+     * @param string $property
+     * @param mixed $value
+     * @return ReflectionProperty
+     * @throws ReflectionException
+     */
+    protected function setInaccessibleProperty($instance, string $class, string $property, $value): ReflectionProperty
+    {
+        $class = new ReflectionClass($class);
+
+        $property = $class->getProperty($property);
+        $property->setAccessible(true);
+        $property->setValue($instance, $value);
+
+        return $property;
     }
 }
