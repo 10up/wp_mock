@@ -5,15 +5,18 @@ namespace WP_Mock;
 use Closure;
 use Generator;
 use Exception;
+use PHPUnit\Framework\TestCase;
 use ReflectionException;
 use stdClass;
-use WP_Mock\Tools\TestCase;
+use WP_Mock\Traits\AccessInaccessibleClassMembersTrait;
 
 /**
  * @covers \WP_Mock\Hook
  */
 final class HookTest extends TestCase
 {
+    use AccessInaccessibleClassMembersTrait;
+
     /**
      * @covers \WP_Mock\Hook::safe_offset()
      * @dataProvider providerSafeOffset

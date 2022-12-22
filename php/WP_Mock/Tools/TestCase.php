@@ -6,19 +6,20 @@ use PHPUnit\Framework\TestResult;
 use Exception;
 use Mockery;
 use PHPUnit\Util\Test as TestUtil;
-use ReflectionClass;
 use ReflectionException;
 use ReflectionMethod;
-use ReflectionProperty;
 use WP_Mock;
 use WP_Mock\Tools\Constraints\ExpectationsMet;
 use WP_Mock\Tools\Constraints\IsEqualHtml;
+use WP_Mock\Traits\AccessInaccessibleClassMembersTrait;
 
 /**
  * WP_Mock test case.
  */
 abstract class TestCase extends \PHPUnit\Framework\TestCase
 {
+    use AccessInaccessibleClassMembersTrait;
+
     /** @var Mockery\Mock[] mocked methods */
     protected $mockedStaticMethods = [];
 
@@ -329,66 +330,5 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
     {
         WP_Mock::getDeprecatedListener()->checkCalls();
         WP_Mock::getDeprecatedListener()->reset();
-    }
-
-    /**
-     * Gets the given inaccessible method for the given class.
-     *
-     * Allows for calling protected and private methods on a class.
-     *
-     * @param class-string|object $class the class name or instance
-     * @param string $methodName the method name
-     * @return ReflectionMethod
-     * @throws ReflectionException
-     */
-    protected function getInaccessibleMethod($class, string $methodName): ReflectionMethod
-    {
-        $class = new ReflectionClass($class);
-
-        $method = $class->getMethod($methodName);
-        $method->setAccessible(true);
-
-        return $method;
-    }
-
-    /**
-     * Gets the given inaccessible property for the given class.
-     *
-     * Allows for calling protected and private properties on a class.
-     *
-     * @param class-string|object $class the class name or instance
-     * @param string $propertyName the property name
-     * @return ReflectionProperty
-     * @throws ReflectionException
-     */
-    protected function getInaccessibleProperty($class, string $propertyName): ReflectionProperty
-    {
-        $class = new ReflectionClass($class);
-
-        $property = $class->getProperty($propertyName);
-        $property->setAccessible(true);
-
-        return $property;
-    }
-
-    /**
-     * Allows for setting private or protected properties in a class.
-     *
-     * @param object|null $instance class instance or null for static classes
-     * @param class-string $class
-     * @param string $property
-     * @param mixed $value
-     * @return ReflectionProperty
-     * @throws ReflectionException
-     */
-    protected function setInaccessibleProperty($instance, string $class, string $property, $value): ReflectionProperty
-    {
-        $class = new ReflectionClass($class);
-
-        $property = $class->getProperty($property);
-        $property->setAccessible(true);
-        $property->setValue($instance, $value);
-
-        return $property;
     }
 }
