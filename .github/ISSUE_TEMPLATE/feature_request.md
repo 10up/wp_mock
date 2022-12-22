@@ -7,14 +7,10 @@ assignees: ''
 
 ---
 
-**Is your feature request related to a problem? Please describe.**
-A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
+## Feature request
 
-**Describe the solution you'd like**
-A clear and concise description of what you want to happen.
+Please write a clear and concise description of what problem you'd like to solve with WP_Mock.
 
-**Describe alternatives you've considered**
-A clear and concise description of any alternative solutions or features you've considered.
+### Proposed solution
 
-**Additional context**
-Add any other context or screenshots about the feature request here.
+Please write a clear and concise description of what you'd like to happen in WP_Mock to support the feature you are proposing. 
