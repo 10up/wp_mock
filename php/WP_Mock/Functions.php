@@ -3,6 +3,7 @@
 namespace WP_Mock;
 
 use Mockery;
+use Mockery\Matcher\AnyOf;
 
 class Functions
 {
@@ -90,13 +91,13 @@ class Functions
     }
 
     /**
-     * Sets up an argument placeholder that allows it to be any of an enumerated
-     * list of possibilities
+     * Sets up an argument placeholder that allows it to be any of an enumerated list of possibilities.
      *
-     * @return \Mockery\Matcher\anyOf
+     * @return AnyOf
      */
-    public static function anyOf()
+    public static function anyOf(): AnyOf
     {
+        /** @phpstan-ignore-next-line */
         return call_user_func_array(array( '\\Mockery', 'anyOf' ), func_get_args());
     }
 
