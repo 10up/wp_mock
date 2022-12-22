@@ -306,12 +306,18 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
 
     public function run(TestResult $result = null): TestResult
     {
-        if ($result === null) {
+        if (null === $result) {
             $result = $this->createResult();
         }
 
-        WP_Mock::getDeprecatedListener()->setTestResult($result);
-        WP_Mock::getDeprecatedListener()->setTestCase($this);
+        $deprecatedListener = WP_Mock::getDeprecatedListener();
+
+        if (null === $deprecatedListener) {
+            return $result;
+        }
+
+        $deprecatedListener->setTestResult($result);
+        $deprecatedListener->setTestCase($this);
 
         return parent::run($result);
     }

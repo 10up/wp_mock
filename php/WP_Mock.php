@@ -31,6 +31,7 @@
  * @license    MIT License
  */
 
+use WP_Mock\DeprecatedListener;
 use WP_Mock\Matcher\FuzzyObject;
 
 class WP_Mock
@@ -584,9 +585,9 @@ class WP_Mock
     }
 
     /**
-     * @return \WP_Mock\DeprecatedListener
+     * @return null|DeprecatedListener
      */
-    public static function getDeprecatedListener()
+    public static function getDeprecatedListener(): ?DeprecatedListener
     {
         return static::$deprecated_listener;
     }
