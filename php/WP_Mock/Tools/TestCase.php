@@ -19,7 +19,7 @@ use WP_Mock\Tools\Constraints\IsEqualHtml;
  */
 abstract class TestCase extends \PHPUnit\Framework\TestCase
 {
-    /** @var string[] */
+    /** @var Mockery\Mock[] mocked methods */
     protected $mockedStaticMethods = [];
 
     /** @var array<string, mixed> default $_POST value */
@@ -150,15 +150,14 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Mock a static method of a class
+     * Mocks a static method of a class.
      *
-     * @param string      $class  The classname or class::method name
-     * @param null|string $method The method name. Optional if class::method used for $class
-     *
-     * @return \Mockery\Expectation
-     * @throws Exception
+     * @param string $class the classname or class::method name
+     * @param null|string $method the method name (optional if class::method used for $class)
+     * @return Mockery\Expectation|Mockery\ExpectationInterface|Mockery\HigherOrderMessage
+     * @throws ReflectionException|Exception
      */
-    protected function mockStaticMethod($class, $method = null)
+    protected function mockStaticMethod(string $class, ?string $method = null)
     {
         if (! $method) {
             [$class, $method] = (explode('::', $class) + array( null, null ));
@@ -173,6 +172,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         $safe_method = "wp_mock_safe_$method";
         $signature   = md5("$class::$method");
         if (! empty($this->mockedStaticMethods[ $signature ])) {
+            /** @var Mockery\Mock $mock */
             $mock = $this->mockedStaticMethods[ $signature ];
         } else {
             $rMethod = false;
@@ -190,7 +190,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
                 throw new Exception(sprintf('%s::%s is not a user-defined non-private static method!', $class, $method));
             }
 
-            /** @var \Mockery\Mock $mock */
+            /** @var Mockery\Mock $mock */
             $mock = Mockery::mock($class);
             $mock->shouldAllowMockingProtectedMethods();
             $this->mockedStaticMethods[ $signature ] = $mock;

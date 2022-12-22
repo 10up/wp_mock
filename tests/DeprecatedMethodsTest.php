@@ -23,11 +23,6 @@ class DeprecatedMethodsTest extends \PHPUnit\Framework\TestCase
     public function testWpFunctionLogsDeprecationNotice()
     {
         $listener = WP_Mock::getDeprecatedListener();
-
-        if (null === $listener) {
-            return;
-        }
-
         $testResult = new \PHPUnit\Framework\TestResult();
         $result   = Mockery::mock($testResult);
         $case     = Mockery::mock('\PHPUnit\Framework\TestCase');

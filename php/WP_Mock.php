@@ -478,7 +478,10 @@ class WP_Mock
      */
     public static function wpFunction($function_name, $arguments = array())
     {
-        static::getDeprecatedListener()->logDeprecatedCall(__METHOD__, array( $function_name, $arguments ));
+        if ($deprecatedListener = static::getDeprecatedListener()) {
+            $deprecatedListener->logDeprecatedCall(__METHOD__, array( $function_name, $arguments ));
+        };
+
         return self::userFunction($function_name, $arguments);
     }
 
@@ -540,7 +543,10 @@ class WP_Mock
      */
     public static function wpPassthruFunction($function_name, $arguments = array())
     {
-        static::getDeprecatedListener()->logDeprecatedCall(__METHOD__, array( $function_name, $arguments ));
+        if ($deprecatedListener = static::getDeprecatedListener()) {
+            $deprecatedListener->logDeprecatedCall(__METHOD__, array( $function_name, $arguments ));
+        }
+
         return self::passthruFunction($function_name, $arguments);
     }
 

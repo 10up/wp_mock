@@ -376,6 +376,16 @@ parameters:
 			path: php/WP_Mock/API/function-mocks.php
 
 		-
+			message: "#^Cannot access offset string on mixed\\.$#"
+			count: 2
+			path: php/WP_Mock/Action.php
+
+		-
+			message: "#^Cannot call method react\\(\\) on mixed\\.$#"
+			count: 1
+			path: php/WP_Mock/Action.php
+
+		-
 			message: "#^Method WP_Mock\\\\Action\\:\\:new_responder\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: php/WP_Mock/Action.php
@@ -564,6 +574,11 @@ parameters:
 			message: "#^Property WP_Mock\\\\EventManager\\:\\:\\$filters type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: php/WP_Mock/EventManager.php
+
+		-
+			message: "#^Cannot call method send\\(\\) on mixed\\.$#"
+			count: 1
+			path: php/WP_Mock/Filter.php
 
 		-
 			message: "#^Method WP_Mock\\\\Filter\\:\\:apply\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
@@ -756,8 +771,8 @@ parameters:
 			path: php/WP_Mock/Handler.php
 
 		-
-			message: "#^Method WP_Mock\\\\Hook\\:\\:__construct\\(\\) has parameter \\$name with no type specified\\.$#"
-			count: 1
+			message: "#^Cannot access offset string on mixed\\.$#"
+			count: 4
 			path: php/WP_Mock/Hook.php
 
 		-
@@ -766,22 +781,7 @@ parameters:
 			path: php/WP_Mock/Hook.php
 
 		-
-			message: "#^Method WP_Mock\\\\Hook\\:\\:safe_offset\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: php/WP_Mock/Hook.php
-
-		-
-			message: "#^Method WP_Mock\\\\Hook\\:\\:safe_offset\\(\\) has parameter \\$value with no type specified\\.$#"
-			count: 1
-			path: php/WP_Mock/Hook.php
-
-		-
 			message: "#^Method WP_Mock\\\\Hook\\:\\:strict_check\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: php/WP_Mock/Hook.php
-
-		-
-			message: "#^Property WP_Mock\\\\Hook\\:\\:\\$processors type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: php/WP_Mock/Hook.php
 
@@ -792,6 +792,16 @@ parameters:
 
 		-
 			message: "#^Cannot access offset 1 on callable\\(\\)\\: mixed\\.$#"
+			count: 1
+			path: php/WP_Mock/HookedCallback.php
+
+		-
+			message: "#^Cannot access offset mixed on mixed\\.$#"
+			count: 5
+			path: php/WP_Mock/HookedCallback.php
+
+		-
+			message: "#^Cannot call method react\\(\\) on mixed\\.$#"
 			count: 1
 			path: php/WP_Mock/HookedCallback.php
 
@@ -827,16 +837,6 @@ parameters:
 
 		-
 			message: "#^Method WP_Mock\\\\HookedCallback\\:\\:react\\(\\) throws checked exception PHPUnit\\\\Framework\\\\ExpectationFailedException but it's missing from the PHPDoc @throws tag\\.$#"
-			count: 1
-			path: php/WP_Mock/HookedCallback.php
-
-		-
-			message: "#^Method WP_Mock\\\\HookedCallback\\:\\:safe_offset\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: php/WP_Mock/HookedCallback.php
-
-		-
-			message: "#^Method WP_Mock\\\\HookedCallback\\:\\:safe_offset\\(\\) has parameter \\$value with no type specified\\.$#"
 			count: 1
 			path: php/WP_Mock/HookedCallback.php
 
@@ -1076,12 +1076,12 @@ parameters:
 			path: php/WP_Mock/Tools/TestCase.php
 
 		-
-			message: "#^Call to an undefined static method PHPUnit\\\\Framework\\\\TestCase\\:\\:prepareTemplate\\(\\)\\.$#"
+			message: "#^Cannot call method checkCalls\\(\\) on WP_Mock\\\\DeprecatedListener\\|null\\.$#"
 			count: 1
 			path: php/WP_Mock/Tools/TestCase.php
 
 		-
-			message: "#^Call to method setVar\\(\\) on an unknown class Text_Template\\.$#"
+			message: "#^Cannot call method reset\\(\\) on WP_Mock\\\\DeprecatedListener\\|null\\.$#"
 			count: 1
 			path: php/WP_Mock/Tools/TestCase.php
 
@@ -1216,11 +1216,6 @@ parameters:
 			path: php/WP_Mock/Tools/TestCase.php
 
 		-
-			message: "#^Method WP_Mock\\\\Tools\\\\TestCase\\:\\:prepareTemplate\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: php/WP_Mock/Tools/TestCase.php
-
-		-
 			message: "#^Method WP_Mock\\\\Tools\\\\TestCase\\:\\:requireFileDependencies\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: php/WP_Mock/Tools/TestCase.php
@@ -1281,37 +1276,27 @@ parameters:
 			path: php/WP_Mock/Tools/TestCase.php
 
 		-
-			message: "#^Parameter \\$template of method WP_Mock\\\\Tools\\\\TestCase\\:\\:prepareTemplate\\(\\) has invalid type Text_Template\\.$#"
-			count: 1
-			path: php/WP_Mock/Tools/TestCase.php
-
-		-
-			message: "#^Property WP_Mock\\\\Tools\\\\TestCase\\:\\:\\$__default_get type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: php/WP_Mock/Tools/TestCase.php
-
-		-
-			message: "#^Property WP_Mock\\\\Tools\\\\TestCase\\:\\:\\$__default_post type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: php/WP_Mock/Tools/TestCase.php
-
-		-
-			message: "#^Property WP_Mock\\\\Tools\\\\TestCase\\:\\:\\$__default_request type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: php/WP_Mock/Tools/TestCase.php
-
-		-
-			message: "#^Property WP_Mock\\\\Tools\\\\TestCase\\:\\:\\$mockedStaticMethods has no type specified\\.$#"
-			count: 1
-			path: php/WP_Mock/Tools/TestCase.php
-
-		-
-			message: "#^Property WP_Mock\\\\Tools\\\\TestCase\\:\\:\\$testFiles type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: php/WP_Mock/Tools/TestCase.php
-
-		-
 			message: "#^Call to an undefined method Mockery\\\\ExpectationInterface\\|Mockery\\\\HigherOrderMessage\\:\\:once\\(\\)\\.$#"
+			count: 2
+			path: tests/DeprecatedMethodsTest.php
+
+		-
+			message: "#^Cannot call method checkCalls\\(\\) on WP_Mock\\\\DeprecatedListener\\|null\\.$#"
+			count: 2
+			path: tests/DeprecatedMethodsTest.php
+
+		-
+			message: "#^Cannot call method reset\\(\\) on WP_Mock\\\\DeprecatedListener\\|null\\.$#"
+			count: 2
+			path: tests/DeprecatedMethodsTest.php
+
+		-
+			message: "#^Cannot call method setTestCase\\(\\) on WP_Mock\\\\DeprecatedListener\\|null\\.$#"
+			count: 2
+			path: tests/DeprecatedMethodsTest.php
+
+		-
+			message: "#^Cannot call method setTestResult\\(\\) on WP_Mock\\\\DeprecatedListener\\|null\\.$#"
 			count: 2
 			path: tests/DeprecatedMethodsTest.php
 
@@ -1338,16 +1323,6 @@ parameters:
 		-
 			message: "#^Method DeprecatedMethodsTest\\:\\:testWpPassthruFunctionLogsDeprecationNotice\\(\\) throws checked exception SebastianBergmann\\\\RecursionContext\\\\InvalidArgumentException but it's missing from the PHPDoc @throws tag\\.$#"
 			count: 1
-			path: tests/DeprecatedMethodsTest.php
-
-		-
-			message: "#^Parameter \\#1 \\$testCase of method WP_Mock\\\\DeprecatedListener\\:\\:setTestCase\\(\\) expects PHPUnit\\\\Framework\\\\TestCase, Mockery\\\\LegacyMockInterface given\\.$#"
-			count: 2
-			path: tests/DeprecatedMethodsTest.php
-
-		-
-			message: "#^Parameter \\#1 \\$testResult of method WP_Mock\\\\DeprecatedListener\\:\\:setTestResult\\(\\) expects PHPUnit\\\\Framework\\\\TestResult, Mockery\\\\LegacyMockInterface given\\.$#"
-			count: 2
 			path: tests/DeprecatedMethodsTest.php
 
 		-
@@ -1769,13 +1744,3 @@ parameters:
 			message: "#^Parameter \\#2 \\$function_to_add of function add_action expects callback, string given\\.$#"
 			count: 1
 			path: tests/WP_MockTest.php
-
-		-
-			message: "#^Method WP_Mock\\\\Functions\\:\\:anyOf\\(\\) has invalid return type Mockery\\\\Matcher\\\\anyOf.$#"
-			count: 1
-			path: php/WP_Mock/Functions.php
-
-		-
-			message: "#^Method WP_Mock\\\\Functions\\:\\:anyOf\\(\\) should return Mockery\\\\Matcher\\\\anyOf but returns mixed.$#"
-			count: 1
-			path: php/WP_Mock/Functions.php
