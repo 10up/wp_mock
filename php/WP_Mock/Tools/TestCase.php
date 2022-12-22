@@ -6,7 +6,6 @@ use PHPUnit\Framework\TestResult;
 use Exception;
 use Mockery;
 use PHPUnit\Util\Test as TestUtil;
-use ReflectionException;
 use ReflectionMethod;
 use PHPUnit\Framework\TestCase as PhpUnitTestCase;
 use Text_Template;
@@ -49,11 +48,6 @@ abstract class TestCase extends PhpUnitTestCase
      */
     protected $testFiles = array();
 
-    /**
-     * Sets up the tests.
-     *
-     * @return void
-     */
     public function setUp(): void
     {
         $this->requireFileDependencies();
@@ -69,11 +63,6 @@ abstract class TestCase extends PhpUnitTestCase
         $this->cleanGlobals();
     }
 
-    /**
-     * Tear downs the tests.[]
-     *
-     * @return void
-     */
     public function tearDown(): void
     {
         WP_Mock::tearDown();
@@ -177,6 +166,7 @@ abstract class TestCase extends PhpUnitTestCase
         parent::prepareTemplate($template);
     }
 
+
     /**
      * Mock a static method of a class
      *
@@ -201,7 +191,6 @@ abstract class TestCase extends PhpUnitTestCase
         $safe_method = "wp_mock_safe_$method";
         $signature   = md5("$class::$method");
         if (! empty($this->mockedStaticMethods[ $signature ])) {
-            /** @var \Mockery\Mock $mock */
             $mock = $this->mockedStaticMethods[ $signature ];
         } else {
             $rMethod = false;

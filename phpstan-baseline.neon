@@ -641,16 +641,6 @@ parameters:
 			path: php/WP_Mock/Functions.php
 
 		-
-			message: "#^Class Mockery\\\\Matcher\\\\AnyOf referenced with incorrect case\\: Mockery\\\\Matcher\\\\anyOf\\.$#"
-			count: 1
-			path: php/WP_Mock/Functions.php
-
-		-
-			message: "#^Method WP_Mock\\\\Functions\\:\\:anyOf\\(\\) should return Mockery\\\\Matcher\\\\AnyOf but returns mixed\\.$#"
-			count: 1
-			path: php/WP_Mock/Functions.php
-
-		-
 			message: "#^Method WP_Mock\\\\Functions\\:\\:flush\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: php/WP_Mock/Functions.php
@@ -1071,8 +1061,23 @@ parameters:
 			path: php/WP_Mock/Tools/Constraints/IsEqualHtml.php
 
 		-
+			message: "#^Access to an undefined property WP_Mock\\\\Tools\\\\TestCase\\:\\:\\$mockedStaticMethods\\.$#"
+			count: 2
+			path: php/WP_Mock/Tools/TestCase.php
+
+		-
 			message: "#^Access to property \\$query_vars on an unknown class WP\\.$#"
 			count: 2
+			path: php/WP_Mock/Tools/TestCase.php
+
+		-
+			message: "#^Call to an undefined static method PHPUnit\\\\Framework\\\\TestCase\\:\\:prepareTemplate\\(\\)\\.$#"
+			count: 1
+			path: php/WP_Mock/Tools/TestCase.php
+
+		-
+			message: "#^Call to method setVar\\(\\) on an unknown class Text_Template\\.$#"
+			count: 1
 			path: php/WP_Mock/Tools/TestCase.php
 
 		-
@@ -1082,6 +1087,16 @@ parameters:
 
 		-
 			message: "#^Cannot call method reset\\(\\) on WP_Mock\\\\DeprecatedListener\\|null\\.$#"
+			count: 1
+			path: php/WP_Mock/Tools/TestCase.php
+
+		-
+			message: "#^Cannot call method setTestCase\\(\\) on WP_Mock\\\\DeprecatedListener\\|null\\.$#"
+			count: 1
+			path: php/WP_Mock/Tools/TestCase.php
+
+		-
+			message: "#^Cannot call method setTestResult\\(\\) on WP_Mock\\\\DeprecatedListener\\|null\\.$#"
 			count: 1
 			path: php/WP_Mock/Tools/TestCase.php
 
@@ -1196,6 +1211,11 @@ parameters:
 			path: php/WP_Mock/Tools/TestCase.php
 
 		-
+			message: "#^Method WP_Mock\\\\Tools\\\\TestCase\\:\\:mockStaticMethod\\(\\) should return Mockery\\\\Expectation but returns Mockery\\\\ExpectationInterface\\|Mockery\\\\HigherOrderMessage\\.$#"
+			count: 1
+			path: php/WP_Mock/Tools/TestCase.php
+
+		-
 			message: "#^Method WP_Mock\\\\Tools\\\\TestCase\\:\\:mockWp\\(\\) has invalid return type WP\\.$#"
 			count: 1
 			path: php/WP_Mock/Tools/TestCase.php
@@ -1212,6 +1232,11 @@ parameters:
 
 		-
 			message: "#^Method WP_Mock\\\\Tools\\\\TestCase\\:\\:ns\\(\\) has parameter \\$function with no type specified\\.$#"
+			count: 1
+			path: php/WP_Mock/Tools/TestCase.php
+
+		-
+			message: "#^Method WP_Mock\\\\Tools\\\\TestCase\\:\\:prepareTemplate\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: php/WP_Mock/Tools/TestCase.php
 
@@ -1273,6 +1298,31 @@ parameters:
 		-
 			message: "#^Parameter \\#2 \\$message of method PHPUnit\\\\Framework\\\\Assert\\:\\:assertEmpty\\(\\) expects string, int\\|string given\\.$#"
 			count: 2
+			path: php/WP_Mock/Tools/TestCase.php
+
+		-
+			message: "#^Parameter \\$template of method WP_Mock\\\\Tools\\\\TestCase\\:\\:prepareTemplate\\(\\) has invalid type Text_Template\\.$#"
+			count: 1
+			path: php/WP_Mock/Tools/TestCase.php
+
+		-
+			message: "#^Property WP_Mock\\\\Tools\\\\TestCase\\:\\:\\$__default_get type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: php/WP_Mock/Tools/TestCase.php
+
+		-
+			message: "#^Property WP_Mock\\\\Tools\\\\TestCase\\:\\:\\$__default_post type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: php/WP_Mock/Tools/TestCase.php
+
+		-
+			message: "#^Property WP_Mock\\\\Tools\\\\TestCase\\:\\:\\$__default_request type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: php/WP_Mock/Tools/TestCase.php
+
+		-
+			message: "#^Property WP_Mock\\\\Tools\\\\TestCase\\:\\:\\$testFiles type has no value type specified in iterable type array\\.$#"
+			count: 1
 			path: php/WP_Mock/Tools/TestCase.php
 
 		-

@@ -478,9 +478,7 @@ class WP_Mock
      */
     public static function wpFunction($function_name, $arguments = array())
     {
-        if ($deprecatedListener = static::getDeprecatedListener()) {
-            $deprecatedListener->logDeprecatedCall(__METHOD__, array( $function_name, $arguments ));
-        };
+        static::getDeprecatedListener()->logDeprecatedCall(__METHOD__, array( $function_name, $arguments ));
 
         return self::userFunction($function_name, $arguments);
     }
@@ -543,9 +541,7 @@ class WP_Mock
      */
     public static function wpPassthruFunction($function_name, $arguments = array())
     {
-        if ($deprecatedListener = static::getDeprecatedListener()) {
-            $deprecatedListener->logDeprecatedCall(__METHOD__, array( $function_name, $arguments ));
-        }
+        static::getDeprecatedListener()->logDeprecatedCall(__METHOD__, array( $function_name, $arguments ));
 
         return self::passthruFunction($function_name, $arguments);
     }
@@ -591,9 +587,9 @@ class WP_Mock
     }
 
     /**
-     * @return null|DeprecatedListener
+     * @return \WP_Mock\DeprecatedListener
      */
-    public static function getDeprecatedListener(): ?DeprecatedListener
+    public static function getDeprecatedListener()
     {
         return static::$deprecated_listener;
     }
