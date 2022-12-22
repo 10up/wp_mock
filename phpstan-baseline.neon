@@ -1081,26 +1081,6 @@ parameters:
 			path: php/WP_Mock/Tools/TestCase.php
 
 		-
-			message: "#^Cannot call method checkCalls\\(\\) on WP_Mock\\\\DeprecatedListener\\|null\\.$#"
-			count: 1
-			path: php/WP_Mock/Tools/TestCase.php
-
-		-
-			message: "#^Cannot call method reset\\(\\) on WP_Mock\\\\DeprecatedListener\\|null\\.$#"
-			count: 1
-			path: php/WP_Mock/Tools/TestCase.php
-
-		-
-			message: "#^Cannot call method setTestCase\\(\\) on WP_Mock\\\\DeprecatedListener\\|null\\.$#"
-			count: 1
-			path: php/WP_Mock/Tools/TestCase.php
-
-		-
-			message: "#^Cannot call method setTestResult\\(\\) on WP_Mock\\\\DeprecatedListener\\|null\\.$#"
-			count: 1
-			path: php/WP_Mock/Tools/TestCase.php
-
-		-
 			message: "#^Method WP_Mock\\\\Tools\\\\TestCase\\:\\:assertActionsCalled\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: php/WP_Mock/Tools/TestCase.php
@@ -1207,11 +1187,6 @@ parameters:
 
 		-
 			message: "#^Method WP_Mock\\\\Tools\\\\TestCase\\:\\:mockPost\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: php/WP_Mock/Tools/TestCase.php
-
-		-
-			message: "#^Method WP_Mock\\\\Tools\\\\TestCase\\:\\:mockStaticMethod\\(\\) should return Mockery\\\\Expectation but returns Mockery\\\\ExpectationInterface\\|Mockery\\\\HigherOrderMessage\\.$#"
 			count: 1
 			path: php/WP_Mock/Tools/TestCase.php
 
@@ -1331,26 +1306,6 @@ parameters:
 			path: tests/DeprecatedMethodsTest.php
 
 		-
-			message: "#^Cannot call method checkCalls\\(\\) on WP_Mock\\\\DeprecatedListener\\|null\\.$#"
-			count: 2
-			path: tests/DeprecatedMethodsTest.php
-
-		-
-			message: "#^Cannot call method reset\\(\\) on WP_Mock\\\\DeprecatedListener\\|null\\.$#"
-			count: 2
-			path: tests/DeprecatedMethodsTest.php
-
-		-
-			message: "#^Cannot call method setTestCase\\(\\) on WP_Mock\\\\DeprecatedListener\\|null\\.$#"
-			count: 2
-			path: tests/DeprecatedMethodsTest.php
-
-		-
-			message: "#^Cannot call method setTestResult\\(\\) on WP_Mock\\\\DeprecatedListener\\|null\\.$#"
-			count: 2
-			path: tests/DeprecatedMethodsTest.php
-
-		-
 			message: "#^Method DeprecatedMethodsTest\\:\\:testWpFunctionLogsDeprecationNotice\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: tests/DeprecatedMethodsTest.php
@@ -1373,6 +1328,16 @@ parameters:
 		-
 			message: "#^Method DeprecatedMethodsTest\\:\\:testWpPassthruFunctionLogsDeprecationNotice\\(\\) throws checked exception SebastianBergmann\\\\RecursionContext\\\\InvalidArgumentException but it's missing from the PHPDoc @throws tag\\.$#"
 			count: 1
+			path: tests/DeprecatedMethodsTest.php
+
+		-
+			message: "#^Parameter \\#1 \\$testCase of method WP_Mock\\\\DeprecatedListener\\:\\:setTestCase\\(\\) expects PHPUnit\\\\Framework\\\\TestCase, Mockery\\\\LegacyMockInterface given\\.$#"
+			count: 2
+			path: tests/DeprecatedMethodsTest.php
+
+		-
+			message: "#^Parameter \\#1 \\$testResult of method WP_Mock\\\\DeprecatedListener\\:\\:setTestResult\\(\\) expects PHPUnit\\\\Framework\\\\TestResult, Mockery\\\\LegacyMockInterface given\\.$#"
+			count: 2
 			path: tests/DeprecatedMethodsTest.php
 
 		-
