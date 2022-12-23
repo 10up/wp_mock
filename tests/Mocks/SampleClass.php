@@ -1,6 +1,6 @@
 <?php
 
-namespace WP_Mock\Tests\Unit\WP_Mock\Matcher;
+namespace WP_Mock\Tests\Mocks;
 
 class SampleClass
 {

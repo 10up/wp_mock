@@ -3,6 +3,8 @@
 namespace WP_Mock\Tests\Unit\WP_Mock\Matcher;
 
 use WP_Mock\Matcher\AnyInstance;
+use WP_Mock\Tests\Mocks\SampleClass;
+use WP_Mock\Tests\Mocks\SampleSubClass;
 use WP_Mock\Tests\WP_MockTestCase;
 
 class AnyInstanceTest extends WP_MockTestCase
@@ -101,7 +103,7 @@ class AnyInstanceTest extends WP_MockTestCase
 
         $result = "$sut";
 
-        $this->assertEquals("<AnyInstance[WP_Mock\Tests\Unit\WP_Mock\Matcher\SampleClass]>", $result);
+        $this->assertEquals("<AnyInstance[WP_Mock\Tests\Mocks\SampleClass]>", $result);
     }
 
     /**
