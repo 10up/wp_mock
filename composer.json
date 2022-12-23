@@ -40,7 +40,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "WP_Mock\\Tests": "tests/"
+            "WP_Mock\\Tests\\": "tests/"
         },
         "classmap": [
             "tests"
