@@ -4,7 +4,7 @@ namespace WP_Mock\Tests\Unit\WP_Mock\Matcher;
 
 class SampleClass
 {
-    public function action()
+    public function action() : void
     {
     }
 }
