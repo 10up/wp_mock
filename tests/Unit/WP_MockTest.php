@@ -3,13 +3,13 @@
 namespace WP_Mock\Tests\Unit;
 
 use Mockery;
+use Mockery\Exception\InvalidCountException;
 use Mockery\ExpectationInterface;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\ExpectationFailedException;
 use SebastianBergmann\RecursionContext\InvalidArgumentException;
 use WP_Mock;
 use WP_Mock\Tests\WP_MockTestCase;
-use Mockery\Exception\InvalidCountException;
 
 class WP_MockTest extends WP_MockTestCase
 {
@@ -78,6 +78,7 @@ class WP_MockTest extends WP_MockTestCase
         WP_Mock::bootstrap();
         WP_Mock::expectFilterAdded('testFilter', '\WP_Mock\Tests\Mocks\testCallback');
         WP_Mock::expectActionAdded('testAction', '\WP_Mock\Tests\Mocks\testCallback');
+        /** @phpstan-ignore-next-line */
         add_action('testAction', '\WP_Mock\Tests\Mocks\testCallback');
         add_filter('testFilter', '\WP_Mock\Tests\Mocks\testCallback');
         WP_Mock::assertHooksAdded();
