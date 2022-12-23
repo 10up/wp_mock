@@ -4,11 +4,12 @@ namespace WP_Mock\Tests\Unit\WP_Mock;
 
 use Mockery;
 use WP_Mock;
+use WP_Mock\Tests\WP_MockTestCase;
 
 /**
  * @covers \WP_Mock\DeprecatedListener
  */
-class DeprecatedMethodsTest extends \PHPUnit\Framework\TestCase
+class DeprecatedMethodsTest extends WP_MockTestCase
 {
     public function setUp() : void
     {

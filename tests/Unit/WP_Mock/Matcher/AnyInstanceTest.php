@@ -3,8 +3,9 @@
 namespace WP_Mock\Tests\Unit\WP_Mock\Matcher;
 
 use WP_Mock\Matcher\AnyInstance;
+use WP_Mock\Tests\WP_MockTestCase;
 
-class AnyInstanceTest extends \PHPUnit\Framework\TestCase
+class AnyInstanceTest extends WP_MockTestCase
 {
     /**
      * @covers \WP_Mock\Matcher\AnyInstance::match

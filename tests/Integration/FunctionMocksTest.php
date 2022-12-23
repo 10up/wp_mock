@@ -3,8 +3,9 @@
 namespace WP_Mock\Tests\Integration;
 
 use WP_Mock;
+use WP_Mock\Tests\WP_MockTestCase;
 
-class FunctionMocksTest extends \PHPUnit\Framework\TestCase
+class FunctionMocksTest extends WP_MockTestCase
 {
     private $common_functions = [
         'esc_attr',

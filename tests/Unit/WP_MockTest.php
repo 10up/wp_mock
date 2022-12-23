@@ -3,8 +3,9 @@
 namespace WP_Mock\Tests\Unit;
 
 use WP_Mock;
+use WP_Mock\Tests\WP_MockTestCase;
 
-class WP_MockTest extends \PHPUnit\Framework\TestCase
+class WP_MockTest extends WP_MockTestCase
 {
     /**
      * @covers \WP_Mock::strictMode()
