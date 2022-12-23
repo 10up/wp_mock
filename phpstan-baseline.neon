@@ -1654,3 +1654,13 @@ parameters:
 			message: "#^Method WP_Mock\\\\Tests\\\\Unit\\\\WP_Mock\\\\Matcher\\\\AnyInstanceTest\\:\\:testWrongClassMatchesFalse\\(\\) throws checked exception SebastianBergmann\\\\RecursionContext\\\\InvalidArgumentException but it's missing from the PHPDoc @throws tag\\.$#"
 			count: 1
 			path: tests/Unit/WP_Mock/Matcher/AnyInstanceTest.php
+
+		-
+			message: "#^Method WP_Mock\\\\Functions\\:\\:anyOf\\(\\) has invalid return type Mockery\\\\Matcher\\\\anyOf\\.$#"
+			count: 1
+			path: php/WP_Mock/Functions.php
+
+		-
+			message: "#^Method WP_Mock\\\\Functions\\:\\:anyOf\\(\\) should return Mockery\\\\Matcher\\\\anyOf but returns mixed\.$#"
+			count: 1
+			path: php/WP_Mock/Functions.php
