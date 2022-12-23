@@ -1,12 +1,13 @@
 <?php
 
-namespace WP_Mock;
+namespace WP_Mock\Tests\Unit\WP_Mock;
 
 use Exception;
 use Mockery;
 use PHPUnit\Framework\RiskyTest;
 use PHPUnit\Framework\RiskyTestError;
 use ReflectionProperty;
+use WP_Mock\DeprecatedListener;
 
 /**
  * @covers \WP_Mock\DeprecatedListener

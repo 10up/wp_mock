@@ -1,6 +1,8 @@
 <?php
 
-namespace WP_Mock\Matcher;
+namespace WP_Mock\Tests\Unit\WP_Mock\Matcher;
+
+use WP_Mock\Matcher\AnyInstance;
 
 class AnyInstanceTest extends \PHPUnit\Framework\TestCase
 {
@@ -98,7 +100,7 @@ class AnyInstanceTest extends \PHPUnit\Framework\TestCase
 
         $result = "$sut";
 
-        $this->assertEquals("<AnyInstance[WP_Mock\Matcher\SampleClass]>", $result);
+        $this->assertEquals("<AnyInstance[WP_Mock\Tests\Unit\WP_Mock\Matcher\SampleClass]>", $result);
     }
 
     /**

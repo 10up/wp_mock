@@ -1,5 +1,9 @@
 <?php
 
+namespace WP_Mock\Tests\Unit;
+
+use WP_Mock;
+
 class WP_MockTest extends \PHPUnit\Framework\TestCase
 {
     /**
