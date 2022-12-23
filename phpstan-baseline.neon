@@ -1661,6 +1661,6 @@ parameters:
 			path: php/WP_Mock/Functions.php
 
 		-
-			message: "#^Method WP_Mock\\\\Functions\\:\\:anyOf\\(\\) should return Mockery\\\\Matcher\\\\anyOf but returns mixed\.$#"
+			message: "#^Method WP_Mock\\\\Functions\\:\\:anyOf\\(\\) should return Mockery\\\\Matcher\\\\anyOf but returns mixed\\.$#"
 			count: 1
 			path: php/WP_Mock/Functions.php
