@@ -3,7 +3,7 @@
     "description": "A mocking library to take the pain out of unit testing for WordPress",
     "license": "GPL-2.0-or-later",
     "version": "0.5.0",
-    "prefer-stable" : true,
+    "prefer-stable": true,
     "require": {
         "php": ">=7.3 < 9.0",
         "phpunit/phpunit": "^9.5.24",
@@ -32,14 +32,19 @@
     },
     "config": {
         "platform": {
-            "php" : "7.3"
+            "php": "7.3"
         },
         "allow-plugins": {
             "dealerdirect/phpcodesniffer-composer-installer": true
         }
     },
-    "autoload-dev"   : {
-        "classmap": ["tests"]
+    "autoload-dev": {
+        "psr-4": {
+            "WP_Mock\\Tests": "tests/"
+        },
+        "classmap": [
+            "tests"
+        ]
     },
     "scripts": {
         "test:behat": "behat",
@@ -54,6 +59,6 @@
             "@test:phpunitcov"
         ],
         "post-install-cmd": "\"vendor/bin/phpcs\" --config-set installed_paths vendor/phpcompatibility/php-compatibility",
-        "post-update-cmd" : "\"vendor/bin/phpcs\" --config-set installed_paths vendor/phpcompatibility/php-compatibility"
+        "post-update-cmd": "\"vendor/bin/phpcs\" --config-set installed_paths vendor/phpcompatibility/php-compatibility"
     }
 }
