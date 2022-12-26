@@ -1,8 +1,13 @@
 <?php
 
-namespace WP_Mock\Matcher;
+namespace WP_Mock\Tests\Unit\WP_Mock\Matcher;
 
-class AnyInstanceTest extends \PHPUnit\Framework\TestCase
+use WP_Mock\Matcher\AnyInstance;
+use WP_Mock\Tests\Mocks\SampleClass;
+use WP_Mock\Tests\Mocks\SampleSubClass;
+use WP_Mock\Tests\WP_MockTestCase;
+
+class AnyInstanceTest extends WP_MockTestCase
 {
     /**
      * @covers \WP_Mock\Matcher\AnyInstance::match
@@ -98,7 +103,7 @@ class AnyInstanceTest extends \PHPUnit\Framework\TestCase
 
         $result = "$sut";
 
-        $this->assertEquals("<AnyInstance[WP_Mock\Matcher\SampleClass]>", $result);
+        $this->assertEquals("<AnyInstance[WP_Mock\Tests\Mocks\SampleClass]>", $result);
     }
 
     /**
