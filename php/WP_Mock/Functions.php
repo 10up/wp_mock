@@ -3,6 +3,7 @@
 namespace WP_Mock;
 
 use Exception;
+use Hamcrest\Core\AnyOf;
 use InvalidArgumentException;
 use Mockery;
 
@@ -88,14 +89,13 @@ class Functions
     }
 
     /**
-     * Sets up an argument placeholder that allows it to be any of an enumerated
-     * list of possibilities
+     * Sets up an argument placeholder that allows it to be any of an enumerated list of possibilities.
      *
-     * @return \Mockery\Matcher\anyOf
+     * @return Mockery\Matcher\AnyOf|mixed
      */
     public static function anyOf()
     {
-        return call_user_func_array(array( '\\Mockery', 'anyOf' ), func_get_args());
+        return call_user_func_array(['\\Mockery', 'anyOf'], func_get_args());
     }
 
     /**
