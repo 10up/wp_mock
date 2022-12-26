@@ -30,14 +30,6 @@
             "php/WP_Mock.php"
         ]
     },
-    "config": {
-        "platform": {
-            "php": "7.3"
-        },
-        "allow-plugins": {
-            "dealerdirect/phpcodesniffer-composer-installer": true
-        }
-    },
     "autoload-dev": {
         "psr-4": {
             "WP_Mock\\Tests\\": "tests/"
@@ -45,6 +37,14 @@
         "classmap": [
             "tests"
         ]
+    },
+    "config": {
+        "platform": {
+            "php": "7.3"
+        },
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
     },
     "scripts": {
         "test:behat": "behat",
