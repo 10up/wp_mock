@@ -2,6 +2,8 @@
 
 namespace WP_Mock;
 
+use Exception;
+use InvalidArgumentException;
 use Mockery;
 
 class Functions
@@ -64,28 +66,24 @@ class Functions
      * Registers the function to be mocked and sets up its expectations
      *
      * @param string $function
-     * @param array  $arguments
-     *
-     * @throws \Exception If the function name is invalid
-     *
+     * @param array<mixed> $arguments
      * @return Mockery\Expectation
      */
-    public function register($function, $arguments)
+    public function register(string $function, array $arguments = [])
     {
-        $expectation = null;
-        try {
-            $this->generate_function($function);
-            if (empty($this->mocked_functions[$function])) {
-                $this->mocked_functions[$function] = Mockery::mock('wp_api');
-            }
-            $mock = $this->mocked_functions[$function];
+        $this->generate_function($function);
 
-            $method = preg_replace('/\\\\+/', '_', $function);
-            $expectation = $this->set_up_mock($mock, $method, $arguments);
-            Handler::register_handler($function, array( $mock, $method ));
-        } catch (\Exception $e) {
-            throw $e;
+        if (empty($this->mocked_functions[$function])) {
+            $this->mocked_functions[$function] = Mockery::mock('wp_api');
         }
+
+        $mock = $this->mocked_functions[$function];
+
+        $method = preg_replace('/\\\\+/', '_', $function);
+        $expectation = $this->set_up_mock($mock, $method, $arguments);
+
+        Handler::register_handler($function, [$mock, $method]);
+
         return $expectation;
     }
 
@@ -268,37 +266,38 @@ EOF;
     }
 
     /**
-     * Validate the function name for format and other considerations
+     * Validate the function name for format and other considerations.
      *
-     * Validation will fail if the string doesn't match the regex, if it's an
-     * internal function, or if it is a reserved word in PHP.
+     * Validation will fail if not a valid function name, if it's an internal function, or if it is a reserved word in PHP.
      *
-     * @param string $function_name
-     *
-     * @throws \InvalidArgumentException
+     * @param string $functionName
+     * @return void
+     * @throws InvalidArgumentException
      */
-    private function validate_function_name($function_name)
+    private function validate_function_name(string $functionName): void
     {
-        if (function_exists($function_name)) {
+        if (function_exists($functionName)) {
             if (empty($this->internal_functions)) {
-                $defined_functions        = get_defined_functions();
-                $this->internal_functions = $defined_functions['internal'];
+                $definedFunctions = get_defined_functions();
+                $this->internal_functions = $definedFunctions['internal'];
             }
-            if (in_array($function_name, $this->internal_functions)) {
-                throw new \InvalidArgumentException('Cannot override internal PHP functions!');
+
+            if (in_array($functionName, $this->internal_functions)) {
+                throw new InvalidArgumentException('Cannot override internal PHP functions!');
             }
         }
 
-        $parts = explode('\\', $function_name);
+        $parts = explode('\\', $functionName);
         $name  = array_pop($parts);
 
-        if (! preg_match('/[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*/', $function_name)) {
-            throw new \InvalidArgumentException('Function name not properly formatted!');
+        if (! preg_match('/[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*/', $functionName)) {
+            throw new InvalidArgumentException('Function name not properly formatted!');
         }
 
-        $reserved_words = ' __halt_compiler abstract and array as break callable case catch class clone const continue declare default die do echo else elseif empty enddeclare endfor endforeach endif endswitch endwhile eval exit extends final for foreach function global goto if implements include include_once instanceof insteadof interface isset list namespace new or print private protected public require require_once return static switch throw trait try unset use var while xor __CLASS__ __DIR__ __FILE__ __FUNCTION__ __LINE__ __METHOD__ __NAMESPACE__ __TRAIT__ ';
-        if (false !== strpos($reserved_words, " $name ")) {
-            throw new \InvalidArgumentException('Function name can not be a reserved word!');
+        $reservedWords = ' __halt_compiler abstract and array as break callable case catch class clone const continue declare default die do echo else elseif empty enddeclare endfor endforeach endif endswitch endwhile eval exit extends final for foreach function global goto if implements include include_once instanceof insteadof interface isset list namespace new or print private protected public require require_once return static switch throw trait try unset use var while xor __CLASS__ __DIR__ __FILE__ __FUNCTION__ __LINE__ __METHOD__ __NAMESPACE__ __TRAIT__ ';
+
+        if (false !== strpos($reservedWords, " $name ")) {
+            throw new InvalidArgumentException('Function name can not be a reserved word!');
         }
     }
 }

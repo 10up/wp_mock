@@ -1,5 +1,7 @@
 <?php
 
+use PHPUnit\Framework\ExpectationFailedException;
+
 if (! function_exists('add_action')) {
     /**
      * Hooks a function on to a specific action.
@@ -177,9 +179,8 @@ if (! function_exists('_n')) {
     /**
      * Dummy method for _n().
      *
-     * @throws \PHPUnit\Framework\ExpectationFailedException Throws error if too few arguments.
-     *
-     * @return mixed singular or plural string based on number.
+     * @return mixed singular or plural string based on number
+     * @throws ExpectationFailedException if too few arguments passed
      */
     function _n()
     {
@@ -192,9 +193,7 @@ if (! function_exists('_n')) {
                 return $args[1];
             }
         } else {
-            throw new \PHPUnit\Framework\ExpectationFailedException(
-                sprintf('Too few arguments to function %s', __FUNCTION__)
-            );
+            throw new ExpectationFailedException(sprintf('Too few arguments to function %s', __FUNCTION__));
         }
     }
 }
