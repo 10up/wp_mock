@@ -2,6 +2,7 @@
 
 namespace WP_Mock\Tests\Integration;
 
+use PHPUnit\Framework\ExpectationFailedException;
 use WP_Mock;
 use WP_Mock\Tests\WP_MockTestCase;
 
@@ -75,13 +76,18 @@ class FunctionMocksTest extends WP_MockTestCase
      *
      * @runInSeparateProcess
      * @preserveGlobalState disabled
+     *
+     * @return void
      */
-    public function testDefaultFailsInStrictMode()
+    public function testDefaultFailsInStrictMode(): void
     {
         $this->expectExceptionMessageMatches('/No handler found for \w+/');
-        $this->expectException('\PHPUnit\Framework\ExpectationFailedException');
+        $this->expectException(ExpectationFailedException::class);
+
         WP_Mock::activateStrictMode();
         WP_Mock::bootstrap();
+
+        /** @phpstan-ignore-next-line */
         _e('Test');
     }
 

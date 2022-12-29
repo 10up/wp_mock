@@ -2,15 +2,19 @@
 
 namespace WP_Mock\Matcher;
 
-use Mockery\Exception;
+use Mockery\Exception as MockeryException;
 use Mockery\Matcher\MatcherAbstract;
 
+/**
+ * Fuzzy object class.
+ */
 class FuzzyObject extends MatcherAbstract
 {
     /**
-     * @param object|array $expected
+     * Constructor.
      *
-     * @throws \Mockery\Exception If a non-object non-array expectation is provided
+     * @param object|array|mixed $expected
+     * @throws MockeryException if a non-object non-array expectation is provided
      */
     public function __construct($expected = null)
     {
@@ -18,22 +22,22 @@ class FuzzyObject extends MatcherAbstract
             if (is_array($expected)) {
                 $expected = (object) $expected;
             } else {
-                throw new Exception('FuzzyObject matcher can only match objects!');
+                throw new MockeryException('FuzzyObject matcher can only match objects!');
             }
         }
+
         parent::__construct($expected);
     }
 
     /**
-     * Check if the actual value matches the expected.
-     * Actual passed by reference to preserve reference trail (where applicable)
-     * back to the original method parameter.
+     * Checks if the actual value matches the expected.
+     *
+     * Actual passed by reference to preserve reference trail (where applicable) back to the original method parameter.
      *
      * @param mixed $actual
-     *
      * @return bool
      */
-    public function match(&$actual)
+    public function match(&$actual): bool
     {
         if (! is_object($actual)) {
             return false;
@@ -43,16 +47,17 @@ class FuzzyObject extends MatcherAbstract
             return false;
         }
 
-        $expected_properties = get_object_vars($this->_expected);
+        $expectedProperties = is_object($this->_expected) ? get_object_vars($this->_expected) : [];
 
-        foreach ($expected_properties as $prop => $value) {
+        foreach ($expectedProperties as $prop => $value) {
             if (! isset($actual->$prop) || $value !== $actual->$prop) {
                 return false;
             }
         }
 
-        $actual_keys  = array_keys(get_object_vars($actual));
-        $extra_actual = array_diff($actual_keys, array_keys($expected_properties));
+        $actual_keys = array_keys(get_object_vars($actual));
+        $extra_actual = array_diff($actual_keys, array_keys($expectedProperties));
+
         if (! empty($extra_actual)) {
             return false;
         }
@@ -61,13 +66,13 @@ class FuzzyObject extends MatcherAbstract
     }
 
     /**
-     * Return a string representation of this Matcher
+     * Returns a string representation of this Matcher.
      *
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
-        $values = array_values(get_object_vars($this->_expected));
+        $values = array_values(is_object($this->_expected) ? get_object_vars($this->_expected) : []);
         $values = array_map(function ($value) {
             if (! is_scalar($value)) {
                 if (is_array($value)) {
@@ -82,24 +87,33 @@ class FuzzyObject extends MatcherAbstract
             }
             return $value;
         }, $values);
-        return '<FuzzyObject[' . implode(', ', $values) . ']>';
+
+        return '<FuzzyObject['.implode(', ', $values).']>';
     }
 
     /**
-     * @param object $object1
-     * @param object $object2
+     * Determines if two objects have a common ancestor.
      *
+     * @param object|mixed $object1
+     * @param object|mixed $object2
      * @return bool
      */
-    protected function haveCommonAncestor($object1, $object2)
+    protected function haveCommonAncestor($object1, $object2): bool
     {
+        if (! is_object($object1) || ! is_object($object2)) {
+            return false;
+        }
+
         $class1 = get_class($object1);
         $class2 = get_class($object2);
+
         if ($class1 === $class2) {
             return true;
         }
-        $inheritance1 = class_parents($class1);
-        $inheritance2 = class_parents($class2);
-        return in_array($class1, $inheritance2) || in_array($class2, $inheritance1);
+
+        $class1parents = class_parents($class1) ?: [];
+        $class2parents = class_parents($class2) ?: [];
+
+        return in_array($class1, $class2parents) || in_array($class2, $class1parents);
     }
 }
