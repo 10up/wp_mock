@@ -2,10 +2,10 @@
 
 namespace WP_Mock;
 
-use Exception;
-use Hamcrest\Core\AnyOf;
 use InvalidArgumentException;
 use Mockery;
+use Mockery\Matcher\AnyOf;
+use Mockery\Matcher\Type;
 
 class Functions
 {
@@ -91,25 +91,23 @@ class Functions
     /**
      * Sets up an argument placeholder that allows it to be any of an enumerated list of possibilities.
      *
-     * @return Mockery\Matcher\AnyOf|mixed
+     * @return AnyOf
      */
-    public static function anyOf()
+    public static function anyOf(): AnyOf
     {
+        /** @phpstan-ignore-next-line */
         return call_user_func_array(['\\Mockery', 'anyOf'], func_get_args());
     }
 
     /**
-     * Sets up an argument placeholder that requires the argument to be of a
-     * certain type
+     * Sets up an argument placeholder that requires the argument to be of a certain type.
      *
-     * This may be any type for which there is a "is_*" function, or any class or
-     * interface.
+     * This may be any type for which there is a "is_*" function, or any class or interface.
      *
      * @param string $expected
-     *
-     * @return Mockery\Matcher\Type
+     * @return Type
      */
-    public static function type($expected)
+    public static function type(string $expected): Type
     {
         return Mockery::type($expected);
     }
