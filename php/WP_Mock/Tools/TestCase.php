@@ -4,13 +4,14 @@ namespace WP_Mock\Tools;
 
 use PHPUnit\Framework\TestResult;
 use Exception;
+use InvalidArgumentException;
 use Mockery;
 use PHPUnit\Util\Test as TestUtil;
 use ReflectionException;
 use ReflectionMethod;
+use RuntimeException;
 use Text_Template;
 use WP_Mock;
-use WP_Mock\Exceptions\WP_MockException;
 use WP_Mock\Tools\Constraints\ExpectationsMet;
 use WP_Mock\Tools\Constraints\IsEqualHtml;
 
@@ -163,12 +164,12 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
 
 
     /**
-     * Mock a static method of a class
+     * Mocks a static method of a class.
      *
      * @param string $class the classname or class::method name
      * @param null|string $method the method name (optional if class::method used for $class)
      * @return Mockery\ExpectationInterface|Mockery\Expectation|Mockery\HigherOrderMessage
-     * @throws WP_MockException|ReflectionException
+     * @throws InvalidArgumentException|RuntimeException|ReflectionException
      */
     protected function mockStaticMethod(string $class, ?string $method = null)
     {
@@ -177,11 +178,11 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         }
 
         if (! $method || ! $class) {
-            throw new WP_MockException(sprintf('Could not mock %s::%s', $class, $method));
+            throw new InvalidArgumentException(sprintf('Could not mock %s::%s', $class, $method));
         }
 
         if (! WP_Mock::usingPatchwork() || ! function_exists('Patchwork\redefine')) {
-            throw new WP_MockException('Patchwork is not loaded! Please load patchwork before mocking static methods!');
+            throw new RuntimeException('Patchwork is not loaded! Please load patchwork before mocking static methods!');
         }
 
         $safe_method = "wp_mock_safe_$method";
@@ -196,15 +197,9 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
                 $reflectionMethod = new ReflectionMethod($class, $method);
             }
 
-            if (
-                $reflectionMethod &&
-                (
-                    ! $reflectionMethod->isUserDefined() ||
-                    ! $reflectionMethod->isStatic() ||
-                    $reflectionMethod->isPrivate()
-                )
-            ) {
-                throw new WP_MockException(sprintf('%s::%s is not a user-defined non-private static method!', $class, $method));
+            // throw an exception if method doesn't exist, is not static or has private access
+            if ($reflectionMethod && (! $reflectionMethod->isUserDefined() || ! $reflectionMethod->isStatic() || $reflectionMethod->isPrivate())) {
+                throw new InvalidArgumentException(sprintf('%s::%s is not a user-defined non-private static method!', $class, $method));
             }
 
             /** @var Mockery\Mock $mock */
