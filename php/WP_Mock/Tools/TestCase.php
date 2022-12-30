@@ -16,32 +16,23 @@ use WP_Mock\Tools\Constraints\IsEqualHtml;
 
 abstract class TestCase extends \PHPUnit\Framework\TestCase
 {
-    protected $mockedStaticMethods = array();
+    /** @var array<string, Mockery\Mock> */
+    protected $mockedStaticMethods = [];
 
-    /**
-     * @var array
-     */
-    protected $__default_post = array();
+    /** @var array<mixed> */
+    protected $__default_post = [];
 
-    /**
-     * @var array
-     */
-    protected $__default_get = array();
+    /** @var array<mixed> */
+    protected $__default_get = [];
 
-    /**
-     * @var array
-     */
-    protected $__default_request = array();
+    /** @var array<mixed> */
+    protected $__default_request = [];
 
-    /**
-     * @var bool|callable
-     */
+    /** @var bool|callable */
     protected $__contentFilterCallback = false;
 
-    /**
-     * @var array
-     */
-    protected $testFiles = array();
+    /** @var array<string> */
+    protected $testFiles = [];
 
     public function setUp(): void
     {
