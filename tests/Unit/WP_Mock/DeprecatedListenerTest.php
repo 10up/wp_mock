@@ -1,17 +1,20 @@
 <?php
 
-namespace WP_Mock;
+namespace WP_Mock\Tests\Unit\WP_Mock;
 
 use Exception;
 use Mockery;
 use PHPUnit\Framework\RiskyTest;
 use PHPUnit\Framework\RiskyTestError;
+use PHPUnit\Framework\TestCase;
 use ReflectionProperty;
+use WP_Mock\DeprecatedListener;
+use WP_Mock\Tests\WP_MockTestCase;
 
 /**
  * @covers \WP_Mock\DeprecatedListener
  */
-class DeprecatedListenerTest extends \PHPUnit\Framework\TestCase
+class DeprecatedListenerTest extends WP_MockTestCase
 {
     /** @var DeprecatedListener */
     protected $object;
@@ -80,7 +83,7 @@ class DeprecatedListenerTest extends \PHPUnit\Framework\TestCase
         $this->object->logDeprecatedCall('FooBar::bazBat', array( 'string', true, 42 ));
         $this->object->setTestName('TestName');
         $testCase = Mockery::mock('\PHPUnit\Framework\TestCase');
-        /** @var \PHPUnit\Framework\TestCase $testCase */
+        /** @var TestCase $testCase */
         $this->object->setTestCase($testCase);
         $testResult = new \PHPUnit\Framework\TestResult();
         $result     = Mockery::mock($testResult);
@@ -122,7 +125,7 @@ EOT;
         $this->object->logDeprecatedCall('BazBat::fooBar', array( range(1, $range), $resource ));
         $this->object->setTestName('OtherTest');
         $testCase = Mockery::mock('\PHPUnit\Framework\TestCase');
-        /** @var \PHPUnit\Framework\TestCase $testCase */
+        /** @var TestCase $testCase */
         $this->object->setTestCase($testCase);
         $testResult = new \PHPUnit\Framework\TestResult();
         $result     = Mockery::mock($testResult);

@@ -3,6 +3,8 @@
 namespace WP_Mock;
 
 use Closure;
+use PHPUnit\Framework\ExpectationFailedException;
+use WP_Mock;
 use WP_Mock\Matcher\AnyInstance;
 
 /**
@@ -13,7 +15,7 @@ use WP_Mock\Matcher\AnyInstance;
  */
 abstract class Hook
 {
-    /** @var string Hook name */
+    /** @var string hook name */
     protected $name;
 
     /** @var array<mixed> collection of processors */
@@ -93,18 +95,21 @@ abstract class Hook
     abstract protected function new_responder();
 
     /**
-     * Throw an exception if strict mode is on
+     * Throws an exception if strict mode is on.
      *
-     * @throws \PHPUnit\Framework\ExpectationFailedException
+     * @return void
+     * @throws ExpectationFailedException
      */
-    protected function strict_check()
+    protected function strict_check(): void
     {
-        if (\WP_Mock::strictMode()) {
-            throw new \PHPUnit\Framework\ExpectationFailedException($this->get_strict_mode_message());
+        if (WP_Mock::strictMode()) {
+            throw new ExpectationFailedException($this->get_strict_mode_message());
         }
     }
 
     /**
+     * Gets the message to output when the strict mode exception is thrown.
+     *
      * @return string
      */
     abstract protected function get_strict_mode_message();

@@ -9,6 +9,10 @@
 
 namespace WP_Mock;
 
+use Exception;
+use PHPUnit\Framework\ExpectationFailedException;
+use WP_Mock;
+
 class Handler
 {
     /**
@@ -32,22 +36,22 @@ class Handler
     /**
      * Handle a mocked function call.
      *
-     * @param string $function_name
-     * @param array  $args
-     *
+     * @param string $functionName
+     * @param array<mixed> $args
      * @return mixed
+     * @throws ExpectationFailedException
      */
-    public static function handle_function($function_name, $args = array())
+    public static function handle_function(string $functionName, array $args = [])
     {
-        if (self::handler_exists($function_name)) {
-            $callback = self::$handlers[ $function_name ];
+        if (self::handler_exists($functionName)) {
+            $callback = self::$handlers[$functionName];
 
             return call_user_func_array($callback, $args);
-        } elseif (\WP_Mock::strictMode()) {
-            throw new \PHPUnit\Framework\ExpectationFailedException(
-                sprintf('No handler found for %s', $function_name)
-            );
+        } elseif (WP_Mock::strictMode()) {
+            throw new ExpectationFailedException(sprintf('No handler found for %s', $functionName));
         }
+
+        return null;
     }
 
     /**
@@ -71,43 +75,48 @@ class Handler
     }
 
     /**
-     * Helper function for common passthru return functions
+     * Helper function for common passthru return functions.
      *
-     * @param string $function_name
-     * @param array  $args
-     *
-     * @return mixed
+     * @param string $functionName
+     * @param array<mixed>  $args
+     * @return ?mixed
+     * @throws ExpectationFailedException
      */
-    public static function predefined_return_function_helper($function_name, array $args)
+    public static function predefined_return_function_helper(string $functionName, array $args = [])
     {
-        $result = self::handle_function($function_name, $args);
-        if (! self::handler_exists($function_name)) {
-            $result = isset($args[0]) ? $args[0] : $result;
+        $result = self::handle_function($functionName, $args);
+
+        if (! self::handler_exists($functionName)) {
+            $result = $args[0] ?? $result;
         }
 
         return $result;
     }
 
     /**
-     * Helper function for common echo functions
+     * Helper function for common echo functions.
      *
-     * @param string $function_name
-     * @param array  $args
-     *
-     * @throws \Exception
+     * @param string $functionName
+     * @param array<int, string>  $args
+     * @return void
+     * @throws Exception|ExpectationFailedException
      */
-    public static function predefined_echo_function_helper($function_name, array $args)
+    public static function predefined_echo_function_helper(string $functionName, array $args = []): void
     {
         ob_start();
+
         try {
-            self::handle_function($function_name, $args);
-        } catch (\Exception $exception) {
+            self::handle_function($functionName, $args);
+        } catch (Exception $exception) {
             ob_end_clean();
+            /** @phpstan-ignore-next-line */
             throw $exception;
         }
-        $result = ob_get_clean();
-        if (! self::handler_exists($function_name)) {
-            $result = isset($args[0]) ? $args[0] : $result;
+
+        $result = ob_get_clean() ?: '';
+
+        if (! self::handler_exists($functionName)) {
+            $result = $args[0] ?? $result;
         }
 
         echo $result;

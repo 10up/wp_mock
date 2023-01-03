@@ -1,8 +1,14 @@
 <?php
 
-class FunctionMocksTest extends \PHPUnit\Framework\TestCase
+namespace WP_Mock\Tests\Integration;
+
+use PHPUnit\Framework\ExpectationFailedException;
+use WP_Mock;
+use WP_Mock\Tests\WP_MockTestCase;
+
+class FunctionMocksTest extends WP_MockTestCase
 {
-    private $common_functions = array(
+    private $common_functions = [
         'esc_attr',
         'esc_html',
         'esc_js',
@@ -19,9 +25,9 @@ class FunctionMocksTest extends \PHPUnit\Framework\TestCase
         'esc_html_e',
         'esc_html_x',
         '_n',
-    );
+    ];
 
-    protected function setUp(): void
+    protected function setUp() : void
     {
         if (! $this->isInIsolation()) {
             WP_Mock::setUp();
@@ -46,12 +52,12 @@ class FunctionMocksTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @covers \WP_Mock::userFunction()
+     * @covers       \WP_Mock::userFunction()
      * @dataProvider dataCommonFunctionsDefaultFunctionality
      */
     public function testCommonFunctionsDefaultFunctionality($function, $action)
     {
-        $input = $expected = 'Something Random ' . rand(0, 99);
+        $input = $expected = 'Something Random '.rand(0, 99);
         if ('echo' === $action) {
             $this->expectOutputString($input);
             $expected = null;
@@ -70,20 +76,25 @@ class FunctionMocksTest extends \PHPUnit\Framework\TestCase
      *
      * @runInSeparateProcess
      * @preserveGlobalState disabled
+     *
+     * @return void
      */
-    public function testDefaultFailsInStrictMode()
+    public function testDefaultFailsInStrictMode(): void
     {
         $this->expectExceptionMessageMatches('/No handler found for \w+/');
-        $this->expectException('\PHPUnit\Framework\ExpectationFailedException');
+        $this->expectException(ExpectationFailedException::class);
+
         WP_Mock::activateStrictMode();
         WP_Mock::bootstrap();
+
+        /** @phpstan-ignore-next-line */
         _e('Test');
     }
 
     public function dataCommonFunctionsDefaultFunctionality()
     {
         return array_map(function ($function) {
-            return array( $function, '_e' === substr($function, - 2) ? 'echo' : 'return' );
+            return [$function, '_e' === substr($function, -2) ? 'echo' : 'return'];
         }, $this->common_functions);
     }
 
