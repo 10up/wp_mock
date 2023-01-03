@@ -46,7 +46,7 @@ class IsEqualHtml extends Constraint
      * @param string $value
      * @return string
      */
-    private function clean(string $value): string
+    protected function clean(string $value): string
     {
         $value = preg_replace('/\n\s+/', '', $value) ?: '';
         $value = preg_replace('/\s\s+/', ' ', $value) ?: '';
@@ -72,8 +72,9 @@ class IsEqualHtml extends Constraint
         $this->value = $this->clean($this->value);
 
         $isEqual = new IsEqual($this->value, $this->delta, $this->canonicalize, $this->ignoreCase);
+        $result = $isEqual->evaluate($other, $description, $returnResult);
 
-        return $isEqual->evaluate($other, $description, $returnResult);
+        return $returnResult ? $result : null;
     }
 
     /**
