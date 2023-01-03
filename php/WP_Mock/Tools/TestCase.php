@@ -14,6 +14,11 @@ use WP_Mock;
 use WP_Mock\Tools\Constraints\ExpectationsMet;
 use WP_Mock\Tools\Constraints\IsEqualHtml;
 
+/**
+ * WP_Mock test case.
+ *
+ * Projects using WP_Mock can extend this class in their unit tests.
+ */
 abstract class TestCase extends \PHPUnit\Framework\TestCase
 {
     /** @var array<string, Mockery\Mock> */
@@ -34,6 +39,13 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
     /** @var array<string> */
     protected $testFiles = [];
 
+    /**
+     * Sets up the test case.
+     *
+     * This method is called before each test.
+     *
+     * @return void
+     */
     public function setUp(): void
     {
         $this->requireFileDependencies();
@@ -49,17 +61,22 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         $this->cleanGlobals();
     }
 
+    /**
+     * Tears down the test case.
+     *
+     * This method is called after each test.
+     */
     public function tearDown(): void
     {
         WP_Mock::tearDown();
 
         $this->cleanGlobals();
 
-        $this->mockedStaticMethods = array();
+        $this->mockedStaticMethods = [];
 
-        $_GET     = array();
-        $_POST    = array();
-        $_REQUEST = array();
+        $_GET = [];
+        $_POST = [];
+        $_REQUEST = [];
     }
 
     public function assertActionsCalled()
