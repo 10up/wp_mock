@@ -16,13 +16,13 @@ class IsEqualHtml extends Constraint
     protected $value;
 
     /** @var float */
-    protected $delta;
+    private $delta;
 
     /** @var bool */
-    protected $canonicalize;
+    private $canonicalize;
 
     /** @var bool */
-    protected $ignoreCase;
+    private $ignoreCase;
 
     /**
      * Constructor.
