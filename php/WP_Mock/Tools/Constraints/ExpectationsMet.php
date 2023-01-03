@@ -6,18 +6,32 @@ use PHPUnit\Framework\Constraint\Constraint;
 use Mockery;
 use Exception;
 
-class ExpectationsMet extends \PHPUnit\Framework\Constraint\Constraint
+/**
+ * Expectations-met constraint.
+ */
+class ExpectationsMet extends Constraint
 {
-    private $_mockery_message;
+    /** @var string */
+    private $failureDescription;
 
+    /**
+     * Evaluates the constraint for parameter $other.
+     *
+     * Returns true if the constraint is met, false otherwise.
+     *
+     * @param mixed $other
+     * @return bool
+     */
     public function matches($other): bool
     {
         try {
             Mockery::getContainer()->mockery_verify();
-        } catch (Exception $e) {
-            $this->_mockery_message = $e->getMessage();
+        } catch (Exception $exception) {
+            $this->failureDescription = $exception->getMessage();
+
             return false;
         }
+
         return true;
     }
 
@@ -28,14 +42,26 @@ class ExpectationsMet extends \PHPUnit\Framework\Constraint\Constraint
      */
     public function toString(): string
     {
-        return 'WP Mock expectations are met';
+        return 'WP_Mock expectations are met';
     }
 
+    /**
+     * Gets the additional failure description.
+     *
+     * @param mixed $other
+     * @return string
+     */
     protected function additionalFailureDescription($other): string
     {
-        return str_replace(array( "\r", "\n" ), '', (string) $this->_mockery_message);
+        return str_replace(["\r", "\n"], '', $this->failureDescription);
     }
 
+    /**
+     * Gets the failure description.
+     *
+     * @param mixed $other
+     * @return string
+     */
     protected function failureDescription($other): string
     {
         return $this->toString();
