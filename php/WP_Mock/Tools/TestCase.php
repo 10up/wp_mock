@@ -138,14 +138,29 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         parent::expectOutputString($expectedString);
     }
 
-    public function assertCurrentConditionsMet($message = '')
+    /**
+     * Asserts that the current test conditions have been met.
+     *
+     * @deprecated prefer {@see TestCase::assertConditionsMet())
+     *
+     * @param string $message
+     * @return void
+     */
+    public function assertCurrentConditionsMet(string $message = ''): void
     {
-        $this->assertThat(null, new ExpectationsMet(), $message);
+        $this->assertConditionsMet($message);
     }
 
-    public function assertConditionsMet($message = '')
+    /**
+     * Asserts that the current test conditions have been met.
+     *
+     * @param string $message
+     * @return void
+     */
+    public function assertConditionsMet(string $message = ''): void
     {
-        $this->assertCurrentConditionsMet($message);
+        /** @phpstan-ignore-next-line it will never throw an exception */
+        $this->assertThat(null, new ExpectationsMet(), $message);
     }
 
     /**
