@@ -5,6 +5,8 @@ namespace WP_Mock\Tests\Unit\WP_Mock\Tools\Constraints;
 use Exception;
 use Generator;
 use PHPUnit\Framework\ExpectationFailedException;
+use ReflectionException;
+use ReflectionMethod;
 use WP_Mock\Tests\WP_MockTestCase;
 use WP_Mock\Tools\Constraints\IsEqualHtml;
 
@@ -13,6 +15,21 @@ use WP_Mock\Tools\Constraints\IsEqualHtml;
  */
 final class IsEqualHtmlTest extends WP_MockTestCase
 {
+    /**
+     * @covers \WP_Mock\Tools\Constraints\IsEqualHtml::clean()
+     *
+     * @return void
+     * @throws ReflectionException|Exception
+     */
+    public function testCanClean(): void
+    {
+        $value = "\n\t <p>Test </p>\r";
+        $constraint = new IsEqualHtml($value);
+        $method = new ReflectionMethod($constraint, 'clean');
+
+        $this->assertSame('<p>Test </p>', $method->invokeArgs($constraint, [$value]));
+    }
+
     /**
      * @covers \WP_Mock\Tools\Constraints\IsEqualHtml::evaluate()
      * @dataProvider providerEvaluate
