@@ -340,6 +340,19 @@ If the actual instance of an expected class cannot be passed, `AnyInstance` can 
 \WP_Mock::expectFilterAdded( 'the_content', array( new \WP_Mock\Matcher\AnyInstance( Special::class ), 'the_content' ) );
 ```
 
+#### Asserting that closures have been added as hook callbacks
+
+Sometimes it's handy to add a [Closure](https://secure.php.net/manual/en/class.closure.php) as a WordPress hook instead of defining a function in the global namespace. To assert that such a hook has been added, you can perform assertions referencing the Closure class or a `callable` type:
+
+```php
+public function test_anonymous_function_hook() {
+	\WP_Mock::expectActionAdded('save_post', \WP_Mock\Functions::type('callable'));
+	\WP_Mock::expectActionAdded('save_post', \WP_Mock\Functions::type(Closure::class));
+	\WP_Mock::expectFilterAdded('the_content', \WP_Mock\Functions::type('callable'));
+	\WP_Mock::expectFilterAdded('the_content', \WP_Mock\Functions::type(Closure::class));
+}
+```
+
 #### Asserting that actions and filters are applied
 
 Now that we're testing whether or not we're adding actions and/or filters, the next step is to ensure our code is calling those hooks when expected.

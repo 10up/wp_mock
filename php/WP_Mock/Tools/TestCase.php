@@ -10,18 +10,22 @@ use Mockery;
 use PHPUnit\Util\Test as TestUtil;
 use ReflectionException;
 use ReflectionMethod;
+use PHPUnit\Framework\TestCase as PhpUnitTestCase;
 use RuntimeException;
 use WP_Mock;
 use WP_Mock\Tools\Constraints\ExpectationsMet;
 use WP_Mock\Tools\Constraints\IsEqualHtml;
+use WP_Mock\Traits\AccessInaccessibleClassMembersTrait;
 
 /**
  * WP_Mock test case.
  *
  * Projects using WP_Mock can extend this class in their unit tests.
  */
-abstract class TestCase extends \PHPUnit\Framework\TestCase
+abstract class TestCase extends PhpUnitTestCase
 {
+    use AccessInaccessibleClassMembersTrait;
+
     /** @var array<string, Mockery\Mock> */
     protected $mockedStaticMethods = [];
 

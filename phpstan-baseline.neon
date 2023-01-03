@@ -421,6 +421,16 @@ parameters:
 			path: php/WP_Mock/API/function-mocks.php
 
 		-
+			message: "#^Cannot access offset string on mixed\\.$#"
+			count: 2
+			path: php/WP_Mock/Action.php
+
+		-
+			message: "#^Cannot call method react\\(\\) on mixed\\.$#"
+			count: 1
+			path: php/WP_Mock/Action.php
+
+		-
 			message: "#^Method WP_Mock\\\\Action\\:\\:new_responder\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: php/WP_Mock/Action.php
@@ -611,6 +621,11 @@ parameters:
 			path: php/WP_Mock/EventManager.php
 
 		-
+			message: "#^Cannot call method send\\(\\) on mixed\\.$#"
+			count: 1
+			path: php/WP_Mock/Filter.php
+
+		-
 			message: "#^Method WP_Mock\\\\Filter\\:\\:apply\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: php/WP_Mock/Filter.php
@@ -668,16 +683,6 @@ parameters:
 		-
 			message: "#^Call to an undefined method Mockery\\\\ExpectationInterface\\|Mockery\\\\HigherOrderMessage\\:\\:times\\(\\)\\.$#"
 			count: 2
-			path: php/WP_Mock/Functions.php
-
-		-
-			message: "#^Class Mockery\\\\Matcher\\\\AnyOf referenced with incorrect case\\: Mockery\\\\Matcher\\\\anyOf\\.$#"
-			count: 1
-			path: php/WP_Mock/Functions.php
-
-		-
-			message: "#^Method WP_Mock\\\\Functions\\:\\:anyOf\\(\\) should return Mockery\\\\Matcher\\\\AnyOf but returns mixed\\.$#"
-			count: 1
 			path: php/WP_Mock/Functions.php
 
 		-
@@ -766,27 +771,12 @@ parameters:
 			path: php/WP_Mock/Handler.php
 
 		-
-			message: "#^Method WP_Mock\\\\Hook\\:\\:__construct\\(\\) has parameter \\$name with no type specified\\.$#"
-			count: 1
+			message: "#^Cannot access offset string on mixed\\.$#"
+			count: 4
 			path: php/WP_Mock/Hook.php
 
 		-
 			message: "#^Method WP_Mock\\\\Hook\\:\\:new_responder\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: php/WP_Mock/Hook.php
-
-		-
-			message: "#^Method WP_Mock\\\\Hook\\:\\:safe_offset\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: php/WP_Mock/Hook.php
-
-		-
-			message: "#^Method WP_Mock\\\\Hook\\:\\:safe_offset\\(\\) has parameter \\$value with no type specified\\.$#"
-			count: 1
-			path: php/WP_Mock/Hook.php
-
-		-
-			message: "#^Property WP_Mock\\\\Hook\\:\\:\\$processors type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: php/WP_Mock/Hook.php
 
@@ -797,6 +787,16 @@ parameters:
 
 		-
 			message: "#^Cannot access offset 1 on callable\\(\\)\\: mixed\\.$#"
+			count: 1
+			path: php/WP_Mock/HookedCallback.php
+
+		-
+			message: "#^Cannot access offset mixed on mixed\\.$#"
+			count: 5
+			path: php/WP_Mock/HookedCallback.php
+
+		-
+			message: "#^Cannot call method react\\(\\) on mixed\\.$#"
 			count: 1
 			path: php/WP_Mock/HookedCallback.php
 
@@ -837,16 +837,6 @@ parameters:
 
 		-
 			message: "#^Method WP_Mock\\\\HookedCallback\\:\\:react\\(\\) throws checked exception ReflectionException but it's missing from the PHPDoc @throws tag\\.$#"
-			count: 1
-			path: php/WP_Mock/HookedCallback.php
-
-		-
-			message: "#^Method WP_Mock\\\\HookedCallback\\:\\:safe_offset\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: php/WP_Mock/HookedCallback.php
-
-		-
-			message: "#^Method WP_Mock\\\\HookedCallback\\:\\:safe_offset\\(\\) has parameter \\$value with no type specified\\.$#"
 			count: 1
 			path: php/WP_Mock/HookedCallback.php
 
@@ -1051,16 +1041,6 @@ parameters:
 			path: php/WP_Mock/Tools/TestCase.php
 
 		-
-			message: "#^Call to an undefined static method PHPUnit\\\\Framework\\\\TestCase\\:\\:prepareTemplate\\(\\)\\.$#"
-			count: 1
-			path: php/WP_Mock/Tools/TestCase.php
-
-		-
-			message: "#^Call to method setVar\\(\\) on an unknown class Text_Template\\.$#"
-			count: 1
-			path: php/WP_Mock/Tools/TestCase.php
-
-		-
 			message: "#^Method WP_Mock\\\\Tools\\\\TestCase\\:\\:assertActionsCalled\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: php/WP_Mock/Tools/TestCase.php
@@ -1191,11 +1171,6 @@ parameters:
 			path: php/WP_Mock/Tools/TestCase.php
 
 		-
-			message: "#^Method WP_Mock\\\\Tools\\\\TestCase\\:\\:prepareTemplate\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: php/WP_Mock/Tools/TestCase.php
-
-		-
 			message: "#^Method WP_Mock\\\\Tools\\\\TestCase\\:\\:requireFileDependencies\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: php/WP_Mock/Tools/TestCase.php
@@ -1243,36 +1218,6 @@ parameters:
 		-
 			message: "#^Parameter \\#2 \\$message of method PHPUnit\\\\Framework\\\\Assert\\:\\:assertEmpty\\(\\) expects string, int\\|string given\\.$#"
 			count: 2
-			path: php/WP_Mock/Tools/TestCase.php
-
-		-
-			message: "#^Parameter \\$template of method WP_Mock\\\\Tools\\\\TestCase\\:\\:prepareTemplate\\(\\) has invalid type Text_Template\\.$#"
-			count: 1
-			path: php/WP_Mock/Tools/TestCase.php
-
-		-
-			message: "#^Property WP_Mock\\\\Tools\\\\TestCase\\:\\:\\$__default_get type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: php/WP_Mock/Tools/TestCase.php
-
-		-
-			message: "#^Property WP_Mock\\\\Tools\\\\TestCase\\:\\:\\$__default_post type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: php/WP_Mock/Tools/TestCase.php
-
-		-
-			message: "#^Property WP_Mock\\\\Tools\\\\TestCase\\:\\:\\$__default_request type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: php/WP_Mock/Tools/TestCase.php
-
-		-
-			message: "#^Property WP_Mock\\\\Tools\\\\TestCase\\:\\:\\$mockedStaticMethods has no type specified\\.$#"
-			count: 1
-			path: php/WP_Mock/Tools/TestCase.php
-
-		-
-			message: "#^Property WP_Mock\\\\Tools\\\\TestCase\\:\\:\\$testFiles type has no value type specified in iterable type array\\.$#"
-			count: 1
 			path: php/WP_Mock/Tools/TestCase.php
 
 		-

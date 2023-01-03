@@ -1,48 +1,64 @@
 <?php
-/**
- * Abstract Hook interface for both actions and filters.
- *
- * @package WP_Mock
- * @subpackage Hooks
- */
 
 namespace WP_Mock;
 
+use Closure;
 use PHPUnit\Framework\ExpectationFailedException;
 use WP_Mock;
 use WP_Mock\Matcher\AnyInstance;
 
+/**
+ * Abstract mock representation of a WordPress hook.
+ *
+ * @see Action for mocking WordPress action hooks
+ * @see Filter for mocking WordPress filter hooks
+ */
 abstract class Hook
 {
-    /** @var string Hook name */
+    /** @var string hook name */
     protected $name;
 
-    /** @var array Collection of processors */
-    protected $processors = array();
+    /** @var array<mixed> collection of processors */
+    protected $processors = [];
 
-    public function __construct($name)
+    /**
+     * Hook constructor.
+     *
+     * @param string $name hook name
+     */
+    public function __construct(string $name)
     {
         $this->name = $name;
     }
 
-    protected function safe_offset($value)
+    /**
+     * Gets a string representation of a value.
+     *
+     * @param mixed $value
+     * @return string
+     */
+    protected function safe_offset($value): string
     {
-        if (is_null($value)) {
+        if (null === $value) {
             return 'null';
+        /** the following is to prevent a possible return mismatch when {@see \WP_Mock\Functions::type()} is used with 'callable' */
+        } elseif ($value instanceof Closure || Closure::class === $value || (is_string($value) && '<CLOSURE>' === strtoupper($value))) {
+            return '__CLOSURE__';
         } elseif (is_scalar($value)) {
-            return $value;
+            return (string) $value;
         } elseif ($value instanceof AnyInstance) {
             return (string) $value;
         } elseif (is_object($value)) {
             return spl_object_hash($value);
         } elseif (is_array($value)) {
-            $return = '';
+            $parsed = '';
+
             foreach ($value as $k => $v) {
                 $k = is_numeric($k) ? '' : $k;
-                $return .= $k . $this->safe_offset($v);
+                $parsed .= $k.$this->safe_offset($v);
             }
 
-            return $return;
+            return $parsed;
         }
 
         return '';
@@ -92,6 +108,8 @@ abstract class Hook
     }
 
     /**
+     * Gets the message to output when the strict mode exception is thrown.
+     *
      * @return string
      */
     abstract protected function get_strict_mode_message();

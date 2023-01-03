@@ -50,15 +50,6 @@ class HookedCallback extends Hook
         return new HookedCallbackResponder();
     }
 
-    protected function safe_offset($value)
-    {
-        if ($value instanceof \Closure) {
-            $value = '__CLOSURE__';
-        }
-
-        return parent::safe_offset($value);
-    }
-
     /**
      * Converts a callable to a string
      *
