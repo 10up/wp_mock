@@ -74,4 +74,17 @@ final class IsEqualHtmlTest extends WP_MockTestCase
             'throwsException' => true,
         ];
     }
+
+    /**
+     * @covers \WP_Mock\Tools\Constraints\IsEqualHtml::toString()
+     *
+     * @return void
+     * @throws Exception
+     */
+    public function testCanConvertToString() : void
+    {
+        $constraint = new IsEqualHtml('<body>Test</body>');
+
+        $this->assertSame('html is equal to \'<body>Test</body>\'', $constraint->toString());
+    }
 }
