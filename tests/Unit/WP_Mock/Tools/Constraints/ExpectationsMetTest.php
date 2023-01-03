@@ -15,6 +15,19 @@ use WP_Mock\Tools\Constraints\ExpectationsMet;
 final class ExpectationsMetTest extends WP_MockTestCase
 {
     /**
+     * @covers \WP_Mock\Tools\Constraints\ExpectationsMet::matches()
+     *
+     * @return void
+     * @throws Exception
+     */
+    public function testMatches(): void
+    {
+        $constraint = new ExpectationsMet();
+
+        $this->assertTrue($constraint->matches(null));
+    }
+
+    /**
      * @covers \WP_Mock\Tools\Constraints\ExpectationsMet::toString()
      *
      * @return void
