@@ -7,6 +7,7 @@ use Generator;
 use PHPUnit\Framework\ExpectationFailedException;
 use ReflectionException;
 use ReflectionMethod;
+use ReflectionProperty;
 use WP_Mock\Tests\WP_MockTestCase;
 use WP_Mock\Tools\Constraints\IsEqualHtml;
 
@@ -15,6 +16,30 @@ use WP_Mock\Tools\Constraints\IsEqualHtml;
  */
 final class IsEqualHtmlTest extends WP_MockTestCase
 {
+    /**
+     * @covers \WP_Mock\Tools\Constraints\IsEqualHtml::__construct()
+     *
+     * @return void
+     * @throws ReflectionException|Exception
+     */
+    public function testConstructor(): void
+    {
+        $props = [
+            'value' => 'Test',
+            'delta' => 1.2,
+            'canonicalize' => true,
+            'ignoreCase' => true,
+        ];
+
+        $constraint = new IsEqualHtml($props['value'], $props['delta'], $props['canonicalize'], $props['ignoreCase']);
+
+        foreach ($props as $key => $value) {
+            $property = new ReflectionProperty($constraint, $key);
+
+            $this->assertSame($value, $property->getValue($constraint));
+        }
+    }
+
     /**
      * @covers \WP_Mock\Tools\Constraints\IsEqualHtml::clean()
      *
