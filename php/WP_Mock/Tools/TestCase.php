@@ -2,6 +2,7 @@
 
 namespace WP_Mock\Tools;
 
+use PHPUnit\Framework\ExpectationFailedException;
 use PHPUnit\Framework\TestResult;
 use Exception;
 use InvalidArgumentException;
@@ -137,22 +138,46 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         parent::expectOutputString($expectedString);
     }
 
-    public function assertCurrentConditionsMet($message = '')
+    /**
+     * Asserts that the current test conditions have been met.
+     *
+     * @deprecated prefer {@see TestCase::assertConditionsMet())
+     *
+     * @param string $message
+     * @return void
+     */
+    public function assertCurrentConditionsMet(string $message = ''): void
     {
+        $this->assertConditionsMet($message);
+    }
+
+    /**
+     * Asserts that the current test conditions have been met.
+     *
+     * @param string $message
+     * @return void
+     */
+    public function assertConditionsMet(string $message = ''): void
+    {
+        /** @phpstan-ignore-next-line it will never throw an exception */
         $this->assertThat(null, new ExpectationsMet(), $message);
     }
 
-    public function assertConditionsMet($message = '')
-    {
-        $this->assertCurrentConditionsMet($message);
-    }
-
-    public function assertEqualsHTML($expected, $actual, $message = '')
+    /**
+     * Evaluates that an HTML string is equal to another.
+     *
+     * @param string $expected
+     * @param string $actual
+     * @param string $message
+     * @return void
+     * @throws ExpectationFailedException|Exception
+     */
+    public function assertEqualsHtml(string $expected, string $actual, string $message = ''): void
     {
         $constraint = new IsEqualHtml($expected);
+
         $this->assertThat($actual, $constraint, $message);
     }
-
 
     /**
      * Mocks a static method of a class.
