@@ -35,6 +35,7 @@ final class IsEqualHtmlTest extends WP_MockTestCase
 
         foreach ($props as $key => $value) {
             $property = new ReflectionProperty($constraint, $key);
+            $property->setAccessible(true);
 
             $this->assertSame($value, $property->getValue($constraint));
         }
@@ -51,6 +52,7 @@ final class IsEqualHtmlTest extends WP_MockTestCase
         $value = "\n\t <p>Test </p>\r";
         $constraint = new IsEqualHtml($value);
         $method = new ReflectionMethod($constraint, 'clean');
+        $method->setAccessible(true);
 
         $this->assertSame('<p>Test </p>', $method->invokeArgs($constraint, [$value]));
     }
