@@ -157,7 +157,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
      * @return void
      * @throws ExpectationFailedException|Exception
      */
-    public function assertEqualsHTML(string $expected, string $actual, string $message = ''): void
+    public function assertEqualsHtml(string $expected, string $actual, string $message = ''): void
     {
         $constraint = new IsEqualHtml($expected);
 
