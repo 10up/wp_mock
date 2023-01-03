@@ -31,7 +31,7 @@ final class IsEqualHtmlTest extends WP_MockTestCase
         bool $returnResult,
         ?bool $expected,
         ?bool $throwsException = null
-    ) : void {
+    ): void {
         $constraint = new IsEqualHtml($value);
 
         if ($throwsException) {
@@ -42,7 +42,7 @@ final class IsEqualHtmlTest extends WP_MockTestCase
     }
 
     /** @see testCanEvaluate */
-    public function providerEvaluate() : Generator
+    public function providerEvaluate(): Generator
     {
         yield 'The two HTML strings are the same (return bool)' => [
             'value' => '<strong>Test</strong>',
@@ -81,7 +81,7 @@ final class IsEqualHtmlTest extends WP_MockTestCase
      * @return void
      * @throws Exception
      */
-    public function testCanConvertToString() : void
+    public function testCanConvertToString(): void
     {
         $constraint = new IsEqualHtml('<body>Test</body>');
 
