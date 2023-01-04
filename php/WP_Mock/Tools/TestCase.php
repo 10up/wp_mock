@@ -16,6 +16,7 @@ use WP_Mock;
 use WP_Mock\Tools\Constraints\ExpectationsMet;
 use WP_Mock\Tools\Constraints\IsEqualHtml;
 use WP_Mock\Traits\AccessInaccessibleClassMembersTrait;
+use WP_Mock\Traits\MockWordPressObjectsTrait;
 
 /**
  * WP_Mock test case.
@@ -25,6 +26,7 @@ use WP_Mock\Traits\AccessInaccessibleClassMembersTrait;
 abstract class TestCase extends PhpUnitTestCase
 {
     use AccessInaccessibleClassMembersTrait;
+    use MockWordPressObjectsTrait;
 
     /** @var array<string, Mockery\Mock> */
     protected $mockedStaticMethods = [];
@@ -50,6 +52,7 @@ abstract class TestCase extends PhpUnitTestCase
      * This method is called before each test.
      *
      * @return void
+     * @throws Exception
      */
     public function setUp(): void
     {
@@ -57,13 +60,30 @@ abstract class TestCase extends PhpUnitTestCase
 
         WP_Mock::setUp();
 
-        $_GET     = (array) $this->__default_get;
-        $_POST    = (array) $this->__default_post;
+        $_GET = (array) $this->__default_get;
+        $_POST = (array) $this->__default_post;
         $_REQUEST = (array) $this->__default_request;
 
         $this->setUpContentFiltering();
-
         $this->cleanGlobals();
+    }
+
+    /**
+     * Require any test files that are defined in a subclass.
+     *
+     * This will only work if the WP_MOCK_INCLUDE_DIR is defined to point to the root directory you want to include files from.
+     *
+     * @return void
+     */
+    protected function requireFileDependencies(): void
+    {
+        if (! empty($this->testFiles) && defined('WP_MOCK_INCLUDE_DIR')) {
+            foreach ($this->testFiles as $file) {
+                if (file_exists(WP_MOCK_INCLUDE_DIR.$file)) {
+                    require_once(WP_MOCK_INCLUDE_DIR.$file);
+                }
+            }
+        }
     }
 
     /**
@@ -78,68 +98,151 @@ abstract class TestCase extends PhpUnitTestCase
         $this->cleanGlobals();
 
         $this->mockedStaticMethods = [];
-
-        $_GET = [];
-        $_POST = [];
-        $_REQUEST = [];
+        $_GET = $_POST = $_REQUEST = [];
     }
 
-    public function assertActionsCalled()
+    /**
+     * Runs the test case and collects the results in a {@see TestResult} object.
+     *
+     * If no {@see TestResult} object is passed a new one will be created.
+     *
+     * @param TestResult|null $result
+     * @return TestResult
+     * @throws Exception
+     */
+    public function run(TestResult $result = null): TestResult
     {
-        $actions_not_added = $expected_actions = 0;
+        if ($result === null) {
+            $result = $this->createResult();
+        }
+
+        WP_Mock::getDeprecatedListener()->setTestResult($result);
+        WP_Mock::getDeprecatedListener()->setTestCase($this);
+
+        return parent::run($result);
+    }
+
+    /**
+     * Runs logic after every test.
+     *
+     * @after
+     *
+     * @return void
+     */
+    public function after(): void
+    {
+        $this->checkDeprecatedCalls();
+    }
+
+    /**
+     * Checks for deprecated usage calls.
+     *
+     * This method is called after every test to check if any deprecated WP_Mock functions are used.
+     *
+     * @return void
+     */
+    protected function checkDeprecatedCalls(): void
+    {
+        WP_Mock::getDeprecatedListener()->checkCalls();
+        WP_Mock::getDeprecatedListener()->reset();
+    }
+
+    /**
+     * Cleans common WordPress globals that may have been used in between tests.
+     *
+     * @return void
+     */
+    protected function cleanGlobals(): void
+    {
+        $common_globals = [
+            'post',
+            'wp_query',
+        ];
+
+        foreach ($common_globals as $var) {
+            if (isset($GLOBALS[$var])) {
+                unset($GLOBALS[$var]);
+            }
+        }
+    }
+
+    /**
+     * Sets up content filtering.
+     *
+     * @return void
+     * @throws Exception
+     */
+    protected function setUpContentFiltering(): void
+    {
+        $this->__contentFilterCallback = false;
+
+        $annotations = TestUtil::parseTestMethodAnnotations(
+            static::class,
+            $this->getName(false)
+        );
+
+        if (
+            ! isset($annotations['stripTabsAndNewlinesFromOutput']) ||
+            $annotations['stripTabsAndNewlinesFromOutput'][0] !== 'disabled' ||
+            (
+                is_numeric($annotations['stripTabsAndNewlinesFromOutput'][0]) &&
+                (int) $annotations['stripTabsAndNewlinesFromOutput'][0] !== 0
+            )
+        ) {
+            $this->__contentFilterCallback = [$this, 'stripTabsAndNewlines'];
+            $this->setOutputCallback($this->__contentFilterCallback);
+        }
+    }
+
+    /**
+     * Strips tabs, newlines and carriage returns from a value.
+     *
+     * @param string|string[] $value
+     * @return string|string[]
+     */
+    public function stripTabsAndNewlines($value)
+    {
+        return str_replace([ "\t", "\r", "\n"], '', $value);
+    }
+
+    /**
+     * Asserts that all actions have been called.
+     *
+     * @return void
+     * @throws ExpectationFailedException|Exception
+     */
+    public function assertActionsCalled(): void
+    {
+        $actionsNotAdded = $expectedActions = 0;
+
         try {
             WP_Mock::assertActionsCalled();
-        } catch (Exception $e) {
-            $actions_not_added = 1;
-            $expected_actions  = $e->getMessage();
+        } catch (Exception $exception) {
+            $actionsNotAdded = 1;
+            $expectedActions  = $exception->getMessage();
         }
-        $this->assertEmpty($actions_not_added, $expected_actions);
+
+        $this->assertEmpty($actionsNotAdded, (string) $expectedActions);
     }
 
-    public function assertHooksAdded()
+    /**
+     * Asserts that all hooks have been added.
+     *
+     * @return void
+     * @throws ExpectationFailedException|Exception
+     */
+    public function assertHooksAdded(): void
     {
-        $hooks_not_added = $expected_hooks = 0;
+        $hooksNotAdded = $expectedHooks = 0;
+
         try {
             WP_Mock::assertHooksAdded();
-        } catch (Exception $e) {
-            $hooks_not_added = 1;
-            $expected_hooks  = $e->getMessage();
-        }
-        $this->assertEmpty($hooks_not_added, $expected_hooks);
-    }
-
-    public function ns($function)
-    {
-        if (! is_string($function) || false !== strpos($function, '\\')) {
-            return $function;
+        } catch (Exception $exception) {
+            $hooksNotAdded = 1;
+            $expectedHooks = $exception->getMessage();
         }
 
-        $thisClassName = trim(get_class($this), '\\');
-
-        if (! strpos($thisClassName, '\\')) {
-            return $function;
-        }
-
-        // $thisNamespace is constructed by exploding the current class name on
-        // namespace separators, running array_slice on that array starting at 0
-        // and ending one element from the end (chops the class name off) and
-        // imploding that using namespace separators as the glue.
-        $thisNamespace = implode('\\', array_slice(explode('\\', $thisClassName), 0, - 1));
-
-        return "$thisNamespace\\$function";
-    }
-
-    public function stripTabsAndNewlines($content)
-    {
-        return str_replace(array( "\t", "\r", "\n" ), '', $content);
-    }
-
-    public function expectOutputString(string $expectedString): void
-    {
-        if (is_callable($this->__contentFilterCallback)) {
-            $expectedString = call_user_func($this->__contentFilterCallback, $expectedString);
-        }
-        parent::expectOutputString($expectedString);
+        $this->assertEmpty($hooksNotAdded, (string) $expectedHooks);
     }
 
     /**
@@ -165,6 +268,26 @@ abstract class TestCase extends PhpUnitTestCase
     {
         /** @phpstan-ignore-next-line it will never throw an exception */
         $this->assertThat(null, new ExpectationsMet(), $message);
+    }
+
+    /**
+     * Sets the expectation that a string will be output.
+     *
+     * @param string $expectedString
+     * @return void
+     * @throws InvalidArgumentException
+     */
+    public function expectOutputString(string $expectedString): void
+    {
+        if (is_callable($this->__contentFilterCallback)) {
+            $expectedString = call_user_func($this->__contentFilterCallback, $expectedString);
+        }
+
+        if (! is_string($expectedString)) {
+            throw new InvalidArgumentException(sprintf('%1$s expects string, %2$s passed from content filter callback.', __METHOD__, gettype($expectedString)));
+        }
+
+        parent::expectOutputString($expectedString);
     }
 
     /**
@@ -237,123 +360,31 @@ abstract class TestCase extends PhpUnitTestCase
     }
 
     /**
-     * @param array|object $data The post data to add to the post
+     * Returns a function namespaced with the current test class.
      *
-     * @return \WP_Post
-     */
-    protected function mockPost($data)
-    {
-        /** @var \WP_Post $post */
-        $post = \Mockery::mock('WP_Post');
-        $data = array_merge(array(
-            'ID'                => 0,
-            'post_author'       => 0,
-            'post_type'         => '',
-            'post_title'        => '',
-            'post_date'         => '',
-            'post_date_gmt'     => '',
-            'post_content'      => '',
-            'post_excerpt'      => '',
-            'post_status'       => '',
-            'comment_status'    => '',
-            'ping_status'       => '',
-            'post_password'     => '',
-            'post_parent'       => 0,
-            'post_modified'     => '',
-            'post_modified_gmt' => '',
-            'comment_count'     => 0,
-            'menu_order'        => 0,
-        ), (array) $data);
-        array_walk($data, function ($value, $prop) use ($post) {
-            $post->$prop = $value;
-        });
-
-        return $post;
-    }
-
-    /**
-     * @param array $query_vars
+     * @deprecated the purpose of this legacy method is not clear and may removed in a future version of WP_Mock
      *
-     * @return \WP
+     * @param mixed $function
+     * @return string|mixed
      */
-    protected function mockWp(array $query_vars = array())
+    public function ns($function)
     {
-        /** @var \WP $wp */
-        $wp             = \Mockery::mock('WP');
-        $wp->query_vars = $query_vars;
-
-        return $wp;
-    }
-
-    protected function cleanGlobals()
-    {
-        $common_globals = array(
-            'post',
-            'wp_query',
-        );
-        foreach ($common_globals as $var) {
-            if (isset($GLOBALS[ $var ])) {
-                unset($GLOBALS[ $var ]);
-            }
-        }
-    }
-
-    /**
-     * Require any testFiles that are defined in a subclass
-     *
-     * This will only work if the WP_MOCK_INCLUDE_DIR is defined to point to the root directory you want to include
-     * files from.
-     */
-    protected function requireFileDependencies()
-    {
-        if (! empty($this->testFiles) && defined('WP_MOCK_INCLUDE_DIR')) {
-            foreach ($this->testFiles as $file) {
-                if (file_exists(WP_MOCK_INCLUDE_DIR . $file)) {
-                    require_once(WP_MOCK_INCLUDE_DIR . $file);
-                }
-            }
-        }
-    }
-
-    protected function setUpContentFiltering()
-    {
-        $this->__contentFilterCallback = false;
-
-        $annotations = TestUtil::parseTestMethodAnnotations(
-            static::class,
-            $this->getName(false)
-        );
-        if (
-            ! isset($annotations['stripTabsAndNewlinesFromOutput']) ||
-            $annotations['stripTabsAndNewlinesFromOutput'][0] !== 'disabled' ||
-            (
-                is_numeric($annotations['stripTabsAndNewlinesFromOutput'][0]) &&
-                (int) $annotations['stripTabsAndNewlinesFromOutput'][0] !== 0
-            )
-        ) {
-            $this->__contentFilterCallback = array( $this, 'stripTabsAndNewlines' );
-            $this->setOutputCallback($this->__contentFilterCallback);
-        }
-    }
-
-    public function run(TestResult $result = null): TestResult
-    {
-        if ($result === null) {
-            $result = $this->createResult();
+        if (! is_string($function) || false !== strpos($function, '\\')) {
+            return $function;
         }
 
-        WP_Mock::getDeprecatedListener()->setTestResult($result);
-        WP_Mock::getDeprecatedListener()->setTestCase($this);
+        $thisClassName = trim(get_class($this), '\\');
 
-        return parent::run($result);
-    }
+        if (! strpos($thisClassName, '\\')) {
+            return $function;
+        }
 
-    /**
-     * @after
-     */
-    public function checkDeprecatedCalls()
-    {
-        WP_Mock::getDeprecatedListener()->checkCalls();
-        WP_Mock::getDeprecatedListener()->reset();
+        // $thisNamespace is constructed by exploding the current class name on
+        // namespace separators, running array_slice on that array starting at 0
+        // and ending one element from the end (chops the class name off) and
+        // imploding that using namespace separators as the glue.
+        $thisNamespace = implode('\\', array_slice(explode('\\', $thisClassName), 0, - 1));
+
+        return "$thisNamespace\\$function";
     }
 }
