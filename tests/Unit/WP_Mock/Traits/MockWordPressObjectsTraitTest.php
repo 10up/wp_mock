@@ -45,6 +45,8 @@ final class MockWordPressObjectsTraitTest extends WP_MockTestCase
         ];
 
         $method = new ReflectionMethod($trait, 'mockPost');
+        $method->setAccessible(true);
+
         $post = $method->invokeArgs($trait, [$postData]);
 
         $this->assertInstanceOf(WP_Post::class, $post);
@@ -64,7 +66,10 @@ final class MockWordPressObjectsTraitTest extends WP_MockTestCase
     public function testCanMockWordPressInstance(): void
     {
         $trait = $this->getMockForTrait(MockWordPressObjectsTrait::class);
+
         $method = new ReflectionMethod($trait, 'mockWp');
+        $method->setAccessible(true);
+
         $wp = $method->invokeArgs($trait, [['foo' => 'bar']]);
 
         $this->assertInstanceOf(WP::class, $wp);

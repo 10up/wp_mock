@@ -137,6 +137,7 @@ final class TestCaseTest extends WP_MockTestCase
 
         $instance = $this->getMockForAbstractClass(TestCase::class);
         $method = new ReflectionMethod($instance, 'checkDeprecatedCalls');
+        $method->setAccessible(true);
         $method->invoke($instance);
     }
 
@@ -155,6 +156,7 @@ final class TestCaseTest extends WP_MockTestCase
 
         $instance = $this->getMockForAbstractClass(TestCase::class);
         $method = new ReflectionMethod($instance, 'cleanGlobals');
+        $method->setAccessible(true);
         $method->invoke($instance);
 
         $this->assertNull($GLOBALS['post'] ?? null);
@@ -313,7 +315,8 @@ final class TestCaseTest extends WP_MockTestCase
 
         if ($expectException) {
             $property = new ReflectionProperty($instance, '__contentFilterCallback');
-            $property->setValue($instance, function() {
+            $property->setAccessible(true);
+            $property->setValue($instance, function () {
                 return false;
             });
 
@@ -368,7 +371,7 @@ final class TestCaseTest extends WP_MockTestCase
         /** @phpstan-ignore-next-line */
         $wpMock->shouldReceive('usingPatchwork')->andReturns($usingPatchwork);
 
-        $class = new class() {
+        $class = new class () {
             public static function testMethod(): bool
             {
                 return true;
@@ -379,6 +382,7 @@ final class TestCaseTest extends WP_MockTestCase
 
         $instance = $this->getMockForAbstractClass(TestCase::class);
         $method = new ReflectionMethod($instance, 'mockStaticMethod');
+        $method->setAccessible(true);
 
         if (! $usingPatchwork || $invalidMethod) {
             $this->expectException(Exception::class);
