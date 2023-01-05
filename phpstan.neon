@@ -10,5 +10,8 @@ parameters:
 	paths:
 		- php
 		- tests
+	bootstrapFiles:
+		- vendor/php-stubs/wordpress-globals/wordpress-globals.php
+		- vendor/php-stubs/wordpress-stubs/wordpress-stubs.php
 	scanFiles:
 		- vendor/antecedent/patchwork/Patchwork.php

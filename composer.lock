@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4fd16463059c0d0c57b88f07666c413a",
+    "content-hash": "b673bdd07331f32526670dd358959634",
     "packages": [
         {
             "name": "antecedent/patchwork",
@@ -3153,6 +3153,94 @@
             },
             "abandoned": true,
             "time": "2020-10-14T08:32:19+00:00"
+        },
+        {
+            "name": "php-stubs/wordpress-globals",
+            "version": "v0.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-stubs/wordpress-globals.git",
+                "reference": "748a1fb2ae8fda94844bd0545935095dbf404b32"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-stubs/wordpress-globals/zipball/748a1fb2ae8fda94844bd0545935095dbf404b32",
+                "reference": "748a1fb2ae8fda94844bd0545935095dbf404b32",
+                "shasum": ""
+            },
+            "require-dev": {
+                "php": "~7.1"
+            },
+            "suggest": {
+                "php-stubs/wordpress-stubs": "Up-to-date WordPress function and class declaration stubs",
+                "szepeviktor/phpstan-wordpress": "WordPress extensions for PHPStan"
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Global variables and global constants from WordPress core.",
+            "homepage": "https://github.com/php-stubs/wordpress-globals",
+            "keywords": [
+                "PHPStan",
+                "constants",
+                "globals",
+                "static analysis",
+                "wordpress"
+            ],
+            "support": {
+                "issues": "https://github.com/php-stubs/wordpress-globals/issues",
+                "source": "https://github.com/php-stubs/wordpress-globals/tree/master"
+            },
+            "time": "2020-01-13T06:12:59+00:00"
+        },
+        {
+            "name": "php-stubs/wordpress-stubs",
+            "version": "v6.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-stubs/wordpress-stubs.git",
+                "reference": "19e7966c8e70a99a4824b3e5d1526680a151f13b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-stubs/wordpress-stubs/zipball/19e7966c8e70a99a4824b3e5d1526680a151f13b",
+                "reference": "19e7966c8e70a99a4824b3e5d1526680a151f13b",
+                "shasum": ""
+            },
+            "replace": {
+                "giacocorsiglia/wordpress-stubs": "*"
+            },
+            "require-dev": {
+                "nikic/php-parser": "< 4.12.0",
+                "php": "~7.3 || ~8.0",
+                "php-stubs/generator": "^0.8.1",
+                "phpdocumentor/reflection-docblock": "^5.3",
+                "phpstan/phpstan": "^1.2"
+            },
+            "suggest": {
+                "paragonie/sodium_compat": "Pure PHP implementation of libsodium",
+                "symfony/polyfill-php73": "Symfony polyfill backporting some PHP 7.3+ features to lower PHP versions",
+                "szepeviktor/phpstan-wordpress": "WordPress extensions for PHPStan"
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "WordPress function and class declaration stubs for static analysis.",
+            "homepage": "https://github.com/php-stubs/wordpress-stubs",
+            "keywords": [
+                "PHPStan",
+                "static analysis",
+                "wordpress"
+            ],
+            "support": {
+                "issues": "https://github.com/php-stubs/wordpress-stubs/issues",
+                "source": "https://github.com/php-stubs/wordpress-stubs/tree/v6.1.0"
+            },
+            "time": "2022-11-09T05:33:25+00:00"
         },
         {
             "name": "phpcompatibility/php-compatibility",

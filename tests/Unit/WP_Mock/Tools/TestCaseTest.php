@@ -129,7 +129,9 @@ final class TestCaseTest extends WP_MockTestCase
         $deprecatedListener->expects($this->atMost(1))
             ->method('reset');
 
+        /** @var Mockery\Mock $wpMock */
         $wpMock = Mockery::mock('overload:WP_Mock');
+        /** @phpstan-ignore-next-line  */
         $wpMock->shouldReceive('getDeprecatedListener')
             ->andReturn($deprecatedListener);
 
@@ -208,10 +210,12 @@ final class TestCaseTest extends WP_MockTestCase
     {
         $instance = $this->getMockForAbstractClass(TestCase::class);
 
+        /** @var Mockery\Mock $wpMock */
         $wpMock = Mockery::mock('overload:WP_Mock');
         $method = $wpMock->shouldReceive('assertActionsCalled');
 
         if ($throwsException) {
+            /** @phpstan-ignore-next-line  */
             $method->andThrow(Exception::class);
 
             $this->expectException(ExpectationFailedException::class);
@@ -221,7 +225,7 @@ final class TestCaseTest extends WP_MockTestCase
     }
 
     /** @see testCanAssertExpectedActionsWereCalled */
-    public function providerAssertActionsCalled() : Generator
+    public function providerAssertActionsCalled(): Generator
     {
         yield 'Actions were not called' => [true];
         yield 'Actions were called' => [false];
@@ -242,10 +246,12 @@ final class TestCaseTest extends WP_MockTestCase
     {
         $instance = $this->getMockForAbstractClass(TestCase::class);
 
+        /** @var Mockery\Mock $wpMock */
         $wpMock = Mockery::mock('overload:WP_Mock');
         $method = $wpMock->shouldReceive('assertHooksAdded');
 
         if ($throwsException) {
+            /** @phpstan-ignore-next-line  */
             $method->andThrow(Exception::class);
 
             $this->expectException(ExpectationFailedException::class);
@@ -255,7 +261,7 @@ final class TestCaseTest extends WP_MockTestCase
     }
 
     /** @see testCanAssertExpectedHooksWereAdded */
-    public function providerAssertHooksAdded() : Generator
+    public function providerAssertHooksAdded(): Generator
     {
         yield 'Hooks were not added' => [true];
         yield 'Hooks were added' => [false];
@@ -265,6 +271,7 @@ final class TestCaseTest extends WP_MockTestCase
      * @covers \WP_Mock\Tools\TestCase::assertCurrentConditionsMet()
      *
      * @return void
+     * @throws Exception
      */
     public function testCanAssertCurrentTestConditionsWereMet(): void
     {
@@ -306,7 +313,9 @@ final class TestCaseTest extends WP_MockTestCase
 
         if ($expectException) {
             $property = new ReflectionProperty($instance, '__contentFilterCallback');
-            $property->setValue($instance, function() { return false; });
+            $property->setValue($instance, function() {
+                return false;
+            });
 
             $this->expectException(InvalidArgumentException::class);
         }

@@ -14,7 +14,7 @@ trait MockWordPressObjectsTrait
     /**
      * Mocks a WordPress post.
      *
-     * @param array|object $postData optional post data to add to the post
+     * @param array<string, mixed> $postData optional post data to add to the post
      * @return Mockery\LegacyMockInterface|Mockery\MockInterface|WP_Post|(WP_Post&Mockery\LegacyMockInterface)|(WP_Post&Mockery\MockInterface)
      */
     protected function mockPost(array $postData = [])
@@ -38,9 +38,10 @@ trait MockWordPressObjectsTrait
             'post_modified_gmt' => '',
             'comment_count'     => 0,
             'menu_order'        => 0,
-        ], $postData);
+        ], (array) $postData);
 
         array_walk($postData, function ($value, $prop) use ($post) {
+            /** @phpstan-ignore-next-line */
             $post->$prop = $value;
         });
 
@@ -50,12 +51,13 @@ trait MockWordPressObjectsTrait
     /**
      * Mocks a WordPress instance.
      *
-     * @param array $queryVars
+     * @param array<string, mixed> $queryVars
      * @return Mockery\LegacyMockInterface|Mockery\MockInterface|WP|(WP&Mockery\LegacyMockInterface)|(WP&Mockery\MockInterface)
      */
     protected function mockWp(array $queryVars = [])
     {
         $wp = Mockery::mock(WP::class);
+        /** @phpstan-ignore-next-line */
         $wp->query_vars = $queryVars;
 
         return $wp;
