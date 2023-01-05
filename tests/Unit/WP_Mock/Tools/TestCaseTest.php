@@ -3,7 +3,10 @@
 namespace WP_Mock\Tests\Unit\WP_Mock\Tools;
 
 use Exception;
+use Generator;
+use InvalidArgumentException;
 use Mockery;
+use PHPUnit\Framework\ExpectationFailedException;
 use ReflectionException;
 use ReflectionMethod;
 use ReflectionProperty;
@@ -141,7 +144,7 @@ final class TestCaseTest extends WP_MockTestCase
      * @return void
      * @throws ReflectionException|Exception
      */
-    public function testCanCleanGlobals() : void
+    public function testCanCleanGlobals(): void
     {
         global $post, $wp_query;
 
@@ -154,5 +157,187 @@ final class TestCaseTest extends WP_MockTestCase
 
         $this->assertNull($GLOBALS['post'] ?? null);
         $this->assertNull($GLOBALS['wp_query'] ?? null);
+    }
+
+    /**
+     * @covers \WP_Mock\Tools\TestCase::setUpContentFiltering()
+     *
+     * @return void
+     * @throws ReflectionException|Exception
+     */
+    public function testCanSetUpContentFiltering(): void
+    {
+        $instance = $this->getMockForAbstractClass(TestCase::class);
+
+        $property = new ReflectionProperty($instance, '__contentFilterCallback');
+        $property->setAccessible(true);
+
+        $this->assertFalse($property->getValue($instance));
+
+        $method = new ReflectionMethod($instance, 'setUpContentFiltering');
+        $method->setAccessible(true);
+        $method->invoke($instance);
+
+        $this->assertSame([$instance, 'stripTabsAndNewlines'], $property->getValue($instance));
+    }
+
+    /**
+     * @covers \WP_Mock\Tools\TestCase::stripTabsAndNewlines()
+     *
+     * @return void
+     * @throws Exception
+     */
+    public function testCanStripTabsAndNewlinesForContentFiltering(): void
+    {
+        $instance = $this->getMockForAbstractClass(TestCase::class);
+
+        $this->assertSame('Test', $instance->stripTabsAndNewlines("\n\n\tTest\r\t"));
+    }
+
+    /**
+     * @covers \WP_Mock\Tools\TestCase::assertActionsCalled()
+     * @dataProvider providerAssertActionsCalled
+     *
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     *
+     * @param bool $throwsException
+     * @return void
+     * @throws Exception
+     */public function testCanAssertExpectedActionsWereCalled(bool $throwsException): void
+    {
+        $instance = $this->getMockForAbstractClass(TestCase::class);
+
+        $wpMock = Mockery::mock('overload:WP_Mock');
+        $method = $wpMock->shouldReceive('assertActionsCalled');
+
+        if ($throwsException) {
+            $method->andThrow(Exception::class);
+
+            $this->expectException(ExpectationFailedException::class);
+        }
+
+        $instance->assertActionsCalled();
+    }
+
+    /** @see testCanAssertExpectedActionsWereCalled */
+    public function providerAssertActionsCalled() : Generator
+    {
+        yield 'Actions were not called' => [true];
+        yield 'Actions were called' => [false];
+    }
+
+    /**
+     * @covers \WP_Mock\Tools\TestCase::assertHooksAdded()
+     * @dataProvider providerAssertHooksAdded
+     *
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     *
+     * @param bool $throwsException
+     * @return void
+     * @throws Exception
+     */
+    public function testCanAssertExpectedHooksWereAdded(bool $throwsException): void
+    {
+        $instance = $this->getMockForAbstractClass(TestCase::class);
+
+        $wpMock = Mockery::mock('overload:WP_Mock');
+        $method = $wpMock->shouldReceive('assertHooksAdded');
+
+        if ($throwsException) {
+            $method->andThrow(Exception::class);
+
+            $this->expectException(ExpectationFailedException::class);
+        }
+
+        $instance->assertHooksAdded();
+    }
+
+    /** @see testCanAssertExpectedHooksWereAdded */
+    public function providerAssertHooksAdded() : Generator
+    {
+        yield 'Hooks were not added' => [true];
+        yield 'Hooks were added' => [false];
+    }
+
+    /**
+     * @covers \WP_Mock\Tools\TestCase::assertCurrentConditionsMet()
+     *
+     * @return void
+     */
+    public function testCanAssertCurrentTestConditionsWereMet(): void
+    {
+        $instance = $this->getMockForAbstractClass(TestCase::class, [], '', true, true, true, [
+            'assertConditionsMet'
+        ]);
+
+        $instance->expects($this->once())
+            ->method('assertConditionsMet')
+            ->with('test');
+
+        $instance->assertCurrentConditionsMet('test');
+    }
+
+    /**
+     * @covers \WP_Mock\Tools\TestCase::assertConditionsMet()
+     *
+     * @return void
+     */
+    public function testCanAssertTestConditionsWereMet(): void
+    {
+        $instance = $this->getMockForAbstractClass(TestCase::class);
+
+        // this will intentionally always pass and there are no assertions to be made
+        $instance->assertConditionsMet('test');
+    }
+
+    /**
+     * @covers \WP_Mock\Tools\TestCase::expectOutputString()
+     * @dataProvider providerExpectOutputString
+     *
+     * @param bool $expectException
+     * @return void
+     * @throws ReflectionException|Exception
+     */
+    public function testCanExpectOutputString(bool $expectException): void
+    {
+        $instance = $this->getMockForAbstractClass(TestCase::class);
+
+        if ($expectException) {
+            $property = new ReflectionProperty($instance, '__contentFilterCallback');
+            $property->setValue($instance, function() { return false; });
+
+            $this->expectException(InvalidArgumentException::class);
+        }
+
+        $instance->expectOutputString('test');
+
+        // parent method will not run in the context of this test, this will prevent method flagging no assertions performed
+        $instance->assertConditionsMet();
+    }
+
+    /** @see testCanExpectOutputString */
+    public function providerExpectOutputString(): Generator
+    {
+        yield 'Should not throw an exception' => [false];
+        yield 'Should throw an exception' => [true];
+    }
+
+    /**
+     * @covers \WP_Mock\Tools\TestCase::assertEqualsHtml()
+     *
+     * @return void
+     * @throws Exception
+     */
+    public function testCanAssertEqualsHtml(): void
+    {
+        $instance = $this->getMockForAbstractClass(TestCase::class);
+
+        $instance->assertEqualsHtml('<p>test</p>', "<p>test</p>");
+
+        $this->expectException(ExpectationFailedException::class);
+
+        $instance->assertEqualsHtml('<p>foo</p>', '<p>bar</p>');
     }
 }

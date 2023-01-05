@@ -7,6 +7,7 @@ use PHPUnit\Framework\TestResult;
 use Exception;
 use InvalidArgumentException;
 use Mockery;
+use PHPUnit\Util\Test;
 use PHPUnit\Util\Test as TestUtil;
 use ReflectionException;
 use ReflectionMethod;
@@ -196,6 +197,9 @@ abstract class TestCase extends PhpUnitTestCase
 
     /**
      * Strips tabs, newlines and carriage returns from a value.
+     *
+     * @internal may change to protected access in future versions
+     * @see TestCase::setUpContentFiltering()
      *
      * @param string|string[] $value
      * @return string|string[]
