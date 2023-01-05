@@ -8,7 +8,6 @@ use Exception;
 use InvalidArgumentException;
 use Mockery;
 use PHPUnit\Util\Test;
-use PHPUnit\Util\Test as TestUtil;
 use ReflectionException;
 use ReflectionMethod;
 use PHPUnit\Framework\TestCase as PhpUnitTestCase;
@@ -177,7 +176,7 @@ abstract class TestCase extends PhpUnitTestCase
     {
         $this->__contentFilterCallback = false;
 
-        $annotations = TestUtil::parseTestMethodAnnotations(
+        $annotations = Test::parseTestMethodAnnotations(
             static::class,
             $this->getName(false)
         );
