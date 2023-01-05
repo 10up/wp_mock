@@ -2,6 +2,7 @@
 
 namespace WP_Mock\Tests\Unit;
 
+use Mockery;
 use Mockery\Exception\InvalidCountException;
 use Mockery\ExpectationInterface;
 use PHPUnit\Framework\Exception;
@@ -24,7 +25,7 @@ class WP_MockTest extends WP_MockTestCase
      * @return void
      * @throws ExpectationFailedException|InvalidArgumentException
      */
-    public function testStrictModeOffByDefault() : void
+    public function testStrictModeOffByDefault(): void
     {
         $this->assertFalse(WP_Mock::strictMode());
     }
@@ -92,6 +93,7 @@ class WP_MockTest extends WP_MockTestCase
     public function testAssertHooksAddedForFiltersAndActionsPasses(): void
     {
         WP_Mock::bootstrap();
+
         WP_Mock::expectFilterAdded('testFilter', '\WP_Mock\Tests\Mocks\testCallback');
         WP_Mock::expectActionAdded('testAction', '\WP_Mock\Tests\Mocks\testCallback');
 
@@ -100,6 +102,8 @@ class WP_MockTest extends WP_MockTestCase
         add_filter('testFilter', '\WP_Mock\Tests\Mocks\testCallback');
 
         WP_Mock::assertHooksAdded();
+
+        Mockery::close();
     }
 
     /**
@@ -112,12 +116,16 @@ class WP_MockTest extends WP_MockTestCase
      */
     public function testAssertHooksAddedForFiltersAndActionsFails(): void
     {
-        $this->expectException(InvalidCountException::class);
-
         WP_Mock::bootstrap();
+
         WP_Mock::expectFilterAdded('testFilter', '\WP_Mock\Tests\Mocks\testCallback');
         WP_Mock::expectActionAdded('testAction', '\WP_Mock\Tests\Mocks\testCallback');
+
+        $this->expectException(ExpectationFailedException::class);
+
         WP_Mock::assertHooksAdded();
+
+        Mockery::close();
     }
 
     /**
@@ -136,6 +144,8 @@ class WP_MockTest extends WP_MockTestCase
         do_action('testAction');
 
         WP_Mock::assertActionsCalled();
+
+        Mockery::close();
     }
 
     /**
@@ -148,12 +158,14 @@ class WP_MockTest extends WP_MockTestCase
      */
     public function testAssertActionsCalledFails(): void
     {
-        $this->expectException(InvalidCountException::class);
-
         WP_Mock::bootstrap();
         WP_Mock::expectAction('testAction');
+
+        $this->expectException(ExpectationFailedException::class);
+
         WP_Mock::assertActionsCalled();
 
+        Mockery::close();
     }
 
     /**
@@ -167,11 +179,14 @@ class WP_MockTest extends WP_MockTestCase
     public function testAssertFiltersCalledPasses(): void
     {
         WP_Mock::bootstrap();
+
         WP_Mock::expectFilter('testFilter', 'testVal');
 
         apply_filters('testFilter', 'testVal');
 
         WP_Mock::assertFiltersCalled();
+
+        Mockery::close();
     }
 
     /**
@@ -184,10 +199,12 @@ class WP_MockTest extends WP_MockTestCase
      */
     public function testAssertFiltersCalledFails(): void
     {
+        WP_Mock::bootstrap();
+
+        WP_Mock::expectFilter('testFilter2', 'testVal');
+
         $this->expectException(InvalidCountException::class);
 
-        WP_Mock::bootstrap();
-        WP_Mock::expectFilter('testFilter2', 'testVal');
-        WP_Mock::assertFiltersCalled();
+        Mockery::close();
     }
 }
