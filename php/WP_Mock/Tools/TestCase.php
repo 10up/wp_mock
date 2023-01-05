@@ -154,12 +154,12 @@ abstract class TestCase extends PhpUnitTestCase
      */
     protected function cleanGlobals(): void
     {
-        $common_globals = [
+        $commonGlobals = [
             'post',
             'wp_query',
         ];
 
-        foreach ($common_globals as $var) {
+        foreach ($commonGlobals as $var) {
             if (isset($GLOBALS[$var])) {
                 unset($GLOBALS[$var]);
             }
@@ -331,8 +331,8 @@ abstract class TestCase extends PhpUnitTestCase
             throw new RuntimeException('Patchwork is not loaded! Please load patchwork before mocking static methods!');
         }
 
-        $safe_method = "wp_mock_safe_$method";
-        $signature   = md5("$class::$method");
+        $safeMethod = "wp_mock_safe_$method";
+        $signature = md5("$class::$method");
 
         if (! empty($this->mockedStaticMethods[$signature])) {
             $mock = $this->mockedStaticMethods[$signature];
@@ -353,13 +353,13 @@ abstract class TestCase extends PhpUnitTestCase
             $mock->shouldAllowMockingProtectedMethods();
             $this->mockedStaticMethods[$signature] = $mock;
 
-            \Patchwork\redefine("$class::$method", function () use ($mock, $safe_method) {
+            \Patchwork\redefine("$class::$method", function () use ($mock, $safeMethod) {
                 /** @phpstan-ignore-next-line */
-                return call_user_func_array([$mock, $safe_method], func_get_args());
+                return call_user_func_array([$mock, $safeMethod], func_get_args());
             });
         }
 
-        return $mock->shouldReceive($safe_method);
+        return $mock->shouldReceive($safeMethod);
     }
 
     /**
