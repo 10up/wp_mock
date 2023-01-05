@@ -349,4 +349,53 @@ final class TestCaseTest extends WP_MockTestCase
 
         $instance->assertEqualsHtml('<p>foo</p>', '<p>bar</p>');
     }
+
+    /**
+     * @covers \WP_Mock\Tools\TestCase::mockStaticMethod()
+     * @dataProvider providerMockStaticMethod
+     *
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     *
+     * @param bool $usingPatchwork
+     * @param bool $invalidMethod
+     * @return void
+     * @throws ReflectionException|Exception
+     */
+    public function testCanMockStaticMethod(bool $usingPatchwork, bool $invalidMethod): void
+    {
+        $wpMock = Mockery::mock('overload:WP_Mock');
+        /** @phpstan-ignore-next-line */
+        $wpMock->shouldReceive('usingPatchwork')->andReturns($usingPatchwork);
+
+        $class = new class() {
+            public static function testMethod(): bool
+            {
+                return true;
+            }
+        };
+
+        $this->assertTrue($class::testMethod());
+
+        $instance = $this->getMockForAbstractClass(TestCase::class);
+        $method = new ReflectionMethod($instance, 'mockStaticMethod');
+
+        if (! $usingPatchwork || $invalidMethod) {
+            $this->expectException(Exception::class);
+        }
+
+        /** @var Mockery\Expectation $mockExpectation */
+        $mockExpectation = $method->invokeArgs($instance, [get_class($class), $invalidMethod ? 'invalid' : 'testMethod']);
+        $mockExpectation->once()->andReturnFalse();
+
+        $this->assertFalse($class::testMethod());
+    }
+
+    /** @see testCanMockStaticMethod */
+    public function providerMockStaticMethod(): Generator
+    {
+        yield 'Patchwork is disabled' => [false, false];
+        yield 'Referencing invalid method' => [true, true];
+        yield 'Should mock method' => [true, false];
+    }
 }
