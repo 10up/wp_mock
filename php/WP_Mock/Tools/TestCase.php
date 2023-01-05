@@ -2,15 +2,15 @@
 
 namespace WP_Mock\Tools;
 
-use PHPUnit\Framework\ExpectationFailedException;
-use PHPUnit\Framework\TestResult;
 use Exception;
 use InvalidArgumentException;
 use Mockery;
+use PHPUnit\Framework\ExpectationFailedException;
+use PHPUnit\Framework\TestCase as PhpUnitTestCase;
+use PHPUnit\Framework\TestResult;
 use PHPUnit\Util\Test;
 use ReflectionException;
 use ReflectionMethod;
-use PHPUnit\Framework\TestCase as PhpUnitTestCase;
 use RuntimeException;
 use WP_Mock;
 use WP_Mock\Tools\Constraints\ExpectationsMet;
