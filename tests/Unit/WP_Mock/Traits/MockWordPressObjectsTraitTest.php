@@ -52,7 +52,8 @@ final class MockWordPressObjectsTraitTest extends WP_MockTestCase
         $this->assertInstanceOf(WP_Post::class, $post);
 
         foreach ($postData as $property => $value) {
-            $this->assertSame($post->$property ?: null, $value);
+            /** @phpstan-ignore-next-line */
+            $this->assertSame($post->$property, $value);
         }
     }
 
@@ -72,6 +73,7 @@ final class MockWordPressObjectsTraitTest extends WP_MockTestCase
         $wp = $method->invokeArgs($trait, [['foo' => 'bar']]);
 
         $this->assertInstanceOf(WP::class, $wp);
-        $this->assertSame($wp->query_vars['foo'] ?: null, 'bar');
+        /** @phpstan-ignore-next-line */
+        $this->assertSame($wp->query_vars['foo'], 'bar');
     }
 }
