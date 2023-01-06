@@ -19,6 +19,8 @@
         "phpstan/phpstan-phpunit": "^1.2",
         "phpstan/phpstan-mockery": "^1.1",
         "phpcompatibility/php-compatibility": "^9.3",
+        "php-stubs/wordpress-globals": "^0.2.0",
+        "php-stubs/wordpress-stubs": "^6.0",
         "friendsofphp/php-cs-fixer": "^3.4",
         "dealerdirect/phpcodesniffer-composer-installer": "^0.7.2"
     },

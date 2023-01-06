@@ -1,10 +1,11 @@
 <?php
 
-namespace WP_Mock\Traits;
+namespace WP_Mock\Tests\Unit\WP_Mock\Traits;
 
 use Exception;
 use PHPUnit\Framework\TestCase;
 use ReflectionException;
+use WP_Mock\Traits\AccessInaccessibleClassMembersTrait;
 
 /**
  * @covers \WP_Mock\Traits\AccessInaccessibleClassMembersTrait
