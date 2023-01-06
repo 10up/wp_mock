@@ -274,6 +274,22 @@ abstract class TestCase extends PhpUnitTestCase
     }
 
     /**
+     * Evaluates that an HTML string is equal to another.
+     *
+     * @param string $expected
+     * @param string $actual
+     * @param string $message
+     * @return void
+     * @throws ExpectationFailedException|Exception
+     */
+    public function assertEqualsHtml(string $expected, string $actual, string $message = ''): void
+    {
+        $constraint = new IsEqualHtml($expected);
+
+        $this->assertThat($actual, $constraint, $message);
+    }
+
+    /**
      * Sets the expectation that a string will be output.
      *
      * @param string $expectedString
@@ -291,22 +307,6 @@ abstract class TestCase extends PhpUnitTestCase
         }
 
         parent::expectOutputString($expectedString);
-    }
-
-    /**
-     * Evaluates that an HTML string is equal to another.
-     *
-     * @param string $expected
-     * @param string $actual
-     * @param string $message
-     * @return void
-     * @throws ExpectationFailedException|Exception
-     */
-    public function assertEqualsHtml(string $expected, string $actual, string $message = ''): void
-    {
-        $constraint = new IsEqualHtml($expected);
-
-        $this->assertThat($actual, $constraint, $message);
     }
 
     /**
@@ -365,7 +365,7 @@ abstract class TestCase extends PhpUnitTestCase
     /**
      * Returns a function namespaced with the current test class.
      *
-     * @deprecated the purpose of this legacy method is not clear and may removed in a future version of WP_Mock
+     * @deprecated the purpose of this legacy method is not clear and may be removed in a future version of WP_Mock
      *
      * @param mixed $function
      * @return string|mixed
