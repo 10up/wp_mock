@@ -117,7 +117,8 @@ final class FuzzyObjectTest extends TestCase
 
         yield 'False when test class properties do not match expected class properties.' => [
             'testClass' => new class() {
-                /** @phpstan-ignore-next-line */
+
+                /** @var string  */
                 public $testProperty = 'test';
             },
             'expectedClass' => new SampleClass(),
@@ -127,12 +128,12 @@ final class FuzzyObjectTest extends TestCase
         yield 'False when test class property values do not match expected class property values.' => [
             'testClass' => new class() {
 
-                /** @phpstan-ignore-next-line */
+                /** @var string */
                 public $testProperty = 'test';
             },
             'expectedClass' => new class() {
 
-                /** @phpstan-ignore-next-line */
+                /** @var string */
                 public $testProperty = 'not test';
             },
             'expectedResult' => false,
@@ -141,15 +142,15 @@ final class FuzzyObjectTest extends TestCase
         yield 'False when actual class has more properties than test class.' => [
             'testClass' => new class() {
 
-                /** @phpstan-ignore-next-line */
+                /** @var string */
                 public $testProperty = 'test';
             },
             'expectedClass' => new class() {
 
-                /** @phpstan-ignore-next-line */
+                /** @var string */
                 public $testProperty = 'test';
 
-                /** @phpstan-ignore-next-line */
+                /** @var string */
                 public $testProperty2 = 'test';
             },
             'expectedResult' => false,
@@ -164,12 +165,12 @@ final class FuzzyObjectTest extends TestCase
         yield 'True when classes have identical properties' => [
             'testClass' => new class() {
 
-                /** @phpstan-ignore-next-line */
+                /** @var string */
                 public $testProperty = 'test';
             },
             'expectedClass' => new class() {
 
-                /** @phpstan-ignore-next-line */
+                /** @var string */
                 public $testProperty = 'test';
             },
             'expectedResult' => true,
@@ -252,16 +253,16 @@ final class FuzzyObjectTest extends TestCase
         yield 'With expected object with all types of properties' => [
             'expected' => new class() {
 
-                /** @phpstan-ignore-next-line  */
+                /** @var string[]  */
                 public $testPropertyIsArray = ['foo','bar'];
 
-                /** @phpstan-ignore-next-line  */
+                /** @var SampleClass */
                 public $testPropertyIsClass;
 
-                /** @phpstan-ignore-next-line  */
+                /** @var resource */
                 public $testPropertyIsResource;
 
-                /** @phpstan-ignore-next-line  */
+                /** @var string */
                 public $testPropertyIsString = 'foo';
 
                 public function __construct()
