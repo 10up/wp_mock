@@ -43,36 +43,38 @@ final class FuzzyObjectTest extends TestCase
     public function providerCanConstruct(): Generator
     {
         yield 'Can construct when $expected is object' => [
-            '$expected' => new SampleClass(),
-            'should throw exception' => false
+            'expected' => new SampleClass(),
+            'shouldThrowException' => false
         ];
+
         yield 'Can construct when $expected is array' => [
-            '$expected' => [],
-            'should throw exception' => false];
+            'expected' => [],
+            'shouldThrowException' => false
+        ];
 
         yield 'Exception when $expected is string' => [
-            '$expected' => 'string',
-            'should throw exception' => true
+            'expected' => 'string',
+            'shouldThrowException' => true
         ];
 
         yield 'Exception when $expected is int' => [
-            '$expected' => 1,
-            'should throw exception' => true
+            'expected' => 1,
+            'shouldThrowException' => true
         ];
 
         yield 'Exception when $expected is float' => [
-            '$expected' => 1.1,
-            'should throw exception' => true
+            'expected' => 1.1,
+            'shouldThrowException' => true
         ];
 
         yield 'Exception when $expected is bool' => [
-            '$expected' => true,
-            'should throw exception' => true
+            'expected' => true,
+            'shouldThrowException' => true
         ];
 
         yield 'Exception when $expected is null' => [
-            '$expected' => null,
-            'should throw exception' => true
+            'expected' => null,
+            'shouldThrowException' => true
         ];
     }
 
@@ -184,7 +186,7 @@ final class FuzzyObjectTest extends TestCase
      * @return void
      * @throws ReflectionException|Exception
      */
-    public function testCanDetermineHaveCommonAncestor($object1, $object2, bool $expectedResult): void
+    public function testCanDetermineIfTwoObjectsHaveCommonAncestor($object1, $object2, bool $expectedResult): void
     {
         $instance = new FuzzyObject(new SampleClass());
         $method = new ReflectionMethod($instance, 'haveCommonAncestor');
@@ -194,7 +196,7 @@ final class FuzzyObjectTest extends TestCase
         $this->assertSame($expectedResult, $result);
     }
 
-    /** @see testCanDetermineHaveCommonAncestor */
+    /** @see testCanDetermineIfTwoObjectsHaveCommonAncestor */
     public function providerCanDetermineHaveCommonAncestor(): Generator
     {
         yield 'False when object1 is not an object' => [
@@ -237,13 +239,14 @@ final class FuzzyObjectTest extends TestCase
      * @return void
      * @throws Exception
      */
-    public function testToString($object, string $expectedResult): void
+    public function testCanConvertToString($object, string $expectedResult): void
     {
         $instance = new FuzzyObject($object);
+
         $this->assertEquals($expectedResult, $instance->__toString());
     }
 
-    /** @see testToString */
+    /** @see testCanConvertToString */
     public function providerToString(): Generator
     {
         yield 'With expected object with all types of properties' => [
