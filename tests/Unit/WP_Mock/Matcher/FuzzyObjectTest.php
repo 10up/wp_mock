@@ -2,6 +2,7 @@
 
 namespace WP_Mock\Tests\Unit\WP_Mock\Matcher;
 
+use Exception;
 use Generator;
 use Mockery;
 use Mockery\Exception as MockeryException;
@@ -13,16 +14,19 @@ use WP_Mock\Tests\Mocks\SampleClass;
 use WP_Mock\Tests\Mocks\SampleClassTwo;
 use WP_Mock\Tests\Mocks\SampleSubClass;
 
-class FuzzyObjectTest extends TestCase
+/**
+ * @covers \WP_Mock\Matcher\FuzzyObject
+ */
+final class FuzzyObjectTest extends TestCase
 {
-
     /**
-     * @covers       \WP_Mock\Matcher\FuzzyObject::__construct()
+     * @covers \WP_Mock\Matcher\FuzzyObject::__construct()
      * @dataProvider providerCanConstruct
      *
      * @param object|array|mixed $expected
      * @param bool $shouldThrowException
      * @return void
+     * @throws Exception
      */
     public function testCanConstruct($expected, bool $shouldThrowException): void
     {
@@ -33,7 +37,6 @@ class FuzzyObjectTest extends TestCase
         }
 
         new FuzzyObject($expected);
-
     }
 
     /** @see testCanConstruct */
@@ -82,6 +85,7 @@ class FuzzyObjectTest extends TestCase
      * @param object $expectedClass
      * @param bool $expectedResult
      * @return void
+     * @throws Exception
      */
     public function testCanMatch(
         $testClass,
@@ -119,6 +123,7 @@ class FuzzyObjectTest extends TestCase
 
         yield 'False when test class properties do not match expected class properties.' => [
             'testClass' => new class() {
+                /** @phpstan-ignore-next-line */
                 public $testProperty = 'test';
             },
             'expectedClass' => new SampleClass(),
@@ -127,9 +132,13 @@ class FuzzyObjectTest extends TestCase
 
         yield 'False when test class property values do not match expected class property values.' => [
             'testClass' => new class() {
+
+                /** @phpstan-ignore-next-line */
                 public $testProperty = 'test';
             },
             'expectedClass' => new class() {
+
+                /** @phpstan-ignore-next-line */
                 public $testProperty = 'not test';
             },
             'expectedResult' => false,
@@ -137,10 +146,16 @@ class FuzzyObjectTest extends TestCase
 
         yield 'False when actual class has more properties than test class.' => [
             'testClass' => new class() {
+
+                /** @phpstan-ignore-next-line */
                 public $testProperty = 'test';
             },
             'expectedClass' => new class() {
+
+                /** @phpstan-ignore-next-line */
                 public $testProperty = 'test';
+
+                /** @phpstan-ignore-next-line */
                 public $testProperty2 = 'test';
             },
             'expectedResult' => false,
@@ -154,9 +169,13 @@ class FuzzyObjectTest extends TestCase
 
         yield 'True when classes have identical properties' => [
             'testClass' => new class() {
+
+                /** @phpstan-ignore-next-line */
                 public $testProperty = 'test';
             },
             'expectedClass' => new class() {
+
+                /** @phpstan-ignore-next-line */
                 public $testProperty = 'test';
             },
             'expectedResult' => true,
@@ -167,12 +186,13 @@ class FuzzyObjectTest extends TestCase
      * @covers \WP_Mock\Matcher\FuzzyObject::haveCommonAncestor()
      * @dataProvider providerCanDetermineHaveCommonAncestor
      *
-     * @throws ReflectionException
+     * @param object|mixed $object1
+     * @param object|mixed $object2
+     * @param bool $expectedResult
+     * @return void
+     * @throws ReflectionException|Exception
      */
-    public function testCanDetermineHaveCommonAncestor(
-        $object1,
-        $object2,
-        bool $expectedResult): void
+    public function testCanDetermineHaveCommonAncestor($object1, $object2, bool $expectedResult): void
     {
         $instance = new FuzzyObject(new SampleClass());
         $method = new ReflectionMethod($instance, 'haveCommonAncestor');
@@ -219,6 +239,11 @@ class FuzzyObjectTest extends TestCase
     /**
      * @covers \WP_Mock\Matcher\FuzzyObject::__toString()
      * @dataProvider providerToString
+     *
+     * @param object|mixed $object
+     * @param string $expectedResult
+     * @return void
+     * @throws Exception
      */
     public function testToString($object, string $expectedResult): void
     {
@@ -231,12 +256,19 @@ class FuzzyObjectTest extends TestCase
     {
         yield 'With expected object with all types of properties' => [
             'expected' => new class() {
+                /** @phpstan-ignore-next-line  */
                 public $testPropertyIsArray = ['foo','bar'];
 
+
+                /** @phpstan-ignore-next-line  */
                 public $testPropertyIsClass;
 
+
+                /** @phpstan-ignore-next-line  */
                 public $testPropertyIsResource;
 
+
+                /** @phpstan-ignore-next-line  */
                 public $testPropertyIsString = 'foo';
 
                 public function __construct()
