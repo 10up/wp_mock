@@ -90,6 +90,7 @@ final class FuzzyObjectTest extends TestCase
      */
     public function testCanMatch($testClass, object $expectedClass, bool $expectedResult): void
     {
+        /** @var FuzzyObject&Mockery\LegacyMockInterface&Mockery\MockInterface $partialMock */
         $partialMock = Mockery::mock(FuzzyObject::class, [$expectedClass]);
         $partialMock->shouldAllowMockingProtectedMethods();
         $partialMock->makePartial();
@@ -100,7 +101,6 @@ final class FuzzyObjectTest extends TestCase
             ->with($testClass, $expectedClass)
             ->andReturnTrue();
 
-        /** @phpstan-ignore-next-line */
         $this->assertSame($expectedResult, $partialMock->match($testClass));
 
         $this->assertPostConditions();
