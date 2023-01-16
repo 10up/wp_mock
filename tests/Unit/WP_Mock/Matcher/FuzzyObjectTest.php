@@ -74,7 +74,6 @@ final class FuzzyObjectTest extends TestCase
             '$expected' => null,
             'should throw exception' => true
         ];
-
     }
 
     /**
@@ -87,27 +86,20 @@ final class FuzzyObjectTest extends TestCase
      * @return void
      * @throws Exception
      */
-    public function testCanMatch(
-        $testClass,
-        object $expectedClass,
-        bool $expectedResult
-    ): void
+    public function testCanMatch($testClass, object $expectedClass, bool $expectedResult): void
     {
+        $partialMock = Mockery::mock(FuzzyObject::class, [$expectedClass]);
+        $partialMock->shouldAllowMockingProtectedMethods();
+        $partialMock->makePartial();
 
-        $partialMock = Mockery::mock(FuzzyObject::class, [$expectedClass])
-            ->shouldAllowMockingProtectedMethods()
-            ->makePartial();
-
-        // test this function independently, return true for this test.
-        $partialMock
-            ->shouldReceive('haveCommonAncestor')
+        // test this function independently, return true for this test //
+        /** @phpstan-ignore-next-line */
+        $partialMock->shouldReceive('haveCommonAncestor')
             ->with($testClass, $expectedClass)
             ->andReturnTrue();
 
-        $this->assertSame(
-            $expectedResult,
-            $partialMock->match($testClass)
-        );
+        /** @phpstan-ignore-next-line */
+        $this->assertSame($expectedResult, $partialMock->match($testClass));
 
         $this->assertPostConditions();
     }
@@ -256,17 +248,15 @@ final class FuzzyObjectTest extends TestCase
     {
         yield 'With expected object with all types of properties' => [
             'expected' => new class() {
+
                 /** @phpstan-ignore-next-line  */
                 public $testPropertyIsArray = ['foo','bar'];
-
 
                 /** @phpstan-ignore-next-line  */
                 public $testPropertyIsClass;
 
-
                 /** @phpstan-ignore-next-line  */
                 public $testPropertyIsResource;
-
 
                 /** @phpstan-ignore-next-line  */
                 public $testPropertyIsString = 'foo';
