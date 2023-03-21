@@ -12,3 +12,7 @@
 * [Mocking WordPress Hooks](usage/mocking-wp-action-and-filter-hooks.md)
 * [Mocking WordPress Objects](usage/mocking-wp-objects.md)
 * [Mocking WordPress Constants](usage/mocking-wp-constants.md)
+
+## Tools
+
+* [WP_Mock Test Case](tools/wp-mock-test-case.md)
