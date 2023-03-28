@@ -14,11 +14,11 @@ composer require --dev 10up/wp_mock
 
 ## Documentation
 
-Learn more about configuring and using WP_Mock by reading [the WP_Mock documentation](https://wp-mock.gitbook.io/documentation/general/introduction).
+Learn more about how to configure and how to use WP_Mock by reading [the WP_Mock documentation](https://wp-mock.gitbook.io/documentation/general/introduction).
 
 ## Contributing
 
-Please read [CODE_OF_CONDUCT.md](https://github.com/10up/wp_mock/blob/trunk/CODE_OF_CONDUCT.md) for details on our code of conduct and [CONTRIBUTING.md](https://github.com/10up/wp_mock/blob/trunk/CONTRIBUTING.md) for details on the process for submitting pull requests.
+Please read our [Code of Conduct](https://github.com/10up/wp_mock/blob/trunk/CODE_OF_CONDUCT.md) for details on our code of conduct, and our [Contributing Guidelines](https://github.com/10up/wp_mock/blob/trunk/CONTRIBUTING.md) for details on the process for submitting pull requests.
 
 ## Like what you see?
 
