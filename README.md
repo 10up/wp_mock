@@ -20,6 +20,12 @@ Learn more about how to configure and how to use WP_Mock by reading [the WP_Mock
 
 Please read our [Code of Conduct](https://github.com/10up/wp_mock/blob/trunk/CODE_OF_CONDUCT.md) for details on our code of conduct, and our [Contributing Guidelines](https://github.com/10up/wp_mock/blob/trunk/CONTRIBUTING.md) for details on the process for submitting pull requests.
 
+## Supporters
+
+WP_Mock is supported by [10up](https://10up.com) and [GoDaddy](https://godaddy.com). [GitBook](https://www.gitbook.com/) kindly offers free hosting for [WP_Mock documentation](https://wp-mock.gitbook.io/documentation/general/introduction).
+
+A special thanks to all [WP_Mock contributors](https://github.com/10up/wp_mock/graphs/contributors).
+
 ## Like what you see?
 
 <a href="http://10up.com/contact/"><img src="https://10up.com/uploads/2016/10/10up-Github-Banner.png" width="850"></a>
