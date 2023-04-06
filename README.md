@@ -14,7 +14,7 @@ composer require --dev 10up/wp_mock
 
 ## Documentation
 
-Learn more about how to configure and how to use WP_Mock by reading [the WP_Mock documentation](https://wp-mock.gitbook.io/documentation/general/introduction).
+Learn more about how to configure and how to use WP_Mock by reading [the WP_Mock documentation](https://wp-mock.gitbook.io/documentation/getting-started/introduction).
 
 ## Contributing
 
@@ -22,7 +22,7 @@ Please read our [Code of Conduct](https://github.com/10up/wp_mock/blob/trunk/COD
 
 ## Supporters
 
-WP_Mock is supported by [10up](https://10up.com) and [GoDaddy](https://godaddy.com). [GitBook](https://www.gitbook.com/) kindly offers free hosting for [WP_Mock documentation](https://wp-mock.gitbook.io/documentation/general/introduction).
+WP_Mock is supported by [10up](https://10up.com) and [GoDaddy](https://godaddy.com). [GitBook](https://www.gitbook.com/) kindly offers free hosting for [WP_Mock documentation](https://wp-mock.gitbook.io/documentation/getting-started/introduction).
 
 A special thanks to all [WP_Mock contributors](https://github.com/10up/wp_mock/graphs/contributors).
 
