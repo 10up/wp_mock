@@ -2,6 +2,7 @@
 
 namespace WP_Mock;
 
+use Mockery\MockInterface;
 use PHPUnit\Framework\RiskyTestError;
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\TestResult;
@@ -21,12 +22,12 @@ class DeprecatedMethodListener
     protected $deprecatedCalls = [];
 
     /** @var string */
-    protected $testName;
+    protected $testName = 'test';
 
     /** @var TestCase */
     protected $testCase;
 
-    /** @var TestResult */
+    /** @var TestResult|MockInterface */
     protected $testResult;
 
     /**
@@ -58,10 +59,10 @@ class DeprecatedMethodListener
     /**
      * Sets the test result in context.
      *
-     * @param TestResult $testResult
+     * @param TestResult|MockInterface $testResult
      * @return $this
      */
-    public function setTestResult(TestResult $testResult): DeprecatedMethodListener
+    public function setTestResult($testResult): DeprecatedMethodListener
     {
         $this->testResult = $testResult;
 
@@ -103,8 +104,9 @@ class DeprecatedMethodListener
             return;
         }
 
-        $error = new RiskyTestError($this->getMessage());
+        $error = new RiskyTestError($this->buildErrorMessage());
 
+        /** @phpstan-ignore-next-line */
         $this->testResult->addFailure($this->testCase, $error, 0);
     }
 
@@ -113,13 +115,13 @@ class DeprecatedMethodListener
      *
      * @return string
      */
-    protected function getMessage(): string
+    protected function buildErrorMessage(): string
     {
         $maxLength = array_reduce($this->getDeprecatedMethods(), function ($carry, $item) {
             return max($carry, strlen($item));
         }, 0) + 1;
 
-        $message = 'Deprecated WP Mock calls inside '.$this->testName.":";
+        $message = sprintf('Deprecated WP Mock calls inside %s:', $this->testName);
 
         foreach ($this->getDeprecatedMethodsWithArgs() as $method => $args) {
             $firstRun = true;
@@ -170,7 +172,7 @@ class DeprecatedMethodListener
 
         foreach ($this->deprecatedCalls as $call) {
             $method = $call[0];
-            $args = json_encode(array_map([$this, 'scalarizeArg'], $call[1]));
+            $args = json_encode(array_map([$this, 'toScalar'], $call[1]));
 
             if (empty($collection[$method])) {
                 $collection[$method] = [];
@@ -186,18 +188,20 @@ class DeprecatedMethodListener
      * Transforms a value for use in a JSON string.
      *
      * @param mixed $value
-     * @return string
+     * @return string|bool|null|float|int
      */
-    protected function scalarizeArg($value): string
+    protected function toScalar($value)
     {
-        if (is_scalar($value)) {
-            return (string) $value;
+        if ($value === null) {
+            return null;
+        } elseif (is_scalar($value)) {
+            return $value;
         } elseif (is_object($value)) {
             return '<'.get_class($value).':'.spl_object_hash($value).'>';
         } elseif (is_array($value)) {
             if (is_callable($value)) {
                 /** @phpstan-ignore-next-line */
-                return '['.implode(',', array_map(array( $this, 'scalarizeArg' ), $value)).']';
+                return '['.implode(',', array_map(array($this, 'toScalar'), $value)).']';
             } else {
                 return 'Array(['.count($value).'] ...)';
             }

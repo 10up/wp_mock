@@ -118,22 +118,22 @@ final class TestCaseTest extends WP_MockTestCase
      */
     public function testCanCheckDeprecatedCalls(): void
     {
-        $deprecatedListener = $this->getMockBuilder(DeprecatedMethodListener::class)
+        $deprecatedMethodListener = $this->getMockBuilder(DeprecatedMethodListener::class)
             ->disableOriginalConstructor()
             ->onlyMethods(['checkCalls', 'reset'])
             ->getMock();
 
-        $deprecatedListener->expects($this->atMost(1))
+        $deprecatedMethodListener->expects($this->atMost(1))
             ->method('checkCalls');
 
-        $deprecatedListener->expects($this->atMost(1))
+        $deprecatedMethodListener->expects($this->atMost(1))
             ->method('reset');
 
         /** @var Mockery\Mock $wpMock */
         $wpMock = Mockery::mock('overload:WP_Mock');
         /** @phpstan-ignore-next-line  */
-        $wpMock->shouldReceive('getDeprecatedListener')
-            ->andReturn($deprecatedListener);
+        $wpMock->shouldReceive('getDeprecatedMethodListener')
+            ->andReturn($deprecatedMethodListener);
 
         $instance = $this->getMockForAbstractClass(TestCase::class);
         $method = new ReflectionMethod($instance, 'checkDeprecatedCalls');
