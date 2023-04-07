@@ -54,6 +54,7 @@ final class DeprecatedMethodListenerTest extends WP_MockTestCase
     public function testCanSetTestName(): void
     {
         $property = new ReflectionProperty($this->object, 'testName');
+        $property->setAccessible(true);
 
         $this->assertSame('test', $property->getValue($this->object));
 
@@ -76,6 +77,7 @@ final class DeprecatedMethodListenerTest extends WP_MockTestCase
         $this->assertInstanceOf(DeprecatedMethodListener::class, $this->object->setTestCase($testCase));
 
         $property = new ReflectionProperty($this->object, 'testCase');
+        $property->setAccessible(true);
 
         $this->assertSame($testCase, $property->getValue($this->object));
     }
@@ -95,6 +97,7 @@ final class DeprecatedMethodListenerTest extends WP_MockTestCase
         $this->assertInstanceOf(DeprecatedMethodListener::class, $this->object->setTestResult($mockTestResult));
 
         $property = new ReflectionProperty($this->object, 'testResult');
+        $property->setAccessible(true);
 
         $this->assertSame($mockTestResult, $property->getValue($this->object));
     }
@@ -370,7 +373,6 @@ EOT;
     protected function getDeprecatedMethodCalls(DeprecatedMethodListener $listener): array
     {
         $property = new ReflectionProperty($listener, 'deprecatedCalls');
-
         $property->setAccessible(true);
 
         $value = $property->getValue($listener);
