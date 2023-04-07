@@ -104,7 +104,6 @@ final class DeprecatedMethodListenerTest extends WP_MockTestCase
 
     /**
      * @covers \WP_Mock\DeprecatedMethodListener::logDeprecatedCall()
-     * @covers \WP_Mock\DeprecatedMethodListener::getCalls()
      *
      * @return void
      * @throws ReflectionException|Exception
