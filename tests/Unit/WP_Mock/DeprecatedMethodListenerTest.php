@@ -13,6 +13,7 @@ use ReflectionException;
 use ReflectionMethod;
 use ReflectionProperty;
 use stdClass;
+use WP_Mock;
 use WP_Mock\DeprecatedMethodListener;
 use WP_Mock\Tests\WP_MockTestCase;
 use WP_Mock\Tools\Constraints\ExpectationsMet;
@@ -358,6 +359,53 @@ EOT;
         yield 'resource' => [fopen('php://temp', 'r'), 'Resource'];
         yield 'closure' => [function () {
         }, '<Closure:'];
+    }
+
+    /**
+     * @covers \WP_Mock\DeprecatedMethodListener::logDeprecatedCall()
+     * @covers \WP_Mock::getDeprecatedMethodListener()
+     *
+     * @return void
+     */
+    public function testCanHandleDeprecatedMethodCall(): void
+    {
+        $deprecatedMethodListener = new DeprecatedMethodListener();
+
+        $concreteTestResult = new TestResult();
+        /** @var TestResult&Mockery\MockInterface $mockTestResult @phpstan-ignore-line */
+        $mockTestResult = Mockery::mock($concreteTestResult);
+        /** @var TestCase&Mockery\MockInterface $mockTestCase */
+        $mockTestCase = Mockery::mock(TestCase::class);
+
+        $instance = new class ($deprecatedMethodListener) extends WP_Mock {
+            /**
+             * @param DeprecatedMethodListener $deprecatedMethodListener
+             */
+            public function __construct(DeprecatedMethodListener $deprecatedMethodListener)
+            {
+                static::$deprecatedMethodListener = $deprecatedMethodListener;
+            }
+
+            /**
+             * @param array<mixed> $args
+             * @return string
+             */
+            public function deprecatedMethod(array $args = []): string
+            {
+                static::getDeprecatedMethodListener()->logDeprecatedCall(__METHOD__, $args);
+
+                return 'test';
+            }
+        };
+
+        $mockTestResult->expects('addFailure')
+            ->once()
+            ->with($mockTestCase, Mockery::type(RiskyTestError::class), 0);
+
+        $deprecatedMethodListener->setTestCase($mockTestCase);
+        $deprecatedMethodListener->setTestResult($mockTestResult);
+
+        $instance->deprecatedMethod(['foo' => 'bar']);
     }
 
     /**

@@ -24,7 +24,7 @@ class DeprecatedMethodListener
     /** @var string */
     protected $testName = 'test';
 
-    /** @var TestCase */
+    /** @var TestCase|MockInterface */
     protected $testCase;
 
     /** @var TestResult|MockInterface */
@@ -46,7 +46,7 @@ class DeprecatedMethodListener
     /**
      * Sets the test case in context.
      *
-     * @param TestCase $testCase
+     * @param TestCase|MockInterface $testCase
      * @return $this
      */
     public function setTestCase(TestCase $testCase): DeprecatedMethodListener
