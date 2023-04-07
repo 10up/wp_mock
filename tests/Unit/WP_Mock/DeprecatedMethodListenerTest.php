@@ -366,6 +366,7 @@ EOT;
      * @covers \WP_Mock::getDeprecatedMethodListener()
      *
      * @return void
+     * @throws Exception
      */
     public function testCanHandleDeprecatedMethodCall(): void
     {
@@ -406,6 +407,10 @@ EOT;
         $deprecatedMethodListener->setTestResult($mockTestResult);
 
         $instance->deprecatedMethod(['foo' => 'bar']);
+
+        $deprecatedMethodListener->checkCalls();
+
+        $this->assertConditionsMet();
     }
 
     /**

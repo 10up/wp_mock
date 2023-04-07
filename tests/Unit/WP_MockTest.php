@@ -9,6 +9,7 @@ use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\ExpectationFailedException;
 use SebastianBergmann\RecursionContext\InvalidArgumentException;
 use WP_Mock;
+use WP_Mock\DeprecatedMethodListener;
 use WP_Mock\Tests\WP_MockTestCase;
 
 /**
@@ -213,5 +214,64 @@ class WP_MockTest extends WP_MockTestCase
         $this->expectException(InvalidCountException::class);
 
         Mockery::close();
+    }
+
+    /**
+     * @covers \WP_Mock::wpFunction()
+     *
+     * @see \WP_Mock::userFunction()
+     * @see WP_Mock\Tests\Unit\WP_Mock\DeprecatedMethodListenerTest::testCanHandleDeprecatedMethodCall()
+     * @TODO remove this test when deprecated {@see WP_Mock::wpFunction()} is removed
+     *
+     * @return void
+     * @throws Exception
+     */
+    public function testCanMockWpFunction(): void
+    {
+        $this->markTestSkipped();
+    }
+
+    /**
+     * @covers \WP_Mock::wpPassthruFunction()
+     *
+     * @see \WP_Mock::passthruFunction()
+     * @TODO remove this test when deprecated {@see WP_Mock::wpPassthruFunction()} is removed
+     * @see WP_Mock\Tests\Unit\WP_Mock\DeprecatedMethodListenerTest::testCanHandleDeprecatedMethodCall()
+     *
+     * @return void
+     * @throws Exception
+     */
+    public function testCanMockWpPassthruFunction(): void
+    {
+        $this->markTestSkipped();
+    }
+
+    /**
+     * @covers \WP_Mock::getDeprecatedMethodListener()
+     *
+     * @return void
+     * @throws Exception
+     */
+    public function testCanGetDeprecatedMethodListener(): void
+    {
+        WP_Mock::bootstrap();
+
+        $this->assertInstanceOf(DeprecatedMethodListener::class, WP_Mock::getDeprecatedMethodListener());
+
+        Mockery::close();
+    }
+
+    /**
+     * @covers \WP_Mock::getDeprecatedListener()
+     *
+     * @TODO remove this test when deprecated {@see WP_Mock::getDeprecatedListener()} is removed
+     * @see WP_Mock\Tests\Unit\WP_Mock\DeprecatedMethodListenerTest::testCanHandleDeprecatedMethodCall()
+     *
+     * @return void
+     * @throws Exception
+     */
+    public function testCanGetDeprecatedListener(): void
+    {
+        $this->markTestSkipped();
     }
 }
