@@ -49,7 +49,7 @@ class DeprecatedMethodListener
      * @param TestCase|MockInterface $testCase
      * @return $this
      */
-    public function setTestCase(TestCase $testCase): DeprecatedMethodListener
+    public function setTestCase($testCase): DeprecatedMethodListener
     {
         $this->testCase = $testCase;
 

@@ -250,7 +250,7 @@ class WP_MockTest extends WP_MockTestCase
      * @covers \WP_Mock::getDeprecatedMethodListener()
      *
      * @return void
-     * @throws Exception
+     * @throws Exception|InvalidArgumentException
      */
     public function testCanGetDeprecatedMethodListener(): void
     {
