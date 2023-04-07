@@ -31,6 +31,7 @@
  * @license    MIT License
  */
 
+use Mockery\Exception as MockeryException;
 use WP_Mock\DeprecatedMethodListener;
 use WP_Mock\Matcher\FuzzyObject;
 
@@ -577,21 +578,18 @@ class WP_Mock
     }
 
     /**
-     * Generate a fuzzy object match expectation
+     * Generates a fuzzy object match expectation.
      *
-     * This will let you fuzzy match objects based on their properties without
-     * needing to use the identical (===) operator. This is helpful when the
-     * object being passed to a function is constructed inside the scope of the
-     * function being tested but where you want to make assertions on more than
-     * just the type of the object.
+     * This will let you fuzzy match objects based on their properties without needing to use the identical (===) operator.
+     * This is helpful when the object being passed to a function is constructed inside the scope of the function being tested but where you want to make assertions on more than just the type of the object.
      *
-     * @param $thing
-     *
+     * @param object|array<mixed> $object
      * @return FuzzyObject
+     * @throws MockeryException
      */
-    public static function fuzzyObject($thing)
+    public static function fuzzyObject($object): FuzzyObject
     {
-        return new FuzzyObject($thing);
+        return new FuzzyObject($object);
     }
 
     /**
@@ -610,8 +608,6 @@ class WP_Mock
 
     /**
      * Gets the deprecated method listener instance.
-     *
-     * @internal
      *
      * @return DeprecatedMethodListener
      */

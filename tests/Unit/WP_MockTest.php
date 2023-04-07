@@ -2,12 +2,14 @@
 
 namespace WP_Mock\Tests\Unit;
 
+use Generator;
 use Mockery;
 use Mockery\Exception\InvalidCountException;
 use Mockery\ExpectationInterface;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\ExpectationFailedException;
 use SebastianBergmann\RecursionContext\InvalidArgumentException;
+use stdClass;
 use WP_Mock;
 use WP_Mock\DeprecatedMethodListener;
 use WP_Mock\Tests\WP_MockTestCase;
@@ -214,6 +216,38 @@ class WP_MockTest extends WP_MockTestCase
         $this->expectException(InvalidCountException::class);
 
         Mockery::close();
+    }
+
+    /**
+     * @covers \WP_Mock::fuzzyObject()
+     * @dataProvider providerFuzzyObject
+     *
+     * @param array|object|mixed $object
+     * @param string $expected
+     * @return void
+     * @throws Exception|Mockery\Exception|InvalidArgumentException
+     */
+    public function testCanInstantiateFuzzyObject($object, string $expected): void
+    {
+        if (! is_object($object) && ! is_array($object)) {
+            $this->expectException(Mockery\Exception::class);
+        }
+
+        /** @phpstan-ignore-next-line */
+        $fuzzyObject = WP_Mock::fuzzyObject($object);
+
+        $this->assertSame($expected, $fuzzyObject->__toString());
+    }
+
+    /** @see testCanInstantiateFuzzyObject */
+    public function providerFuzzyObject(): Generator
+    {
+        $stdClass = new stdClass();
+        $stdClass->baz = 'boz';
+
+        yield 'Non object or array throws exception' => ['test', ''];
+        yield 'Array' => [['foo' => 'bar'], '<FuzzyObject[bar]>'];
+        yield 'Object' => [$stdClass, '<FuzzyObject[boz]>'];
     }
 
     /**

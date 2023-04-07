@@ -15,8 +15,6 @@ use PHPUnit\Framework\TestResult;
  * In this way we can ensure that developers are aware of the deprecation and can update their code before any deprecated methods are permanently removed.
  *
  * To flag a method as deprecated use {@see \WP_Mock::getDeprecatedMethodListener()->logDeprecatedCall()} within a deprecated method's logic.
- *
- * @internal
  */
 class DeprecatedMethodListener
 {
