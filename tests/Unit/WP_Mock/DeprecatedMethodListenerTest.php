@@ -15,6 +15,7 @@ use ReflectionProperty;
 use stdClass;
 use WP_Mock\DeprecatedMethodListener;
 use WP_Mock\Tests\WP_MockTestCase;
+use WP_Mock\Tools\Constraints\ExpectationsMet;
 
 /**
  * @covers \WP_Mock\DeprecatedMethodListener
@@ -133,6 +134,7 @@ final class DeprecatedMethodListenerTest extends WP_MockTestCase
      * @covers \WP_Mock\DeprecatedMethodListener::checkCalls()
      *
      * @return void
+     * @throws Exception
      */
     public function testCheckDeprecatedMethodCallsWithNoCallsMade(): void
     {
@@ -143,6 +145,9 @@ final class DeprecatedMethodListenerTest extends WP_MockTestCase
 
         $this->object->setTestResult($mockTestResult);
         $this->object->checkCalls();
+
+        // marks the test as passing
+        $this->assertThat(null, new ExpectationsMet());
     }
 
     /**
