@@ -8,20 +8,20 @@ use PHPUnit\Framework\RiskyTest;
 use PHPUnit\Framework\RiskyTestError;
 use PHPUnit\Framework\TestCase;
 use ReflectionProperty;
-use WP_Mock\DeprecatedListener;
+use WP_Mock\DeprecatedMethodListener;
 use WP_Mock\Tests\WP_MockTestCase;
 
 /**
- * @covers \WP_Mock\DeprecatedListener
+ * @covers \WP_Mock\DeprecatedMethodListener
  */
-class DeprecatedListenerTest extends WP_MockTestCase
+final class DeprecatedMethodListenerTest extends WP_MockTestCase
 {
-    /** @var DeprecatedListener */
+    /** @var DeprecatedMethodListener */
     protected $object;
 
     protected function setUp(): void
     {
-        $this->object = new DeprecatedListener();
+        $this->object = new DeprecatedMethodListener();
     }
 
     public function tearDown(): void
@@ -30,7 +30,7 @@ class DeprecatedListenerTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock\DeprecatedListener::logDeprecatedCall()
+     * @covers \WP_Mock\DeprecatedMethodListener::logDeprecatedCall()
      *
      * @return void
      */
@@ -44,7 +44,7 @@ class DeprecatedListenerTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock\DeprecatedListener::reset()
+     * @covers \WP_Mock\DeprecatedMethodListener::reset()
      *
      * @return void
      */
@@ -57,7 +57,7 @@ class DeprecatedListenerTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock\DeprecatedListener::checkCalls()
+     * @covers \WP_Mock\DeprecatedMethodListener::checkCalls()
      *
      * @return void
      */
@@ -74,7 +74,7 @@ class DeprecatedListenerTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock\DeprecatedListener::checkCalls()
+     * @covers \WP_Mock\DeprecatedMethodListener::checkCalls()
      *
      * @return void
      */
@@ -107,7 +107,7 @@ EOT;
     }
 
     /**
-     * @covers \WP_Mock\DeprecatedListener::checkCalls()
+     * @covers \WP_Mock\DeprecatedMethodListener::checkCalls()
      *
      * @return void
      * @throws Exception

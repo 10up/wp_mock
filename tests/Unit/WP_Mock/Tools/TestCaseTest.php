@@ -11,7 +11,7 @@ use ReflectionException;
 use ReflectionMethod;
 use ReflectionProperty;
 use WP_Mock;
-use WP_Mock\DeprecatedListener;
+use WP_Mock\DeprecatedMethodListener;
 use WP_Mock\Tests\WP_MockTestCase;
 use WP_Mock\Tools\TestCase;
 
@@ -118,7 +118,7 @@ final class TestCaseTest extends WP_MockTestCase
      */
     public function testCanCheckDeprecatedCalls(): void
     {
-        $deprecatedListener = $this->getMockBuilder(DeprecatedListener::class)
+        $deprecatedListener = $this->getMockBuilder(DeprecatedMethodListener::class)
             ->disableOriginalConstructor()
             ->onlyMethods(['checkCalls', 'reset'])
             ->getMock();

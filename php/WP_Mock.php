@@ -31,6 +31,7 @@
  * @license    MIT License
  */
 
+use WP_Mock\DeprecatedMethodListener;
 use WP_Mock\Matcher\FuzzyObject;
 
 class WP_Mock
@@ -51,7 +52,8 @@ class WP_Mock
 
     protected static $__strict_mode = false;
 
-    protected static $deprecated_listener;
+    /** @var DeprecatedMethodListener */
+    protected static $deprecatedMethodListener;
 
     /**
      * @param boolean $use_patchwork
@@ -89,30 +91,39 @@ class WP_Mock
     }
 
     /**
-     * Bootstrap WP_Mock
+     * Bootstraps WP_Mock.
+     *
+     * @return void
      */
-    public static function bootstrap()
+    public static function bootstrap(): void
     {
         if (! self::$__bootstrapped) {
             self::$__bootstrapped        = true;
-            static::$deprecated_listener = new \WP_Mock\DeprecatedListener();
+
+            static::$deprecatedMethodListener = new DeprecatedMethodListener();
+
             require_once __DIR__ . '/WP_Mock/API/function-mocks.php';
             require_once __DIR__ . '/WP_Mock/API/constant-mocks.php';
+
             if (self::usingPatchwork()) {
-                $possible_locations = array(
+                $patchwork_path  = 'antecedent/patchwork/Patchwork.php';
+                $possible_locations = [
                     'vendor',
                     '../..',
-                );
-                $patchwork_path     = 'antecedent/patchwork/Patchwork.php';
+                ];
+
                 foreach ($possible_locations as $loc) {
                     $path = __DIR__ . "/../$loc/$patchwork_path";
+
                     if (file_exists($path)) {
                         break;
                     }
                 }
+
                 // Will cause a fatal error if patchwork can't be found
                 require_once($path);
             }
+
             self::setUp();
         }
     }
@@ -466,19 +477,19 @@ class WP_Mock
     }
 
     /**
-     * Alias for userFunction
+     * Alias for {@see WP_Mock::userFunction}.
      *
-     * @deprecated since 1.0
+     * @deprecated this method will be removed in v1.0.0
      *
-     * @param string $function_name
-     * @param array  $arguments
-     *
+     * @param string $functionName
+     * @param array<mixed> $args
      * @return Mockery\Expectation
      */
-    public static function wpFunction($function_name, $arguments = array())
+    public static function wpFunction(string $functionName, array $args = []): Mockery\Expectation
     {
-        static::getDeprecatedListener()->logDeprecatedCall(__METHOD__, array( $function_name, $arguments ));
-        return self::userFunction($function_name, $arguments);
+        static::getDeprecatedMethodListener()->logDeprecatedCall(__METHOD__, [$functionName, $args]);
+
+        return self::userFunction($functionName, $args);
     }
 
     /**
@@ -528,19 +539,19 @@ class WP_Mock
     }
 
     /**
-     * Alias for passthruFunction
+     * Alias for {@see WP_Mock::passthruFunction()}.
      *
-     * @deprecated since 1.0
+     * @deprecated this method will be removed in v1.0.0
      *
-     * @param string $function_name
-     * @param array  $arguments
-     *
+     * @param string $functionName
+     * @param array<mixed> $args
      * @return Mockery\Expectation
      */
-    public static function wpPassthruFunction($function_name, $arguments = array())
+    public static function wpPassthruFunction(string $functionName, array $args = []): Mockery\Expectation
     {
-        static::getDeprecatedListener()->logDeprecatedCall(__METHOD__, array( $function_name, $arguments ));
-        return self::passthruFunction($function_name, $arguments);
+        static::getDeprecatedMethodListener()->logDeprecatedCall(__METHOD__, [$functionName, $args]);
+
+        return self::passthruFunction($functionName, $args);
     }
 
     /**
@@ -584,10 +595,28 @@ class WP_Mock
     }
 
     /**
-     * @return \WP_Mock\DeprecatedListener
+     * Alias for {@see WP_Mock::getDeprecatedMethodListener()}.
+     *
+     * @deprecated this method will be removed in v1.0.0
+     *
+     * @return DeprecatedMethodListener
      */
-    public static function getDeprecatedListener()
+    public static function getDeprecatedListener(): DeprecatedMethodListener
     {
-        return static::$deprecated_listener;
+        static::getDeprecatedMethodListener()->logDeprecatedCall(__METHOD__);
+
+        return static::$deprecatedMethodListener;
+    }
+
+    /**
+     * Gets the deprecated method listener instance.
+     *
+     * @internal
+     *
+     * @return DeprecatedMethodListener
+     */
+    public static function getDeprecatedMethodListener(): DeprecatedMethodListener
+    {
+        return static::$deprecatedMethodListener;
     }
 }
