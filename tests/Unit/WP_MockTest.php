@@ -222,7 +222,7 @@ class WP_MockTest extends WP_MockTestCase
      * @covers \WP_Mock::alias()
      *
      * @return void
-     * @throws Exception
+     * @throws Exception|InvalidArgumentException
      */
     public function testCanAliasFunction(): void
     {
