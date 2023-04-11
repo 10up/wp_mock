@@ -451,7 +451,7 @@ class WP_Mock
      * @param array<mixed> $args optional arguments to set expectations
      * @return Mockery\CompositeExpectation|Mockery\Expectation
      */
-    public static function userFunction(string $function, $args = [])
+    public static function userFunction(string $function, array $args = [])
     {
         return self::$function_manager->register($function, $args);
     }
