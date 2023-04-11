@@ -219,6 +219,22 @@ class WP_MockTest extends WP_MockTestCase
     }
 
     /**
+     * @covers \WP_Mock::alias()
+     *
+     * @return void
+     * @throws Exception
+     */
+    public function testCanAliasFunction(): void
+    {
+        WP_Mock::alias('myStrReplace', 'str_replace', ['Foo', 'Bar', 'Foo']);
+
+        /** @phpstan-ignore-next-line */
+        $result = myStrReplace('Foo', 'Bar', 'Foo');
+
+        $this->assertSame('Bar', $result);
+    }
+
+    /**
      * @covers \WP_Mock::fuzzyObject()
      * @dataProvider providerFuzzyObject
      *

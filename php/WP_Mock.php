@@ -556,25 +556,26 @@ class WP_Mock
     }
 
     /**
-     * Add a function mock that aliases another callable.
+     * Adds a function mock that aliases another callable.
      *
      * e.g.: WP_Mock::alias( 'wp_hash', 'md5' );
      *
-     * @param string   $function_name
-     * @param callable $alias
-     * @param array    $arguments
-     *
-     * @return Mockery\Expectation
+     * @param string $function
+     * @param string&callable $aliasFunction
+     * @param array<mixed>|scalar $arguments
+     * @return Mockery\CompositeExpectation|Mockery\Expectation
      */
-    public static function alias($function_name, $alias, $arguments = array())
+    public static function alias(string $function, string $aliasFunction, $arguments = [])
     {
         $arguments = (array) $arguments;
-        if (is_callable($alias)) {
-            $arguments['return'] = function () use ($alias) {
-                return call_user_func_array($alias, func_get_args());
+
+        if (is_callable($aliasFunction)) {
+            $arguments['return'] = function () use ($aliasFunction) {
+                return call_user_func_array($aliasFunction, func_get_args());
             };
         }
-        return self::$function_manager->register($function_name, $arguments);
+
+        return self::$function_manager->register($function, $arguments);
     }
 
     /**
