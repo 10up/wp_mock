@@ -89,7 +89,7 @@ class Functions
      * Registers a function to be mocked and sets up its expectations.
      *
      * @param string $function function name
-     * @param array<mixed> $args optional arguments
+     * @param array<string, mixed> $args optional arguments
      * @return Mockery\ExpectationInterface|Mockery\Expectation
      * @throws InvalidArgumentException
      */
@@ -146,7 +146,6 @@ class Functions
      * @param string $function function name
      * @param array<string, mixed> $args optional arguments for expectations
      * @return Mockery\ExpectationInterface|Mockery\Expectation
-     * @throws InvalidArgumentException
      */
     protected function setUpMock($mock, string $function, array $args = []): Mockery\ExpectationInterface
     {
@@ -158,6 +157,7 @@ class Functions
             $times = $args['times'];
 
             if (is_int($times) || (is_string($times) && preg_match('/^\d+$/', $times))) {
+                /** @phpstan-ignore-next-line the argument passed is valid */
                 $expectation->times((int) $times);
             } elseif (is_string($times)) {
                 if (preg_match('/^(\d+)([\-+])$/', $times, $matches)) {
@@ -169,6 +169,7 @@ class Functions
                     $num2 = (int) $matches[2];
 
                     if ($num1 === $num2) {
+                        /** @phpstan-ignore-next-line the argument passed is valid */
                         $expectation->times($num1);
                     } else {
                         $expectation->between(min($num1, $num2), max($num1, $num2));

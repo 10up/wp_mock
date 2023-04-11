@@ -448,10 +448,11 @@ class WP_Mock
      * It is possible to use Mockery methods to add expectations to the object returned, which will then be combined with any expectations that may have been passed as arguments.
      *
      * @param string $function function name
-     * @param array<mixed> $args optional arguments to set expectations
-     * @return Mockery\CompositeExpectation|Mockery\Expectation
+     * @param array<string, mixed> $args optional arguments to set expectations
+     * @return Mockery\ExpectationInterface|Mockery\Expectation
+     * @throws InvalidArgumentException
      */
-    public static function userFunction(string $function, array $args = [])
+    public static function userFunction(string $function, array $args = []): Mockery\ExpectationInterface
     {
         return self::$function_manager->register($function, $args);
     }
@@ -462,10 +463,11 @@ class WP_Mock
      * @deprecated this method will be removed in v1.0.0
      *
      * @param string $function function name
-     * @param array<mixed> $args optional arguments
-     * @return Mockery\CompositeExpectation|Mockery\Expectation
+     * @param array<string, mixed> $args optional arguments
+     * @return Mockery\ExpectationInterface|Mockery\Expectation
+     * @throws InvalidArgumentException
      */
-    public static function wpFunction(string $function, array $args = [])
+    public static function wpFunction(string $function, array $args = []): Mockery\ExpectationInterface
     {
         static::getDeprecatedMethodListener()->logDeprecatedCall(__METHOD__, [$function, $args]);
 
@@ -482,11 +484,13 @@ class WP_Mock
      *    esc_attr_e('some_value'); // echoes "some_value"
      *
      * @param string $function function name
-     * @param array<mixed>|scalar $args optional arguments
-     * @return Mockery\CompositeExpectation|Mockery\Expectation
+     * @param array<string, mixed>|scalar $args optional arguments
+     * @return Mockery\ExpectationInterface|Mockery\Expectation
+     * @throws InvalidArgumentException
      */
-    public static function echoFunction(string $function, $args = [])
+    public static function echoFunction(string $function, $args = []): Mockery\ExpectationInterface
     {
+        /** @var array<string, mixed> $args */
         $args = (array) $args;
         $args['return'] = function ($param) {
             echo $param;
@@ -505,11 +509,13 @@ class WP_Mock
      *    echo esc_attr('some_value'); // echoes "some_value"
      *
      * @param string $function function name
-     * @param array<mixed>|scalar $args function arguments (optional)
-     * @return Mockery\CompositeExpectation|Mockery\Expectation
+     * @param array<string, mixed>|scalar $args function arguments (optional)
+     * @return Mockery\ExpectationInterface|Mockery\Expectation
+     * @throws InvalidArgumentException
      */
-    public static function passthruFunction(string $function, $args = [])
+    public static function passthruFunction(string $function, $args = []): Mockery\ExpectationInterface
     {
+        /** @var array<string, mixed> $args */
         $args = (array) $args;
         $args['return'] = function ($param) {
             return $param;
@@ -524,10 +530,11 @@ class WP_Mock
      * @deprecated this method will be removed in v1.0.0
      *
      * @param string $function function name
-     * @param array<mixed>|scalar $args function arguments (optional)
-     * @return Mockery\CompositeExpectation|Mockery\Expectation
+     * @param array<string, mixed>|scalar $args function arguments (optional)
+     * @return Mockery\ExpectationInterface|Mockery\Expectation
+     * @throws InvalidArgumentException
      */
-    public static function wpPassthruFunction(string $function, $args = [])
+    public static function wpPassthruFunction(string $function, $args = []): Mockery\ExpectationInterface
     {
         static::getDeprecatedMethodListener()->logDeprecatedCall(__METHOD__, [$function, $args]);
 
@@ -541,11 +548,13 @@ class WP_Mock
      *
      * @param string $function function to alias
      * @param string&callable $aliasFunction actual function
-     * @param array<mixed>|scalar $args optional arguments
-     * @return Mockery\CompositeExpectation|Mockery\Expectation
+     * @param array<string, mixed>|scalar $args optional arguments
+     * @return Mockery\ExpectationInterface|Mockery\Expectation
+     * @throws InvalidArgumentException
      */
-    public static function alias(string $function, string $aliasFunction, $args = [])
+    public static function alias(string $function, string $aliasFunction, $args = []): Mockery\ExpectationInterface
     {
+        /** @var array<string, mixed> $args */
         $args = (array) $args;
 
         if (is_callable($aliasFunction)) {
