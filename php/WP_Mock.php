@@ -409,72 +409,50 @@ class WP_Mock
     }
 
     /**
-     * Mock a WordPress API function
+     * Mocks a WordPress API function.
      *
-     * This function registers a mock object for a WordPress function and, if
-     * necessary, dynamically defines the function. Pass the function name as
-     * the first argument (e.g. wp_remote_get) and pass in details about the
-     * expectations in the $arguments array. The arguments array has a few
-     * options for defining expectations about how the WordPress function should
-     * be used during a test. Currently, it accepts the following settings:
+     * This function registers a mock object for a WordPress function and, if necessary, dynamically defines the function.
      *
-     * - times: Defines expectations for the number of times a function should
-     *   be called. The default is 0 or more times. To expect the function to be
-     *   called an exact amount of times, set times to a non-negative numeric
-     *   value. To specify that the function should be called a minimum number
-     *   of times, use a string with the minimum followed by '+' (e.g. '3+'
-     *   means 3 or more times). Append a '-' to indicate a maximum number of
-     *   times a function should be called (e.g. '3-' means no more than 3 times)
-     *   To indicate a range, use '-' between two numbers (e.g. '2-5' means at
-     *   least 2 times and no more than 5 times)
-     * - return: Defines the value (if any) that the function should return. If
-     *   you pass a Closure as the return value, the function will return
-     *   whatever the Closure's return value.
-     * - return_in_order: Use this if your function will be called multiple
-     *   times in the test but needs to have different return values. Set this to
-     *   an array of return values. Each time the function is called, it will
-     *   return the next value in the sequence until it reaches the last value,
-     *   which will become the return value for all subsequent calls. For
-     *   example, if I am mocking is_single(), I can set return_in_order to
-     *   array( false, true ). The first time is_single() is called it will
-     *   return false. The second and all subsequent times it will return true.
-     *   Setting this value overrides return, so if you set both, return will be
-     *   ignored.
-     * - return_arg: Use this to specify that the function should return one of
-     *   its arguments. return_arg should be the position of the argument in the
-     *   arguments array, so 0 for the first argument, 1 for the second, etc.
-     *   You can also set this to true, which is equivalent to 0. This will
-     *   override both return and return_in_order.
-     * - args: Use this to set expectations about what the arguments passed to
-     *   the function should be. This value should always be an array with the
-     *   arguments in order. Like with return, if you use a Closure, its return
-     *   value will be used to validate the argument expectations. WP_Mock has
-     *   several helper functions to make this feature more flexible. The are
-     *   static methods on the \WP_Mock\Functions class. They are:
-     *   - Functions::type( $type ) Expects an argument of a certain type. This
-     *     can be any core PHP data type (string, int, resource, callable, etc.)
-     *     or any class or interface name.
-     *   - Functions::anyOf( $values ) Expects the argument to be any value in
-     *     the $values array
-     *   In addition to these helper functions, you can indicate that the
-     *   argument can be any value of any type by using '*'. So, for example, if
-     *   I am expecting get_post_meta to be called, the args array might look
-     *   something like this:
-     *     array( $post->ID, 'some_meta_key', true )
+     * Pass the function name as the first argument (e.g. `wp_remote_get()`) and pass in details about the expectations in the $args param.
+     * The arguments have a few options for defining expectations about how the WordPress function should be used during a test.
      *
-     *  Returns the Mockery\Expectation object with the function expectations
-     *  added. It is possible to use Mockery methods to add expectations to the
-     *  object returned, which will then be combined with any expectations that
-     *  may have been passed as arguments.
+     * Currently, it accepts the following settings:
+     *
+     * - `times`: Defines expectations for the number of times a function should be called. The default is `0` or more times.
+     *            To expect the function to be called an exact amount of times, set times to a non-negative numeric value.
+     *            To specify that the function should be called a minimum number of times, use a string with the minimum followed by '+' (e.g. '3+' means 3 or more times).
+     *            Append a '-' to indicate a maximum number of times a function should be called (e.g. '3-' means no more than 3 times).
+     *            To indicate a range, use '-' between two numbers (e.g. '2-5' means at least 2 times and no more than 5 times).
+     *
+     * - `return`: Defines the value (if any) that the function should return.
+     *             If you pass a `Closure` as the return value, the function will return whatever the closure's return value.
+     *
+     * - `return_in_order`: Use this if your function will be called multiple times in the test but needs to have different return values.
+     *                      Set this to an array of return values. Each time the function is called, it will return the next value in the sequence until it reaches the last value, which will become the return value for all subsequent calls.
+     *                      For example, if you are mocking `is_single()`, you can set `return_in_order` to `[false, true]`. The first time is_single() is called it will return false.
+     *                      The second and all subsequent times it will return true. Setting this value overrides return, so if you set both, return will be ignored.
+     *
+     * - `return_arg`: Use this to specify that the function should return one of its arguments. `return_arg` should be the position of the argument in the arguments array, so `0` for the first argument, `1` for the second, etc.
+     *                 You can also set this to true, which is equivalent to `0`. This will override both return and return_in_order.
+     *
+     * - `args`: Use this to set expectations about what the arguments passed to the function should be.
+     *           This value should always be an array with the arguments in order.
+     *           Like with `return`, if you use a `Closure`, its return value will be used to validate the argument expectations.
+     *           WP_Mock has several helper functions to make this feature more flexible. There are static methods on the \WP_Mock\Functions class. They are:
+     *           - {@see Functions::type($type)} Expects an argument of a certain type. This can be any core PHP data type (string, int, resource, callable, etc.) or any class or interface name.
+     *           - {@see Functions::anyOf($values)} Expects the argument to be any value in the `$values` array.
+     *           In addition to these helper functions, you can indicate that the argument can be any value of any type by using `*`.
+     *           So, for example, if you are expecting `get_post_meta()` to be called, the `args` array might look something like this: `[$post->ID, 'some_meta_key', true]`.
+     *
+     * Returns the {@see Mockery\Expectation} object with the function expectations added.
+     * It is possible to use Mockery methods to add expectations to the object returned, which will then be combined with any expectations that may have been passed as arguments.
      *
      * @param string $function function name
-     * @param array<mixed>|scalar $args optional arguments to set expectations
+     * @param array<mixed> $args optional arguments to set expectations
      * @return Mockery\CompositeExpectation|Mockery\Expectation
      */
     public static function userFunction(string $function, $args = [])
     {
-        $args = (array) $args;
-
         return self::$function_manager->register($function, $args);
     }
 
@@ -484,10 +462,10 @@ class WP_Mock
      * @deprecated this method will be removed in v1.0.0
      *
      * @param string $function function name
-     * @param array<mixed>|scalar $args optional arguments
+     * @param array<mixed> $args optional arguments
      * @return Mockery\CompositeExpectation|Mockery\Expectation
      */
-    public static function wpFunction(string $function, $args = [])
+    public static function wpFunction(string $function, array $args = [])
     {
         static::getDeprecatedMethodListener()->logDeprecatedCall(__METHOD__, [$function, $args]);
 
@@ -507,7 +485,7 @@ class WP_Mock
      * @param array<mixed>|scalar $args optional arguments
      * @return Mockery\CompositeExpectation|Mockery\Expectation
      */
-    public static function echoFunction($function, $args = [])
+    public static function echoFunction(string $function, $args = [])
     {
         $args = (array) $args;
         $args['return'] = function ($param) {
@@ -530,7 +508,7 @@ class WP_Mock
      * @param array<mixed>|scalar $args function arguments (optional)
      * @return Mockery\CompositeExpectation|Mockery\Expectation
      */
-    public static function passthruFunction($function, $args = [])
+    public static function passthruFunction(string $function, $args = [])
     {
         $args = (array) $args;
         $args['return'] = function ($param) {
@@ -549,7 +527,7 @@ class WP_Mock
      * @param array<mixed>|scalar $args function arguments (optional)
      * @return Mockery\CompositeExpectation|Mockery\Expectation
      */
-    public static function wpPassthruFunction(string $function, $args = []): Mockery\Expectation
+    public static function wpPassthruFunction(string $function, $args = [])
     {
         static::getDeprecatedMethodListener()->logDeprecatedCall(__METHOD__, [$function, $args]);
 
