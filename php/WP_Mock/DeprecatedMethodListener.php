@@ -74,21 +74,25 @@ class DeprecatedMethodListener
      *
      * @param string $method
      * @param array<mixed> $args
-     * @return void
+     * @return $this
      */
-    public function logDeprecatedCall(string $method, array $args = []): void
+    public function logDeprecatedCall(string $method, array $args = []): DeprecatedMethodListener
     {
         $this->deprecatedCalls[] = [$method, $args];
+
+        return $this;
     }
 
     /**
      * Resets tracking of deprecated method calls.
      *
-     * @return void
+     * @return $this
      */
-    public function reset(): void
+    public function reset(): DeprecatedMethodListener
     {
         $this->deprecatedCalls = [];
+
+        return $this;
     }
 
     /**

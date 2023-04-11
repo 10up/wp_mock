@@ -59,7 +59,7 @@ final class DeprecatedMethodListenerTest extends WP_MockTestCase
 
         $this->assertSame('test', $property->getValue($this->object));
 
-        $this->assertInstanceOf(DeprecatedMethodListener::class, $this->object->setTestName('FooBar'));
+        $this->assertSame($this->object, $this->object->setTestName('FooBar'));
 
         $this->assertSame('FooBar', $property->getValue($this->object));
     }
@@ -75,7 +75,7 @@ final class DeprecatedMethodListenerTest extends WP_MockTestCase
         /** @var TestCase&Mockery\MockInterface $testCase */
         $testCase = Mockery::mock(TestCase::class);
 
-        $this->assertInstanceOf(DeprecatedMethodListener::class, $this->object->setTestCase($testCase));
+        $this->assertSame($this->object, $this->object->setTestCase($testCase));
 
         $property = new ReflectionProperty($this->object, 'testCase');
         $property->setAccessible(true);
@@ -95,7 +95,7 @@ final class DeprecatedMethodListenerTest extends WP_MockTestCase
         /** @var TestResult&Mockery\MockInterface $mockTestResult @phpstan-ignore-line */
         $mockTestResult = Mockery::mock($concreteTestResult);
 
-        $this->assertInstanceOf(DeprecatedMethodListener::class, $this->object->setTestResult($mockTestResult));
+        $this->assertSame($this->object, $this->object->setTestResult($mockTestResult));
 
         $property = new ReflectionProperty($this->object, 'testResult');
         $property->setAccessible(true);
@@ -114,7 +114,7 @@ final class DeprecatedMethodListenerTest extends WP_MockTestCase
         $method = 'Foo::bar'.rand(0, 9);
         $args = [rand(10, 99)];
 
-        $this->object->logDeprecatedCall($method, $args);
+        $this->assertSame($this->object, $this->object->logDeprecatedCall($method, $args));
 
         $this->assertEquals([[$method, $args]], $this->getDeprecatedMethodCalls($this->object));
     }
@@ -127,9 +127,8 @@ final class DeprecatedMethodListenerTest extends WP_MockTestCase
      */
     public function testCanResetDeprecatedCallsLog(): void
     {
-        $this->object->logDeprecatedCall('Foo::bar', ['baz']);
-        $this->object->reset();
-
+        $this->assertSame($this->object, $this->object->logDeprecatedCall('Foo::bar', ['baz']));
+        $this->assertSame($this->object, $this->object->reset());
         $this->assertSame([], $this->getDeprecatedMethodCalls($this->object));
     }
 
@@ -149,8 +148,7 @@ final class DeprecatedMethodListenerTest extends WP_MockTestCase
         $this->object->setTestResult($mockTestResult);
         $this->object->checkCalls();
 
-        // marks the test as passing
-        $this->assertThat(null, new ExpectationsMet());
+        $this->assertConditionsMet();
     }
 
     /**
