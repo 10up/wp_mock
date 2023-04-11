@@ -16,7 +16,6 @@ use stdClass;
 use WP_Mock;
 use WP_Mock\DeprecatedMethodListener;
 use WP_Mock\Tests\WP_MockTestCase;
-use WP_Mock\Tools\Constraints\ExpectationsMet;
 
 /**
  * @covers \WP_Mock\DeprecatedMethodListener
