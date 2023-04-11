@@ -544,7 +544,7 @@ class WP_Mock
     /**
      * Adds a function mock that aliases another callable.
      *
-     * e.g.: WP_Mock::alias( 'wp_hash', 'md5' );
+     * e.g.: WP_Mock::alias('wp_hash', 'md5');
      *
      * @param string $function function to alias
      * @param string&callable $aliasFunction actual function

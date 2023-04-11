@@ -1,6 +1,6 @@
 <?php
 
-namespace WP_Mock;
+namespace WP_Mock\Tests\Unit\WP_Mock;
 
 use Closure;
 use Generator;
