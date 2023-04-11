@@ -218,6 +218,8 @@ class WP_MockTest extends WP_MockTestCase
         Mockery::close();
     }
 
+
+
     /**
      * @covers \WP_Mock::alias()
      *
@@ -226,12 +228,16 @@ class WP_MockTest extends WP_MockTestCase
      */
     public function testCanAliasFunction(): void
     {
-        WP_Mock::alias('myStrReplace', 'str_replace', ['Foo', 'Bar', 'Foo']);
+        WP_Mock::bootstrap();
 
-        /** @phpstan-ignore-next-line */
-        $result = myStrReplace('Foo', 'Bar', 'Foo');
+        WP_Mock::alias('wp_str_replace', 'str_replace', ['Foo', 'Bar', 'Foo']);
+
+        /** @phpstan-ignore-next-line simulates function called `wp_str_replace` to be aliased with `str_replace()` */
+        $result = wp_str_replace('Foo', 'Bar', 'Foo');
 
         $this->assertSame('Bar', $result);
+
+        Mockery::close();
     }
 
     /**
@@ -278,7 +284,7 @@ class WP_MockTest extends WP_MockTestCase
      */
     public function testCanMockWpFunction(): void
     {
-        $this->markTestSkipped();
+        $this->markTestSkipped('Deprecated method - test coverage present for alias method');
     }
 
     /**
@@ -293,7 +299,7 @@ class WP_MockTest extends WP_MockTestCase
      */
     public function testCanMockWpPassthruFunction(): void
     {
-        $this->markTestSkipped();
+        $this->markTestSkipped('Deprecated method - test coverage present for alias method');
     }
 
     /**
@@ -322,6 +328,6 @@ class WP_MockTest extends WP_MockTestCase
      */
     public function testCanGetDeprecatedListener(): void
     {
-        $this->markTestSkipped();
+        $this->markTestSkipped('Deprecated method - test coverage present for alias method');
     }
 }

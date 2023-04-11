@@ -467,14 +467,15 @@ class WP_Mock
      *  object returned, which will then be combined with any expectations that
      *  may have been passed as arguments.
      *
-     * @param string $function_name
-     * @param array  $arguments
-     *
-     * @return Mockery\Expectation
+     * @param string $function function name
+     * @param array<mixed>|scalar $args optional arguments to set expectations
+     * @return Mockery\CompositeExpectation|Mockery\Expectation
      */
-    public static function userFunction($function_name, $arguments = array())
+    public static function userFunction(string $function, $args = [])
     {
-        return self::$function_manager->register($function_name, $arguments);
+        $args = (array) $args;
+
+        return self::$function_manager->register($function, $args);
     }
 
     /**
@@ -482,61 +483,61 @@ class WP_Mock
      *
      * @deprecated this method will be removed in v1.0.0
      *
-     * @param string $functionName
-     * @param array<mixed> $args
-     * @return Mockery\Expectation
+     * @param string $function function name
+     * @param array<mixed>|scalar $args optional arguments
+     * @return Mockery\CompositeExpectation|Mockery\Expectation
      */
-    public static function wpFunction(string $functionName, array $args = []): Mockery\Expectation
+    public static function wpFunction(string $function, $args = [])
     {
-        static::getDeprecatedMethodListener()->logDeprecatedCall(__METHOD__, [$functionName, $args]);
+        static::getDeprecatedMethodListener()->logDeprecatedCall(__METHOD__, [$function, $args]);
 
-        return self::userFunction($functionName, $args);
+        return self::userFunction($function, $args);
     }
 
     /**
-     * A wrapper for userFunction that will simply set/override the return to be
-     * a function that echoes the value that its passed. For example, esc_attr_e
-     * may need to be mocked, and it must echo some value. echoFunction will set
-     * esc_attr_e to echo the value its passed.
+     * A wrapper for {@see WP_Mock::userFunction()} that will simply set/override the return to be a function that echoes the value that its passed.
      *
-     *    \WP_Mock::echoFunction( 'esc_attr_e' );
-     *    esc_attr_e( 'some_value' ); // echoes (translated) "some_value"
+     * For example, `esc_attr_e()` may need to be mocked, and it must echo some value.
+     * {@see WP_Mock::echoFunction()} will set `esc_attr_e()` to echo the value its passed:
      *
-     * @param string $function_name Function name.
-     * @param array  $arguments     Optional. Arguments. Defaults to array().
+     *    WP_Mock::echoFunction('esc_attr_e');
+     *    esc_attr_e('some_value'); // echoes "some_value"
      *
-     * @return Mockery\Expectation
+     * @param string $function function name
+     * @param array<mixed>|scalar $args optional arguments
+     * @return Mockery\CompositeExpectation|Mockery\Expectation
      */
-    public static function echoFunction($function_name, $arguments = array())
+    public static function echoFunction($function, $args = [])
     {
-        $arguments           = (array) $arguments;
-        $arguments['return'] = function ($param) {
+        $args = (array) $args;
+        $args['return'] = function ($param) {
             echo $param;
         };
-        return self::$function_manager->register($function_name, $arguments);
+
+        return self::$function_manager->register($function, $args);
     }
 
     /**
-     * A wrapper for userFunction that will simply set/override the return to be
-     * a function that returns the value that its passed. For example, esc_attr
-     * may need to be mocked, and it must return some value. passthruFunction
-     * will set esc_attr to return the value its passed.
+     * A wrapper for {@see WP_Mock::userFunction()} that will simply set/override the return to be a function that returns the value that its passed.
      *
-     *    \WP_Mock::passthruFunction( 'esc_attr' );
-     *    echo esc_attr( 'some_value' ); // echoes "some_value"
+     * For example, `esc_attr()` may need to be mocked, and it must return some value.
+     * {@see WP_Mock::passthruFunction()} will set `esc_attr()` to return the value its passed:
      *
-     * @param string $function_name
-     * @param array  $arguments
+     *    WP_Mock::passthruFunction('esc_attr');
+     *    echo esc_attr('some_value'); // echoes "some_value"
      *
-     * @return Mockery\Expectation
+     * @param string $function function name
+     * @param array<mixed>|scalar $args function arguments (optional)
+     * @return Mockery\CompositeExpectation|Mockery\Expectation
      */
-    public static function passthruFunction($function_name, $arguments = array())
+    public static function passthruFunction($function, $args = [])
     {
-        $arguments           = (array) $arguments;
-        $arguments['return'] = function ($param) {
+        $args = (array) $args;
+        $args['return'] = function ($param) {
             return $param;
         };
-        return self::$function_manager->register($function_name, $arguments);
+
+        return self::$function_manager->register($function, $args);
     }
 
     /**
@@ -544,15 +545,15 @@ class WP_Mock
      *
      * @deprecated this method will be removed in v1.0.0
      *
-     * @param string $functionName
-     * @param array<mixed> $args
-     * @return Mockery\Expectation
+     * @param string $function function name
+     * @param array<mixed>|scalar $args function arguments (optional)
+     * @return Mockery\CompositeExpectation|Mockery\Expectation
      */
-    public static function wpPassthruFunction(string $functionName, array $args = []): Mockery\Expectation
+    public static function wpPassthruFunction(string $function, $args = []): Mockery\Expectation
     {
-        static::getDeprecatedMethodListener()->logDeprecatedCall(__METHOD__, [$functionName, $args]);
+        static::getDeprecatedMethodListener()->logDeprecatedCall(__METHOD__, [$function, $args]);
 
-        return self::passthruFunction($functionName, $args);
+        return self::passthruFunction($function, $args);
     }
 
     /**
@@ -560,22 +561,22 @@ class WP_Mock
      *
      * e.g.: WP_Mock::alias( 'wp_hash', 'md5' );
      *
-     * @param string $function
-     * @param string&callable $aliasFunction
-     * @param array<mixed>|scalar $arguments
+     * @param string $function function to alias
+     * @param string&callable $aliasFunction actual function
+     * @param array<mixed>|scalar $args optional arguments
      * @return Mockery\CompositeExpectation|Mockery\Expectation
      */
-    public static function alias(string $function, string $aliasFunction, $arguments = [])
+    public static function alias(string $function, string $aliasFunction, $args = [])
     {
-        $arguments = (array) $arguments;
+        $args = (array) $args;
 
         if (is_callable($aliasFunction)) {
-            $arguments['return'] = function () use ($aliasFunction) {
+            $args['return'] = function () use ($aliasFunction) {
                 return call_user_func_array($aliasFunction, func_get_args());
             };
         }
 
-        return self::$function_manager->register($function, $arguments);
+        return self::$function_manager->register($function, $args);
     }
 
     /**
