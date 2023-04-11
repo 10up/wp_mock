@@ -2,43 +2,65 @@
 
 namespace WP_Mock;
 
+use Closure;
 use InvalidArgumentException;
 use Mockery;
 use Mockery\Matcher\AnyOf;
 use Mockery\Matcher\Type;
+use WP_Mock;
 
+/**
+ * Functions mocking handler.
+ *
+ * This internal class is responsible for mocking WordPress functions and methods.
+ *
+ * @see WP_Mock::userFunction()
+ * @see WP_Mock::echoFunction()
+ * @see WP_Mock::passthruFunction()
+ */
 class Functions
 {
-    private $mocked_functions = array();
+    /** @var array<string, Mockery\Mock> functions mocked by WP_Mock using Mockery */
+    private $mockedFunctions = [];
 
-    private $internal_functions = array();
+    /** @var string[] list of internal functions */
+    private $internalFunctions = [];
 
-    private static $wp_mocked_functions = array();
+    /** @var string[] list of WordPress functions */
+    private static $wpMockedFunctions = [];
 
-    private $patchwork_functions = array();
+    /** @var string[] list of Patchwork functions */
+    private $patchworkFunctions = [];
 
     /**
-     * Constructor for the Functions object
+     * Constructor.
      */
     public function __construct()
     {
         Handler::cleanup();
+
         $this->flush();
     }
 
     /**
-     * Emptys the mocked_functions array
+     * Flushes (resets) the registered mocked functions.
+     *
+     * @return void
      */
-    public function flush()
+    public function flush(): void
     {
-        $this->mocked_functions = array();
+        $this->mockedFunctions = [];
+
         Handler::cleanup();
-        $this->patchwork_functions = array();
+
+        $this->patchworkFunctions = [];
+
         if (function_exists('Patchwork\undoAll')) {
             \Patchwork\restoreAll();
         }
-        if (empty(self::$wp_mocked_functions)) {
-            self::$wp_mocked_functions = array(
+
+        if (empty(self::$wpMockedFunctions)) {
+            self::$wpMockedFunctions = [
                 'add_action',
                 'do_action',
                 'add_filter',
@@ -59,30 +81,34 @@ class Functions
                 'esc_html_e',
                 'esc_html_x',
                 '_n',
-            );
+            ];
         }
     }
 
     /**
-     * Registers the function to be mocked and sets up its expectations
+     * Registers a function to be mocked and sets up its expectations.
      *
      * @param string $function function name
      * @param array<mixed> $args optional arguments
-     * @return Mockery\Expectation
+     * @return Mockery\ExpectationInterface|Mockery\Expectation
+     * @throws InvalidArgumentException
      */
-    public function register(string $function, array $args = [])
+    public function register(string $function, array $args = []): Mockery\ExpectationInterface
     {
-        $this->generate_function($function);
+        $this->generateFunction($function);
 
-        if (empty($this->mocked_functions[$function])) {
-            $this->mocked_functions[$function] = Mockery::mock('wp_api');
+        if (empty($this->mockedFunctions[$function])) {
+            /** @phpstan-ignore-next-line */
+            $this->mockedFunctions[$function] = Mockery::mock('wp_api');
         }
 
-        $mock = $this->mocked_functions[$function];
+        /** @var Mockery\Mock $mock */
+        $mock = $this->mockedFunctions[$function];
 
         /** @var string $method */
         $method = preg_replace('/\\\\+/', '_', $function);
-        $expectation = $this->set_up_mock($mock, $method, $args);
+
+        $expectation = $this->setUpMock($mock, $method, $args);
 
         Handler::register_handler($function, [$mock, $method]);
 
@@ -114,158 +140,183 @@ class Functions
     }
 
     /**
-     * Set up the mock object with an expectation for this test.
+     * Sets up the mock object with an expectation for this test.
      *
-     * @param \Mockery\Mock $mock
-     * @param string        $function
-     * @param array         $arguments
-     *
-     * @return Mockery\Expectation
+     * @param Mockery\Mock|Mockery\MockInterface|Mockery\LegacyMockInterface $mock mock object
+     * @param string $function function name
+     * @param array<string, mixed> $args optional arguments for expectations
+     * @return Mockery\ExpectationInterface|Mockery\Expectation
+     * @throws InvalidArgumentException
      */
-    protected function set_up_mock($mock, $function, $arguments)
+    protected function setUpMock($mock, string $function, array $args = []): Mockery\ExpectationInterface
     {
+        /** @var Mockery\Expectation $expectation */
         $expectation = $mock->shouldReceive($function);
 
-        if (isset($arguments['times'])) {
-            $times = $arguments['times'];
-            if (is_int($times) || preg_match('/^\d+$/', $times)) {
+        if (isset($args['times'])) {
+
+            $times = $args['times'];
+
+            if (is_int($times) || (is_string($times) && preg_match('/^\d+$/', $times))) {
                 $expectation->times((int) $times);
-            } elseif (preg_match('/^(\d+)([\-+])$/', $times, $matches)) {
-                $method = '+' === $matches[2] ? 'atLeast' : 'atMost';
-                $expectation->$method()->times((int) $matches[1]);
-            } elseif (preg_match('/^(\d+)-(\d+)$/', $times, $matches)) {
-                $num1 = (int) $matches[1];
-                $num2 = (int) $matches[2];
-                if ($num1 === $num2) {
-                    $expectation->times($num1);
-                } else {
-                    $expectation->between(min($num1, $num2), max($num1, $num2));
+            } elseif (is_string($times)) {
+                if (preg_match('/^(\d+)([\-+])$/', $times, $matches)) {
+                    $method = '+' === $matches[2] ? 'atLeast' : 'atMost';
+
+                    $expectation->$method()->times((int) $matches[1]);
+                } elseif (preg_match('/^(\d+)-(\d+)$/', $times, $matches)) {
+                    $num1 = (int) $matches[1];
+                    $num2 = (int) $matches[2];
+
+                    if ($num1 === $num2) {
+                        $expectation->times($num1);
+                    } else {
+                        $expectation->between(min($num1, $num2), max($num1, $num2));
+                    }
                 }
             }
         }
-        if (isset($arguments['args'])) {
-            $arguments['args'] = array_map(function ($argument) {
-                if ($argument instanceof \Closure) {
+
+        if (isset($args['args'])) {
+            $args['args'] = array_map(function ($argument) {
+                if ($argument instanceof Closure) {
                     return Mockery::on($argument);
                 }
+
                 if ($argument === '*') {
                     return Mockery::any();
                 }
+
                 return $argument;
-            }, (array) $arguments['args']);
-            call_user_func_array(array( $expectation, 'with' ), $arguments['args']);
+            }, (array) $args['args']);
+
+            /** @phpstan-ignore-next-line */
+            call_user_func_array([$expectation, 'with'], $args['args']);
         }
-        if (isset($arguments['return_arg'])) {
-            $argument_position   = true === $arguments['return_arg'] ? 0 : (int) $arguments['return_arg'];
-            $arguments['return'] = function () use ($argument_position) {
-                if ($argument_position >= func_num_args()) {
+
+        if (isset($args['return_arg'])) {
+            /** @phpstan-ignore-next-line */
+            $argPosition = true === $args['return_arg'] ? 0 : (int) $args['return_arg'];
+
+            $args['return'] = function () use ($argPosition) {
+                if ($argPosition >= func_num_args()) {
                     return null;
                 }
-                return func_get_arg($argument_position);
+
+                /** @phpstan-ignore-next-line */
+                return func_get_arg($argPosition);
             };
-        } elseif (isset($arguments['return_in_order'])) {
-            $arguments['return'] = new ReturnSequence();
-            $arguments['return']->setReturnValues((array) $arguments['return_in_order']);
+        } elseif (isset($args['return_in_order'])) {
+            $args['return'] = new ReturnSequence();
+            $args['return']->setReturnValues((array) $args['return_in_order']);
         }
-        if (isset($arguments['return'])) {
-            $return = $arguments['return'];
+
+        if (isset($args['return'])) {
+            $return = $args['return'];
+
             if ($return instanceof ReturnSequence) {
                 $expectation->andReturnValues($return->getReturnValues());
-            } elseif ($return instanceof \Closure) {
+            } elseif ($return instanceof Closure) {
                 $expectation->andReturnUsing($return);
             } else {
                 $expectation->andReturn($return);
             }
         }
+
         return $expectation;
     }
 
     /**
-     * Dynamically declares a function if it doesn't already exist
+     * Dynamically declares a function if it doesn't already exist.
      *
-     * This function is namespace-aware.
+     * The declared function is namespace-aware.
      *
-     * @param $function_name
+     * @param string $functionName function name
+     * @return void
+     * @throws InvalidArgumentException
      */
-    private function generate_function($function_name)
+    private function generateFunction(string $functionName): void
     {
-        $function_name = $this->sanitize_function_name($function_name);
+        $functionName = $this->sanitizeFunctionName($functionName);
 
-        $this->validate_function_name($function_name);
+        $this->validateFunctionName($functionName);
 
-        $this->create_function($function_name) or $this->replace_function($function_name);
+        $this->createFunction($functionName) or $this->replaceFunction($functionName);
     }
 
     /**
-     * Create a function with WP_Mock
+     * Creates a function using eval.
      *
-     * @param string $function_name
-     *
-     * @return bool True if this function created the mock, false otherwise
+     * @param string $functionName function name
+     * @return bool true if this function created the mock, false otherwise
      */
-    private function create_function($function_name)
+    private function createFunction(string $functionName): bool
     {
-        if (in_array($function_name, self::$wp_mocked_functions)) {
+        if (in_array($functionName, self::$wpMockedFunctions, true)) {
             return true;
         }
-        if (function_exists($function_name)) {
+
+        if (function_exists($functionName)) {
             return false;
         }
 
-        $parts     = explode('\\', $function_name);
-        $name      = array_pop($parts);
-        $namespace = empty($parts) ? '' : 'namespace ' . implode('\\', $parts) . ';' . PHP_EOL;
+        $parts = explode('\\', $functionName);
+        $name = array_pop($parts);
+        $namespace = empty($parts) ? '' : 'namespace '.implode('\\', $parts).';'.PHP_EOL;
 
         $declaration = <<<EOF
 $namespace
 function $name() {
-	return \\WP_Mock\\Handler::handle_function( '$function_name', func_get_args() );
+	return \\WP_Mock\\Handler::handle_function('$functionName', func_get_args());
 }
 EOF;
         eval($declaration);
 
-        self::$wp_mocked_functions[] = $function_name;
+        self::$wpMockedFunctions[] = $functionName;
 
         return true;
     }
 
     /**
-     * Replace a function with patchwork
+     * Replaces a function using Patchwork.
      *
-     * @param string $function_name
-     *
+     * @param string $functionName function name
      * @return bool
      */
-    private function replace_function($function_name)
+    private function replaceFunction(string $functionName): bool
     {
-        if (in_array($function_name, $this->patchwork_functions)) {
+        if (in_array($functionName, $this->patchworkFunctions, true)) {
             return true;
         }
+
         if (! function_exists('Patchwork\\replace')) {
             return true;
         }
-        $this->patchwork_functions[] = $function_name;
-        \Patchwork\redefine($function_name, function () use ($function_name) {
-            return Handler::handle_function($function_name, func_get_args());
+
+        $this->patchworkFunctions[] = $functionName;
+
+        \Patchwork\redefine($functionName, function () use ($functionName) {
+            return Handler::handle_function($functionName, func_get_args());
         });
+
         return true;
     }
 
     /**
-     * Clean the function name to be of a standard shape
+     * Cleans a function name to be of a standard shape.
      *
-     * @param string $function_name
+     * Trims any namespace separators from the beginning and end of the function name.
      *
+     * @param string $functionName
      * @return string
      */
-    private function sanitize_function_name($function_name)
+    private function sanitizeFunctionName(string $functionName): string
     {
-        $function_name = trim($function_name, '\\');
-        return $function_name;
+        return trim($functionName, '\\');
     }
 
     /**
-     * Validate the function name for format and other considerations.
+     * Validates a function name for format and other considerations.
      *
      * Validation will fail if not a valid function name, if it's an internal function, or if it is a reserved word in PHP.
      *
@@ -273,21 +324,21 @@ EOF;
      * @return void
      * @throws InvalidArgumentException
      */
-    private function validate_function_name(string $functionName): void
+    private function validateFunctionName(string $functionName): void
     {
         if (function_exists($functionName)) {
-            if (empty($this->internal_functions)) {
+            if (empty($this->internalFunctions)) {
                 $definedFunctions = get_defined_functions();
-                $this->internal_functions = $definedFunctions['internal'];
+                $this->internalFunctions = $definedFunctions['internal'];
             }
 
-            if (in_array($functionName, $this->internal_functions)) {
+            if (in_array($functionName, $this->internalFunctions)) {
                 throw new InvalidArgumentException('Cannot override internal PHP functions!');
             }
         }
 
         $parts = explode('\\', $functionName);
-        $name  = array_pop($parts);
+        $name = array_pop($parts);
 
         if (! preg_match('/[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*/', $functionName)) {
             throw new InvalidArgumentException('Function name not properly formatted!');
