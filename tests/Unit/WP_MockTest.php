@@ -218,8 +218,6 @@ class WP_MockTest extends WP_MockTestCase
         Mockery::close();
     }
 
-
-
     /**
      * @covers \WP_Mock::alias()
      *
@@ -275,7 +273,7 @@ class WP_MockTest extends WP_MockTestCase
     /**
      * @covers \WP_Mock::wpFunction()
      *
-     * @see \WP_Mock::userFunction()
+     * @doesNotPerformAssertions
      * @see WP_Mock\Tests\Unit\WP_Mock\DeprecatedMethodListenerTest::testCanHandleDeprecatedMethodCall()
      * @TODO remove this test when deprecated {@see WP_Mock::wpFunction()} is removed
      *
@@ -290,7 +288,7 @@ class WP_MockTest extends WP_MockTestCase
     /**
      * @covers \WP_Mock::wpPassthruFunction()
      *
-     * @see \WP_Mock::passthruFunction()
+     * @doesNotPerformAssertions
      * @TODO remove this test when deprecated {@see WP_Mock::wpPassthruFunction()} is removed
      * @see WP_Mock\Tests\Unit\WP_Mock\DeprecatedMethodListenerTest::testCanHandleDeprecatedMethodCall()
      *
@@ -320,6 +318,7 @@ class WP_MockTest extends WP_MockTestCase
     /**
      * @covers \WP_Mock::getDeprecatedListener()
      *
+     * @doesNotPerformAssertions
      * @TODO remove this test when deprecated {@see WP_Mock::getDeprecatedListener()} is removed
      * @see WP_Mock\Tests\Unit\WP_Mock\DeprecatedMethodListenerTest::testCanHandleDeprecatedMethodCall()
      *

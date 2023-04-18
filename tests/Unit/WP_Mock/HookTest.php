@@ -8,6 +8,7 @@ use Exception;
 use PHPUnit\Framework\TestCase;
 use ReflectionException;
 use stdClass;
+use WP_Mock\Hook;
 use WP_Mock\Traits\AccessInaccessibleClassMembersTrait;
 
 /**
