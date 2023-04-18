@@ -3,6 +3,7 @@
 namespace WP_Mock\Tests\Integration;
 
 use Exception;
+use Generator;
 use PHPUnit\Framework\ExpectationFailedException;
 use WP_Mock;
 use WP_Mock\Tests\WP_MockTestCase;
@@ -37,7 +38,7 @@ class WP_MockTest extends WP_MockTestCase
     ];
 
     /**
-     * Sets up the tests.
+     * Sets up the tests and loads mock functions.
      *
      * @return void
      */
@@ -46,6 +47,8 @@ class WP_MockTest extends WP_MockTestCase
         if (! $this->isInIsolation()) {
             WP_Mock::setUp();
         }
+
+        require_once(dirname(__DIR__).'/Mocks/Functions.php');
     }
 
     /**
@@ -72,7 +75,7 @@ class WP_MockTest extends WP_MockTestCase
 
     /**
      * @covers \WP_Mock::userFunction()
-     * @dataProvider dataCommonFunctionsDefaultFunctionality
+     * @dataProvider providerCommonFunctionsDefaultFunctionality
      *
      * @param callable&string $function
      * @param string $action echo or return
@@ -102,12 +105,15 @@ class WP_MockTest extends WP_MockTestCase
      *
      * @return array<array{string, 'echo'|'return'}>
      */
-    public function dataCommonFunctionsDefaultFunctionality(): array
+    public function providerCommonFunctionsDefaultFunctionality(): array
     {
         $functions = $this->defaultMockedFunctions;
 
         return array_filter(array_map(function ($function) {
-            return in_array($function, ['do_action', 'apply_filters', 'add_filter', 'add_action'], true) ? null : [$function, '_e' === substr($function, -2) ? 'echo' : 'return'];
+            // skip hook functions - only gettext functions under test
+            return in_array($function, ['do_action', 'apply_filters', 'add_filter', 'add_action'], true)
+                ? null
+                : [$function, '_e' === substr($function, -2) ? 'echo' : 'return'];
         }, $functions));
     }
 
@@ -155,11 +161,91 @@ class WP_MockTest extends WP_MockTestCase
      * @return void
      * @throws Exception
      */
-    public function testBotchedMocksStillOverrideDefault()
+    public function testBotchedMocksStillOverridesDefault(): void
     {
         WP_Mock::userFunction('esc_html');
 
         /** @phpstan-ignore-next-line function "exists" */
         $this->assertEmpty(esc_html('Input'));
+    }
+
+    /**
+     * @covers \WP_Mock::userFunction()
+     * @covers \WP_Mock\Functions::setUpMock()
+     * @covers \WP_Mock\Functions::setExpectedTimes()
+     * @covers \WP_Mock\Functions::setExpectedArgs()
+     * @covers \WP_Mock\Functions::setExpectedReturn()
+     * @covers \WP_Mock\Functions::parseExpectedReturn()
+     * @dataProvider providerReturnUserFunctionArgs
+     *
+     * @param array<string, mixed> $expectationArgs
+     * @param array<mixed> $expectedResults
+     * @return void
+     * @throws Exception
+     */
+    public function testReturnUserFunctionArgs(array $expectationArgs, array $expectedResults): void
+    {
+        WP_Mock::userFunction('wpMockTestReturnFunction', $expectationArgs);
+
+        $times = $expectationArgs['times'] ?? 1;
+        $args = $expectationArgs['args'] ?? [];
+
+        $results = [];
+
+        for ($i = 0; $i < $times; $i++) {
+            $results[] = wpMockTestReturnFunction(...$args); // @phpstan-ignore-line
+        }
+
+        $this->assertEquals($expectedResults, $results);
+    }
+
+    /** @see testReturnUserFunctionArgs */
+    public function providerReturnUserFunctionArgs(): Generator
+    {
+        yield 'Function never called' => [
+            'expectationArgs' => [
+                'times'  => 0,
+                'return' => 'test',
+            ],
+            'expectedResults' => [],
+        ];
+
+        yield 'Function called any times' => [
+            'expectationArgs' => [
+                'args'   => ['test'],
+                'return' => 'test',
+            ],
+            'expectedResults' => ['test'],
+        ];
+
+        yield 'Function called once' => [
+            'expectationArgs' => [
+                'times'  => 1,
+                'args'   => ['test1'],
+                'return' => 'test',
+            ],
+            'expectedResults' => ['test'],
+        ];
+
+        yield 'Function called thrice' => [
+            'expectationArgs' => [
+                'times'           => 3,
+                'args'            => ['test1', 'test2', 'test3'],
+                'return_in_order' => ['foo', 'bar', 'baz'],
+            ],
+            'expectedResults' => ['foo', 'bar', 'baz'],
+        ];
+
+        $order = rand(0, 2);
+        $args = ['foo', 'bar', 'baz'];
+
+        yield 'Function returns passed arg' => [
+            'expectationArgs' => [
+                'times'      => 1,
+                'args'       => $args,
+                'return_arg' => $order,
+            ],
+            'expectedResults' => [$args[$order]],
+        ];
     }
 }
