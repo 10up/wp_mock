@@ -53,6 +53,8 @@ class WP_MockTest extends WP_MockTestCase
 
     /**
      * @covers \WP_Mock::bootstrap()
+     * @covers \WP_Mock\Functions::__construct()
+     * @covers \WP_Mock\Functions::flush()
      *
      * @runInSeparateProcess
      * @preserveGlobalState disabled
@@ -75,7 +77,8 @@ class WP_MockTest extends WP_MockTestCase
 
     /**
      * @covers \WP_Mock::userFunction()
-     * @dataProvider providerCommonFunctionsDefaultFunctionality
+     * @covers \WP_Mock\Functions::__construct()
+     * @covers \WP_Mock\Functions::flush()
      *
      * @param callable&string $function
      * @param string $action echo or return
@@ -140,6 +143,9 @@ class WP_MockTest extends WP_MockTestCase
 
     /**
      * @covers \WP_Mock::userFunction()
+     * @covers \WP_Mock\Functions::register()
+     * @covers \WP_Mock\Functions::generateFunction()
+     * @covers \WP_Mock\Functions::setUpMock()
      *
      * @return void
      * @throws Exception
@@ -157,6 +163,9 @@ class WP_MockTest extends WP_MockTestCase
 
     /**
      * @covers \WP_Mock::userFunction()
+     * @covers \WP_Mock\Functions::register()
+     * @covers \WP_Mock\Functions::generateFunction()
+     * @covers \WP_Mock\Functions::setUpMock()
      *
      * @return void
      * @throws Exception
@@ -171,11 +180,15 @@ class WP_MockTest extends WP_MockTestCase
 
     /**
      * @covers \WP_Mock::userFunction()
+     * @covers \WP_Mock\Functions::register()
+     * @covers \WP_Mock\Functions::generateFunction()
      * @covers \WP_Mock\Functions::setUpMock()
      * @covers \WP_Mock\Functions::setExpectedTimes()
      * @covers \WP_Mock\Functions::setExpectedArgs()
      * @covers \WP_Mock\Functions::setExpectedReturn()
      * @covers \WP_Mock\Functions::parseExpectedReturn()
+     * @covers \WP_Mock\Handler::register_handler()
+     *
      * @dataProvider providerReturnUserFunctionArgs
      *
      * @param array<string, mixed> $expectationArgs
