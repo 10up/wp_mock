@@ -73,7 +73,7 @@ class WP_MockTest extends WP_MockTestCase
      * @preserveGlobalState disabled
      *
      * @return void
-     * @throws Exception|InvalidArgumentException
+     * @throws Exception|InvalidArgumentException|\InvalidArgumentException
      */
     public function testUserFunctionReturnsExpectationContract(): void
     {
@@ -97,7 +97,9 @@ class WP_MockTest extends WP_MockTestCase
     {
         WP_Mock::bootstrap();
 
+        /** @phpstan-ignore-next-line */
         WP_Mock::expectFilterAdded('testFilter', '\WP_Mock\Tests\Mocks\testCallback');
+        /** @phpstan-ignore-next-line */
         WP_Mock::expectActionAdded('testAction', '\WP_Mock\Tests\Mocks\testCallback');
 
         /** @phpstan-ignore-next-line */
@@ -124,7 +126,9 @@ class WP_MockTest extends WP_MockTestCase
 
             $this->expectException(InvalidCountException::class);
 
+            /** @phpstan-ignore-next-line */
             WP_Mock::expectFilterAdded('testFilter', '\WP_Mock\Tests\Mocks\testCallback');
+            /** @phpstan-ignore-next-line */
             WP_Mock::expectActionAdded('testAction', '\WP_Mock\Tests\Mocks\testCallback');
             WP_Mock::assertHooksAdded();
         } catch (ExpectationFailedException $exception) {
