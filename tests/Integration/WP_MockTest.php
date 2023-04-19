@@ -80,6 +80,8 @@ class WP_MockTest extends WP_MockTestCase
      * @covers \WP_Mock\Functions::__construct()
      * @covers \WP_Mock\Functions::flush()
      *
+     * @dataProvider providerCommonFunctionsDefaultFunctionality
+     *
      * @param callable&string $function
      * @param string $action echo or return
      * @return void
