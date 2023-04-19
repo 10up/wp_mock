@@ -191,14 +191,14 @@ class WP_MockTest extends WP_MockTestCase
      * @covers \WP_Mock\Functions::parseExpectedReturn()
      * @covers \WP_Mock\Handler::register_handler()
      *
-     * @dataProvider providerReturnUserFunctionArgs
+     * @dataProvider providerUserFunctionExpectationArgs
      *
      * @param array<string, mixed> $expectationArgs
      * @param array<mixed> $expectedResults
      * @return void
      * @throws Exception
      */
-    public function testReturnUserFunctionArgs(array $expectationArgs, array $expectedResults): void
+    public function testCanSetUserFunctionExpectationArgs(array $expectationArgs, array $expectedResults): void
     {
         WP_Mock::userFunction('wpMockTestReturnFunction', $expectationArgs);
 
@@ -214,8 +214,8 @@ class WP_MockTest extends WP_MockTestCase
         $this->assertEquals($expectedResults, $results);
     }
 
-    /** @see testReturnUserFunctionArgs */
-    public function providerReturnUserFunctionArgs(): Generator
+    /** @see testCanSetUserFunctionExpectationArgs */
+    public function providerUserFunctionExpectationArgs(): Generator
     {
         yield 'Function never called' => [
             'expectationArgs' => [
@@ -262,5 +262,39 @@ class WP_MockTest extends WP_MockTestCase
             ],
             'expectedResults' => [$args[$order]],
         ];
+    }
+
+    /**
+     * @covers \WP_Mock::passthruFunction()
+     * @covers \WP_Mock\Functions::register()
+     *
+     * @return void
+     * @throws Exception
+     */
+    public function testCanMockPassthruFunction(): void
+    {
+        WP_Mock::passthruFunction('wpMockTestEchoFunction', [
+            'return' => 'return value', // this will be ignored and overwritten by the passthru value
+        ]);
+
+        $this->assertSame('actual return value', wpMockTestReturnFunction('actual return value'));
+    }
+
+    /**
+     * @covers \WP_Mock::echoFunction()
+     * @covers \WP_Mock\Functions::register()
+     *
+     * @return void
+     * @throws Exception
+     */
+    public function testCanMockEchoFunction(): void
+    {
+        WP_Mock::echoFunction('wpMockTestEchoFunction', [
+            'return' => 'return value', // this will be ignored and overwritten by the passthru value
+        ]);
+
+        $this->expectOutputString('echo value');
+
+        wpMockTestEchoFunction('echo value');
     }
 }
