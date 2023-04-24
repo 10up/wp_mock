@@ -2,6 +2,7 @@
 /.gitbook.yaml         export-ignore
 /.github               export-ignore
 /docs                  export-ignore
+/features              export-ignore
 /tests                 export-ignore
 /behat.yml             export-ignore
 /phpcs.xml             export-ignore
