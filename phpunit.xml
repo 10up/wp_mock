@@ -18,21 +18,25 @@
 		 failOnRisky="true"
 		 failOnWarning="true"
 		 verbose="true">
+
+	<testsuites>
+		<testsuite name="Unit">
+			<directory suffix="Test.php">./tests/Unit</directory>
+		</testsuite>
+		<testsuite name="Integration">
+			<directory suffix="Test.php">./tests/Integration</directory>
+		</testsuite>
+	</testsuites>
+
 	<coverage cacheDirectory=".phpunit.cache/code-coverage"
-			  disableCodeCoverageIgnore="true"
 			  includeUncoveredFiles="true"
+			  processUncoveredFiles="true"
+			  pathCoverage="false"
 			  ignoreDeprecatedCodeUnits="true"
-			  processUncoveredFiles="true">
-		<testsuites>
-			<testsuite name="Unit">
-				<directory suffix="Test.php">./tests/Unit</directory>
-			</testsuite>
-			<testsuite name="Integration">
-				<directory suffix="Test.php">./tests/Integration</directory>
-			</testsuite>
-		</testsuites>
+			  disableCodeCoverageIgnore="true">
 		<include>
-			<directory suffix=".php">php</directory>
+			<directory suffix=".php">./php</directory>
 		</include>
 	</coverage>
+
 </phpunit>
