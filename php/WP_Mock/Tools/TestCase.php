@@ -116,8 +116,9 @@ abstract class TestCase extends PhpUnitTestCase
             $result = $this->createResult();
         }
 
-        WP_Mock::getDeprecatedListener()->setTestResult($result);
-        WP_Mock::getDeprecatedListener()->setTestCase($this);
+        WP_Mock::getDeprecatedMethodListener()
+            ->setTestResult($result)
+            ->setTestCase($this);
 
         return parent::run($result);
     }
@@ -143,8 +144,8 @@ abstract class TestCase extends PhpUnitTestCase
      */
     protected function checkDeprecatedCalls(): void
     {
-        WP_Mock::getDeprecatedListener()->checkCalls();
-        WP_Mock::getDeprecatedListener()->reset();
+        WP_Mock::getDeprecatedMethodListener()->checkCalls();
+        WP_Mock::getDeprecatedMethodListener()->reset();
     }
 
     /**

@@ -66,11 +66,11 @@ class Functions
     /**
      * Registers the function to be mocked and sets up its expectations
      *
-     * @param string $function
-     * @param array<mixed> $arguments
+     * @param string $function function name
+     * @param array<mixed> $args optional arguments
      * @return Mockery\Expectation
      */
-    public function register(string $function, array $arguments = [])
+    public function register(string $function, array $args = [])
     {
         $this->generate_function($function);
 
@@ -80,8 +80,9 @@ class Functions
 
         $mock = $this->mocked_functions[$function];
 
+        /** @var string $method */
         $method = preg_replace('/\\\\+/', '_', $function);
-        $expectation = $this->set_up_mock($mock, $method, $arguments);
+        $expectation = $this->set_up_mock($mock, $method, $args);
 
         Handler::register_handler($function, [$mock, $method]);
 
