@@ -490,6 +490,7 @@ class WP_Mock
      */
     public static function echoFunction(string $function, $args = [])
     {
+        /** @var array<string, mixed> $args */
         $args = (array) $args;
         $args['return'] = function ($param) {
             echo $param;
@@ -514,6 +515,7 @@ class WP_Mock
      */
     public static function passthruFunction(string $function, $args = [])
     {
+        /** @var array<string, mixed> $args */
         $args = (array) $args;
         $args['return'] = function ($param) {
             return $param;
@@ -552,6 +554,7 @@ class WP_Mock
      */
     public static function alias(string $function, string $aliasFunction, $args = [])
     {
+        /** @var array<string, mixed> $args */
         $args = (array) $args;
 
         if (is_callable($aliasFunction)) {
