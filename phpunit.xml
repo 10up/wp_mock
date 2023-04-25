@@ -23,6 +23,14 @@
 			  includeUncoveredFiles="true"
 			  ignoreDeprecatedCodeUnits="true"
 			  processUncoveredFiles="true">
+		<testsuites>
+			<testsuite name="Unit">
+				<directory suffix="Test.php">./tests/Unit</directory>
+			</testsuite>
+			<testsuite name="Integration">
+				<directory suffix="Test.php">./tests/Integration</directory>
+			</testsuite>
+		</testsuites>
 		<include>
 			<directory suffix=".php">php</directory>
 		</include>
