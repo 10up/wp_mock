@@ -125,6 +125,7 @@ final class FunctionsTest extends WP_MockTestCase
     {
         $functions = new Functions();
         $method = new ReflectionMethod($functions, 'setUpMock');
+        $method->setAccessible(true);
         $mock = new Mock();
 
         /** @var CompositeExpectation $compositeExpectation */
@@ -307,7 +308,7 @@ final class FunctionsTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock\Functions::validateFunction()
+     * @covers \WP_Mock\Functions::validateFunctionName()
      * @dataProvider providerCanValidateFunction
      *
      * @param string $functionName
