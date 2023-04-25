@@ -88,6 +88,7 @@ final class FunctionsTest extends WP_MockTestCase
     public function testCanRegister(): void
     {
         $handler = new ReflectionProperty(Handler::class, 'handlers');
+        $handler->setAccessible(true);
 
         $this->assertSame([], $handler->getValue());
 
