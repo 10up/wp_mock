@@ -31,6 +31,8 @@
  * @license    MIT License
  */
 
+use Mockery\Exception as MockeryException;
+use WP_Mock\DeprecatedMethodListener;
 use WP_Mock\Matcher\FuzzyObject;
 
 class WP_Mock
@@ -51,7 +53,8 @@ class WP_Mock
 
     protected static $__strict_mode = false;
 
-    protected static $deprecated_listener;
+    /** @var DeprecatedMethodListener */
+    protected static $deprecatedMethodListener;
 
     /**
      * @param boolean $use_patchwork
@@ -89,30 +92,39 @@ class WP_Mock
     }
 
     /**
-     * Bootstrap WP_Mock
+     * Bootstraps WP_Mock.
+     *
+     * @return void
      */
-    public static function bootstrap()
+    public static function bootstrap(): void
     {
         if (! self::$__bootstrapped) {
             self::$__bootstrapped        = true;
-            static::$deprecated_listener = new \WP_Mock\DeprecatedListener();
+
+            static::$deprecatedMethodListener = new DeprecatedMethodListener();
+
             require_once __DIR__ . '/WP_Mock/API/function-mocks.php';
             require_once __DIR__ . '/WP_Mock/API/constant-mocks.php';
+
             if (self::usingPatchwork()) {
-                $possible_locations = array(
+                $patchwork_path  = 'antecedent/patchwork/Patchwork.php';
+                $possible_locations = [
                     'vendor',
                     '../..',
-                );
-                $patchwork_path     = 'antecedent/patchwork/Patchwork.php';
+                ];
+
                 foreach ($possible_locations as $loc) {
                     $path = __DIR__ . "/../$loc/$patchwork_path";
+
                     if (file_exists($path)) {
                         break;
                     }
                 }
+
                 // Will cause a fatal error if patchwork can't be found
                 require_once($path);
             }
+
             self::setUp();
         }
     }
@@ -397,197 +409,190 @@ class WP_Mock
     }
 
     /**
-     * Mock a WordPress API function
+     * Mocks a WordPress API function.
      *
-     * This function registers a mock object for a WordPress function and, if
-     * necessary, dynamically defines the function. Pass the function name as
-     * the first argument (e.g. wp_remote_get) and pass in details about the
-     * expectations in the $arguments array. The arguments array has a few
-     * options for defining expectations about how the WordPress function should
-     * be used during a test. Currently, it accepts the following settings:
+     * This function registers a mock object for a WordPress function and, if necessary, dynamically defines the function.
      *
-     * - times: Defines expectations for the number of times a function should
-     *   be called. The default is 0 or more times. To expect the function to be
-     *   called an exact amount of times, set times to a non-negative numeric
-     *   value. To specify that the function should be called a minimum number
-     *   of times, use a string with the minimum followed by '+' (e.g. '3+'
-     *   means 3 or more times). Append a '-' to indicate a maximum number of
-     *   times a function should be called (e.g. '3-' means no more than 3 times)
-     *   To indicate a range, use '-' between two numbers (e.g. '2-5' means at
-     *   least 2 times and no more than 5 times)
-     * - return: Defines the value (if any) that the function should return. If
-     *   you pass a Closure as the return value, the function will return
-     *   whatever the Closure's return value.
-     * - return_in_order: Use this if your function will be called multiple
-     *   times in the test but needs to have different return values. Set this to
-     *   an array of return values. Each time the function is called, it will
-     *   return the next value in the sequence until it reaches the last value,
-     *   which will become the return value for all subsequent calls. For
-     *   example, if I am mocking is_single(), I can set return_in_order to
-     *   array( false, true ). The first time is_single() is called it will
-     *   return false. The second and all subsequent times it will return true.
-     *   Setting this value overrides return, so if you set both, return will be
-     *   ignored.
-     * - return_arg: Use this to specify that the function should return one of
-     *   its arguments. return_arg should be the position of the argument in the
-     *   arguments array, so 0 for the first argument, 1 for the second, etc.
-     *   You can also set this to true, which is equivalent to 0. This will
-     *   override both return and return_in_order.
-     * - args: Use this to set expectations about what the arguments passed to
-     *   the function should be. This value should always be an array with the
-     *   arguments in order. Like with return, if you use a Closure, its return
-     *   value will be used to validate the argument expectations. WP_Mock has
-     *   several helper functions to make this feature more flexible. The are
-     *   static methods on the \WP_Mock\Functions class. They are:
-     *   - Functions::type( $type ) Expects an argument of a certain type. This
-     *     can be any core PHP data type (string, int, resource, callable, etc.)
-     *     or any class or interface name.
-     *   - Functions::anyOf( $values ) Expects the argument to be any value in
-     *     the $values array
-     *   In addition to these helper functions, you can indicate that the
-     *   argument can be any value of any type by using '*'. So, for example, if
-     *   I am expecting get_post_meta to be called, the args array might look
-     *   something like this:
-     *     array( $post->ID, 'some_meta_key', true )
+     * Pass the function name as the first argument (e.g. `wp_remote_get()`) and pass in details about the expectations in the $args param.
+     * The arguments have a few options for defining expectations about how the WordPress function should be used during a test.
      *
-     *  Returns the Mockery\Expectation object with the function expectations
-     *  added. It is possible to use Mockery methods to add expectations to the
-     *  object returned, which will then be combined with any expectations that
-     *  may have been passed as arguments.
+     * Currently, it accepts the following settings:
      *
-     * @param string $function_name
-     * @param array  $arguments
+     * - `times`: Defines expectations for the number of times a function should be called. The default is `0` or more times.
+     *            To expect the function to be called an exact amount of times, set times to a non-negative numeric value.
+     *            To specify that the function should be called a minimum number of times, use a string with the minimum followed by '+' (e.g. '3+' means 3 or more times).
+     *            Append a '-' to indicate a maximum number of times a function should be called (e.g. '3-' means no more than 3 times).
+     *            To indicate a range, use '-' between two numbers (e.g. '2-5' means at least 2 times and no more than 5 times).
      *
-     * @return Mockery\Expectation
+     * - `return`: Defines the value (if any) that the function should return.
+     *             If you pass a `Closure` as the return value, the function will return whatever the closure's return value.
+     *
+     * - `return_in_order`: Use this if your function will be called multiple times in the test but needs to have different return values.
+     *                      Set this to an array of return values. Each time the function is called, it will return the next value in the sequence until it reaches the last value, which will become the return value for all subsequent calls.
+     *                      For example, if you are mocking `is_single()`, you can set `return_in_order` to `[false, true]`. The first time is_single() is called it will return false.
+     *                      The second and all subsequent times it will return true. Setting this value overrides return, so if you set both, return will be ignored.
+     *
+     * - `return_arg`: Use this to specify that the function should return one of its arguments. `return_arg` should be the position of the argument in the arguments array, so `0` for the first argument, `1` for the second, etc.
+     *                 You can also set this to true, which is equivalent to `0`. This will override both return and return_in_order.
+     *
+     * - `args`: Use this to set expectations about what the arguments passed to the function should be.
+     *           This value should always be an array with the arguments in order.
+     *           Like with `return`, if you use a `Closure`, its return value will be used to validate the argument expectations.
+     *           WP_Mock has several helper functions to make this feature more flexible. There are static methods on the \WP_Mock\Functions class. They are:
+     *           - {@see Functions::type($type)} Expects an argument of a certain type. This can be any core PHP data type (string, int, resource, callable, etc.) or any class or interface name.
+     *           - {@see Functions::anyOf($values)} Expects the argument to be any value in the `$values` array.
+     *           In addition to these helper functions, you can indicate that the argument can be any value of any type by using `*`.
+     *           So, for example, if you are expecting `get_post_meta()` to be called, the `args` array might look something like this: `[$post->ID, 'some_meta_key', true]`.
+     *
+     * Returns the {@see Mockery\Expectation} object with the function expectations added.
+     * It is possible to use Mockery methods to add expectations to the object returned, which will then be combined with any expectations that may have been passed as arguments.
+     *
+     * @param string $function function name
+     * @param array<mixed> $args optional arguments to set expectations
+     * @return Mockery\CompositeExpectation|Mockery\Expectation
      */
-    public static function userFunction($function_name, $arguments = array())
+    public static function userFunction(string $function, array $args = [])
     {
-        return self::$function_manager->register($function_name, $arguments);
+        return self::$function_manager->register($function, $args);
     }
 
     /**
-     * Alias for userFunction
+     * Alias for {@see WP_Mock::userFunction}.
      *
-     * @deprecated since 1.0
+     * @deprecated this method will be removed in v1.0.0
      *
-     * @param string $function_name
-     * @param array  $arguments
-     *
-     * @return Mockery\Expectation
+     * @param string $function function name
+     * @param array<mixed> $args optional arguments
+     * @return Mockery\CompositeExpectation|Mockery\Expectation
      */
-    public static function wpFunction($function_name, $arguments = array())
+    public static function wpFunction(string $function, array $args = [])
     {
-        static::getDeprecatedListener()->logDeprecatedCall(__METHOD__, array( $function_name, $arguments ));
-        return self::userFunction($function_name, $arguments);
+        static::getDeprecatedMethodListener()->logDeprecatedCall(__METHOD__, [$function, $args]);
+
+        return self::userFunction($function, $args);
     }
 
     /**
-     * A wrapper for userFunction that will simply set/override the return to be
-     * a function that echoes the value that its passed. For example, esc_attr_e
-     * may need to be mocked, and it must echo some value. echoFunction will set
-     * esc_attr_e to echo the value its passed.
+     * A wrapper for {@see WP_Mock::userFunction()} that will simply set/override the return to be a function that echoes the value that its passed.
      *
-     *    \WP_Mock::echoFunction( 'esc_attr_e' );
-     *    esc_attr_e( 'some_value' ); // echoes (translated) "some_value"
+     * For example, `esc_attr_e()` may need to be mocked, and it must echo some value.
+     * {@see WP_Mock::echoFunction()} will set `esc_attr_e()` to echo the value its passed:
      *
-     * @param string $function_name Function name.
-     * @param array  $arguments     Optional. Arguments. Defaults to array().
+     *    WP_Mock::echoFunction('esc_attr_e');
+     *    esc_attr_e('some_value'); // echoes "some_value"
      *
-     * @return Mockery\Expectation
+     * @param string $function function name
+     * @param array<mixed>|scalar $args optional arguments
+     * @return Mockery\CompositeExpectation|Mockery\Expectation
      */
-    public static function echoFunction($function_name, $arguments = array())
+    public static function echoFunction(string $function, $args = [])
     {
-        $arguments           = (array) $arguments;
-        $arguments['return'] = function ($param) {
+        $args = (array) $args;
+        $args['return'] = function ($param) {
             echo $param;
         };
-        return self::$function_manager->register($function_name, $arguments);
+
+        return self::$function_manager->register($function, $args);
     }
 
     /**
-     * A wrapper for userFunction that will simply set/override the return to be
-     * a function that returns the value that its passed. For example, esc_attr
-     * may need to be mocked, and it must return some value. passthruFunction
-     * will set esc_attr to return the value its passed.
+     * A wrapper for {@see WP_Mock::userFunction()} that will simply set/override the return to be a function that returns the value that its passed.
      *
-     *    \WP_Mock::passthruFunction( 'esc_attr' );
-     *    echo esc_attr( 'some_value' ); // echoes "some_value"
+     * For example, `esc_attr()` may need to be mocked, and it must return some value.
+     * {@see WP_Mock::passthruFunction()} will set `esc_attr()` to return the value its passed:
      *
-     * @param string $function_name
-     * @param array  $arguments
+     *    WP_Mock::passthruFunction('esc_attr');
+     *    echo esc_attr('some_value'); // echoes "some_value"
      *
-     * @return Mockery\Expectation
+     * @param string $function function name
+     * @param array<mixed>|scalar $args function arguments (optional)
+     * @return Mockery\CompositeExpectation|Mockery\Expectation
      */
-    public static function passthruFunction($function_name, $arguments = array())
+    public static function passthruFunction(string $function, $args = [])
     {
-        $arguments           = (array) $arguments;
-        $arguments['return'] = function ($param) {
+        $args = (array) $args;
+        $args['return'] = function ($param) {
             return $param;
         };
-        return self::$function_manager->register($function_name, $arguments);
+
+        return self::$function_manager->register($function, $args);
     }
 
     /**
-     * Alias for passthruFunction
+     * Alias for {@see WP_Mock::passthruFunction()}.
      *
-     * @deprecated since 1.0
+     * @deprecated this method will be removed in v1.0.0
      *
-     * @param string $function_name
-     * @param array  $arguments
-     *
-     * @return Mockery\Expectation
+     * @param string $function function name
+     * @param array<mixed>|scalar $args function arguments (optional)
+     * @return Mockery\CompositeExpectation|Mockery\Expectation
      */
-    public static function wpPassthruFunction($function_name, $arguments = array())
+    public static function wpPassthruFunction(string $function, $args = [])
     {
-        static::getDeprecatedListener()->logDeprecatedCall(__METHOD__, array( $function_name, $arguments ));
-        return self::passthruFunction($function_name, $arguments);
+        static::getDeprecatedMethodListener()->logDeprecatedCall(__METHOD__, [$function, $args]);
+
+        return self::passthruFunction($function, $args);
     }
 
     /**
-     * Add a function mock that aliases another callable.
+     * Adds a function mock that aliases another callable.
      *
      * e.g.: WP_Mock::alias( 'wp_hash', 'md5' );
      *
-     * @param string   $function_name
-     * @param callable $alias
-     * @param array    $arguments
-     *
-     * @return Mockery\Expectation
+     * @param string $function function to alias
+     * @param string&callable $aliasFunction actual function
+     * @param array<mixed>|scalar $args optional arguments
+     * @return Mockery\CompositeExpectation|Mockery\Expectation
      */
-    public static function alias($function_name, $alias, $arguments = array())
+    public static function alias(string $function, string $aliasFunction, $args = [])
     {
-        $arguments = (array) $arguments;
-        if (is_callable($alias)) {
-            $arguments['return'] = function () use ($alias) {
-                return call_user_func_array($alias, func_get_args());
+        $args = (array) $args;
+
+        if (is_callable($aliasFunction)) {
+            $args['return'] = function () use ($aliasFunction) {
+                return call_user_func_array($aliasFunction, func_get_args());
             };
         }
-        return self::$function_manager->register($function_name, $arguments);
+
+        return self::$function_manager->register($function, $args);
     }
 
     /**
-     * Generate a fuzzy object match expectation
+     * Generates a fuzzy object match expectation.
      *
-     * This will let you fuzzy match objects based on their properties without
-     * needing to use the identical (===) operator. This is helpful when the
-     * object being passed to a function is constructed inside the scope of the
-     * function being tested but where you want to make assertions on more than
-     * just the type of the object.
+     * This will let you fuzzy match objects based on their properties without needing to use the identical (===) operator.
+     * This is helpful when the object being passed to a function is constructed inside the scope of the function being tested but where you want to make assertions on more than just the type of the object.
      *
-     * @param $thing
-     *
+     * @param object|array<mixed> $object
      * @return FuzzyObject
+     * @throws MockeryException
      */
-    public static function fuzzyObject($thing)
+    public static function fuzzyObject($object): FuzzyObject
     {
-        return new FuzzyObject($thing);
+        return new FuzzyObject($object);
     }
 
     /**
-     * @return \WP_Mock\DeprecatedListener
+     * Alias for {@see WP_Mock::getDeprecatedMethodListener()}.
+     *
+     * @deprecated this method will be removed in v1.0.0
+     *
+     * @return DeprecatedMethodListener
      */
-    public static function getDeprecatedListener()
+    public static function getDeprecatedListener(): DeprecatedMethodListener
     {
-        return static::$deprecated_listener;
+        static::getDeprecatedMethodListener()->logDeprecatedCall(__METHOD__);
+
+        return static::$deprecatedMethodListener;
+    }
+
+    /**
+     * Gets the deprecated method listener instance.
+     *
+     * @return DeprecatedMethodListener
+     */
+    public static function getDeprecatedMethodListener(): DeprecatedMethodListener
+    {
+        return static::$deprecatedMethodListener;
     }
 }

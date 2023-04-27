@@ -25,12 +25,13 @@ class Handler
     /**
      * Overrides any existing handlers to set a new callback.
      *
-     * @param string $function_name
-     * @param string $callback
+     * @param string $function function name
+     * @param string|array<mixed>|callable $callback
+     * @return void
      */
-    public static function register_handler($function_name, $callback)
+    public static function register_handler(string $function, $callback): void
     {
-        self::$handlers[ $function_name ] = $callback;
+        self::$handlers[$function] = $callback;
     }
 
     /**
