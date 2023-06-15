@@ -10,7 +10,7 @@
 Add WP_Mock as a dev-dependency using Composer:
 
 ```shell
-composer require --dev 10up/wp:mock
+composer require --dev 10up/wp_mock
 ```
 
 ## Dependencies
