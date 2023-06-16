@@ -73,7 +73,7 @@ class WP_MockTest extends WP_MockTestCase
      * @preserveGlobalState disabled
      *
      * @return void
-     * @throws Exception|InvalidArgumentException
+     * @throws Exception|InvalidArgumentException|\InvalidArgumentException
      */
     public function testUserFunctionReturnsExpectationContract(): void
     {
@@ -97,7 +97,9 @@ class WP_MockTest extends WP_MockTestCase
     {
         WP_Mock::bootstrap();
 
+        /** @phpstan-ignore-next-line */
         WP_Mock::expectFilterAdded('testFilter', '\WP_Mock\Tests\Mocks\testCallback');
+        /** @phpstan-ignore-next-line */
         WP_Mock::expectActionAdded('testAction', '\WP_Mock\Tests\Mocks\testCallback');
 
         /** @phpstan-ignore-next-line */
@@ -124,7 +126,9 @@ class WP_MockTest extends WP_MockTestCase
 
             $this->expectException(InvalidCountException::class);
 
+            /** @phpstan-ignore-next-line */
             WP_Mock::expectFilterAdded('testFilter', '\WP_Mock\Tests\Mocks\testCallback');
+            /** @phpstan-ignore-next-line */
             WP_Mock::expectActionAdded('testAction', '\WP_Mock\Tests\Mocks\testCallback');
             WP_Mock::assertHooksAdded();
         } catch (ExpectationFailedException $exception) {
@@ -218,13 +222,11 @@ class WP_MockTest extends WP_MockTestCase
         Mockery::close();
     }
 
-
-
     /**
      * @covers \WP_Mock::alias()
      *
      * @return void
-     * @throws Exception|InvalidArgumentException
+     * @throws Exception|InvalidArgumentException|\InvalidArgumentException
      */
     public function testCanAliasFunction(): void
     {
@@ -275,6 +277,8 @@ class WP_MockTest extends WP_MockTestCase
     /**
      * @covers \WP_Mock::wpFunction()
      *
+     * @doesNotPerformAssertions
+     *
      * @see \WP_Mock::userFunction()
      * @see WP_Mock\Tests\Unit\WP_Mock\DeprecatedMethodListenerTest::testCanHandleDeprecatedMethodCall()
      * @TODO remove this test when deprecated {@see WP_Mock::wpFunction()} is removed
@@ -289,6 +293,8 @@ class WP_MockTest extends WP_MockTestCase
 
     /**
      * @covers \WP_Mock::wpPassthruFunction()
+     *
+     * @doesNotPerformAssertions
      *
      * @see \WP_Mock::passthruFunction()
      * @TODO remove this test when deprecated {@see WP_Mock::wpPassthruFunction()} is removed
@@ -319,6 +325,8 @@ class WP_MockTest extends WP_MockTestCase
 
     /**
      * @covers \WP_Mock::getDeprecatedListener()
+     *
+     * @doesNotPerformAssertions
      *
      * @TODO remove this test when deprecated {@see WP_Mock::getDeprecatedListener()} is removed
      * @see WP_Mock\Tests\Unit\WP_Mock\DeprecatedMethodListenerTest::testCanHandleDeprecatedMethodCall()

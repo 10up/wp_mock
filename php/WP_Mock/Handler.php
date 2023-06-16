@@ -1,15 +1,9 @@
 <?php
-/**
- * Created by JetBrains PhpStorm.
- * User: Eric
- * Date: 3/26/13
- * Time: 8:56 AM
- * To change this template use File | Settings | File Templates.
- */
 
 namespace WP_Mock;
 
 use Exception;
+use Mockery\Mock;
 use PHPUnit\Framework\ExpectationFailedException;
 use WP_Mock;
 
@@ -26,7 +20,7 @@ class Handler
      * Overrides any existing handlers to set a new callback.
      *
      * @param string $function function name
-     * @param string|array<mixed>|callable $callback
+     * @param string|array<Mock|mixed>|callable $callback
      * @return void
      */
     public static function register_handler(string $function, $callback): void

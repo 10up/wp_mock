@@ -1,6 +1,6 @@
 <?php
 
-namespace WP_Mock;
+namespace WP_Mock\Tests\Unit\WP_Mock;
 
 use Closure;
 use Generator;
@@ -8,6 +8,7 @@ use Exception;
 use PHPUnit\Framework\TestCase;
 use ReflectionException;
 use stdClass;
+use WP_Mock\Hook;
 use WP_Mock\Traits\AccessInaccessibleClassMembersTrait;
 
 /**
