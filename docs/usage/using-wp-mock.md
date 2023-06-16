@@ -59,7 +59,7 @@ return WP_Mock\Handler::handle_function(__FUNCTION__, func_get_args());
 
 The `WP_Mock::userFunction()` class will return a complete `Mockery\Expectation` object with any expectations added to match the arguments passed to the function. This enables using [Mockery methods](http://docs.mockery.io/en/latest/reference/expectations.html) to add expectations in addition to, or instead of using the arguments array passed to `userFunction`.
 
-For example, the invocation below will set the expectation that the `get_permalink` function will be called exactly once, with the argument `42`, and that it will return the string `'https://example.com/foo'`.
+For example, the invocation below will set the expectation that the `get_permalink()` function will be called exactly once, with the argument `42`, and that it will return the string `'https://example.com/foo'`.
 
 ```php
 WP_Mock::userFunction('get_permalink')->once()->with(42)->andReturn('https://example.com/foo');
