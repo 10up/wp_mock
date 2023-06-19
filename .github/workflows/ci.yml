@@ -21,10 +21,6 @@ jobs:
             os: 'ubuntu-20.04'
           - php: '7.4'
             os: 'ubuntu-20.04'
-          # the deprecated Ubuntu 18.04 image has been removed from GitHub workflows
-          # @TODO we need to switch to setup-php action to install PHP 7.3 on a supported image
-          # - php: '7.3'
-          #  os: 'ubuntu-18.04' # PHP 7.3 is not pre-installed in ubuntu-latest
       fail-fast: false
     env:
       COVERAGE_CACHE_PATH: phpunit-coverage-cache
