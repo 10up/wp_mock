@@ -2,7 +2,7 @@
 
 ## Requirements
 
-* PHP 7.3+
+* PHP 7.4+
 * Composer 2.0+
 
 ## Install WP_Mock
@@ -18,7 +18,7 @@ composer require --dev 10up/wp_mock
 WP_Mock needs the following dependencies to work:
 
 * PHPUnit ^9.5 (BSD 3-Clause license)
-* Mockery ^1.5 (BSD 3-Clause license)
+* Mockery ^1.6 (BSD 3-Clause license)
 * Patchwork ^2.1 (MIT license)
 
 They will be installed for you by Composer.
