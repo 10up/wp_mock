@@ -6,23 +6,23 @@
     "prefer-stable": true,
     "require": {
         "php": ">=7.4 < 8.3",
-        "phpunit/phpunit": "^9.5.24",
+        "phpunit/phpunit": "^9.5",
         "mockery/mockery": "^1.6",
         "antecedent/patchwork": "^2.1"
     },
     "require-dev": {
         "behat/behat": "^v3.11.0",
         "sebastian/comparator": "^4.0.8",
-        "php-coveralls/php-coveralls": "^v2.5.3",
+        "php-coveralls/php-coveralls": "^v2.5",
         "sempro/phpunit-pretty-print": "^1.4",
         "phpstan/phpstan": "^1.9",
-        "phpstan/phpstan-phpunit": "^1.2",
+        "phpstan/phpstan-phpunit": "^1.3",
         "phpstan/phpstan-mockery": "^1.1",
         "phpcompatibility/php-compatibility": "^9.3",
-        "php-stubs/wordpress-globals": "^0.2.0",
-        "php-stubs/wordpress-stubs": "^6.0",
+        "php-stubs/wordpress-globals": "^0.2",
+        "php-stubs/wordpress-stubs": "^6.1",
         "friendsofphp/php-cs-fixer": "^3.4",
-        "dealerdirect/phpcodesniffer-composer-installer": "^0.7.2"
+        "dealerdirect/phpcodesniffer-composer-installer": "^0.7"
     },
     "autoload": {
         "psr-4": {
