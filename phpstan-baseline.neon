@@ -51,11 +51,6 @@ parameters:
 			path: php/WP_Mock.php
 
 		-
-			message: "#^Method WP_Mock\\:\\:alias\\(\\) has parameter \\$arguments with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: php/WP_Mock.php
-
-		-
 			message: "#^Method WP_Mock\\:\\:assertActionsCalled\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: php/WP_Mock.php
@@ -659,76 +654,6 @@ parameters:
 			message: "#^Method WP_Mock\\\\InvokedFilterValue\\:\\:__invoke\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: php/WP_Mock/InvokedFilterValue.php
-
-		-
-			message: "#^Method WP_Mock\\\\Loader\\:\\:__construct\\(\\) has parameter \\$includePath with no type specified\\.$#"
-			count: 1
-			path: php/WP_Mock/Loader.php
-
-		-
-			message: "#^Method WP_Mock\\\\Loader\\:\\:getFullPath\\(\\) is unused\\.$#"
-			count: 1
-			path: php/WP_Mock/Loader.php
-
-		-
-			message: "#^Method WP_Mock\\\\Loader\\:\\:getNamespaceSeparator\\(\\) with return type void returns mixed but should not return anything\\.$#"
-			count: 1
-			path: php/WP_Mock/Loader.php
-
-		-
-			message: "#^Method WP_Mock\\\\Loader\\:\\:register\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: php/WP_Mock/Loader.php
-
-		-
-			message: "#^Method WP_Mock\\\\Loader\\:\\:setFileExtension\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: php/WP_Mock/Loader.php
-
-		-
-			message: "#^Method WP_Mock\\\\Loader\\:\\:setIncludePath\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: php/WP_Mock/Loader.php
-
-		-
-			message: "#^Method WP_Mock\\\\Loader\\:\\:setNamespaceSeparator\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: php/WP_Mock/Loader.php
-
-		-
-			message: "#^Method WP_Mock\\\\Loader\\:\\:unregister\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: php/WP_Mock/Loader.php
-
-		-
-			message: "#^Property WP_Mock\\\\Loader\\:\\:\\$_fileExtension has no type specified\\.$#"
-			count: 1
-			path: php/WP_Mock/Loader.php
-
-		-
-			message: "#^Property WP_Mock\\\\Loader\\:\\:\\$_includePath has no type specified\\.$#"
-			count: 1
-			path: php/WP_Mock/Loader.php
-
-		-
-			message: "#^Property WP_Mock\\\\Loader\\:\\:\\$_namespace has no type specified\\.$#"
-			count: 1
-			path: php/WP_Mock/Loader.php
-
-		-
-			message: "#^Property WP_Mock\\\\Loader\\:\\:\\$_namespace is never read, only written\\.$#"
-			count: 1
-			path: php/WP_Mock/Loader.php
-
-		-
-			message: "#^Property WP_Mock\\\\Loader\\:\\:\\$_namespaceSeparator has no type specified\\.$#"
-			count: 1
-			path: php/WP_Mock/Loader.php
-
-		-
-			message: "#^Unreachable statement \\- code above always terminates\\.$#"
-			count: 1
-			path: php/WP_Mock/Loader.php
 
 		-
 			message: "#^Method WP_Mock\\\\ReturnSequence\\:\\:getReturnValues\\(\\) return type has no value type specified in iterable type array\\.$#"
