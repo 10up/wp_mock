@@ -181,6 +181,16 @@ parameters:
 			path: php/WP_Mock.php
 
 		-
+			message: "#^Method WP_Mock\\:\\:setUsePatchwork\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: php/WP_Mock.php
+
+		-
+			message: "#^Method WP_Mock\\:\\:usingPatchwork\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: php/WP_Mock.php
+
+		-
 			message: "#^Function __\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: php/WP_Mock/API/function-mocks.php
