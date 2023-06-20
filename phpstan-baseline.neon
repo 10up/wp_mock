@@ -1,6 +1,11 @@
 parameters:
 	ignoreErrors:
 		-
+			message: "#^Call to an undefined method Mockery\\\\ExpectationInterface\\|Mockery\\\\HigherOrderMessage\\:\\:atLeast\\(\\)\\.$#"
+			count: 3
+			path: php/WP_Mock.php
+
+		-
 			message: "#^Cannot call method perform\\(\\) on mixed\\.$#"
 			count: 1
 			path: php/WP_Mock.php
@@ -96,16 +101,6 @@ parameters:
 			path: php/WP_Mock.php
 
 		-
-			message: "#^Method WP_Mock\\:\\:bootstrap\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: php/WP_Mock.php
-
-		-
-			message: "#^Method WP_Mock\\:\\:echoFunction\\(\\) has parameter \\$arguments with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: php/WP_Mock.php
-
-		-
 			message: "#^Method WP_Mock\\:\\:expectAction\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: php/WP_Mock.php
@@ -151,6 +146,16 @@ parameters:
 			path: php/WP_Mock.php
 
 		-
+			message: "#^Method WP_Mock\\:\\:setUsePatchwork\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: php/WP_Mock.php
+
+		-
+			message: "#^Method WP_Mock\\:\\:usingPatchwork\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: php/WP_Mock.php
+
+		-
 			message: "#^Parameter \\#1 \\$callable of class WP_Mock\\\\InvokedFilterValue constructor expects callable\\(\\)\\: mixed, array\\{Mockery\\\\LegacyMockInterface, 'intercepted'\\} given\\.$#"
 			count: 1
 			path: php/WP_Mock.php
@@ -167,21 +172,6 @@ parameters:
 
 		-
 			message: "#^Property WP_Mock\\:\\:\\$__use_patchwork has no type specified\\.$#"
-			count: 1
-			path: php/WP_Mock.php
-
-		-
-			message: "#^Property WP_Mock\\:\\:\\$deprecated_listener has no type specified\\.$#"
-			count: 1
-			path: php/WP_Mock.php
-
-		-
-			message: "#^Method WP_Mock\\:\\:setUsePatchwork\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: php/WP_Mock.php
-
-		-
-			message: "#^Method WP_Mock\\:\\:usingPatchwork\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: php/WP_Mock.php
 
@@ -537,11 +527,6 @@ parameters:
 
 		-
 			message: "#^Method WP_Mock\\\\Handler\\:\\:cleanup\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: php/WP_Mock/Handler.php
-
-		-
-			message: "#^Method WP_Mock\\\\Handler\\:\\:register_handler\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: php/WP_Mock/Handler.php
 
