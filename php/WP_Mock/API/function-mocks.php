@@ -187,6 +187,7 @@ if (! function_exists('_n')) {
         $args = func_get_args();
 
         if (count($args) >= 3) {
+            /** @phpstan-ignore-next-line */
             if (isset($args[0]) && 1 >= intval($args[2])) {
                 return $args[0];
             } else {

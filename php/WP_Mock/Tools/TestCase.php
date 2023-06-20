@@ -186,6 +186,7 @@ abstract class TestCase extends PhpUnitTestCase
             ! isset($annotations['stripTabsAndNewlinesFromOutput']) ||
             $annotations['stripTabsAndNewlinesFromOutput'][0] !== 'disabled' ||
             (
+                /** @phpstan-ignore-next-line */
                 is_numeric($annotations['stripTabsAndNewlinesFromOutput'][0]) &&
                 (int) $annotations['stripTabsAndNewlinesFromOutput'][0] !== 0
             )
