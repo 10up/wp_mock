@@ -316,7 +316,7 @@ abstract class TestCase extends PhpUnitTestCase
      *
      * @param string $class the classname or class::method name
      * @param null|string $method the method name (optional if class::method used for $class)
-     * @return Mockery\ExpectationInterface|Mockery\Expectation
+     * @return Mockery\ExpectationInterface
      * @throws InvalidArgumentException|RuntimeException|ReflectionException
      */
     protected function mockStaticMethod(string $class, ?string $method = null)
@@ -361,7 +361,7 @@ abstract class TestCase extends PhpUnitTestCase
             });
         }
 
-        /** @phpstan-ignore-next-line */
+        /** @phpstan-ignore-next-line return Expectation to make PhpStan happy */
         return $mock->shouldReceive($safeMethod);
     }
 

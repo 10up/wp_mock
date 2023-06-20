@@ -449,7 +449,7 @@ class WP_Mock
      *
      * @param string $function function name
      * @param array<string, mixed> $args optional arguments to set expectations
-     * @return Mockery\Expectation|Mockery\ExpectationInterface
+     * @return Mockery\Expectation
      * @throws InvalidArgumentException
      */
     public static function userFunction(string $function, array $args = [])
@@ -464,7 +464,7 @@ class WP_Mock
      *
      * @param string $function function name
      * @param array<string, mixed> $args optional arguments
-     * @return Mockery\Expectation|Mockery\ExpectationInterface
+     * @return Mockery\Expectation
      * @throws InvalidArgumentException
      */
     public static function wpFunction(string $function, array $args = [])
@@ -485,7 +485,7 @@ class WP_Mock
      *
      * @param string $function function name
      * @param array<string, mixed>|scalar $args optional arguments
-     * @return Mockery\Expectation|Mockery\ExpectationInterface
+     * @return Mockery\Expectation
      * @throws InvalidArgumentException
      */
     public static function echoFunction(string $function, $args = [])
@@ -510,7 +510,7 @@ class WP_Mock
      *
      * @param string $function function name
      * @param array<string, mixed>|scalar $args function arguments (optional)
-     * @return Mockery\Expectation|Mockery\ExpectationInterface
+     * @return Mockery\Expectation
      * @throws InvalidArgumentException
      */
     public static function passthruFunction(string $function, $args = [])
@@ -531,7 +531,7 @@ class WP_Mock
      *
      * @param string $function function name
      * @param array<string, mixed>|scalar $args function arguments (optional)
-     * @return Mockery\Expectation|Mockery\ExpectationInterface
+     * @return Mockery\Expectation
      * @throws InvalidArgumentException
      */
     public static function wpPassthruFunction(string $function, $args = [])
@@ -549,7 +549,7 @@ class WP_Mock
      * @param string $function function to alias
      * @param string&callable $aliasFunction actual function
      * @param array<int|string, mixed>|scalar $args optional arguments
-     * @return Mockery\Expectation|Mockery\ExpectationInterface
+     * @return Mockery\Expectation
      * @throws InvalidArgumentException
      */
     public static function alias(string $function, string $aliasFunction, $args = [])
