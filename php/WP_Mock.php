@@ -547,7 +547,7 @@ class WP_Mock
      *
      * @param string|callable-string $function function to alias
      * @param string|callable-string $aliasFunction actual function
-     * @param array<string, mixed>|scalar $args optional arguments
+     * @param array<int|string, mixed>|scalar $args optional arguments
      * @return Mockery\Expectation
      * @throws InvalidArgumentException
      */
