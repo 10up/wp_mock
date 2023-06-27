@@ -3,7 +3,6 @@
 namespace WP_Mock\Tests\Unit\WP_Mock\Functions;
 
 use Exception;
-use ReflectionException;
 use ReflectionProperty;
 use WP_Mock\Functions\ReturnSequence;
 use WP_Mock\Tests\WP_MockTestCase;
@@ -17,7 +16,7 @@ final class ReturnSequenceTest extends WP_MockTestCase
      * @covers \WP_Mock\Functions\ReturnSequence::__construct()
      *
      * @return void
-     * @throws ReflectionException|Exception
+     * @throws Exception
      */
     public function testConstructor(): void
     {
