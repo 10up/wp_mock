@@ -153,7 +153,7 @@ class WP_Mock
         self::$function_manager->flush();
 
         \Mockery::close();
-        \WP_Mock\Handler::cleanup();
+        \WP_Mock\Functions\Handler::cleanup();
     }
 
     /**

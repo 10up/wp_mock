@@ -189,7 +189,7 @@ class WP_MockTest extends WP_MockTestCase
      * @covers \WP_Mock\Functions::setExpectedArgs()
      * @covers \WP_Mock\Functions::setExpectedReturn()
      * @covers \WP_Mock\Functions::parseExpectedReturn()
-     * @covers \WP_Mock\Handler::register_handler()
+     * @covers \WP_Mock\Functions\Handler::register_handler()
      *
      * @dataProvider providerUserFunctionExpectationArgs
      *

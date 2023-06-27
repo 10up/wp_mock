@@ -1,6 +1,6 @@
 <?php
 
-namespace WP_Mock;
+namespace WP_Mock\Functions;
 
 use Exception;
 use Mockery\Mock;

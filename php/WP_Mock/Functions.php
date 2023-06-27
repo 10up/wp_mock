@@ -8,6 +8,8 @@ use Mockery;
 use Mockery\Matcher\AnyOf;
 use Mockery\Matcher\Type;
 use WP_Mock;
+use WP_Mock\Functions\Handler;
+use WP_Mock\Functions\ReturnSequence;
 
 /**
  * Functions mocking handler.
