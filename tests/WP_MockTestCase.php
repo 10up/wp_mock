@@ -4,8 +4,10 @@ namespace WP_Mock\Tests;
 
 use Exception;
 use Mockery;
+use Patchwork\CallRerouting\Handle;
 use PHPUnit\Framework\ExpectationFailedException;
 use PHPUnit\Framework\TestCase;
+use WP_Mock\Functions\Handler;
 use WP_Mock\Tools\Constraints\ExpectationsMet;
 
 /**

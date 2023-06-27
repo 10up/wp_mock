@@ -33,6 +33,7 @@
 
 use Mockery\Exception as MockeryException;
 use WP_Mock\DeprecatedMethodListener;
+use WP_Mock\Functions\Handler;
 use WP_Mock\Matcher\FuzzyObject;
 
 class WP_Mock
@@ -42,10 +43,8 @@ class WP_Mock
      */
     protected static $event_manager;
 
-    /**
-     * @var \WP_Mock\Functions
-     */
-    protected static $function_manager;
+    /** @var WP_Mock\Functions */
+    protected static $functionsManager;
 
     protected static $__bootstrapped = false;
 
@@ -99,7 +98,7 @@ class WP_Mock
     public static function bootstrap(): void
     {
         if (! self::$__bootstrapped) {
-            self::$__bootstrapped        = true;
+            self::$__bootstrapped = true;
 
             static::$deprecatedMethodListener = new DeprecatedMethodListener();
 
@@ -138,7 +137,7 @@ class WP_Mock
             \Mockery::close();
 
             self::$event_manager    = new \WP_Mock\EventManager();
-            self::$function_manager = new \WP_Mock\Functions();
+            self::$functionsManager = new \WP_Mock\Functions();
         } else {
             self::bootstrap();
         }
@@ -150,10 +149,10 @@ class WP_Mock
     public static function tearDown(): void
     {
         self::$event_manager->flush();
-        self::$function_manager->flush();
+        self::$functionsManager->flush();
 
-        \Mockery::close();
-        \WP_Mock\Functions\Handler::cleanup();
+        Mockery::close();
+        Handler::cleanup();
     }
 
     /**
@@ -454,7 +453,7 @@ class WP_Mock
      */
     public static function userFunction(string $function, array $args = [])
     {
-        return self::$function_manager->register($function, $args);
+        return self::$functionsManager->register($function, $args);
     }
 
     /**
@@ -496,7 +495,7 @@ class WP_Mock
             echo $param;
         };
 
-        return self::$function_manager->register($function, $args);
+        return self::$functionsManager->register($function, $args);
     }
 
     /**
@@ -521,7 +520,7 @@ class WP_Mock
             return $param;
         };
 
-        return self::$function_manager->register($function, $args);
+        return self::$functionsManager->register($function, $args);
     }
 
     /**
@@ -546,9 +545,9 @@ class WP_Mock
      *
      * e.g.: WP_Mock::alias('wp_hash', 'md5');
      *
-     * @param string $function function to alias
-     * @param string&callable $aliasFunction actual function
-     * @param array<int|string, mixed>|scalar $args optional arguments
+     * @param string|callable-string $function function to alias
+     * @param string|callable-string $aliasFunction actual function
+     * @param array<string, mixed>|scalar $args optional arguments
      * @return Mockery\Expectation
      * @throws InvalidArgumentException
      */
@@ -563,7 +562,7 @@ class WP_Mock
             };
         }
 
-        return self::$function_manager->register($function, $args);
+        return self::$functionsManager->register($function, $args);
     }
 
     /**

@@ -234,7 +234,8 @@ class WP_MockTest extends WP_MockTestCase
 
         WP_Mock::alias('wp_str_replace', 'str_replace', ['Foo', 'Bar', 'Foo']);
 
-        /** @phpstan-ignore-next-line simulates function called `wp_str_replace` to be aliased with `str_replace()` */
+        assert(function_exists('wp_str_replace'));
+
         $result = wp_str_replace('Foo', 'Bar', 'Foo');
 
         $this->assertSame('Bar', $result);

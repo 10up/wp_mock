@@ -1,6 +1,7 @@
 <?php
 
 use PHPUnit\Framework\ExpectationFailedException;
+use WP_Mock\Functions\Handler;
 
 if (! function_exists('add_action')) {
     /**
@@ -71,115 +72,173 @@ if (! function_exists('apply_filters')) {
 }
 
 if (! function_exists('esc_html')) {
+    /**
+     * @return string|mixed
+     * @throws ExpectationFailedException|Exception
+     */
     function esc_html()
     {
-        return \WP_Mock\Functions\Handler::handlePredefinedReturnFunction(__FUNCTION__, func_get_args());
+        return Handler::handlePredefinedReturnFunction(__FUNCTION__, func_get_args());
     }
 }
 
 if (! function_exists('esc_attr')) {
+    /**
+     * @return string|mixed
+     * @throws ExpectationFailedException|Exception
+     */
     function esc_attr()
     {
-        return \WP_Mock\Functions\Handler::handlePredefinedReturnFunction(__FUNCTION__, func_get_args());
+        return Handler::handlePredefinedReturnFunction(__FUNCTION__, func_get_args());
     }
 }
 
 if (! function_exists('esc_url')) {
+    /**
+     * @return string|mixed
+     * @throws ExpectationFailedException|Exception
+     */
     function esc_url()
     {
-        return \WP_Mock\Functions\Handler::handlePredefinedReturnFunction(__FUNCTION__, func_get_args());
+        return Handler::handlePredefinedReturnFunction(__FUNCTION__, func_get_args());
     }
 }
 
 if (! function_exists('esc_url_raw')) {
+    /**
+     * @return string|mixed
+     * @throws ExpectationFailedException|Exception
+     */
     function esc_url_raw()
     {
-        return \WP_Mock\Functions\Handler::handlePredefinedReturnFunction(__FUNCTION__, func_get_args());
+        return Handler::handlePredefinedReturnFunction(__FUNCTION__, func_get_args());
     }
 }
 
 if (! function_exists('esc_js')) {
+    /**
+     * @return string|mixed
+     * @throws ExpectationFailedException|Exception
+     */
     function esc_js()
     {
-        return \WP_Mock\Functions\Handler::handlePredefinedReturnFunction(__FUNCTION__, func_get_args());
+        return Handler::handlePredefinedReturnFunction(__FUNCTION__, func_get_args());
     }
 }
 
 if (! function_exists('esc_textarea')) {
+    /**
+     * @return string|mixed
+     * @throws ExpectationFailedException|Exception
+     */
     function esc_textarea()
     {
-        return \WP_Mock\Functions\Handler::handlePredefinedReturnFunction(__FUNCTION__, func_get_args());
+        return Handler::handlePredefinedReturnFunction(__FUNCTION__, func_get_args());
     }
 }
 
 if (! function_exists('__')) {
+    /**
+     * @return string|mixed
+     * @throws ExpectationFailedException|Exception
+     */
     function __()
     {
-        return \WP_Mock\Functions\Handler::handlePredefinedReturnFunction(__FUNCTION__, func_get_args());
+        return Handler::handlePredefinedReturnFunction(__FUNCTION__, func_get_args());
     }
 }
 
 if (! function_exists('_e')) {
-    function _e()
+    /**
+     * @return void
+     * @throws ExpectationFailedException|Exception
+     */
+    function _e(): void
     {
-        \WP_Mock\Functions\Handler::handlePredefinedEchoFunction(__FUNCTION__, func_get_args());
+        Handler::handlePredefinedEchoFunction(__FUNCTION__, func_get_args());
     }
 }
 
 if (! function_exists('_x')) {
+    /**
+     * @return string|mixed
+     * @throws ExpectationFailedException|Exception
+     */
     function _x()
     {
-        return \WP_Mock\Functions\Handler::handlePredefinedReturnFunction(__FUNCTION__, func_get_args());
+        return Handler::handlePredefinedReturnFunction(__FUNCTION__, func_get_args());
     }
 }
 
 if (! function_exists('esc_html__')) {
+    /**
+     * @return string|mixed
+     * @throws ExpectationFailedException|Exception
+     */
     function esc_html__()
     {
-        return \WP_Mock\Functions\Handler::handlePredefinedReturnFunction(__FUNCTION__, func_get_args());
+        return Handler::handlePredefinedReturnFunction(__FUNCTION__, func_get_args());
     }
 }
 
 if (! function_exists('esc_html_e')) {
-    function esc_html_e()
+    /**
+     * @return void
+     * @throws ExpectationFailedException|Exception
+     */
+    function esc_html_e(): void
     {
-        \WP_Mock\Functions\Handler::handlePredefinedEchoFunction(__FUNCTION__, func_get_args());
+        Handler::handlePredefinedEchoFunction(__FUNCTION__, func_get_args());
     }
 }
 
 if (! function_exists('esc_html_x')) {
+    /**
+     * @return string|mixed
+     * @throws ExpectationFailedException|Exception
+     */
     function esc_html_x()
     {
-        return \WP_Mock\Functions\Handler::handlePredefinedReturnFunction(__FUNCTION__, func_get_args());
+        return Handler::handlePredefinedReturnFunction(__FUNCTION__, func_get_args());
     }
 }
 
 if (! function_exists('esc_attr__')) {
+    /**
+     * @return string|mixed
+     * @throws ExpectationFailedException|Exception
+     */
     function esc_attr__()
     {
-        return \WP_Mock\Functions\Handler::handlePredefinedReturnFunction(__FUNCTION__, func_get_args());
+        return Handler::handlePredefinedReturnFunction(__FUNCTION__, func_get_args());
     }
 }
 
 if (! function_exists('esc_attr_e')) {
-    function esc_attr_e()
+    /**
+     * @return void
+     * @throws ExpectationFailedException|Exception
+     */
+    function esc_attr_e(): void
     {
-        \WP_Mock\Functions\Handler::handlePredefinedEchoFunction(__FUNCTION__, func_get_args());
+        Handler::handlePredefinedEchoFunction(__FUNCTION__, func_get_args());
     }
 }
 
 if (! function_exists('esc_attr_x')) {
+    /**
+     * @return string|mixed
+     * @throws ExpectationFailedException
+     */
     function esc_attr_x()
     {
-        return \WP_Mock\Functions\Handler::handlePredefinedReturnFunction(__FUNCTION__, func_get_args());
+        return Handler::handlePredefinedReturnFunction(__FUNCTION__, func_get_args());
     }
 }
 
 if (! function_exists('_n')) {
     /**
-     * Dummy method for _n().
-     *
-     * @return mixed singular or plural string based on number
+     * @return string|mixed singular or plural string based on number
      * @throws ExpectationFailedException if too few arguments passed
      */
     function _n()

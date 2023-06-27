@@ -26,19 +26,20 @@ class Handler
     /**
      * Overrides any existing handlers to set a new callback.
      *
-     * @param callable-string $function function name
-     * @param callable|callable-string $callback
+     * @param string|callable-string $function function name
+     * @param array<string|object|Mock, callable-string|string>|callable $callback
      * @return void
      */
     public static function registerHandler(string $function, $callback): void
     {
+        /** @phpstan-ignore-next-line */
         self::$handlers[$function] = $callback;
     }
 
     /**
      * Handles a mocked function call.
      *
-     * @param string $functionName function name
+     * @param string|callable-string $functionName function name
      * @param array<mixed> $args function arguments
      * @return mixed
      * @throws ExpectationFailedException

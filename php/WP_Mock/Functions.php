@@ -12,7 +12,7 @@ use WP_Mock\Functions\Handler;
 use WP_Mock\Functions\ReturnSequence;
 
 /**
- * Functions mocking handler.
+ * Functions mocking manager.
  *
  * This internal class is responsible for mocking WordPress functions and methods.
  *
@@ -90,7 +90,7 @@ class Functions
     /**
      * Registers a function to be mocked and sets up its expectations.
      *
-     * @param string $function function name
+     * @param string|callable-string $function function name
      * @param array<string, mixed> $args optional arguments
      * @return Mockery\Expectation
      * @throws InvalidArgumentException
@@ -107,11 +107,12 @@ class Functions
         /** @var Mockery\Mock $mock */
         $mock = $this->mockedFunctions[$function];
 
-        /** @var string $method */
+        /** @var callable-string $method */
         $method = preg_replace('/\\\\+/', '_', $function);
 
         $expectation = $this->setUpMock($mock, $method, $args);
 
+        /** @phpstan-ignore-next-line */
         Handler::registerHandler($function, [$mock, $method]);
 
         /** @phpstan-ignore-next-line return Expectation to make PhpStan happy */
@@ -307,7 +308,7 @@ class Functions
         $declaration = <<<EOF
 $namespace
 function $name() {
-	return \\WP_Mock\\Handler::handle_function('$functionName', func_get_args());
+	return \\WP_Mock\\Functions\\Handler::handleFunction('$functionName', func_get_args());
 }
 EOF;
         eval($declaration);
