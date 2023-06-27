@@ -7,38 +7,45 @@ use Mockery\Mock;
 use PHPUnit\Framework\ExpectationFailedException;
 use WP_Mock;
 
+/**
+ * Functions handler.
+ *
+ * This internal handler is meant to handle predefined function calls.
+ *
+ * @see WP_Mock\Functions
+ */
 class Handler
 {
     /**
      * Mocked method handlers registered by the test class.
      *
-     * @var array
+     * @var callable[]|callable-string[]
      */
-    private static $handlers = array();
+    private static array $handlers = [];
 
     /**
      * Overrides any existing handlers to set a new callback.
      *
-     * @param string $function function name
-     * @param string|array<Mock|mixed>|callable $callback
+     * @param callable-string $function function name
+     * @param callable|callable-string $callback
      * @return void
      */
-    public static function register_handler(string $function, $callback): void
+    public static function registerHandler(string $function, $callback): void
     {
         self::$handlers[$function] = $callback;
     }
 
     /**
-     * Handle a mocked function call.
+     * Handles a mocked function call.
      *
-     * @param string $functionName
-     * @param array<mixed> $args
+     * @param string $functionName function name
+     * @param array<mixed> $args function arguments
      * @return mixed
      * @throws ExpectationFailedException
      */
-    public static function handle_function(string $functionName, array $args = [])
+    public static function handleFunction(string $functionName, array $args = [])
     {
-        if (self::handler_exists($functionName)) {
+        if (self::handlerExists($functionName)) {
             $callback = self::$handlers[$functionName];
 
             return call_user_func_array($callback, $args);
@@ -50,38 +57,39 @@ class Handler
     }
 
     /**
-     * Check if a handler exists
+     * Checks if a handler exists.
      *
-     * @param string $function_name
-     *
+     * @param string|callable-string $functionName
      * @return bool
      */
-    public static function handler_exists($function_name)
+    public static function handlerExists(string $functionName): bool
     {
-        return isset(self::$handlers[ $function_name ]);
+        return isset(self::$handlers[$functionName]);
     }
 
     /**
-     * Clear all registered handlers.
+     * Clears all registered handlers.
+     *
+     * @return void
      */
-    public static function cleanup()
+    public static function cleanup(): void
     {
-        self::$handlers = array();
+        self::$handlers = [];
     }
 
     /**
      * Helper function for common passthru return functions.
      *
-     * @param string $functionName
-     * @param array<mixed>  $args
-     * @return ?mixed
+     * @param string $functionName function name
+     * @param array<mixed> $args function args
+     * @return mixed
      * @throws ExpectationFailedException
      */
-    public static function predefined_return_function_helper(string $functionName, array $args = [])
+    public static function handlePredefinedReturnFunction(string $functionName, array $args = [])
     {
-        $result = self::handle_function($functionName, $args);
+        $result = self::handleFunction($functionName, $args);
 
-        if (! self::handler_exists($functionName)) {
+        if (! self::handlerExists($functionName)) {
             $result = $args[0] ?? $result;
         }
 
@@ -91,26 +99,27 @@ class Handler
     /**
      * Helper function for common echo functions.
      *
-     * @param string $functionName
-     * @param array<int, string>  $args
+     * @param string $functionName function name
+     * @param array<mixed> $args function arguments
      * @return void
      * @throws Exception|ExpectationFailedException
      */
-    public static function predefined_echo_function_helper(string $functionName, array $args = []): void
+    public static function handlePredefinedEchoFunction(string $functionName, array $args = []): void
     {
         ob_start();
 
         try {
-            self::handle_function($functionName, $args);
+            self::handleFunction($functionName, $args);
         } catch (Exception $exception) {
             ob_end_clean();
-            /** @phpstan-ignore-next-line */
+
             throw $exception;
         }
 
         $result = ob_get_clean() ?: '';
 
-        if (! self::handler_exists($functionName)) {
+        if (! self::handlerExists($functionName)) {
+            /** @var scalar $result */
             $result = $args[0] ?? $result;
         }
 

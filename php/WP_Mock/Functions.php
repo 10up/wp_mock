@@ -112,7 +112,7 @@ class Functions
 
         $expectation = $this->setUpMock($mock, $method, $args);
 
-        Handler::register_handler($function, [$mock, $method]);
+        Handler::registerHandler($function, [$mock, $method]);
 
         /** @phpstan-ignore-next-line return Expectation to make PhpStan happy */
         return $expectation;
@@ -336,7 +336,7 @@ EOF;
         $this->patchworkFunctions[] = $functionName;
 
         \Patchwork\redefine($functionName, function () use ($functionName) {
-            return Handler::handle_function($functionName, func_get_args());
+            return Handler::handleFunction($functionName, func_get_args());
         });
 
         return true;
