@@ -23,16 +23,16 @@ use WP_Mock\Functions\ReturnSequence;
 class Functions
 {
     /** @var array<string, Mockery\Mock> container of function names holding a Mock object each handled by WP_Mock */
-    private $mockedFunctions = [];
+    private array $mockedFunctions = [];
 
     /** @var string[] list of user-defined functions (e.g. WordPress functions) mocked by WP_Mock */
-    private static $userMockedFunctions = [];
+    private static array $userMockedFunctions = [];
 
     /** @var string[] list of functions redefined by WP_Mock through Patchwork */
-    private $patchworkFunctions = [];
+    private array $patchworkFunctions = [];
 
     /** @var string[] list of PHP internal functions as per {@see get_defined_functions()} */
-    private $internalFunctions = [];
+    private array $internalFunctions = [];
 
     /**
      * Initializes the handler.
