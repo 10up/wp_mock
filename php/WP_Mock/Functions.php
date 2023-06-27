@@ -249,17 +249,15 @@ class Functions
     /**
      * Sets the expected return value for the expectation.
      *
-     * @param Mockery\Expectation|Mockery\CompositeExpectation $expectation
+     * @param Mockery\Expectation $expectation
      * @param Closure|ReturnSequence|mixed $return
-     * @return Mockery\Expectation|Mockery\CompositeExpectation
+     * @return Mockery\Expectation
      */
     protected function setExpectedReturn(&$expectation, $return)
     {
         if ($return instanceof ReturnSequence) {
-            /** @phpstan-ignore-next-line method exists */
             $expectation->andReturnValues($return->getReturnValues());
         } elseif ($return instanceof Closure) {
-            /** @phpstan-ignore-next-line method exists */
             $expectation->andReturnUsing($return);
         } else {
             $expectation->andReturn($return);
