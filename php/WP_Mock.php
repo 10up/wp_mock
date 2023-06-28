@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * @package WP_Mock
+ * @copyright 2013-2023 by the contributors
+ * @license BSD-3-Clause
+ * @see ../LICENSE.md
+ */
 
 use Mockery\Exception as MockeryException;
 use WP_Mock\DeprecatedMethodListener;
