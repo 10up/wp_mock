@@ -2,7 +2,7 @@
 
 > WP_Mock is an API mocking framework, built and maintained by [10up](https://10up.com) and [GoDaddy](https://godaddy.com) for the purpose of making it possible to properly unit test within a WordPress project.
 
-![Support Level][support-level-image] ![PHP 7.4+][php-image] [![Coverage Status][coveralls-image]][coveralls-url] [![Packagist][packagist-image]][packagist-url] [![BSD 3-Clause License][license-image]][license-url]
+![Support Level][support-level-image] ![PHP 7.4+][php-image] [![Coverage Status][coveralls-image]][coveralls-url] [![Packagist][packagist-image]][packagist-url] [![BSD-3-Clause License][license-image]][license-url]
 
 ## Installation
 
