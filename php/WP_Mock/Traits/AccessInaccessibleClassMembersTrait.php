@@ -33,6 +33,20 @@ trait AccessInaccessibleClassMembersTrait
     }
 
     /**
+     * Invokes the given inaccessible method on the given class.
+     *
+     * @param object $class the class name or instance to call against
+     * @param string $methodName the method name to call
+     * @param mixed ...$args arguments to pass to the invoked method
+     * @return mixed
+     * @throws ReflectionException
+     */
+    public function invokeInaccessibleMethod(object $class, string $methodName, ...$args)
+    {
+        return $this->getInaccessibleMethod($class, $methodName)->invoke($class, ...$args);
+    }
+
+    /**
      * Gets the given inaccessible property for the given class.
      *
      * Allows for calling protected and private properties on a class.
@@ -50,6 +64,21 @@ trait AccessInaccessibleClassMembersTrait
         $property->setAccessible(true);
 
         return $property;
+    }
+
+    /**
+     * Gets the given inaccessible property for the given class.
+     *
+     * Allows for calling protected and private properties on a class.
+     *
+     * @param object $class the class name or instance
+     * @param string $property the property name
+     * @return mixed the property value
+     * @throws ReflectionException
+     */
+    public function getInaccessiblePropertyValue(object $class, string $property)
+    {
+        return $this->getInaccessibleProperty($class, $property)->getValue($class);
     }
 
     /**
