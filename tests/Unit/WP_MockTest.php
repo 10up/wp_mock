@@ -275,40 +275,6 @@ class WP_MockTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock::wpFunction()
-     *
-     * @doesNotPerformAssertions
-     *
-     * @see \WP_Mock::userFunction()
-     * @see WP_Mock\Tests\Unit\WP_Mock\DeprecatedMethodListenerTest::testCanHandleDeprecatedMethodCall()
-     * @TODO remove this test when deprecated {@see WP_Mock::wpFunction()} is removed
-     *
-     * @return void
-     * @throws Exception
-     */
-    public function testCanMockWpFunction(): void
-    {
-        $this->markTestSkipped('Deprecated method - test coverage present for alias method');
-    }
-
-    /**
-     * @covers \WP_Mock::wpPassthruFunction()
-     *
-     * @doesNotPerformAssertions
-     *
-     * @see \WP_Mock::passthruFunction()
-     * @TODO remove this test when deprecated {@see WP_Mock::wpPassthruFunction()} is removed
-     * @see WP_Mock\Tests\Unit\WP_Mock\DeprecatedMethodListenerTest::testCanHandleDeprecatedMethodCall()
-     *
-     * @return void
-     * @throws Exception
-     */
-    public function testCanMockWpPassthruFunction(): void
-    {
-        $this->markTestSkipped('Deprecated method - test coverage present for alias method');
-    }
-
-    /**
      * @covers \WP_Mock::getDeprecatedMethodListener()
      *
      * @return void
@@ -321,21 +287,5 @@ class WP_MockTest extends WP_MockTestCase
         $this->assertInstanceOf(DeprecatedMethodListener::class, WP_Mock::getDeprecatedMethodListener());
 
         Mockery::close();
-    }
-
-    /**
-     * @covers \WP_Mock::getDeprecatedListener()
-     *
-     * @doesNotPerformAssertions
-     *
-     * @TODO remove this test when deprecated {@see WP_Mock::getDeprecatedListener()} is removed
-     * @see WP_Mock\Tests\Unit\WP_Mock\DeprecatedMethodListenerTest::testCanHandleDeprecatedMethodCall()
-     *
-     * @return void
-     * @throws Exception
-     */
-    public function testCanGetDeprecatedListener(): void
-    {
-        $this->markTestSkipped('Deprecated method - test coverage present for alias method');
     }
 }
