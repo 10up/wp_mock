@@ -54,5 +54,10 @@ final class FunctionMocksTest extends WP_MockTestCase
             /** @phpstan-ignore-next-line the mocks don't define a parameter passed to each function */
             $this->assertSame('test', $returnFunction('test'));
         }
+
+        assert(function_exists('_n'));
+
+        $this->assertSame('test', _n('test', 'tests', 1)); // @phpstan-ignore-line see above
+        $this->assertSame('tests', _n('test', 'tests', 2)); // @phpstan-ignore-line see above
     }
 }
