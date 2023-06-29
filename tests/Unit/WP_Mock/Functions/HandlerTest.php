@@ -111,6 +111,8 @@ final class HandlerTest extends WP_MockTestCase
             ->once()
             ->andReturn('test-arg');
 
+        assert(function_exists('test_function'));
+
         $this->assertSame('test-arg', test_function());
     }
 
@@ -129,6 +131,8 @@ final class HandlerTest extends WP_MockTestCase
         WP_Mock::echoFunction('test_function');
 
         ob_start();
+
+        assert(function_exists('test_function'));
 
         test_function('test');
 
