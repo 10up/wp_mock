@@ -2,6 +2,7 @@
 
 namespace Unit\WP_Mock\API;
 
+use Exception;
 use WP_Mock;
 use WP_Mock\Tests\WP_MockTestCase;
 
@@ -13,6 +14,7 @@ final class FunctionMocksTest extends WP_MockTestCase
 {
     /**
      * @covers \__()
+     * @covers \_n()
      * @covers \_x()
      * @covers \esc_attr()
      * @covers \esc_attr__()
@@ -59,5 +61,39 @@ final class FunctionMocksTest extends WP_MockTestCase
 
         $this->assertSame('test', _n('test', 'tests', 1)); // @phpstan-ignore-line see above
         $this->assertSame('tests', _n('test', 'tests', 2)); // @phpstan-ignore-line see above
+    }
+
+    /**
+     * @covers \_e()
+     * @covers \esc_attr_e()
+     * @covers \esc_html_e()
+     * @covers \WP_Mock\Functions\Handler::handlePredefinedEchoFunction()
+     *
+     * @preserveGlobalState disabled
+     * @runInSeparateProcess
+     *
+     * @return void
+     * @throws Exception
+     */
+    public function testPredefinedEchoFunctions(): void
+    {
+        WP_Mock::bootstrap();
+
+        $echoFunctions = [
+            '_e',
+            'esc_attr_e',
+            'esc_html_e',
+        ];
+
+        foreach ($echoFunctions as $echoFunction) {
+            assert(function_exists($echoFunction));
+
+            ob_start();
+
+            /** @phpstan-ignore-next-line the mocks don't define a parameter passed to each function */
+            $echoFunction('test');
+
+            $this->assertSame('test', ob_get_clean());
+        }
     }
 }
