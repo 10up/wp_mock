@@ -25,6 +25,7 @@ final class HandlerTest extends WP_MockTestCase
         Handler::cleanup();
 
         $property = new ReflectionProperty(Handler::class, 'handlers');
+        $property->setAccessible(true);
 
         $this->assertSame([], $property->getValue());
 
@@ -99,6 +100,7 @@ final class HandlerTest extends WP_MockTestCase
     public function testCanCleanup(): void
     {
         $property = new ReflectionProperty(Handler::class, 'handlers');
+        $property->setAccessible(true);
 
         $functionName = 'test_function';
         $callback = function () {
