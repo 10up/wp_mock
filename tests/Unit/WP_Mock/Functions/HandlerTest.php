@@ -21,15 +21,31 @@ final class HandlerTest extends WP_MockTestCase
      */
     public function testCanRegisterHandler(): void
     {
+        // ensures a starting clean state without having to run test in isolation
+        Handler::cleanup();
+
         $property = new ReflectionProperty(Handler::class, 'handlers');
 
         $this->assertSame([], $property->getValue());
 
-        $this->markTestIncomplete('Cannot reliably rest change in static property');
+        $functionName = 'test_function';
+        $callback = function ($arg) {
+            return $arg;
+        };
+
+        Handler::registerHandler($functionName, $callback);
+
+        $this->assertEquals([$functionName => $callback], $property->getValue());
+
+        // restore the original state
+        Handler::cleanup();
     }
 
     /**
      * @covers \WP_Mock\Functions\Handler::handleFunction()
+     *
+     * @preserveGlobalState disabled
+     * @runInSeparateProcess
      *
      * @return void
      * @throws Exception
