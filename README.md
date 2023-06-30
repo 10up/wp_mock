@@ -18,7 +18,7 @@ Learn more about how to configure and how to use WP_Mock by reading [the WP_Mock
 
 ## Changelog
 
-A complete listing of all notable changes is documented in the [changelog](https://github.com/10up/wp_mock/blob/trunk/CHANGELOG.md).
+A complete listing of all notable changes is documented in the [Changelog](https://github.com/10up/wp_mock/blob/trunk/CHANGELOG.md).
 
 ## Support Level
 
