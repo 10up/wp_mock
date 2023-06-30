@@ -16,9 +16,17 @@ composer require --dev 10up/wp_mock
 
 Learn more about how to configure and how to use WP_Mock by reading [the WP_Mock documentation](https://wp-mock.gitbook.io/documentation/getting-started/introduction).
 
+## Support Level
+
+**Active:** 10up and GoDaddy are actively working on this, and we expect to continue work for the foreseeable future including keeping tested up to the most recent version of WordPress.  Bug reports, feature requests, questions, and pull requests are welcome.
+
+## Changelog
+
+A complete listing of all notable changes to Distributor are documented in [CHANGELOG.md](https://github.com/10up/wp_mock/blob/trunk/CHANGELOG.md).
+
 ## Contributing
 
-Please read our [Code of Conduct](https://github.com/10up/wp_mock/blob/trunk/CODE_OF_CONDUCT.md) for details on our code of conduct, and our [Contributing Guidelines](https://github.com/10up/wp_mock/blob/trunk/CONTRIBUTING.md) for details on the process for submitting pull requests.
+Please read our [Code of Conduct](https://github.com/10up/wp_mock/blob/trunk/CODE_OF_CONDUCT.md) for details on our code of conduct and our [Contributing Guidelines](https://github.com/10up/wp_mock/blob/trunk/CONTRIBUTING.md) for details on the process for submitting pull requests.
 
 ## Supporters
 
