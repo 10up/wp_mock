@@ -21,7 +21,6 @@ final class AccessInaccessibleClassMembersTraitTest extends TestCase
     public function testCanGetInaccessibleProperty(): void
     {
         $instance = $this->getInstance('test');
-        /* @phpstan-ignore-next-line */
         $property = $instance->getInaccessibleProperty($instance, 'property');
 
         $this->assertEquals('property', $property->getName());
@@ -43,10 +42,23 @@ final class AccessInaccessibleClassMembersTraitTest extends TestCase
     }
 
     /**
+     * @covers \WP_Mock\Traits\AccessInaccessibleClassMembersTrait::getInaccessiblePropertyValue()
+     *
+     * @return void
+     * @throws ReflectionException|Exception
+     */
+    public function testCanGetInaccessiblePropertyValue(): void
+    {
+        $instance = $this->getInstance('test');
+
+        $this->assertEquals('test', $instance->getInaccessiblePropertyValue($instance, 'property'));
+    }
+
+    /**
      * @covers \WP_Mock\Traits\AccessInaccessibleClassMembersTrait::getInaccessibleMethod()
      *
      * @return void
-     * @throws Exception
+     * @throws ReflectionException|Exception
      */
     public function testCanGetInaccessibleMethod(): void
     {
@@ -55,6 +67,19 @@ final class AccessInaccessibleClassMembersTraitTest extends TestCase
 
         $this->assertEquals('method', $method->getName());
         $this->assertEquals('test', $method->invoke($instance));
+    }
+
+    /**
+     * @covers \WP_Mock\Traits\AccessInaccessibleClassMembersTrait::invokeInaccessibleMethod()
+     *
+     * @return void
+     * @throws ReflectionException|Exception
+     */
+    public function testCanInvokeInaccessibleMethod(): void
+    {
+        $instance = $this->getInstance('test');
+
+        $this->assertEquals('test', $instance->invokeInaccessibleMethod($instance, 'method'));
     }
 
     /**
