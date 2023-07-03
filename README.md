@@ -22,7 +22,7 @@ A complete listing of all notable changes is documented in the [Changelog](https
 
 ## Support Level
 
-**Active:** [10up](https://10up.com) and [GoDaddy](https://godaddy.com) are actively working on this, and we expect to continue work for the foreseeable future including keeping tested up to the most recent version of WordPress and PHP. Bug reports, feature requests, questions, and pull requests are welcome.
+**Active:** [10up](https://10up.com) and [GoDaddy](https://godaddy.com) are actively working on this, and we expect to continue work for the foreseeable future, including testing with the most recent version of WordPress and PHP. Bug reports, feature requests, questions, and pull requests are welcome.
 
 ## Contributing
 
