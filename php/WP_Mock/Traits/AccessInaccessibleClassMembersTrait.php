@@ -67,7 +67,7 @@ trait AccessInaccessibleClassMembersTrait
     }
 
     /**
-     * Gets the given inaccessible property for the given class.
+     * Gets the given inaccessible property value for the given class.
      *
      * Allows for calling protected and private properties on a class.
      *
