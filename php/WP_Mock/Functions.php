@@ -90,7 +90,7 @@ class Functions
      *
      * @param string $function function name
      * @param array<string, mixed> $args optional arguments
-     * @return Mockery\Expectation|Mockery\CompositeExpectation
+     * @return Mockery\Expectation
      * @throws InvalidArgumentException
      */
     public function register(string $function, array $args = [])
@@ -112,6 +112,7 @@ class Functions
 
         Handler::register_handler($function, [$mock, $method]);
 
+        /** @phpstan-ignore-next-line return Expectation to make PhpStan happy */
         return $expectation;
     }
 
@@ -222,11 +223,11 @@ class Functions
     {
         $returnValue = null;
 
-        // set the expected return value based on an argument passed to the function
         if (isset($args['return_arg'])) {
             /** @phpstan-ignore-next-line */
             $argPosition = max(true === $args['return_arg'] ? 0 : (int) $args['return_arg'], 0);
 
+            // set the expected return value based on an argument passed to the function
             $returnValue = function () use ($argPosition) {
                 if ($argPosition >= func_num_args()) {
                     return null;
@@ -234,8 +235,8 @@ class Functions
 
                 return func_get_arg($argPosition);
             };
-        // sets the return values for each call in order
         } elseif (isset($args['return_in_order'])) {
+            // sets the return values for each call in order
             $returnValue = new ReturnSequence();
             $returnValue->setReturnValues((array) $args['return_in_order']);
         }
