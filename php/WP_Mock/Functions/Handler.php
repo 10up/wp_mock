@@ -51,7 +51,7 @@ class Handler
 
             return call_user_func_array($callback, $args);
         } elseif (WP_Mock::strictMode()) {
-            throw new ExpectationFailedException(sprintf('No handler found for %s', $functionName));
+            throw new ExpectationFailedException(sprintf('No handler found for function %s', $functionName));
         }
 
         return null;
