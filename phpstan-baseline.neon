@@ -176,6 +176,36 @@ parameters:
 			path: php/WP_Mock.php
 
 		-
+			message: "#^Function __\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: php/WP_Mock/API/function-mocks.php
+
+		-
+			message: "#^Function __\\(\\) throws checked exception PHPUnit\\\\Framework\\\\ExpectationFailedException but it's missing from the PHPDoc @throws tag\\.$#"
+			count: 1
+			path: php/WP_Mock/API/function-mocks.php
+
+		-
+			message: "#^Function _e\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: php/WP_Mock/API/function-mocks.php
+
+		-
+			message: "#^Function _e\\(\\) throws checked exception Exception but it's missing from the PHPDoc @throws tag\\.$#"
+			count: 1
+			path: php/WP_Mock/API/function-mocks.php
+
+		-
+			message: "#^Function _x\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: php/WP_Mock/API/function-mocks.php
+
+		-
+			message: "#^Function _x\\(\\) throws checked exception PHPUnit\\\\Framework\\\\ExpectationFailedException but it's missing from the PHPDoc @throws tag\\.$#"
+			count: 1
+			path: php/WP_Mock/API/function-mocks.php
+
+		-
 			message: "#^Function add_action\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: php/WP_Mock/API/function-mocks.php
@@ -206,8 +236,133 @@ parameters:
 			path: php/WP_Mock/API/function-mocks.php
 
 		-
+			message: "#^Function esc_attr\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: php/WP_Mock/API/function-mocks.php
+
+		-
+			message: "#^Function esc_attr\\(\\) throws checked exception PHPUnit\\\\Framework\\\\ExpectationFailedException but it's missing from the PHPDoc @throws tag\\.$#"
+			count: 1
+			path: php/WP_Mock/API/function-mocks.php
+
+		-
+			message: "#^Function esc_attr__\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: php/WP_Mock/API/function-mocks.php
+
+		-
+			message: "#^Function esc_attr__\\(\\) throws checked exception PHPUnit\\\\Framework\\\\ExpectationFailedException but it's missing from the PHPDoc @throws tag\\.$#"
+			count: 1
+			path: php/WP_Mock/API/function-mocks.php
+
+		-
+			message: "#^Function esc_attr_e\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: php/WP_Mock/API/function-mocks.php
+
+		-
+			message: "#^Function esc_attr_e\\(\\) throws checked exception Exception but it's missing from the PHPDoc @throws tag\\.$#"
+			count: 1
+			path: php/WP_Mock/API/function-mocks.php
+
+		-
+			message: "#^Function esc_attr_x\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: php/WP_Mock/API/function-mocks.php
+
+		-
+			message: "#^Function esc_attr_x\\(\\) throws checked exception PHPUnit\\\\Framework\\\\ExpectationFailedException but it's missing from the PHPDoc @throws tag\\.$#"
+			count: 1
+			path: php/WP_Mock/API/function-mocks.php
+
+		-
+			message: "#^Function esc_html\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: php/WP_Mock/API/function-mocks.php
+
+		-
+			message: "#^Function esc_html\\(\\) throws checked exception PHPUnit\\\\Framework\\\\ExpectationFailedException but it's missing from the PHPDoc @throws tag\\.$#"
+			count: 1
+			path: php/WP_Mock/API/function-mocks.php
+
+		-
+			message: "#^Function esc_html__\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: php/WP_Mock/API/function-mocks.php
+
+		-
+			message: "#^Function esc_html__\\(\\) throws checked exception PHPUnit\\\\Framework\\\\ExpectationFailedException but it's missing from the PHPDoc @throws tag\\.$#"
+			count: 1
+			path: php/WP_Mock/API/function-mocks.php
+
+		-
+			message: "#^Function esc_html_e\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: php/WP_Mock/API/function-mocks.php
+
+		-
+			message: "#^Function esc_html_e\\(\\) throws checked exception Exception but it's missing from the PHPDoc @throws tag\\.$#"
+			count: 1
+			path: php/WP_Mock/API/function-mocks.php
+
+		-
+			message: "#^Function esc_html_x\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: php/WP_Mock/API/function-mocks.php
+
+		-
+			message: "#^Function esc_html_x\\(\\) throws checked exception PHPUnit\\\\Framework\\\\ExpectationFailedException but it's missing from the PHPDoc @throws tag\\.$#"
+			count: 1
+			path: php/WP_Mock/API/function-mocks.php
+
+		-
+			message: "#^Function esc_js\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: php/WP_Mock/API/function-mocks.php
+
+		-
+			message: "#^Function esc_js\\(\\) throws checked exception PHPUnit\\\\Framework\\\\ExpectationFailedException but it's missing from the PHPDoc @throws tag\\.$#"
+			count: 1
+			path: php/WP_Mock/API/function-mocks.php
+
+		-
+			message: "#^Function esc_textarea\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: php/WP_Mock/API/function-mocks.php
+
+		-
+			message: "#^Function esc_textarea\\(\\) throws checked exception PHPUnit\\\\Framework\\\\ExpectationFailedException but it's missing from the PHPDoc @throws tag\\.$#"
+			count: 1
+			path: php/WP_Mock/API/function-mocks.php
+
+		-
+			message: "#^Function esc_url\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: php/WP_Mock/API/function-mocks.php
+
+		-
+			message: "#^Function esc_url\\(\\) throws checked exception PHPUnit\\\\Framework\\\\ExpectationFailedException but it's missing from the PHPDoc @throws tag\\.$#"
+			count: 1
+			path: php/WP_Mock/API/function-mocks.php
+
+		-
+			message: "#^Function esc_url_raw\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: php/WP_Mock/API/function-mocks.php
+
+		-
+			message: "#^Function esc_url_raw\\(\\) throws checked exception PHPUnit\\\\Framework\\\\ExpectationFailedException but it's missing from the PHPDoc @throws tag\\.$#"
+			count: 1
+			path: php/WP_Mock/API/function-mocks.php
+
+		-
 			message: "#^PHPDoc tag @param references unknown parameter\\: \\$var$#"
 			count: 1
+			path: php/WP_Mock/API/function-mocks.php
+
+		-
+			message: "#^Parameter \\#2 \\$args of static method WP_Mock\\\\Handler\\:\\:predefined_echo_function_helper\\(\\) expects array\\<int, string\\>, array\\<int, mixed\\> given\\.$#"
+			count: 3
 			path: php/WP_Mock/API/function-mocks.php
 
 		-
@@ -371,6 +526,16 @@ parameters:
 			path: php/WP_Mock/Filter.php
 
 		-
+			message: "#^Method WP_Mock\\\\Handler\\:\\:cleanup\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: php/WP_Mock/Handler.php
+
+		-
+			message: "#^Property WP_Mock\\\\Handler\\:\\:\\$handlers type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: php/WP_Mock/Handler.php
+
+		-
 			message: "#^Cannot access offset string on mixed\\.$#"
 			count: 4
 			path: php/WP_Mock/Hook.php
@@ -474,3 +639,23 @@ parameters:
 			message: "#^Method WP_Mock\\\\InvokedFilterValue\\:\\:__invoke\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: php/WP_Mock/InvokedFilterValue.php
+
+		-
+			message: "#^Method WP_Mock\\\\ReturnSequence\\:\\:getReturnValues\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: php/WP_Mock/ReturnSequence.php
+
+		-
+			message: "#^Method WP_Mock\\\\ReturnSequence\\:\\:setReturnValues\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: php/WP_Mock/ReturnSequence.php
+
+		-
+			message: "#^Method WP_Mock\\\\ReturnSequence\\:\\:setReturnValues\\(\\) has parameter \\$return_values with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: php/WP_Mock/ReturnSequence.php
+
+		-
+			message: "#^Property WP_Mock\\\\ReturnSequence\\:\\:\\$return_values has no type specified\\.$#"
+			count: 1
+			path: php/WP_Mock/ReturnSequence.php
