@@ -40,7 +40,7 @@ class Handler
      *
      * @param string|callable-string $functionName function name
      * @param array<mixed> $args function arguments
-     * @return mixed
+     * @return mixed|null
      * @throws ExpectationFailedException
      */
     public static function handleFunction(string $functionName, array $args = [])
@@ -83,7 +83,7 @@ class Handler
      *
      * @param string $functionName function name
      * @param array<mixed> $args function args
-     * @return mixed
+     * @return scalar
      * @throws ExpectationFailedException
      */
     public static function handlePredefinedReturnFunction(string $functionName, array $args = [])
@@ -94,6 +94,7 @@ class Handler
             $result = $args[0] ?? $result;
         }
 
+        /** @var scalar $result */
         return $result;
     }
 
