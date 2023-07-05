@@ -52,7 +52,7 @@ In the above example WP_Mock is expecting that the method `MyClass::myFunction`,
 Calling `WP_Mock::userFunction()` will dynamically define the function for you if necessary, which means changes the internal WP_Mock API shouldn't break your mocks. If you really want to define your own function mocks, they should always end with this line:
 
 ```php
-return WP_Mock\Handler::handle_function(__FUNCTION__, func_get_args());
+return \WP_Mock\Functions\Handler::handleFunction(__FUNCTION__, func_get_args());
 ```
 
 ## Using Mockery expectations

@@ -8,9 +8,11 @@ use Mockery;
 use Mockery\Matcher\AnyOf;
 use Mockery\Matcher\Type;
 use WP_Mock;
+use WP_Mock\Functions\Handler;
+use WP_Mock\Functions\ReturnSequence;
 
 /**
- * Functions mocking handler.
+ * Functions mocking manager.
  *
  * This internal class is responsible for mocking WordPress functions and methods.
  *
@@ -21,16 +23,16 @@ use WP_Mock;
 class Functions
 {
     /** @var array<string, Mockery\Mock> container of function names holding a Mock object each handled by WP_Mock */
-    private $mockedFunctions = [];
+    private array $mockedFunctions = [];
 
     /** @var string[] list of user-defined functions (e.g. WordPress functions) mocked by WP_Mock */
-    private static $userMockedFunctions = [];
+    private static array $userMockedFunctions = [];
 
     /** @var string[] list of functions redefined by WP_Mock through Patchwork */
-    private $patchworkFunctions = [];
+    private array $patchworkFunctions = [];
 
     /** @var string[] list of PHP internal functions as per {@see get_defined_functions()} */
-    private $internalFunctions = [];
+    private array $internalFunctions = [];
 
     /**
      * Initializes the handler.
@@ -88,7 +90,7 @@ class Functions
     /**
      * Registers a function to be mocked and sets up its expectations.
      *
-     * @param string $function function name
+     * @param string|callable-string $function function name
      * @param array<string, mixed> $args optional arguments
      * @return Mockery\Expectation
      * @throws InvalidArgumentException
@@ -105,14 +107,14 @@ class Functions
         /** @var Mockery\Mock $mock */
         $mock = $this->mockedFunctions[$function];
 
-        /** @var string $method */
+        /** @var callable-string $method */
         $method = preg_replace('/\\\\+/', '_', $function);
 
+        /** @var Mockery\Expectation $expectation */
         $expectation = $this->setUpMock($mock, $method, $args);
 
-        Handler::register_handler($function, [$mock, $method]);
+        Handler::registerHandler($function, [$mock, $method]);
 
-        /** @phpstan-ignore-next-line return Expectation to make PhpStan happy */
         return $expectation;
     }
 
@@ -247,17 +249,15 @@ class Functions
     /**
      * Sets the expected return value for the expectation.
      *
-     * @param Mockery\Expectation|Mockery\CompositeExpectation $expectation
+     * @param Mockery\Expectation $expectation
      * @param Closure|ReturnSequence|mixed $return
-     * @return Mockery\Expectation|Mockery\CompositeExpectation
+     * @return Mockery\Expectation
      */
     protected function setExpectedReturn(&$expectation, $return)
     {
         if ($return instanceof ReturnSequence) {
-            /** @phpstan-ignore-next-line method exists */
             $expectation->andReturnValues($return->getReturnValues());
         } elseif ($return instanceof Closure) {
-            /** @phpstan-ignore-next-line method exists */
             $expectation->andReturnUsing($return);
         } else {
             $expectation->andReturn($return);
@@ -307,7 +307,7 @@ class Functions
         $declaration = <<<EOF
 $namespace
 function $name() {
-	return \\WP_Mock\\Handler::handle_function('$functionName', func_get_args());
+	return \\WP_Mock\\Functions\\Handler::handleFunction('$functionName', func_get_args());
 }
 EOF;
         eval($declaration);
@@ -336,7 +336,7 @@ EOF;
         $this->patchworkFunctions[] = $functionName;
 
         \Patchwork\redefine($functionName, function () use ($functionName) {
-            return Handler::handle_function($functionName, func_get_args());
+            return Handler::handleFunction($functionName, func_get_args());
         });
 
         return true;

@@ -13,7 +13,7 @@ use ReflectionException;
 use ReflectionMethod;
 use ReflectionProperty;
 use WP_Mock\Functions;
-use WP_Mock\Handler;
+use WP_Mock\Functions\Handler;
 use WP_Mock\Tests\WP_MockTestCase;
 
 /**

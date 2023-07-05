@@ -14,7 +14,7 @@ use WP_Mock\Tests\WP_MockTestCase;
 class WP_MockTest extends WP_MockTestCase
 {
     /** @var string[] */
-    private $defaultMockedFunctions = [
+    private array $defaultMockedFunctions = [
         '__',
         '_e',
         '_n',
@@ -130,6 +130,7 @@ class WP_MockTest extends WP_MockTestCase
      * @preserveGlobalState disabled
      *
      * @return void
+     * @throws Exception
      */
     public function testDefaultFailsInStrictMode(): void
     {
@@ -189,7 +190,7 @@ class WP_MockTest extends WP_MockTestCase
      * @covers \WP_Mock\Functions::setExpectedArgs()
      * @covers \WP_Mock\Functions::setExpectedReturn()
      * @covers \WP_Mock\Functions::parseExpectedReturn()
-     * @covers \WP_Mock\Handler::register_handler()
+     * @covers \WP_Mock\Functions\Handler::registerHandler()
      *
      * @dataProvider providerUserFunctionExpectationArgs
      *
