@@ -437,23 +437,6 @@ class WP_Mock
     }
 
     /**
-     * Alias for {@see WP_Mock::userFunction}.
-     *
-     * @deprecated this method will be removed in v1.0.0
-     *
-     * @param string $function function name
-     * @param array<string, mixed> $args optional arguments
-     * @return Mockery\Expectation
-     * @throws InvalidArgumentException
-     */
-    public static function wpFunction(string $function, array $args = [])
-    {
-        static::getDeprecatedMethodListener()->logDeprecatedCall(__METHOD__, [$function, $args]);
-
-        return self::userFunction($function, $args);
-    }
-
-    /**
      * A wrapper for {@see WP_Mock::userFunction()} that will simply set/override the return to be a function that echoes the value that its passed.
      *
      * For example, `esc_attr_e()` may need to be mocked, and it must echo some value.
@@ -504,23 +487,6 @@ class WP_Mock
     }
 
     /**
-     * Alias for {@see WP_Mock::passthruFunction()}.
-     *
-     * @deprecated this method will be removed in v1.0.0
-     *
-     * @param string $function function name
-     * @param array<string, mixed>|scalar $args function arguments (optional)
-     * @return Mockery\Expectation
-     * @throws InvalidArgumentException
-     */
-    public static function wpPassthruFunction(string $function, $args = [])
-    {
-        static::getDeprecatedMethodListener()->logDeprecatedCall(__METHOD__, [$function, $args]);
-
-        return self::passthruFunction($function, $args);
-    }
-
-    /**
      * Adds a function mock that aliases another callable.
      *
      * e.g.: WP_Mock::alias('wp_hash', 'md5');
@@ -558,20 +524,6 @@ class WP_Mock
     public static function fuzzyObject($object): FuzzyObject
     {
         return new FuzzyObject($object);
-    }
-
-    /**
-     * Alias for {@see WP_Mock::getDeprecatedMethodListener()}.
-     *
-     * @deprecated this method will be removed in v1.0.0
-     *
-     * @return DeprecatedMethodListener
-     */
-    public static function getDeprecatedListener(): DeprecatedMethodListener
-    {
-        static::getDeprecatedMethodListener()->logDeprecatedCall(__METHOD__);
-
-        return static::$deprecatedMethodListener;
     }
 
     /**
