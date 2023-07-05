@@ -117,7 +117,11 @@ class Handler
             throw $exception;
         }
 
-        $result = ob_get_clean() ?: '';
+        $result = ob_get_clean();
+
+        if (! is_string($result)) {
+            throw new ExpectationFailedException(sprintf('Function %s did not echo a string', $functionName);
+        }
 
         if (! self::handlerExists($functionName)) {
             /** @var scalar $result */
