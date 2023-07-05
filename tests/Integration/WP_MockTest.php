@@ -14,7 +14,7 @@ use WP_Mock\Tests\WP_MockTestCase;
 class WP_MockTest extends WP_MockTestCase
 {
     /** @var string[] */
-    private $defaultMockedFunctions = [
+    private array $defaultMockedFunctions = [
         '__',
         '_e',
         '_n',
