@@ -130,6 +130,7 @@ class WP_MockTest extends WP_MockTestCase
      * @preserveGlobalState disabled
      *
      * @return void
+     * @throws Exception
      */
     public function testDefaultFailsInStrictMode(): void
     {

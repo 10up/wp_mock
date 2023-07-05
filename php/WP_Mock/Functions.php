@@ -110,12 +110,11 @@ class Functions
         /** @var callable-string $method */
         $method = preg_replace('/\\\\+/', '_', $function);
 
+        /** @var Mockery\Expectation $expectation */
         $expectation = $this->setUpMock($mock, $method, $args);
 
-        /** @phpstan-ignore-next-line */
         Handler::registerHandler($function, [$mock, $method]);
 
-        /** @phpstan-ignore-next-line return Expectation to make PhpStan happy */
         return $expectation;
     }
 

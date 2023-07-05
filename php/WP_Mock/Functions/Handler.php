@@ -19,7 +19,7 @@ class Handler
     /**
      * Mocked method handlers registered by the test class.
      *
-     * @var callable[]|callable-string[]
+     * @var array<string, callable|callable-string|array<mixed>>
      */
     private static array $handlers = [];
 
@@ -27,12 +27,11 @@ class Handler
      * Overrides any existing handlers to set a new callback.
      *
      * @param string|callable-string $function function name
-     * @param array<string|object|Mock, callable-string|string>|callable $callback
+     * @param callable|callable-string|array<mixed> $callback
      * @return void
      */
     public static function registerHandler(string $function, $callback): void
     {
-        /** @phpstan-ignore-next-line */
         self::$handlers[$function] = $callback;
     }
 
@@ -47,6 +46,7 @@ class Handler
     public static function handleFunction(string $functionName, array $args = [])
     {
         if (self::handlerExists($functionName)) {
+            /** @var callable $callback */
             $callback = self::$handlers[$functionName];
 
             return call_user_func_array($callback, $args);
