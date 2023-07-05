@@ -120,7 +120,7 @@ class Handler
         $result = ob_get_clean();
 
         if (! is_string($result)) {
-            throw new ExpectationFailedException(sprintf('Function %s did not echo a string', $functionName);
+            throw new ExpectationFailedException(sprintf('Function %s did not echo a string', $functionName));
         }
 
         if (! self::handlerExists($functionName)) {
