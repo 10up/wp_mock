@@ -82,6 +82,9 @@ final class FunctionsTest extends WP_MockTestCase
     /**
      * @covers \WP_Mock\Functions::register()
      *
+     * @preserveGlobalState disabled
+     * @runInSeparateProcess
+     *
      * @return void
      * @throws Exception
      */
