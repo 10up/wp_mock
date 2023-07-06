@@ -90,3 +90,63 @@ final class MyTestCase extends TestCase
     }   
 }
 ```
+
+### Access inaccessible class members
+
+The following methods can be used to access methods or properties of classes that are inaccessible (private or protected), using reflection:
+
+#### Get or invoke an inaccessible method
+
+Use the following methods to get and invoke an inaccessible (private or protected) method from a class through `ReflectionMethod`:
+
+```php
+use WP_Mock\Tools\TestCase as TestCase;
+
+final class MyTestCase extends TestCase
+{
+    public function testMyFunction() : void
+    {
+        $class = new MyClass();
+    
+        // myMethod() is private or protected - this will return a ReflectionMethod object
+        $method = $this->getInaccessibleMethod($class, 'myMethod');
+        
+        // will invoke MyClass::myMethod()
+        $method->invoke($class);
+        
+        // shortcut method to consolidate the above in a single call (assumes this method returns a string)
+        $this->assertEquals('test', $this->invokeInaccessibleMethod($class, 'myMethod'));
+    }   
+}
+```
+
+#### Handle inaccessible properties
+
+Similar to the methods above, there is a similar collection of test methods that will use `ReflectionProperty` to manipulate inaccessible (private or protected) class properties:
+
+```php
+use WP_Mock\Tools\TestCase as TestCase;
+
+final class MyTestCase extends TestCase
+{
+    public function testMyProperty() : void
+    {
+        $class = MyClass();
+    
+        // $myProperty is private or protected - this will return a ReflectionProperty object
+        $property = $this->getInaccessibleProperty($class, 'myProperty');
+        
+        // invoke MyClass::$myProperty 
+        $this->assertEquals('foo', $property->getValue($class));
+        
+        // shortcut method to consolidate the above in a single call
+        $this->assertEquals('foo', $this->getInaccessiblePropertyValue($class, 'myProperty'));
+        
+        // set MyClass::$myProperty to 'bar'
+        $this->setInaccessibleProperty($class, 'myProperty', 'bar');
+        
+        // shortcut for the above
+        $this->setInaccessiblePropertyValue($class, 'myProperty', 'bar');
+    }   
+}
+```
