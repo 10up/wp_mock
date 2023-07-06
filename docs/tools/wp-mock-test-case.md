@@ -122,7 +122,7 @@ final class MyTestCase extends TestCase
 
 #### Handle inaccessible properties
 
-Similar to the methods above, there is a similar collection of test methods that will use `ReflectionProperty` to manipulate inaccessible (private or protected) class properties:
+Similar to the methods above, there is a similar collection of test methods that will use [`ReflectionProperty`](https://www.php.net/manual/en/class.reflectionproperty.php) to manipulate inaccessible (private or protected) class properties:
 
 ```php
 use WP_Mock\Tools\TestCase as TestCase;
