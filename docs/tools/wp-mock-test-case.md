@@ -93,7 +93,7 @@ final class MyTestCase extends TestCase
 
 ### Access inaccessible class members
 
-The following methods can be used to access methods or properties of classes that are inaccessible (private or protected), using reflection:
+The following methods can be used to access methods or properties of classes that are inaccessible (private or protected), using [Reflection](https://www.php.net/manual/en/book.reflection.php):
 
 #### Get or invoke an inaccessible method
 
