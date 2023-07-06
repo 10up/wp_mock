@@ -143,7 +143,7 @@ final class MyTestCase extends TestCase
         $this->assertEquals('foo', $this->getInaccessiblePropertyValue($class, 'myProperty'));
         
         // set MyClass::$myProperty to 'bar'
-        $this->setInaccessibleProperty($class, 'myProperty', 'bar');
+        $this->setInaccessibleProperty($class, get_class($class), 'myProperty', 'bar');
         
         // shortcut for the above
         $this->setInaccessiblePropertyValue($class, 'myProperty', 'bar');
