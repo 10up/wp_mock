@@ -97,7 +97,7 @@ The following methods can be used to access methods or properties of classes tha
 
 #### Get or invoke an inaccessible method
 
-Use the following methods to get and invoke an inaccessible (private or protected) method from a class through `ReflectionMethod`:
+Use the following methods to get and invoke an inaccessible (private or protected) method from a class through [`ReflectionMethod`](https://www.php.net/manual/en/class.reflectionmethod.php):
 
 ```php
 use WP_Mock\Tools\TestCase as TestCase;
