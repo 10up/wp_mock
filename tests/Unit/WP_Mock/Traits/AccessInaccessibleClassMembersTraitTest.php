@@ -42,6 +42,20 @@ final class AccessInaccessibleClassMembersTraitTest extends TestCase
     }
 
     /**
+     * @covers \WP_Mock\Traits\AccessInaccessibleClassMembersTrait::setInaccessiblePropertyValue()
+     *
+     * @return void
+     * @throws ReflectionException|Exception
+     */
+    public function testCanSetInaccessiblePropertyValue() : void
+    {
+        $instance = $this->getInstance('foo');
+        $property = $instance->setInaccessiblePropertyValue($instance, 'property', 'bar');
+
+        $this->assertEquals('bar', $property->getValue($instance));
+    }
+
+    /**
      * @covers \WP_Mock\Traits\AccessInaccessibleClassMembersTrait::getInaccessiblePropertyValue()
      *
      * @return void

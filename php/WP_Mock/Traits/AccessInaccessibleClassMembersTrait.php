@@ -101,4 +101,18 @@ trait AccessInaccessibleClassMembersTrait
 
         return $property;
     }
+
+    /**
+     * Sets a private or protected property on a class.
+     *
+     * @param object $instance class instance
+     * @param string $property the property to set
+     * @param mixed $value the value to set on the property
+     * @return ReflectionProperty
+     * @throws ReflectionException
+     */
+    public function setInaccessiblePropertyValue(object $instance, string $property, $value) : ReflectionProperty
+    {
+        return $this->setInaccessibleProperty($instance, get_class($instance), $property, $value);
+    }
 }
