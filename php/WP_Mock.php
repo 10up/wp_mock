@@ -289,7 +289,7 @@ class WP_Mock
      * Really just a wrapper function for expectHookAdded()
      *
      * @param string   $action   The action name
-     * @param callable $callback The callback that should be registered
+     * @param callable|\Mockery\Matcher\Type $callback The callback that should be registered
      * @param int      $priority The priority it should be registered at
      * @param int      $args     The number of arguments that should be allowed
      */
@@ -303,7 +303,7 @@ class WP_Mock
      * around the expectHookNotAdded function.
      *
      * @param string   $action   The action hook name
-     * @param callable $callback The action callback
+     * @param callable|\Mockery\Matcher\Type $callback The action callback
      */
     public static function expectActionNotAdded($action, $callback)
     {
@@ -316,7 +316,7 @@ class WP_Mock
      * Really just a wrapper function for expectHookAdded()
      *
      * @param string   $filter   The action name
-     * @param callable $callback The callback that should be registered
+     * @param callable|\Mockery\Matcher\Type $callback The callback that should be registered
      * @param int      $priority The priority it should be registered at
      * @param int      $args     The number of arguments that should be allowed
      */
@@ -330,7 +330,7 @@ class WP_Mock
      * around the expectHookNotAdded function.
      *
      * @param string   $filter   The filter hook name
-     * @param callable $callback The filter callback
+     * @param callable|\Mockery\Matcher\Type $callback The filter callback
      */
     public static function expectFilterNotAdded($filter, $callback)
     {
@@ -342,7 +342,7 @@ class WP_Mock
      *
      * @param string   $type     The type of hook being added
      * @param string   $action   The action name
-     * @param callable $callback The callback that should be registered
+     * @param callable|\Mockery\Matcher\Type $callback The callback that should be registered
      * @param int      $priority The priority it should be registered at
      * @param int      $args     The number of arguments that should be allowed
      */
@@ -363,7 +363,7 @@ class WP_Mock
      *
      * @param string   $type     The hook type, 'action' or 'filter'
      * @param string   $action   The name of the hook
-     * @param callable $callback The hooks callback handler.
+     * @param callable|\Mockery\Matcher\Type $callback The hooks callback handler.
      */
     public static function expectHookNotAdded($type, $action, $callback)
     {

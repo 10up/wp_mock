@@ -54,6 +54,7 @@ final class HookTest extends TestCase
         yield 'closure (object)' => [$closureInstance, '__CLOSURE__'];
         yield 'closure (representation)' => ['<Closure>', '__CLOSURE__'];
         yield 'closure (class name)' => [Closure::class, '__CLOSURE__'];
+        yield 'mockery matcher' => [\Mockery::type(\Closure::class), '__CLOSURE__'];
         yield 'scalar (string)' => ['test-string', 'test-string'];
         yield 'scalar (integer)' => [123, '123'];
         yield 'scalar (float)' => [1.23, '1.23'];

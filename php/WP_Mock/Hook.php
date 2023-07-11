@@ -41,16 +41,27 @@ abstract class Hook
     {
         if (null === $value) {
             return 'null';
-        /** the following is to prevent a possible return mismatch when {@see \WP_Mock\Functions::type()} is used with 'callable' */
-        } elseif ($value instanceof Closure || Closure::class === $value || (is_string($value) && '<CLOSURE>' === strtoupper($value))) {
+        }
+
+        /** the following is to prevent a possible return mismatch when {@see \WP_Mock\Functions::type()} is used with 'callable' and to correctly create safe offsets for processors when expecting, via {@see WP_Mock\Functions::type(\Closure::class)}, that a hook that uses a closure is added*/
+        $closure = fn() => null;
+        if ($value instanceof Closure || Closure::class === $value || (is_string($value) && '<CLOSURE>' === strtoupper($value)) || ($value instanceof \Mockery\Matcher\Type && $value->match($closure))){
             return '__CLOSURE__';
-        } elseif (is_scalar($value)) {
+        }
+        
+        if (is_scalar($value)){
             return (string) $value;
-        } elseif ($value instanceof AnyInstance) {
+        }
+        
+        if ($value instanceof AnyInstance){
             return (string) $value;
-        } elseif (is_object($value)) {
+        }
+        
+        if (is_object($value)){
             return spl_object_hash($value);
-        } elseif (is_array($value)) {
+        }
+        
+        if (is_array($value)) {
             $parsed = '';
 
             foreach ($value as $k => $v) {
