@@ -6,6 +6,7 @@ use Closure;
 use PHPUnit\Framework\ExpectationFailedException;
 use WP_Mock;
 use WP_Mock\Matcher\AnyInstance;
+use Mockery\Matcher\Type;
 
 /**
  * Abstract mock representation of a WordPress hook.
