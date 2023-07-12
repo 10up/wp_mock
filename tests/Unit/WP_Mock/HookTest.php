@@ -5,6 +5,7 @@ namespace WP_Mock\Tests\Unit\WP_Mock;
 use Closure;
 use Generator;
 use Exception;
+use Mockery;
 use PHPUnit\Framework\TestCase;
 use ReflectionException;
 use stdClass;
