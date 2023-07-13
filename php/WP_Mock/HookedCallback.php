@@ -19,7 +19,7 @@ class HookedCallback extends Hook
 
     public function react($callback, $priority, $argument_count)
     {
-        \WP_Mock::addHook($this->name);
+        \WP_Mock::addHook($this->name, $this->type);
 
         $safe_callback = $this->safe_offset($callback);
 
