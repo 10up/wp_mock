@@ -60,10 +60,11 @@ trait MockWordPressObjectsTrait
      * Mocks a WordPress instance.
      *
      * @param array<string, mixed> $queryVars
-     * @return Mockery\LegacyMockInterface|Mockery\MockInterface|WP|(WP&Mockery\LegacyMockInterface)|(WP&Mockery\MockInterface)
+     * @return WP&LegacyMockInterface&MockInterface
      */
     protected function mockWp(array $queryVars = [])
     {
+        /** @var WP&Mockery\LegacyMockInterface&Mockery\MockInterface $wp */
         $wp = Mockery::mock(WP::class);
         /** @phpstan-ignore-next-line */
         $wp->query_vars = $queryVars;
