@@ -15,7 +15,7 @@ trait MockWordPressObjectsTrait
      * Mocks a WordPress post.
      *
      * @param array<string, mixed> $postData optional post data to add to the post
-     * @return Mockery\LegacyMockInterface|Mockery\MockInterface|WP_Post|(WP_Post&Mockery\LegacyMockInterface)|(WP_Post&Mockery\MockInterface)
+     * @return WP_Post&Mockery\MockInterface&Mockery\LegacyMockInterface
      */
     protected function mockPost(array $postData = [])
     {
