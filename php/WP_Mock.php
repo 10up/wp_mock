@@ -427,7 +427,7 @@ class WP_Mock
      * It is possible to use Mockery methods to add expectations to the object returned, which will then be combined with any expectations that may have been passed as arguments.
      *
      * @param string $function function name
-     * @param array<string, mixed> $args optional arguments to set expectations
+     * @param mixed[] $args optional arguments to set expectations
      * @return Mockery\Expectation
      * @throws InvalidArgumentException
      */
@@ -446,7 +446,7 @@ class WP_Mock
      *    esc_attr_e('some_value'); // echoes "some_value"
      *
      * @param string $function function name
-     * @param array<string, mixed>|scalar $args optional arguments
+     * @param mixed[]|scalar $args optional arguments
      * @return Mockery\Expectation
      * @throws InvalidArgumentException
      */
@@ -471,7 +471,7 @@ class WP_Mock
      *    echo esc_attr('some_value'); // echoes "some_value"
      *
      * @param string $function function name
-     * @param array<string, mixed>|scalar $args function arguments (optional)
+     * @param mixed[]|scalar $args function arguments (optional)
      * @return Mockery\Expectation
      * @throws InvalidArgumentException
      */
@@ -493,7 +493,7 @@ class WP_Mock
      *
      * @param string|callable-string $function function to alias
      * @param string|callable-string $aliasFunction actual function
-     * @param array<int|string, mixed>|scalar $args optional arguments
+     * @param mixed[]|scalar $args optional arguments
      * @return Mockery\Expectation
      * @throws InvalidArgumentException
      */
