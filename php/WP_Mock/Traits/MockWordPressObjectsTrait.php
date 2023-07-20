@@ -3,6 +3,8 @@
 namespace WP_Mock\Traits;
 
 use Mockery;
+use Mockery\LegacyMockInterface;
+use Mockery\MockInterface;
 use WP;
 use WP_Post;
 
@@ -14,12 +16,18 @@ trait MockWordPressObjectsTrait
     /**
      * Mocks a WordPress post.
      *
+     * Users of this method should add `@var WP_Post $variable` or `@var Mockery\MockInterface $variable` to
+     * set the necessary type for the resulting mock. Unfortunately, PHPStan doesn't allow WP_Post in an
+     * intersection type, because the class is marked as final.
+     *
      * @param array<string, mixed> $postData optional post data to add to the post
-     * @return Mockery\LegacyMockInterface|Mockery\MockInterface|WP_Post|(WP_Post&Mockery\LegacyMockInterface)|(WP_Post&Mockery\MockInterface)
+     * @return Mockery\LegacyMockInterface&Mockery\MockInterface
      */
     protected function mockPost(array $postData = [])
     {
+        /** @var Mockery\LegacyMockInterface&Mockery\MockInterface $post */
         $post = Mockery::mock(WP_Post::class);
+
         $postData = array_merge([
             'ID'                => 0,
             'post_author'       => 0,
@@ -52,10 +60,11 @@ trait MockWordPressObjectsTrait
      * Mocks a WordPress instance.
      *
      * @param array<string, mixed> $queryVars
-     * @return Mockery\LegacyMockInterface|Mockery\MockInterface|WP|(WP&Mockery\LegacyMockInterface)|(WP&Mockery\MockInterface)
+     * @return WP&LegacyMockInterface&MockInterface
      */
     protected function mockWp(array $queryVars = [])
     {
+        /** @var WP&Mockery\LegacyMockInterface&Mockery\MockInterface $wp */
         $wp = Mockery::mock(WP::class);
         /** @phpstan-ignore-next-line */
         $wp->query_vars = $queryVars;
