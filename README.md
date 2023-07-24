@@ -32,7 +32,7 @@ Please read our [Code of Conduct](https://github.com/10up/wp_mock/blob/trunk/COD
 
 WP_Mock is supported by [10up](https://10up.com) and [GoDaddy](https://godaddy.com). [GitBook](https://www.gitbook.com/) kindly offers free hosting for [WP_Mock documentation](https://wp-mock.gitbook.io/documentation/getting-started/introduction).
 
-A special thanks to all [WP_Mock contributors](https://github.com/10up/wp_mock/graphs/contributors).
+A special thanks to all [WP_Mock contributors](https://github.com/10up/wp_mock/blob/trunk/CREDITS.md).
 
 ## Like what you see?
 
