@@ -4,7 +4,7 @@ The following acknowledges the Maintainers for this repository, those who have C
 
 The following individuals are responsible for curating the list of issues, responding to pull requests, and ensuring regular releases happen.
 
-[Jeffrey Paul (@jeffpaul)](https://github.com/jeffpaul), [Fulvio Notarstefano (@unfulvio-godaddy)](https://github.com/unfulvio-godaddy), and the GoDaddy Managed WooCommerce Engineering team.
+[Jeffrey Paul (@jeffpaul)](https://github.com/jeffpaul), [Fulvio Notarstefano (@unfulvio-godaddy)](https://github.com/unfulvio-godaddy), and the [GoDaddy Managed WooCommerce Engineering team](https://github.com/orgs/10up/teams/godaddy-wp_mock).
 
 ## Contributors
 
