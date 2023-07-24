@@ -4,10 +4,26 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.0](https://github.com/10up/wp_mock/compare/0.4.2...1.0.0) - 2023-07-24
+### Added
+- Added and documented return types in codebase
+- New `AccessInaccessibleClassMembers` helpers in test case
+- Move [documentation to GitBook](https://wp-mock.gitbook.io/documentation/getting-started/introduction)
+### Changed
+- Require PHP 7.4
+- Update dependencies (Mockery 1.6, PHPUnit 9.6)
+- Remove deprecated methods in `WP_Mock` main class
+- Update `Hook::safe_offset()` to handle closure
+### Fixed
+- `IsEqualHtml` extends PHPUnit `Constraint`
+- Improve responder handling of closures 
+
 ## [0.5.0](https://github.com/10up/wp_mock/compare/0.4.2...0.5.0) - 2022-11-01
 ### Added
 - New `AnyInstance` matcher
 ### Changed
+- Add compatibility with PHPUnit 9
+- Require PHP 7.3
 - Mocker function for `_n()` to evaluate singular or plural
 ### Fixed
 - Patchwork not loaded error (`WP_Mock::setUsePatchwork(true)` was broken)
