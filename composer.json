@@ -2,11 +2,11 @@
     "name": "10up/wp_mock",
     "description": "A mocking library to take the pain out of unit testing for WordPress",
     "license": "BSD-3-Clause",
-    "version": "0.5.0",
+    "version": "1.0.0",
     "prefer-stable": true,
     "require": {
         "php": ">=7.4 < 8.3",
-        "phpunit/phpunit": "^9.5",
+        "phpunit/phpunit": "^9.6",
         "mockery/mockery": "^1.6",
         "antecedent/patchwork": "^2.1"
     },
