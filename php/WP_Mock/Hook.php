@@ -52,19 +52,19 @@ abstract class Hook
         if ($value instanceof Closure || Closure::class === $value || (is_string($value) && '<CLOSURE>' === strtoupper($value)) || ($value instanceof Type && $value->match($closure))){
             return '__CLOSURE__';
         }
-        
+
         if (is_scalar($value)){
             return (string) $value;
         }
-        
+
         if ($value instanceof AnyInstance){
             return (string) $value;
         }
-        
+
         if (is_object($value)){
             return spl_object_hash($value);
         }
-        
+
         if (is_array($value)) {
             $parsed = '';
 
@@ -79,7 +79,7 @@ abstract class Hook
         return '';
     }
 
-    /** @return Action_Responder|Filter_Responder */
+    /** @return Action_Responder|Filter_Responder|HookedCallbackResponder */
     public function with()
     {
         $args      = func_get_args();
