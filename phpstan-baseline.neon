@@ -56,22 +56,12 @@ parameters:
 			path: php/WP_Mock.php
 
 		-
-			message: "#^Method WP_Mock\\:\\:assertActionsCalled\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: php/WP_Mock.php
-
-		-
 			message: "#^Method WP_Mock\\:\\:assertActionsCalled\\(\\) throws checked exception PHPUnit\\\\Framework\\\\ExpectationFailedException but it's missing from the PHPDoc @throws tag\\.$#"
 			count: 1
 			path: php/WP_Mock.php
 
 		-
 			message: "#^Method WP_Mock\\:\\:assertActionsCalled\\(\\) throws checked exception SebastianBergmann\\\\RecursionContext\\\\InvalidArgumentException but it's missing from the PHPDoc @throws tag\\.$#"
-			count: 1
-			path: php/WP_Mock.php
-
-		-
-			message: "#^Method WP_Mock\\:\\:assertFiltersCalled\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: php/WP_Mock.php
 
@@ -86,57 +76,12 @@ parameters:
 			path: php/WP_Mock.php
 
 		-
-			message: "#^Method WP_Mock\\:\\:assertHooksAdded\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: php/WP_Mock.php
-
-		-
 			message: "#^Method WP_Mock\\:\\:assertHooksAdded\\(\\) throws checked exception PHPUnit\\\\Framework\\\\ExpectationFailedException but it's missing from the PHPDoc @throws tag\\.$#"
 			count: 1
 			path: php/WP_Mock.php
 
 		-
 			message: "#^Method WP_Mock\\:\\:assertHooksAdded\\(\\) throws checked exception SebastianBergmann\\\\RecursionContext\\\\InvalidArgumentException but it's missing from the PHPDoc @throws tag\\.$#"
-			count: 1
-			path: php/WP_Mock.php
-
-		-
-			message: "#^Method WP_Mock\\:\\:expectAction\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: php/WP_Mock.php
-
-		-
-			message: "#^Method WP_Mock\\:\\:expectActionAdded\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: php/WP_Mock.php
-
-		-
-			message: "#^Method WP_Mock\\:\\:expectActionNotAdded\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: php/WP_Mock.php
-
-		-
-			message: "#^Method WP_Mock\\:\\:expectFilter\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: php/WP_Mock.php
-
-		-
-			message: "#^Method WP_Mock\\:\\:expectFilterAdded\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: php/WP_Mock.php
-
-		-
-			message: "#^Method WP_Mock\\:\\:expectFilterNotAdded\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: php/WP_Mock.php
-
-		-
-			message: "#^Method WP_Mock\\:\\:expectHookAdded\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: php/WP_Mock.php
-
-		-
-			message: "#^Method WP_Mock\\:\\:expectHookNotAdded\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: php/WP_Mock.php
 
@@ -186,32 +131,7 @@ parameters:
 			path: php/WP_Mock/API/function-mocks.php
 
 		-
-			message: "#^Function add_filter\\(\\) has parameter \\$accepted_args with no type specified\\.$#"
-			count: 1
-			path: php/WP_Mock/API/function-mocks.php
-
-		-
-			message: "#^Function add_filter\\(\\) has parameter \\$function_to_add with no type specified\\.$#"
-			count: 1
-			path: php/WP_Mock/API/function-mocks.php
-
-		-
-			message: "#^Function add_filter\\(\\) has parameter \\$priority with no type specified\\.$#"
-			count: 1
-			path: php/WP_Mock/API/function-mocks.php
-
-		-
-			message: "#^Function add_filter\\(\\) has parameter \\$tag with no type specified\\.$#"
-			count: 1
-			path: php/WP_Mock/API/function-mocks.php
-
-		-
 			message: "#^PHPDoc tag @param references unknown parameter\\: \\$var$#"
-			count: 1
-			path: php/WP_Mock/API/function-mocks.php
-
-		-
-			message: "#^Parameter \\$function_to_add of function add_action\\(\\) has invalid type callback\\.$#"
 			count: 1
 			path: php/WP_Mock/API/function-mocks.php
 
