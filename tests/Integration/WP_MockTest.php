@@ -331,6 +331,9 @@ class WP_MockTest extends WP_MockTestCase
         WP_Mock::expectActionNotAdded('wpMockTestActionNotAdded', 'wpMockTestFunction', 10, 2);
         WP_Mock::expectActionNotAdded('wpMockTestFilterNotAdded', 'wpMockTestFunction', 10, 2);
 
+        add_action('wpMockTestAction', 'wpMockTestFunction', 20);
+        add_filter('wpMockTestFilter', 'wpMockTestFunction', 20);
+
         $this->assertConditionsMet();
     }
 }
