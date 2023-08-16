@@ -7,19 +7,19 @@ if (! function_exists('add_action')) {
     /**
      * Hooks a function on to a specific action.
      *
-     * Actions are the hooks that the WordPress core launches at specific points
-     * during execution, or when specific events occur. Plugins can specify that
-     * one or more of its PHP functions are executed at these points, using the
-     * Action API.
+     * Actions are the hooks that WordPress launches at specific points during execution, or when specific events occur.
+     * Plugins can specify that one or more of its PHP functions are executed at these points, using the Action API.
      *
-     * @param string   $tag             The name of the action to which the $function_to_add is hooked.
-     * @param callback $function_to_add The name of the function you wish to be called.
-     * @param int      $priority        optional. Used to specify the order in which the functions associated with a particular action are executed (default: 10). Lower numbers correspond with earlier execution, and functions with the same priority are executed in the order in which they were added to the action.
-     * @param int      $accepted_args   optional. The number of arguments the function accept (default 1).
+     * @link https://developer.wordpress.org/plugins/hooks/actions/
+     *
+     * @param string $tag the name of the action to which the $function_to_add is hooked
+     * @param string|callable-string|callback $functionToAdd the name of the function you wish to be called
+     * @param int $priority optional, used to specify the order in which the functions associated with a particular action are executed (default: 10). Lower numbers correspond with earlier execution, and functions with the same priority are executed in the order in which they were added to the action
+     * @param int $acceptedArgs the number of arguments the function accept (default 1)
      */
-    function add_action($tag, $function_to_add, $priority = 10, $accepted_args = 1)
+    function add_action(string $tag, $functionToAdd, int $priority = 10, int $acceptedArgs = 1)
     {
-        \WP_Mock::onActionAdded($tag)->react($function_to_add, (int) $priority, (int) $accepted_args);
+        \WP_Mock::onActionAdded($tag)->react($functionToAdd, $priority, $acceptedArgs);
     }
 }
 
@@ -43,11 +43,21 @@ if (! function_exists('do_action')) {
 
 if (! function_exists('add_filter')) {
     /**
-     * Dummy method to prevent filter hooks in constructor from failing.
+     * Hooks a function on to a specific filter.
+     *
+     * Filters are the hooks that WordPress uses to alter the value of a variable at specific points during execution.
+     * Plugins can specify that one or more of its PHP functions are executed at these points, using the Filter API, to change the value of that variable.
+     *
+     * @link https://developer.wordpress.org/plugins/hooks/filters/
+     *
+     * @param string $tag the name of the action to which the $function_to_add is hooked
+     * @param string|callable-string|callback $functionToAdd the name of the function you wish to be called
+     * @param int $priority optional, used to specify the order in which the functions associated with a particular action are executed (default: 10). Lower numbers correspond with earlier execution, and functions with the same priority are executed in the order in which they were added to the action
+     * @param int $acceptedArgs the number of arguments the function accept (default 1)
      */
-    function add_filter($tag, $function_to_add, $priority = 10, $accepted_args = 1)
+    function add_filter(string $tag, $functionToAdd, int $priority = 10, int $acceptedArgs = 1)
     {
-        \WP_Mock::onFilterAdded($tag)->react($function_to_add, (int) $priority, (int) $accepted_args);
+        \WP_Mock::onFilterAdded($tag)->react($functionToAdd, $priority, $acceptedArgs);
     }
 }
 
