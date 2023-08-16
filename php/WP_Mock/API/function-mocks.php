@@ -13,7 +13,7 @@ if (! function_exists('add_action')) {
      * @link https://developer.wordpress.org/plugins/hooks/actions/
      *
      * @param string $tag the name of the action to which the $function_to_add is hooked
-     * @param string|callable-string|callback $functionToAdd the name of the function you wish to be called
+     * @param string|callable-string|callable $functionToAdd the name of the function you wish to be called
      * @param int $priority optional, used to specify the order in which the functions associated with a particular action are executed (default: 10). Lower numbers correspond with earlier execution, and functions with the same priority are executed in the order in which they were added to the action
      * @param int $acceptedArgs the number of arguments the function accept (default 1)
      */
@@ -51,7 +51,7 @@ if (! function_exists('add_filter')) {
      * @link https://developer.wordpress.org/plugins/hooks/filters/
      *
      * @param string $tag the name of the action to which the $function_to_add is hooked
-     * @param string|callable-string|callback $functionToAdd the name of the function you wish to be called
+     * @param string|callable-string|callable $functionToAdd the name of the function you wish to be called
      * @param int $priority optional, used to specify the order in which the functions associated with a particular action are executed (default: 10). Lower numbers correspond with earlier execution, and functions with the same priority are executed in the order in which they were added to the action
      * @param int $acceptedArgs the number of arguments the function accept (default 1)
      */
