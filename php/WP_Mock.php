@@ -285,7 +285,7 @@ class WP_Mock
     }
 
     /**
-     * Add an expectation that an action hook should be added.
+     * Adds an expectation that an action hook should be added.
      *
      * @param string $action the action hook name
      * @param callable-string|callable|Type $callback the callback that should be registered
@@ -299,7 +299,7 @@ class WP_Mock
     }
 
     /**
-     * Add an expectation that an action hook should not be added.
+     * Adds an expectation that an action hook should not be added.
      *
      * @param string $action the action hook name
      * @param callable-string|callable|Type $callback the callback that should be registered
