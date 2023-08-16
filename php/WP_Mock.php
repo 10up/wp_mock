@@ -387,9 +387,11 @@ class WP_Mock
     }
 
     /**
-     * Assert that all hooks are added.
+     * Asserts that all hooks are added.
+     *
+     * @return void
      */
-    public static function assertHooksAdded()
+    public static function assertHooksAdded() : void
     {
         $allHooksAdded = self::$event_manager->allHooksAdded();
         $failed = implode(', ', self::$event_manager->expectedHooks());

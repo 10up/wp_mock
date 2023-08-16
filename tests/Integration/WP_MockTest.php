@@ -298,4 +298,39 @@ class WP_MockTest extends WP_MockTestCase
 
         wpMockTestEchoFunction('echo value');
     }
+
+    /**
+     * @covers \WP_Mock::expectActionAdded()
+     * @covers \WP_Mock::expectFilterAdded()
+     * @covers \WP_Mock::expectHookAdded()
+     * @covers \WP_Mock::assertHooksAdded()
+     *
+     * @return void
+     */
+    public function testCanExpectHooksAdded() : void
+    {
+        WP_Mock::expectActionAdded('wpMockTestAction', 'wpMockTestFunction', 10, 2);
+        WP_Mock::expectFilterAdded('wpMockTestFilter', 'wpMockTestFunction', 10, 2);
+
+        add_action('wpMockTestAction', 'wpMockTestFunction', 10, 2);
+        add_filter('wpMockTestFilter', 'wpMockTestFunction', 10, 2);
+
+        WP_Mock::assertHooksAdded();
+    }
+
+    /**
+     * @covers \WP_Mock::expectActionNotAdded()
+     * @covers \WP_Mock::expectFilterNotAdded()
+     * @covers \WP_Mock::expectHookNotAdded()
+     *
+     * @return void
+     * @throws Exception
+     */
+    public function testCanExpectHooksNotAdded() : void
+    {
+        WP_Mock::expectActionNotAdded('wpMockTestActionNotAdded', 'wpMockTestFunction', 10, 2);
+        WP_Mock::expectActionNotAdded('wpMockTestFilterNotAdded', 'wpMockTestFunction', 10, 2);
+
+        $this->assertConditionsMet();
+    }
 }
