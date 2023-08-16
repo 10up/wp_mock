@@ -224,36 +224,32 @@ class WP_Mock
     }
 
     /**
-     * Set up the expectation that an action will be called during the test.
+     * Adds an expectation that an action will be called during the test.
      *
-     * Mock a WordPress action, regardless of the parameters used.  This call merely
-     * verifies that the action is invoked by the tested method.
-     *
-     * @param string $action Action we expect the method to call
+     * @param string $action expected action
+     * @returnv oid
      */
-    public static function expectAction($action)
+    public static function expectAction(string $action) : void
     {
-        $intercept = \Mockery::mock('intercept');
+        $intercept = Mockery::mock('intercept');
         $intercept->shouldReceive('intercepted')->atLeast()->once();
         $args = func_get_args();
         $args = count($args) > 1 ? array_slice($args, 1) : array( null );
 
         $mocked_action = self::onAction($action);
         $responder     = call_user_func_array(array( $mocked_action, 'with' ), $args);
-        $responder->perform(array( $intercept, 'intercepted' ));
+        $responder->perform([$intercept, 'intercepted']);
     }
 
     /**
-     * Set up the expectation that a filter will be applied during the test.
+     * Adds an expectation that a filter will be applied during the test.
      *
-     * Mock a WordPress filter with specific arguments. You need all arguments that you expect
-     * in order to fulfill the expectation.
-     *
-     * @param string $filter
+     * @param string $filter expected filter
+     * @return void
      */
-    public static function expectFilter($filter)
+    public static function expectFilter(string $filter) : void
     {
-        $intercept = \Mockery::mock('intercept');
+        $intercept = Mockery::mock('intercept');
         $intercept->shouldReceive('intercepted')->atLeast()->once()->andReturnUsing(function ($value) {
             return $value;
         });
@@ -261,27 +257,31 @@ class WP_Mock
 
         $mocked_filter = self::onFilter($filter);
         $responder     = call_user_func_array(array( $mocked_filter, 'with' ), $args);
-        $responder->reply(new \WP_Mock\InvokedFilterValue(array( $intercept, 'intercepted' )));
+        $responder->reply(new WP_Mock\InvokedFilterValue(array( $intercept, 'intercepted' )));
     }
 
     /**
-     * Assert that all actions are called.
+     * Asserts that all actions are called.
+     *
+     * @return void
      */
-    public static function assertActionsCalled()
+    public static function assertActionsCalled() : void
     {
         $allActionsCalled = self::$event_manager->allActionsCalled();
         $failed = implode(', ', self::$event_manager->expectedActions());
-        \PHPUnit\Framework\Assert::assertTrue($allActionsCalled, 'Method failed to invoke actions: ' . $failed);
+        PHPUnit\Framework\Assert::assertTrue($allActionsCalled, 'Method failed to invoke actions: ' . $failed);
     }
 
     /**
-     * Assert that all filters are called.
+     * Asserts that all filters are called.
+     *
+     * @return void
      */
-    public static function assertFiltersCalled()
+    public static function assertFiltersCalled() : void
     {
         $allFiltersCalled = self::$event_manager->allFiltersCalled();
         $failed           = implode(', ', self::$event_manager->expectedFilters());
-        \PHPUnit\Framework\Assert::assertTrue($allFiltersCalled, 'Method failed to invoke filters: ' . $failed);
+        PHPUnit\Framework\Assert::assertTrue($allFiltersCalled, 'Method failed to invoke filters: ' . $failed);
     }
 
     /**
