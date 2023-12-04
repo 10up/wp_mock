@@ -2,6 +2,10 @@
 
 namespace WP_Mock;
 
+use WP_Mock\Hooks\Action;
+use WP_Mock\Hooks\Filter;
+use WP_Mock\Hooks\HookedCallback;
+
 class EventManager
 {
     /**

@@ -3,24 +3,24 @@
 namespace WP_Mock\Tests\Unit\WP_Mock;
 
 use Closure;
-use Generator;
 use Exception;
+use Generator;
 use Mockery;
 use PHPUnit\Framework\TestCase;
 use ReflectionException;
 use stdClass;
-use WP_Mock\Hook;
+use WP_Mock\Hooks\Hook;
 use WP_Mock\Traits\AccessInaccessibleClassMembersTrait;
 
 /**
- * @covers \WP_Mock\Hook
+ * @covers \WP_Mock\Hooks\Hook
  */
 final class HookTest extends TestCase
 {
     use AccessInaccessibleClassMembersTrait;
 
     /**
-     * @covers \WP_Mock\Hook::safe_offset()
+     * @covers \WP_Mock\Hooks\Hook::safe_offset()
      * @dataProvider providerSafeOffset
      *
      * @param mixed $value
@@ -39,7 +39,7 @@ final class HookTest extends TestCase
     /** @see testCanParseSafeOffset */
     public function providerSafeOffset(): Generator
     {
-        $callbackInstance = new class () {
+        $callbackInstance = new class() {
             public function callback(): bool
             {
                 return true;
@@ -64,4 +64,6 @@ final class HookTest extends TestCase
         yield 'object' => [$objectInstance, spl_object_hash($objectInstance)];
         yield 'array (callback)' => [[$callbackInstance, 'callback'], spl_object_hash($callbackInstance).'callback'];
     }
+
+
 }

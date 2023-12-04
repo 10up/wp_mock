@@ -1,12 +1,16 @@
 <?php
 
-namespace WP_Mock;
+namespace WP_Mock\Hooks;
 
 use Closure;
+use Mockery\Matcher\Type;
 use PHPUnit\Framework\ExpectationFailedException;
 use WP_Mock;
+use WP_Mock\Hooks\Responders\ActionResponder;
+use WP_Mock\Hooks\Responders\FilterResponder;
+use WP_Mock\Hooks\Responders\HookedCallbackResponder;
+use WP_Mock\Hooks\Responders\Responder;
 use WP_Mock\Matcher\AnyInstance;
-use Mockery\Matcher\Type;
 
 /**
  * Abstract mock representation of a WordPress hook.
@@ -17,10 +21,10 @@ use Mockery\Matcher\Type;
 abstract class Hook
 {
     /** @var string hook name */
-    protected $name;
+    protected string $name;
 
-    /** @var array<mixed> collection of processors */
-    protected $processors = [];
+    /** @var array<int|string, Responder|array<int, array<int, Responder>>> $processors collection of processors */
+    protected array $processors = [];
 
     /**
      * Hook constructor.
@@ -48,20 +52,20 @@ abstract class Hook
          * The following is to prevent a possible return mismatch when {@see Functions::type()} is used with `callable`,
          * and to correctly create safe offsets for processors when expecting that a hook that uses a closure is added via {@see Functions::type(Closure::class)}.
          */
-        $closure = fn() => null;
-        if ($value instanceof Closure || Closure::class === $value || (is_string($value) && '<CLOSURE>' === strtoupper($value)) || ($value instanceof Type && $value->match($closure))){
+        $closure = fn () => null;
+        if ($value instanceof Closure || Closure::class === $value || (is_string($value) && '<CLOSURE>' === strtoupper($value)) || ($value instanceof Type && $value->match($closure))) {
             return '__CLOSURE__';
         }
 
-        if (is_scalar($value)){
+        if (is_scalar($value)) {
             return (string) $value;
         }
 
-        if ($value instanceof AnyInstance){
+        if ($value instanceof AnyInstance) {
             return (string) $value;
         }
 
-        if (is_object($value)){
+        if (is_object($value)) {
             return spl_object_hash($value);
         }
 
@@ -79,35 +83,50 @@ abstract class Hook
         return '';
     }
 
-    /** @return Action_Responder|Filter_Responder|HookedCallbackResponder */
-    public function with()
+    /**
+     * Returns the expected responder for the hook.
+     *
+     * @return ActionResponder|FilterResponder|HookedCallbackResponder
+     */
+    public function with() : Responder
     {
         $args      = func_get_args();
-        $responder = $this->new_responder();
+        $responder = $this->getResponderInstance();
 
         if ($args === array( null )) {
             $this->processors['argsnull'] = $responder;
         } else {
-            $num_args = count($args);
+            $numArgs = count($args);
 
+            /** @var array<int, array<int, array<int, Responder>>> $processors */
             $processors = &$this->processors;
-            for ($i = 0; $i < $num_args - 1; $i ++) {
-                $arg = $this->safe_offset($args[ $i ]);
 
-                if (! isset($processors[ $arg ])) {
-                    $processors[ $arg ] = array();
+            for ($i = 0; $i < $numArgs - 1; $i ++) {
+                /** @var int $arg */
+                $arg = $this->safe_offset($args[$i]);
+
+                if (! isset($processors[$arg])) {
+                    /** @phpstan-ignore-next-line */
+                    $processors[$arg] = [];
                 }
 
-                $processors = &$processors[ $arg ];
+                /** @var array<int, array<int, array<int, Responder>>> $processors */
+                $processors = &$processors[$arg];
             }
 
-            $processors[ $this->safe_offset($args[ $num_args - 1 ]) ] = $responder;
+            $processors[$this->safe_offset($args[$numArgs - 1])] = $responder;
         }
 
+        /** @var ActionResponder|FilterResponder|HookedCallbackResponder $responder */
         return $responder;
     }
 
-    abstract protected function new_responder();
+    /**
+     * Instantiates a new responder for the hook.
+     *
+     * @return Responder
+     */
+    abstract protected function getResponderInstance() : Responder;
 
     /**
      * Throws an exception if strict mode is on.
@@ -118,7 +137,7 @@ abstract class Hook
     protected function strict_check(): void
     {
         if (WP_Mock::strictMode()) {
-            throw new ExpectationFailedException($this->get_strict_mode_message());
+            throw new ExpectationFailedException($this->getStrictModeErrorMessage());
         }
     }
 
@@ -127,5 +146,5 @@ abstract class Hook
      *
      * @return string
      */
-    abstract protected function get_strict_mode_message();
+    abstract protected function getStrictModeErrorMessage() : string;
 }

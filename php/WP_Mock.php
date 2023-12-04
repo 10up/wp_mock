@@ -8,10 +8,10 @@
  */
 
 use Mockery\Exception as MockeryException;
+use Mockery\Matcher\Type;
 use WP_Mock\DeprecatedMethodListener;
 use WP_Mock\Functions\Handler;
 use WP_Mock\Matcher\FuzzyObject;
-use Mockery\Matcher\Type;
 
 /**
  * WP_Mock main class.
@@ -140,7 +140,7 @@ class WP_Mock
      *
      * @param string $filter
      *
-     * @return \WP_Mock\Filter
+     * @return \WP_Mock\Hooks\Filter
      */
     public static function onFilter($filter)
     {
@@ -153,7 +153,7 @@ class WP_Mock
      *
      * @param string $action
      *
-     * @return \WP_Mock\Action
+     * @return \WP_Mock\Hooks\Action
      */
     public static function onAction($action)
     {
@@ -166,7 +166,7 @@ class WP_Mock
      * @param string $hook
      * @param string $type
      *
-     * @return \WP_Mock\HookedCallback
+     * @return \WP_Mock\Hooks\HookedCallback
      */
     public static function onHookAdded($hook, $type = 'filter')
     {
@@ -178,7 +178,7 @@ class WP_Mock
      *
      * @param string $hook
      *
-     * @return \WP_Mock\HookedCallback
+     * @return \WP_Mock\Hooks\HookedCallback
      */
     public static function onFilterAdded($hook)
     {
@@ -190,7 +190,7 @@ class WP_Mock
      *
      * @param string $hook
      *
-     * @return \WP_Mock\HookedCallback
+     * @return \WP_Mock\Hooks\HookedCallback
      */
     public static function onActionAdded($hook)
     {
@@ -257,7 +257,7 @@ class WP_Mock
 
         $mocked_filter = self::onFilter($filter);
         $responder     = call_user_func_array(array( $mocked_filter, 'with' ), $args);
-        $responder->reply(new WP_Mock\InvokedFilterValue(array( $intercept, 'intercepted' )));
+        $responder->reply(new \WP_Mock\Hooks\InvokedFilterValue(array($intercept, 'intercepted' )));
     }
 
     /**
@@ -357,7 +357,7 @@ class WP_Mock
         $intercept = Mockery::mock('intercept');
         $intercept->shouldReceive('intercepted')->atLeast()->once();
 
-        /** @var WP_Mock\HookedCallbackResponder $responder */
+        /** @var \WP_Mock\Hooks\Responders\HookedCallbackResponder $responder */
         $responder = self::onHookAdded($hook, $type)
             ->with($callback, $priority, $args);
         $responder->perform([$intercept, 'intercepted']);
@@ -380,7 +380,7 @@ class WP_Mock
         $intercept = Mockery::mock('intercept');
         $intercept->shouldNotReceive('intercepted');
 
-        /** @var WP_Mock\HookedCallbackResponder $responder */
+        /** @var \WP_Mock\Hooks\Responders\HookedCallbackResponder $responder */
         $responder = self::onHookAdded($hook, $type)
             ->with($callback, $priority, $args);
         $responder->perform([$intercept, 'intercepted']);
