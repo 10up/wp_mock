@@ -12,14 +12,10 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        php: [ '8.3' ]
         os: [ 'ubuntu-latest' ]
+        php: [ '8.1', '8.2', '8.3' ]
         include:
-          - php: '8.2'
-            os: 'ubuntu-latest'
-          - php: '8.1'
-            os: 'ubuntu-latest'
-          - php: '8.0'
+          - php: '8.0',
             os: 'ubuntu-20.04'
           - php: '7.4'
             os: 'ubuntu-20.04'
@@ -29,21 +25,12 @@ jobs:
       PHP_VERSION: ${{ matrix.php }}
 
     steps:
-      - uses: actions/checkout@7884fcad6b5d53d10323aee724dc68d8b9096a2e # v2.4.2
-
-      # TODO: replace with https://github.com/marketplace/actions/setup-php-action
-      - name: Switch to PHP ${{ env.PHP_VERSION }}
-        run: |
-          sudo update-alternatives --set php /usr/bin/php$PHP_VERSION
-          sudo update-alternatives --set phar /usr/bin/phar$PHP_VERSION
-          sudo update-alternatives --set phar.phar /usr/bin/phar.phar$PHP_VERSION
-          sudo update-alternatives --set phpize /usr/bin/phpize$PHP_VERSION
-          sudo update-alternatives --set php-config /usr/bin/php-config$PHP_VERSION
-
-      - name: Enable pcov
-        run: |
-          sudo phpdismod xdebug
-          sudo phpenmod pcov
+      - run: echo "PHP ${{ matrix.php }}"
+        name: Setup PHP
+      - uses: shivammathur/setup-php@e6f75134d35752277f093989e72e140eaa222f35 # v2.28.0
+        with:
+          php-version: ${{ matrix.php }}
+          coverage: pcov
 
       - name: Get Composer cache directory
         id: composer-cache
