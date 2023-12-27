@@ -25,6 +25,8 @@ jobs:
       PHP_VERSION: ${{ matrix.php }}
 
     steps:
+      - uses: actions/checkout@7884fcad6b5d53d10323aee724dc68d8b9096a2e # v2.4.2
+
       - run: echo "PHP ${{ matrix.php }}"
         name: Setup PHP
       - uses: shivammathur/setup-php@e6f75134d35752277f093989e72e140eaa222f35 # v2.28.0
