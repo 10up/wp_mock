@@ -5,7 +5,7 @@
     "version": "1.0.0",
     "prefer-stable": true,
     "require": {
-        "php": ">=7.4 < 8.3",
+        "php": ">=7.4 < 9",
         "phpunit/phpunit": "^9.6",
         "mockery/mockery": "^1.6",
         "antecedent/patchwork": "^2.1"
