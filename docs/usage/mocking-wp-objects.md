@@ -24,9 +24,8 @@ When we mock the `$wpdb` object, we're not performing an actual database call, o
 ```php
 use Mockery;
 use MyPlugin\MyClass;
-use PHPUnit\Framework\TestCase;
 
-final class MyClassTest extends TestCase
+final class MyClassTest extends \WP_Mock\Tools\TestCase
 {
     public function testCanGetSomePostIds() : void
     {

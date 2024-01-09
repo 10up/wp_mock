@@ -26,11 +26,10 @@ You can use `WP_Mock::userFunction()` to mock the `get_post()` function and retu
 
 ```php
 use MyPlugin\MyClass;
-use PHPUnit\Framework\TestCase;
 use stdClass
 use WP_Mock;
 
-final class MyClassTest extends TestCase
+final class MyClassTest extends WP_Mock\Tools\TestCase
 {
     public function testMyFunction() : void
     {
@@ -54,6 +53,10 @@ Calling `WP_Mock::userFunction()` will dynamically define the function for you i
 ```php
 return \WP_Mock\Functions\Handler::handleFunction(__FUNCTION__, func_get_args());
 ```
+
+**Important!**
+
+Note how in the above test class `WP_Mock\Tools\TestCase` was extended instead of `PHPUnit\Framework\TestCase`. This is because WP_Mock provides a custom test case class that extends PHPUnit's test case class and adds additional functionality to it. Ideally, you should always extend `WP_Mock\Tools\TestCase` instead of `PHPUnit\Framework\TestCase` when using WP_Mock. _If you do not wish to extend WP_Mock own test case class_ you should make sure to call `WP_Mock::setUp()` and `WP_Mock::tearDown()` in your test case's `setUp()` and `tearDown()` methods respectively.
 
 ## Using Mockery expectations
 
