@@ -25,4 +25,4 @@ They will be installed for you by Composer.
 
 Next, you will need to configure PHPUnit first before enabling WP_Mock. [Consult PHPUnit documentation](https://phpunit.de/documentation.html) for this step.
 
-You will also need to configure WP_Mock with a bootstrap file to use it in your tests.
+You will also need to [configure WP_Mock with a bootstrap file](configuration.md) to use it in your tests.
