@@ -59,8 +59,7 @@ return \WP_Mock\Functions\Handler::handleFunction(__FUNCTION__, func_get_args())
 
 **Important!**
 
-Note how in the above test class `WP_Mock\Tools\TestCase` was extended instead of `PHPUnit\Framework\TestCase`. This is because WP_Mock provides a custom test case class that extends PHPUnit's test case class to run properly, as well as while adding additional utility and test methods. You should always extend `WP_Mock\Tools\TestCase` instead of `PHPUnit\Framework\TestCase` when using WP_Mock.
-
+You should typically extend `WP_Mock\Tools\TestCase` instead of `PHPUnit\Framework\TestCase` when using WP_Mock.
 See [WP_Mock Test Case Documentation](../tools/wp-mock-test-case.md) and [how to configure WP_Mock](../general/configuration.md) for more information.
 
 {% endhint %}
