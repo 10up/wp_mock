@@ -66,7 +66,7 @@ WP_Mock::bootstrap();
 
 ## Extend WP_Mock Test Case
 
-Once you have set up WP_Mock as outlined above, you should use the `WP_Mock\Tools\TestCase` class as your base test case class in your PHPUnit tests. This class extends PHPUnit's own `TestCase` class, with some helper methods but also methods that help WP_Mock to function properly. You should always extend `WP_Mock\Tools\TestCase` instead of `PHPUnit\Framework\TestCase` when using WP_Mock.
+Once you have followed the configuration steps as outlined above, you'll want to update your test classes to extend the `WP_Mock\Tools\TestCase` class for the best results when using WP_Mock. This class extends PHPUnit's own `TestCase` class, with some helper and other methods that help WP_Mock to function properly.
 
 ```php
 
