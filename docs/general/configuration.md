@@ -42,7 +42,7 @@ A more convenient way though would be to add the following to the phpunit.xml co
 bootstrap="/path/to/bootstrap.php"
 ```
 
-## Patchwork
+## Enable Patchwork
 
 [Patchwork](https://github.com/antecedent/patchwork) is a library that enables temporarily overwriting user-defined functions and static methods. This means you can better isolate your system under test by mocking your plugin's functions that are tested elsewhere. If Patchwork is turned on, WP_Mock will transparently use it behind the scenes. For most use cases, you won't need to worry about using it directly.
 
@@ -53,7 +53,7 @@ WP_Mock::setUsePatchwork(true);
 WP_Mock::bootstrap();
 ```
 
-## Strict Mode
+## Enable Strict Mode
 
 WP_Mock has a strict mode that developers may optionally enable. By default, it is disabled. If enabled, strict mode will cause tests to fail if they use previously mocked functions without first explicitly declaring an expectation for how that function will be used. This provides an easy way to enforce an extra layer of specificity in unit tests. 
 
@@ -62,4 +62,46 @@ Like using patchwork, strict mode has to be enabled before the WP_Mock framework
 ```php
 WP_Mock::activateStrictMode();
 WP_Mock::bootstrap();
+```
+
+## Extend WP_Mock Test Case
+
+Once you have followed the configuration steps as outlined above, you'll want to update your test classes to extend the `WP_Mock\Tools\TestCase` class for the best results when using WP_Mock. This class extends PHPUnit's own `TestCase` class, with some helper and other methods that help WP_Mock to function properly.
+
+```php
+
+use WP_Mock\Tools\TestCase;
+
+class MyClassTest extends TestCase
+{
+    // your test methods   
+}
+
+```
+
+If you **do not** wish to extend WP_Mock own test case, then you should make sure to call `WP_Mock::setUp()` and `WP_Mock::tearDown()` in your test case's `setUp()` and `tearDown()` methods respectively. This is not recommended though.
+
+```php
+
+use PHPUnit\Framework\TestCase;
+
+class MyClassTest extends TestCase
+{
+    public function setUp() : void
+    {
+        parent::setUp()
+
+        WP_Mock::setUp();
+    }
+
+    public function tearDown() : void
+    {
+        parent::tearDown();
+
+        WP_Mock::tearDown();
+    }
+
+    // your test methods   
+}
+
 ```
