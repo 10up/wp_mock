@@ -2,7 +2,7 @@
 
 /**
  * @package WP_Mock
- * @copyright 2013-2023 by the contributors
+ * @copyright 2013-2024 by the contributors
  * @license BSD-3-Clause
  * @see ../LICENSE.md
  */
