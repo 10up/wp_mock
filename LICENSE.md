@@ -1,6 +1,6 @@
 WP_Mock - WordPress API Mocking Framework
 
-Copyright 2013-2023 by the contributors
+Copyright 2013-2024 by the contributors
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
 
