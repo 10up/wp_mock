@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.1](https://github.com/10up/wp_mock/compare/1.0.0...1.0.1) - 2024-01-04
+### Changed
+- Updated `WP_Mock::expectHookNotAdded()` with new params
+- Updated PHP dependencies to ensure compatibility with PHP 8.3
+
 ## [1.0.0](https://github.com/10up/wp_mock/compare/0.5.0...1.0.0) - 2023-07-24
 ### Added
 - Added and documented return types in codebase
