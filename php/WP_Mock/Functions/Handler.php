@@ -104,7 +104,7 @@ class Handler
      * @param string $functionName function name
      * @param array<mixed> $args function arguments
      * @return void
-     * @throws Exception|ExpectationFailedException
+     * @throws ExpectationFailedException
      */
     public static function handlePredefinedEchoFunction(string $functionName, array $args = []): void
     {
@@ -115,6 +115,7 @@ class Handler
         } catch (Exception $exception) {
             ob_end_clean();
 
+            /** @var ExpectationFailedException $exception */
             throw $exception;
         }
 

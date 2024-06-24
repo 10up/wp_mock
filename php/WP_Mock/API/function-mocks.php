@@ -83,66 +83,66 @@ if (! function_exists('apply_filters')) {
 
 if (! function_exists('esc_html')) {
     /**
-     * @return string|mixed
-     * @throws ExpectationFailedException|Exception
+     * @return string
      */
-    function esc_html()
+    function esc_html() : string
     {
+        /** @phpstan-ignore-next-line to prevent flagging the function as throwable in codebases requiring WP_Mock */
         return Handler::handlePredefinedReturnFunction(__FUNCTION__, func_get_args());
     }
 }
 
 if (! function_exists('esc_attr')) {
     /**
-     * @return string|mixed
-     * @throws ExpectationFailedException|Exception
+     * @return string
      */
-    function esc_attr()
+    function esc_attr() : string
     {
+        /** @phpstan-ignore-next-line to prevent flagging the function as throwable in codebases requiring WP_Mock */
         return Handler::handlePredefinedReturnFunction(__FUNCTION__, func_get_args());
     }
 }
 
 if (! function_exists('esc_url')) {
     /**
-     * @return string|mixed
-     * @throws ExpectationFailedException|Exception
+     * @return string
      */
-    function esc_url()
+    function esc_url() : string
     {
+        /** @phpstan-ignore-next-line to prevent flagging the function as throwable in codebases requiring WP_Mock */
         return Handler::handlePredefinedReturnFunction(__FUNCTION__, func_get_args());
     }
 }
 
 if (! function_exists('esc_url_raw')) {
     /**
-     * @return string|mixed
-     * @throws ExpectationFailedException|Exception
+     * @return string
      */
-    function esc_url_raw()
+    function esc_url_raw() : string
     {
+        /** @phpstan-ignore-next-line to prevent flagging the function as throwable in codebases requiring WP_Mock */
         return Handler::handlePredefinedReturnFunction(__FUNCTION__, func_get_args());
     }
 }
 
 if (! function_exists('esc_js')) {
     /**
-     * @return string|mixed
-     * @throws ExpectationFailedException|Exception
+     * @return string
      */
-    function esc_js()
+    function esc_js() : string
     {
+        /** @phpstan-ignore-next-line to prevent flagging the function as throwable in codebases requiring WP_Mock */
         return Handler::handlePredefinedReturnFunction(__FUNCTION__, func_get_args());
     }
 }
 
 if (! function_exists('esc_textarea')) {
     /**
-     * @return string|mixed
-     * @throws ExpectationFailedException|Exception
+     * @return string
      */
-    function esc_textarea()
+    function esc_textarea() : string
     {
+        /** @phpstan-ignore-next-line to prevent flagging the function as throwable in codebases requiring WP_Mock */
         return Handler::handlePredefinedReturnFunction(__FUNCTION__, func_get_args());
     }
 }
