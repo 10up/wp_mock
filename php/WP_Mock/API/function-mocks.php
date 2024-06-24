@@ -87,7 +87,7 @@ if (! function_exists('esc_html')) {
      */
     function esc_html() : string
     {
-        /** @phpstan-ignore-next-line to prevent flagging the function as throwable in codebases requiring WP_Mock */
+        /** @phpstan-ignore-next-line to prevent flagging the function as throwing exception in codebases requiring WP_Mock */
         return Handler::handlePredefinedReturnFunction(__FUNCTION__, func_get_args());
     }
 }
@@ -98,7 +98,7 @@ if (! function_exists('esc_attr')) {
      */
     function esc_attr() : string
     {
-        /** @phpstan-ignore-next-line to prevent flagging the function as throwable in codebases requiring WP_Mock */
+        /** @phpstan-ignore-next-line to prevent flagging the function as throwing exception in codebases requiring WP_Mock */
         return Handler::handlePredefinedReturnFunction(__FUNCTION__, func_get_args());
     }
 }
@@ -109,7 +109,7 @@ if (! function_exists('esc_url')) {
      */
     function esc_url() : string
     {
-        /** @phpstan-ignore-next-line to prevent flagging the function as throwable in codebases requiring WP_Mock */
+        /** @phpstan-ignore-next-line to prevent flagging the function as throwing exception in codebases requiring WP_Mock */
         return Handler::handlePredefinedReturnFunction(__FUNCTION__, func_get_args());
     }
 }
@@ -120,7 +120,7 @@ if (! function_exists('esc_url_raw')) {
      */
     function esc_url_raw() : string
     {
-        /** @phpstan-ignore-next-line to prevent flagging the function as throwable in codebases requiring WP_Mock */
+        /** @phpstan-ignore-next-line to prevent flagging the function as throwing exception in codebases requiring WP_Mock */
         return Handler::handlePredefinedReturnFunction(__FUNCTION__, func_get_args());
     }
 }
@@ -131,7 +131,7 @@ if (! function_exists('esc_js')) {
      */
     function esc_js() : string
     {
-        /** @phpstan-ignore-next-line to prevent flagging the function as throwable in codebases requiring WP_Mock */
+        /** @phpstan-ignore-next-line to prevent flagging the function as throwing exception in codebases requiring WP_Mock */
         return Handler::handlePredefinedReturnFunction(__FUNCTION__, func_get_args());
     }
 }
@@ -142,7 +142,7 @@ if (! function_exists('esc_textarea')) {
      */
     function esc_textarea() : string
     {
-        /** @phpstan-ignore-next-line to prevent flagging the function as throwable in codebases requiring WP_Mock */
+        /** @phpstan-ignore-next-line to prevent flagging the function as throwing exception in codebases requiring WP_Mock */
         return Handler::handlePredefinedReturnFunction(__FUNCTION__, func_get_args());
     }
 }
@@ -153,7 +153,7 @@ if (! function_exists('__')) {
      */
     function __() : string
     {
-        /** @phpstan-ignore-next-line to prevent flagging the function as throwable in codebases requiring WP_Mock */
+        /** @phpstan-ignore-next-line to prevent flagging the function as throwing exception in codebases requiring WP_Mock */
         return Handler::handlePredefinedReturnFunction(__FUNCTION__, func_get_args());
     }
 }
@@ -164,7 +164,7 @@ if (! function_exists('_e')) {
      */
     function _e() : void
     {
-        /** @phpstan-ignore-next-line to prevent flagging the function as throwable in codebases requiring WP_Mock */
+        /** @phpstan-ignore-next-line to prevent flagging the function as throwing exception in codebases requiring WP_Mock */
         Handler::handlePredefinedEchoFunction(__FUNCTION__, func_get_args());
     }
 }
@@ -175,7 +175,7 @@ if (! function_exists('_x')) {
      */
     function _x() : string
     {
-        /** @phpstan-ignore-next-line to prevent flagging the function as throwable in codebases requiring WP_Mock */
+        /** @phpstan-ignore-next-line to prevent flagging the function as throwing exception in codebases requiring WP_Mock */
         return Handler::handlePredefinedReturnFunction(__FUNCTION__, func_get_args());
     }
 }
@@ -186,7 +186,7 @@ if (! function_exists('esc_html__')) {
      */
     function esc_html__() : string
     {
-        /** @phpstan-ignore-next-line to prevent flagging the function as throwable in codebases requiring WP_Mock */
+        /** @phpstan-ignore-next-line to prevent flagging the function as throwing exception in codebases requiring WP_Mock */
         return Handler::handlePredefinedReturnFunction(__FUNCTION__, func_get_args());
     }
 }
@@ -197,7 +197,7 @@ if (! function_exists('esc_html_e')) {
      */
     function esc_html_e() : void
     {
-        /** @phpstan-ignore-next-line to prevent flagging the function as throwable in codebases requiring WP_Mock */
+        /** @phpstan-ignore-next-line to prevent flagging the function as throwing exception in codebases requiring WP_Mock */
         Handler::handlePredefinedEchoFunction(__FUNCTION__, func_get_args());
     }
 }
@@ -208,7 +208,7 @@ if (! function_exists('esc_html_x')) {
      */
     function esc_html_x() : string
     {
-        /** @phpstan-ignore-next-line to prevent flagging the function as throwable in codebases requiring WP_Mock */
+        /** @phpstan-ignore-next-line to prevent flagging the function as throwing exception in codebases requiring WP_Mock */
         return Handler::handlePredefinedReturnFunction(__FUNCTION__, func_get_args());
     }
 }
@@ -219,7 +219,7 @@ if (! function_exists('esc_attr__')) {
      */
     function esc_attr__() : string
     {
-        /** @phpstan-ignore-next-line to prevent flagging the function as throwable in codebases requiring WP_Mock */
+        /** @phpstan-ignore-next-line to prevent flagging the function as throwing exception in codebases requiring WP_Mock */
         return Handler::handlePredefinedReturnFunction(__FUNCTION__, func_get_args());
     }
 }
@@ -230,7 +230,7 @@ if (! function_exists('esc_attr_e')) {
      */
     function esc_attr_e() : void
     {
-        /** @phpstan-ignore-next-line to prevent flagging the function as throwable in codebases requiring WP_Mock */
+        /** @phpstan-ignore-next-line to prevent flagging the function as throwing exception in codebases requiring WP_Mock */
         Handler::handlePredefinedEchoFunction(__FUNCTION__, func_get_args());
     }
 }
@@ -241,7 +241,7 @@ if (! function_exists('esc_attr_x')) {
      */
     function esc_attr_x() : string
     {
-        /** @phpstan-ignore-next-line to prevent flagging the function as throwable in codebases requiring WP_Mock */
+        /** @phpstan-ignore-next-line to prevent flagging the function as throwing exception in codebases requiring WP_Mock */
         return Handler::handlePredefinedReturnFunction(__FUNCTION__, func_get_args());
     }
 }
@@ -264,7 +264,7 @@ if (! function_exists('_n')) {
                 return (string) $args[1];
             }
         } else {
-            /** @phpstan-ignore-next-line to prevent flagging the function as throwable in codebases requiring WP_Mock */
+            /** @phpstan-ignore-next-line to prevent flagging the function as throwing exception in codebases requiring WP_Mock */
             throw new ExpectationFailedException(sprintf('Too few arguments to function %s', __FUNCTION__));
         }
     }
