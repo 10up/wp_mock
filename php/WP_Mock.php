@@ -573,21 +573,21 @@ class WP_Mock
     /**
      * Adds an expectation that a filter should be removed.
      *
-     * @param string $action the filter name
+     * @param string $filter the filter name
      * @param string|callable-string|callable|Type $callback the callable to be removed
      * @param ?int $priority the registered priority
      *
      * @return void
      * @throws InvalidArgumentException
      */
-    public static function expectFilterRemoved(string $action, $callback, ?int $priority = null) : void
+    public static function expectFilterRemoved(string $filter, $callback, ?int $priority = null) : void
     {
         self::userFunction(
             'remove_filter',
             array(
                 'args'   => is_int($priority)
-                    ? array($action, $callback, $priority)
-                    : array($action, $callback),
+                    ? array($filter, $callback, $priority)
+                    : array($filter, $callback),
                 'times'  => 1,
             )
         );
