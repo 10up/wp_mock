@@ -546,4 +546,50 @@ class WP_Mock
     {
         return static::$deprecatedMethodListener;
     }
+
+    /**
+     * Adds an expectation that an action should be removed.
+     *
+     * @param string $action the action hook name
+     * @param string|callable-string|callable|Type $callback the callable to be removed
+     * @param ?int $priority the priority it should be registered at
+     *
+     * @return void
+     * @throws InvalidArgumentException
+     */
+    public static function expectActionRemoved(string $action, $callback, ?int $priority = null) : void
+    {
+        self::userFunction(
+            'remove_action',
+            array(
+                'args'   => is_int($priority)
+                    ? array($action, $callback, $priority)
+                    : array($action, $callback),
+                'times'  => 1,
+            )
+        );
+    }
+
+    /**
+     * Adds an expectation that a filter should be removed.
+     *
+     * @param string $action the filter name
+     * @param string|callable-string|callable|Type $callback the callable to be removed
+     * @param ?int $priority the registered priority
+     *
+     * @return void
+     * @throws InvalidArgumentException
+     */
+    public static function expectFilterRemoved(string $action, $callback, ?int $priority = null) : void
+    {
+        self::userFunction(
+            'remove_filter',
+            array(
+                'args'   => is_int($priority)
+                    ? array($action, $callback, $priority)
+                    : array($action, $callback),
+                'times'  => 1,
+            )
+        );
+    }
 }
