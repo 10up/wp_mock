@@ -552,7 +552,7 @@ class WP_Mock
      *
      * @param string $action the action hook name
      * @param string|callable-string|callable|Type $callback the callable to be removed
-     * @param ?int|Type $priority the priority it should be registered at
+     * @param int|Type|null $priority the priority it should be registered at
      *
      * @return void
      * @throws InvalidArgumentException
@@ -573,7 +573,7 @@ class WP_Mock
      *
      * @param string $action the action hook name
      * @param null|string|callable-string|callable|Type $callback the callable to be removed
-     * @param ?int|Type $priority optional priority for the registered callback that is being removed
+     * @param int|Type|null $priority optional priority for the registered callback that is being removed
      *
      * @return void
      * @throws InvalidArgumentException
@@ -594,7 +594,7 @@ class WP_Mock
      *
      * @param string $filter the filter name
      * @param string|callable-string|callable|Type $callback the callable to be removed
-     * @param ?int|Type $priority the registered priority
+     * @param int|Type|null $priority the registered priority
      *
      * @return void
      * @throws InvalidArgumentException
@@ -615,7 +615,7 @@ class WP_Mock
      *
      * @param string $filter the filter name
      * @param null|string|callable-string|callable|Type $callback the callable to be removed
-     * @param ?int|Type $priority optional priority for the registered callback that is being removed
+     * @param int|Type|null $priority optional priority for the registered callback that is being removed
      *
      * @return void
      * @throws InvalidArgumentException
