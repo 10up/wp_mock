@@ -562,9 +562,7 @@ class WP_Mock
         self::userFunction(
             'remove_action',
             array(
-                'args'   => is_int($priority)
-                    ? array($action, $callback, $priority)
-                    : array($action, $callback),
+                'args'   => array_filter(func_get_args()),
                 'times'  => 1,
             )
         );
@@ -585,9 +583,7 @@ class WP_Mock
         self::userFunction(
             'remove_filter',
             array(
-                'args'   => is_int($priority)
-                    ? array($filter, $callback, $priority)
-                    : array($filter, $callback),
+                'args'   => array_filter(func_get_args()),
                 'times'  => 1,
             )
         );
