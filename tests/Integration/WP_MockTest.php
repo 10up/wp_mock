@@ -360,5 +360,22 @@ class WP_MockTest extends WP_MockTestCase
 
         $this->assertConditionsMet();
     }
+
+    /**
+     * @covers \WP_Mock::expectActionNotRemoved()
+     * @covers \WP_Mock::expectFilterNotRemoved()
+     *
+     * @return void
+     * @throws Exception
+     */
+    public function testCanExpectHooksNotRemoved() : void
+    {
+        WP_Mock::expectActionNotRemoved('wpMockTestActionWithCallbackAndPriority', 'wpMockTestFunction', 10);
+        WP_Mock::expectFilterNotRemoved('wpMockTestFilterWithCallbackAndPriority', 'wpMockTestFunction', 10);
+
+        WP_Mock::expectActionNotRemoved('wpMockTestActionWithCallbackAndDefaultPriority', 'wpMockTestFunction');
+        WP_Mock::expectFilterNotRemoved('wpMockTestFilterWithCallbackAndDefaultPriority', 'wpMockTestFunction');
+
+        $this->assertConditionsMet();
     }
 }

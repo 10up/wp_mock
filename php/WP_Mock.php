@@ -569,6 +569,27 @@ class WP_Mock
     }
 
     /**
+     * Adds an expectation that an action should not be removed.
+     *
+     * @param string $action the action hook name
+     * @param null|string|callable-string|callable|Type $callback the callable to be removed
+     * @param ?int $priority optional priority for the registered callback that is being removed
+     *
+     * @return void
+     * @throws InvalidArgumentException
+     */
+    public static function expectActionNotRemoved(string $action, $callback, $priority = null) : void
+    {
+        self::userFunction(
+            'remove_action',
+            array(
+                'args'   => array_filter(func_get_args()),
+                'times'  => 0,
+            )
+        );
+    }
+
+    /**
      * Adds an expectation that a filter should be removed.
      *
      * @param string $filter the filter name
@@ -585,6 +606,27 @@ class WP_Mock
             array(
                 'args'   => array_filter(func_get_args()),
                 'times'  => 1,
+            )
+        );
+    }
+
+    /**
+     * Adds an expectation that a filter should not be removed.
+     *
+     * @param string $filter the filter name
+     * @param null|string|callable-string|callable|Type $callback the callable to be removed
+     * @param ?int $priority optional priority for the registered callback that is being removed
+     *
+     * @return void
+     * @throws InvalidArgumentException
+     */
+    public static function expectFilterNotRemoved(string $filter, $callback, $priority = null) : void
+    {
+        self::userFunction(
+            'remove_filter',
+            array(
+                'args'   => array_filter(func_get_args()),
+                'times'  => 0,
             )
         );
     }
