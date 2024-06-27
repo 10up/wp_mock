@@ -552,12 +552,12 @@ class WP_Mock
      *
      * @param string $action the action hook name
      * @param string|callable-string|callable|Type $callback the callable to be removed
-     * @param ?int $priority the priority it should be registered at
+     * @param ?int|Type $priority the priority it should be registered at
      *
      * @return void
      * @throws InvalidArgumentException
      */
-    public static function expectActionRemoved(string $action, $callback, ?int $priority = null) : void
+    public static function expectActionRemoved(string $action, $callback, $priority = null) : void
     {
         self::userFunction(
             'remove_action',
@@ -573,7 +573,7 @@ class WP_Mock
      *
      * @param string $action the action hook name
      * @param null|string|callable-string|callable|Type $callback the callable to be removed
-     * @param ?int $priority optional priority for the registered callback that is being removed
+     * @param ?int|Type $priority optional priority for the registered callback that is being removed
      *
      * @return void
      * @throws InvalidArgumentException
@@ -594,12 +594,12 @@ class WP_Mock
      *
      * @param string $filter the filter name
      * @param string|callable-string|callable|Type $callback the callable to be removed
-     * @param ?int $priority the registered priority
+     * @param ?int|Type $priority the registered priority
      *
      * @return void
      * @throws InvalidArgumentException
      */
-    public static function expectFilterRemoved(string $filter, $callback, ?int $priority = null) : void
+    public static function expectFilterRemoved(string $filter, $callback, $priority = null) : void
     {
         self::userFunction(
             'remove_filter',
@@ -615,7 +615,7 @@ class WP_Mock
      *
      * @param string $filter the filter name
      * @param null|string|callable-string|callable|Type $callback the callable to be removed
-     * @param ?int $priority optional priority for the registered callback that is being removed
+     * @param ?int|Type $priority optional priority for the registered callback that is being removed
      *
      * @return void
      * @throws InvalidArgumentException

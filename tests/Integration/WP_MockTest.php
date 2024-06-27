@@ -349,11 +349,25 @@ class WP_MockTest extends WP_MockTestCase
         WP_Mock::expectActionRemoved('wpMockTestActionWithCallbackAndPriority', 'wpMockTestFunction', 10);
         WP_Mock::expectFilterRemoved('wpMockTestFilterWithCallbackAndPriority', 'wpMockTestFunction', 10);
 
+        WP_Mock::expectActionRemoved(
+            'wpMockTestActionWithCallbackAndAnyPriority',
+            'wpMockTestFunction',
+            \WP_Mock\Functions::type('int')
+        );
+        WP_Mock::expectFilterRemoved(
+            'wpMockTestFilterWithCallbackAndAnyPriority',
+            'wpMockTestFunction',
+            \WP_Mock\Functions::type('int')
+        );
+
         WP_Mock::expectActionRemoved('wpMockTestActionWithCallbackAndDefaultPriority', 'wpMockTestFunction');
         WP_Mock::expectFilterRemoved('wpMockTestFilterWithCallbackAndDefaultPriority', 'wpMockTestFunction');
 
         remove_action('wpMockTestActionWithCallbackAndPriority', 'wpMockTestFunction', 10);
         remove_filter('wpMockTestFilterWithCallbackAndPriority', 'wpMockTestFunction', 10);
+
+        remove_action('wpMockTestActionWithCallbackAndAnyPriority', 'wpMockTestFunction', rand(1,100));
+        remove_filter('wpMockTestFilterWithCallbackAndAnyPriority', 'wpMockTestFunction', rand(1,100));
 
         remove_action('wpMockTestActionWithCallbackAndDefaultPriority', 'wpMockTestFunction');
         remove_filter('wpMockTestFilterWithCallbackAndDefaultPriority', 'wpMockTestFunction');
