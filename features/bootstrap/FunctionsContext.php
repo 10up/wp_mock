@@ -90,7 +90,7 @@ class FunctionsContext implements Context {
 	/**
 	 * @Then I expect :return when I run :function
 	 */
-	public function iExcpectWhenIRun( $return, $function ) {
+	public function iExpectWhenIRun( $return, $function ) {
 		$this->iExpectWhenIRunWithArgs( $return, $function, new TableNode( array( array() ) ) );
 	}
 
