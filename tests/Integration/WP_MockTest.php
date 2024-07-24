@@ -130,7 +130,6 @@ class WP_MockTest extends WP_MockTestCase
      * @preserveGlobalState disabled
      *
      * @return void
-     * @throws Exception
      */
     public function testDefaultFailsInStrictMode(): void
     {
@@ -175,7 +174,7 @@ class WP_MockTest extends WP_MockTestCase
      */
     public function testBotchedMocksStillOverridesDefault(): void
     {
-        WP_Mock::userFunction('esc_html');
+        WP_Mock::userFunction('esc_html')->andReturn('');
 
         /** @phpstan-ignore-next-line function "exists" */
         $this->assertEmpty(esc_html('Input'));
