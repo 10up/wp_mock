@@ -42,13 +42,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [0.4.1](https://github.com/10up/wp_mock/compare/0.4.1...0.4.0) - 2019-02-26
 ### Added
-- **PHPUnit 8 Compatiblity**
+- **PHPUnit 8 Compatibility**
 - This release brings us up to date with the latest release of PHPUnit.
 - Please note: As with the previously-tagged release, this is not necessarily a stable release!
 
 ## [0.4.0](https://github.com/10up/wp_mock/compare/0.4.0...0.3.0) - 2019-01-16
 ### Added
-- **PHPUnit 7 Compatiblity**
+- **PHPUnit 7 Compatibility**
 - This release brings us up to date both with PHPUnit and with PHP itself. The minimum version of PHP now supported by the project is *7.1*.
 - *Please note:* As with the previously-tagged release, this is not necessarily a stable release!
 
