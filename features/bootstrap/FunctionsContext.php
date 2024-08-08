@@ -87,13 +87,22 @@ class FunctionsContext implements Context {
 		\PHPUnit\Framework\Assert::assertEquals( $return, call_user_func_array( $function, $args->getRow( 0 ) ) );
 	}
 
-	/**
-	 * @Then I expect :return when I run :function
-	 */
-	public function iExcpectWhenIRun( $return, $function ) {
-		$this->iExpectWhenIRunWithArgs( $return, $function, new TableNode( array( array() ) ) );
-	}
+    /**
+     * @Then I expect :return when I run :function
+     *
+     * @deprected use static::iExpectWhenIRun instead
+     */
+    public function iExcpectWhenIRun( $return, $function ) {
+        static::iExpectWhenIRun( $return, $function )
+    }
 
+    /**
+     * @Then I expect :return when I run :function
+     */
+    public function iExpectWhenIRun( $return, $function ) {
+        $this->iExpectWhenIRunWithArgs( $return, $function, new TableNode( array( array() ) ) );
+    }
+    
 	/**
 	 * @Then I expect an error when I run :function with args:
 	 */
