@@ -68,8 +68,8 @@ abstract class Hook
             if (! $value instanceof Type) {
                 $class = get_class($value);
 
-                if (isset(static::$objects[ $class ])) {
-                    return static::$objects[ $class ];
+                if (isset(static::$objects[$class]) && is_string(static::$objects[$class])) {
+                    return static::$objects[$class];
                 }
             }
 
