@@ -9,6 +9,7 @@ use Generator;
 use PHPUnit\Framework\Exception;
 use Mockery\ExpectationInterface;
 use WP_Mock\Tests\WP_MockTestCase;
+use WP_Mock\Tests\Mocks\SampleClass;
 use WP_Mock\DeprecatedMethodListener;
 use WP_Mock\Tests\Unit\WP_Mock\TestClass;
 use Mockery\Exception\InvalidCountException;
@@ -235,9 +236,9 @@ class WP_MockTest extends WP_MockTestCase
     {
         WP_Mock::bootstrap();
 
-        WP_Mock::expectFilter('testFilter', WP_Mock\Functions::type(TestClass::class));
+        WP_Mock::expectFilter('testFilter', WP_Mock\Functions::type(SampleClass::class));
 
-        apply_filters('testFilter', new TestClass());
+        apply_filters('testFilter', new SampleClass());
 
         WP_Mock::assertFiltersCalled();
 
