@@ -22,7 +22,7 @@ abstract class Hook
     /** @var array<mixed> collection of processors */
     protected $processors = [];
 
-    /** @var array<mixed> collection of objects mapped to their Type hashes */
+    /** @var array<string> collection of objects mapped to their Type hashes */
     public static array $objects = [];
 
     /**
