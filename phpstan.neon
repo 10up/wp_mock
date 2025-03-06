@@ -3,6 +3,7 @@ includes:
 parameters:
 	level: max
 	reportUnmatchedIgnoredErrors: false
+	treatPhpDocTypesAsCertain: false
 	exceptions:
 		check:
 			missingCheckedExceptionInThrows: true
