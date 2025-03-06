@@ -22,6 +22,9 @@ abstract class Hook
     /** @var array<mixed> collection of processors */
     protected $processors = [];
 
+    /** @var array<string> collection of objects mapped to their Type hashes */
+    public static array $objects = [];
+
     /**
      * Hook constructor.
      *
@@ -62,6 +65,14 @@ abstract class Hook
         }
 
         if (is_object($value)){
+            if (! $value instanceof Type) {
+                $class = get_class($value);
+
+                if (isset(static::$objects[$class]) && is_string(static::$objects[$class])) {
+                    return static::$objects[$class];
+                }
+            }
+
             return spl_object_hash($value);
         }
 
