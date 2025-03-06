@@ -12,13 +12,17 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        php: [ '8.3', '8.2', '8.1' ]
-        os: [ 'ubuntu-latest' ]
         include:
+          - php: '8.3'
+            os: 'ubuntu-latest'
+          - php: '8.2'
+            os: 'ubuntu-latest'
+          - php: '8.1'
+            os: 'ubuntu-latest'
           - php: '8.0'
-            os: 'ubuntu-20.04'
+            os: 'ubuntu-24.04'
           - php: '7.4'
-            os: 'ubuntu-20.04'
+            os: 'ubuntu-24.04'
       fail-fast: false
     env:
       COVERAGE_CACHE_PATH: phpunit-coverage-cache
