@@ -413,6 +413,9 @@ EOF;
      */
     public static function type(string $expected): Type
     {
-        return Mockery::type($expected);
+        $type = Mockery::type($expected);
+        Filter::$objects[ $expected ] = spl_object_hash($type);
+
+        return $type;
     }
 }

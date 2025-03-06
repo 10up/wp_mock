@@ -141,3 +141,50 @@ final class MyClassTest extends TestCase
     }
 }
 ```
+
+## Asserting that an object has been passed
+
+To assert that an object has been added as an argument, you can perform assertions referencing the object's class type.
+
+Take the code below, for example:
+
+```php
+namespace MyPlugin;
+
+class MyClass
+{
+    public function filterContent() : NewClass
+    {
+        return apply_filters('custom_content_filter', new NewClass());
+    }
+}
+
+class NewClass
+{
+    public function __construct()
+    {
+        echo 'New Class';
+    }
+}
+```
+
+We can do this:
+
+```php
+use WP_Mock;
+use WP_Mock\Tools\TestCase as TestCase;
+
+use MyPlugin\MyClass;
+use MyPlugin\NewClass;
+
+final class MyClassTest extends TestCase
+{
+    public function testAnonymousObject() : void 
+    {
+        WP_Mock::expectFilter('custom_content_filter', WP_Mock\Functions::type(NewClass::class));
+
+        $this->assertInstanceOf(NewClass::class, (new MyClass())->filterContent());
+        $this->assertConditionsMet();
+    }
+}
+```
