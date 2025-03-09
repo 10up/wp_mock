@@ -103,6 +103,28 @@ final class MyClassTest extends TestCase
 }
 ```
 
+We can also use the `withAnything` method to test that the filter is being applied. This is particulary useful in test cases where we do not care about the arguments but just its return value. This can be done like so:
+
+```php
+use MyPlugin\MyClass;
+use WP_Mock;
+use WP_Mock\Tools\TestCase as TestCase;
+
+final class MyClassTest extends TestCase
+{
+    public function testCanFilterContent() : void 
+    {
+        WP_Mock::onFilter('custom_content_filter')
+            ->withAnything()
+            ->reply('This is filtered');
+
+        $content = (new MyClass())->filterContent();
+
+        $this->assertEquals('This is filtered', $content);
+    }
+}
+```
+
 Alternatively, there is a method `WP_Mock::expectFilter()` that will add a bare assertion that the filter will be applied without changing the value:
 
 ```php
