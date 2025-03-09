@@ -10,7 +10,7 @@ namespace WP_Mock;
 class Filter extends Hook
 {
     /** @var array<mixed> Collection of filter names mapped to random integers. */
-    public static array $filtersWithAnything = [];
+    protected static array $filtersWithAnything = [];
 
     /**
      * Apply the stored filter.
