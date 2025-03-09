@@ -9,6 +9,9 @@ namespace WP_Mock;
  */
 class Filter extends Hook
 {
+    /** @var array<mixed> Collection of filter names mapped to random integers. */
+    public static array $filtersWithAnything = [];
+
     /**
      * Apply the stored filter.
      *
@@ -18,6 +21,10 @@ class Filter extends Hook
      */
     public function apply($args)
     {
+        if (isset(static::$filtersWithAnything[ $this->name ])) {
+            $args = array_values(static::$filtersWithAnything);
+        }
+
         if ($args[0] === null && count($args) === 1) {
             if (isset($this->processors['argsnull'])) {
                 return $this->processors['argsnull']->send();
@@ -53,6 +60,17 @@ class Filter extends Hook
     protected function get_strict_mode_message()
     {
         return sprintf('Unexpected use of apply_filters for filter %s', $this->name);
+    }
+
+    /**
+     * @return Filter_Responder
+     */
+    public function withAnything()
+    {
+        $random_value = mt_rand();
+        static::$filtersWithAnything[ $this->name ] = $random_value;
+
+        return $this->with($random_value);
     }
 }
 
