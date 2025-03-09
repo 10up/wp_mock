@@ -49,6 +49,9 @@ class Filter extends Hook
         return call_user_func_array(array($processors, 'send'), $args);
     }
 
+    /**
+     * @return Filter_Responder
+     */
     protected function new_responder()
     {
         return new Filter_Responder();
@@ -63,7 +66,7 @@ class Filter extends Hook
     }
 
     /**
-     * @return Filter_Responder
+     * @return Action_Responder|Filter_Responder|HookedCallbackResponder
      */
     public function withAnything()
     {

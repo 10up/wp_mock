@@ -320,11 +320,13 @@ class WP_MockTest extends WP_MockTestCase
      * @preserveGlobalState disabled
      *
      * @return void
+     * @throws Exception|InvalidArgumentException
      */
     public function testOnFilterPasses(): void
     {
         WP_Mock::bootstrap();
 
+        /** @phpstan-ignore-next-line */
         WP_Mock::onFilter('testFilter')
             ->with('Original value')
             ->reply('Filtered value');
@@ -343,11 +345,13 @@ class WP_MockTest extends WP_MockTestCase
      * @preserveGlobalState disabled
      *
      * @return void
+     * @throws Exception|InvalidArgumentException
      */
     public function testOnFilterPassesWithAnything(): void
     {
         WP_Mock::bootstrap();
 
+        /** @phpstan-ignore-next-line */
         WP_Mock::onFilter('testFilter')
             ->withAnything()
             ->reply('Filtered value');
