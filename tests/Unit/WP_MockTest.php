@@ -312,4 +312,50 @@ class WP_MockTest extends WP_MockTestCase
 
         Mockery::close();
     }
+
+    /**
+     * @covers \WP_Mock::onFilter()
+     *
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     *
+     * @return void
+     */
+    public function testOnFilterPasses(): void
+    {
+        WP_Mock::bootstrap();
+
+        WP_Mock::onFilter('testFilter')
+            ->with('Original value')
+            ->reply('Filtered value');
+
+        $filtered_value = apply_filters('testFilter', 'Original value');
+
+        $this->assertSame('Filtered value', $filtered_value);
+
+        Mockery::close();
+    }
+
+    /**
+     * @covers \WP_Mock::onFilter()
+     *
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     *
+     * @return void
+     */
+    public function testOnFilterPassesWithAnything(): void
+    {
+        WP_Mock::bootstrap();
+
+        WP_Mock::onFilter('testFilter')
+            ->withAnything()
+            ->reply('Filtered value');
+
+        $filtered_value = apply_filters('testFilter', 'Original value');
+
+        $this->assertSame('Filtered value', $filtered_value);
+
+        Mockery::close();
+    }
 }
