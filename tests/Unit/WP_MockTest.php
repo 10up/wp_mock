@@ -347,13 +347,13 @@ class WP_MockTest extends WP_MockTestCase
      * @return void
      * @throws Exception|InvalidArgumentException
      */
-    public function testOnFilterPassesWithAnything(): void
+    public function testOnFilterPassesWithAnyArgs(): void
     {
         WP_Mock::bootstrap();
 
         /** @phpstan-ignore-next-line */
         WP_Mock::onFilter('testFilter')
-            ->withAnything()
+            ->withAnyArgs()
             ->reply('Filtered value');
 
         $filtered_value = apply_filters('testFilter', 'Original value');

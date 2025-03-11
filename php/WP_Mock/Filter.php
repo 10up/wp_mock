@@ -10,7 +10,7 @@ namespace WP_Mock;
 class Filter extends Hook
 {
     /** @var array<mixed> Collection of filter names mapped to random integers. */
-    protected static array $filtersWithAnything = [];
+    protected static array $filtersWithAnyArgs = [];
 
     /**
      * Apply the stored filter.
@@ -21,8 +21,8 @@ class Filter extends Hook
      */
     public function apply($args)
     {
-        if (isset(static::$filtersWithAnything[ $this->name ])) {
-            $args = array_values(static::$filtersWithAnything);
+        if (isset(static::$filtersWithAnyArgs[ $this->name ])) {
+            $args = array_values(static::$filtersWithAnyArgs);
         }
 
         if ($args[0] === null && count($args) === 1) {
@@ -68,10 +68,10 @@ class Filter extends Hook
     /**
      * @return Action_Responder|Filter_Responder|HookedCallbackResponder
      */
-    public function withAnything()
+    public function withAnyArgs()
     {
         $random_value = mt_rand();
-        static::$filtersWithAnything[ $this->name ] = $random_value;
+        static::$filtersWithAnyArgs[ $this->name ] = $random_value;
 
         return $this->with($random_value);
     }

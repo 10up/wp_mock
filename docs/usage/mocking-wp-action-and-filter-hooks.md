@@ -103,7 +103,7 @@ final class MyClassTest extends TestCase
 }
 ```
 
-We can also use the `withAnything` method to test that the filter is being applied. This is particularly useful in test cases where we do not care about the arguments but just its return value. This can be done like so:
+We can also use the `withAnyArgs` method to test that the filter is being applied. This is particularly useful in test cases where we do not care about the arguments but just its return value. This can be done like so:
 
 ```php
 use MyPlugin\MyClass;
@@ -115,7 +115,7 @@ final class MyClassTest extends TestCase
     public function testCanFilterContent() : void 
     {
         WP_Mock::onFilter('custom_content_filter')
-            ->withAnything()
+            ->withAnyArgs()
             ->reply('This is filtered');
 
         $content = (new MyClass())->filterContent();
