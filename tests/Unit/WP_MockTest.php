@@ -363,6 +363,15 @@ class WP_MockTest extends WP_MockTestCase
         Mockery::close();
     }
 
+    /**
+     * @covers \WP_Mock::onFilter()
+     *
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     *
+     * @return void
+     * @throws Exception|InvalidArgumentException
+     */
     public function testMultipleOnFilterPassesWithAnyArgs(): void
     {
         WP_Mock::bootstrap();
