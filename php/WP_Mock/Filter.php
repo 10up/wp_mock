@@ -71,7 +71,7 @@ class Filter extends Hook
     public function withAnyArgs()
     {
         $random_value = mt_rand();
-        static::$filtersWithAnyArgs[ $this->name ] = $random_value;
+        static::$filtersWithAnyArgs[ $this->name ] = [ $random_value ];
 
         return $this->with($random_value);
     }
