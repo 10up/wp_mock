@@ -9,7 +9,7 @@ namespace WP_Mock;
  */
 class Filter extends Hook
 {
-    /** @var array<mixed> Collection of filter names mapped to random integers. */
+    /** @var array<string, array<int>> Collection of filter names mapped to random integers. */
     protected static array $filtersWithAnyArgs = [];
 
     /**
