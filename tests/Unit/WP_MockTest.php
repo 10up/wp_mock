@@ -362,4 +362,43 @@ class WP_MockTest extends WP_MockTestCase
 
         Mockery::close();
     }
+
+    /**
+     * @covers \WP_Mock::onFilter()
+     *
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     *
+     * @return void
+     * @throws Exception|InvalidArgumentException
+     */
+    public function testMultipleOnFilterPassesWithAnyArgs(): void
+    {
+        WP_Mock::bootstrap();
+
+        /** @phpstan-ignore-next-line */
+        WP_Mock::onFilter('testFilter1')
+            ->withAnyArgs()
+            ->reply('Filtered value 1');
+
+        /** @phpstan-ignore-next-line */
+        WP_Mock::onFilter('testFilter2')
+            ->withAnyArgs()
+            ->reply('Filtered value 2');
+
+        /** @phpstan-ignore-next-line */
+        WP_Mock::onFilter('testFilter3')
+            ->withAnyArgs()
+            ->reply('Filtered value 3');
+
+        $filtered_value1 = apply_filters('testFilter1', 'Original value 1');
+        $filtered_value2 = apply_filters('testFilter2', 'Original value 2');
+        $filtered_value3 = apply_filters('testFilter3', 'Original value 3');
+
+        $this->assertSame('Filtered value 1', $filtered_value1);
+        $this->assertSame('Filtered value 2', $filtered_value2);
+        $this->assertSame('Filtered value 3', $filtered_value3);
+
+        Mockery::close();
+    }
 }
