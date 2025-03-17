@@ -22,7 +22,7 @@ class Filter extends Hook
     public function apply($args)
     {
         if (isset(static::$filtersWithAnyArgs[ $this->name ])) {
-            $args = [ static::$filtersWithAnyArgs[ $this->name ] ];
+            $args = static::$filtersWithAnyArgs[ $this->name ];
         }
 
         if ($args[0] === null && count($args) === 1) {
