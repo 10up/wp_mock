@@ -110,7 +110,7 @@ abstract class TestCase extends PhpUnitTestCase
      * @return TestResult
      * @throws Exception
      */
-    public function run(TestResult $result = null): TestResult
+    public function run(?TestResult $result = null): TestResult
     {
         if ($result === null) {
             $result = $this->createResult();
