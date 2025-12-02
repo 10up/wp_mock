@@ -7,6 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## [1.1.1](https://github.com/10up/wp_mock/compare/1.1.0...1.1.1) - 2025-12-03
 ### Fixed
 - Address PHP deprecation warnings about implicitly nullable parameters
+- Allow `onFilter(...)->withAnyArgs()` to be used multiple times on a single tests
 
 ## [1.1.0](https://github.com/10up/wp_mock/compare/1.0.1...1.1.0) - 2025-03-11
 ### Added
