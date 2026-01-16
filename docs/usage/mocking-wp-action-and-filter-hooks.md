@@ -144,7 +144,7 @@ final class MyClassTest extends TestCase
 
 ## Asserting that actions and filters have been removed
 
-Similarly, we can test that actions and filters are removed when expected, e.g.removing another plugin's admin notice. This is done using `WP_Mock::expectActionRemoved()` and `WP_Mock::expectFilterRemoved()`. Or conversely, we can confirm that they have _not_ been removed using `WP_Mock::expectActionNotRemoved()` and `WP_Mock::expectFilterNotRemoved()`. The latter functions are useful where a function being tested returns early in some scenarios, and we want to ensure that the hooks are not removed in that case.
+Similarly, we can test that actions and filters are removed when expected, e.g.removing another plugin's admin notice. This is done using `WP_Mock::expectActionRemoved()` and `WP_Mock::expectFilterRemoved()`. Or conversely, we can confirm that they have _not_ been removed using `WP_Mock::expectActionNotRemoved()` and `WP_Mock::expectFilterNotRemoved()`. The latter functions are useful where a function being tested returns early in some scenarios, and we want to ensure that the hooks are not removed in that case. NB: omitting the priority does not catch any uses of `remove_action()` that use an explicit priority, for that case consider using `\WP_Mock\Functions::type( 'int' )`.
 
 ```php
 use MyPlugin\MyClass;
