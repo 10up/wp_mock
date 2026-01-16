@@ -103,6 +103,28 @@ final class MyClassTest extends TestCase
 }
 ```
 
+We can also use the `withAnyArgs` method to test that the filter is being applied. This is particularly useful in test cases where we do not care about the arguments but just its return value. This can be done like so:
+
+```php
+use MyPlugin\MyClass;
+use WP_Mock;
+use WP_Mock\Tools\TestCase as TestCase;
+
+final class MyClassTest extends TestCase
+{
+    public function testCanFilterContent() : void 
+    {
+        WP_Mock::onFilter('custom_content_filter')
+            ->withAnyArgs()
+            ->reply('This is filtered');
+
+        $content = (new MyClass())->filterContent();
+
+        $this->assertEquals('This is filtered', $content);
+    }
+}
+```
+
 Alternatively, there is a method `WP_Mock::expectFilter()` that will add a bare assertion that the filter will be applied without changing the value:
 
 ```php
@@ -138,6 +160,53 @@ final class MyClassTest extends TestCase
         WP_Mock::expectAction('default_value');
 
         $this->assertEquals('Default', (new MyClass())->filterContent());
+    }
+}
+```
+
+## Asserting that an object has been passed
+
+To assert that an object has been added as an argument, you can perform assertions referencing the object's class type.
+
+Take the code below, for example:
+
+```php
+namespace MyPlugin;
+
+class MyClass
+{
+    public function filterContent() : NewClass
+    {
+        return apply_filters('custom_content_filter', new NewClass());
+    }
+}
+
+class NewClass
+{
+    public function __construct()
+    {
+        echo 'New Class';
+    }
+}
+```
+
+We can do this:
+
+```php
+use WP_Mock;
+use WP_Mock\Tools\TestCase as TestCase;
+
+use MyPlugin\MyClass;
+use MyPlugin\NewClass;
+
+final class MyClassTest extends TestCase
+{
+    public function testAnonymousObject() : void 
+    {
+        WP_Mock::expectFilter('custom_content_filter', WP_Mock\Functions::type(NewClass::class));
+
+        $this->assertInstanceOf(NewClass::class, (new MyClass())->filterContent());
+        $this->assertConditionsMet();
     }
 }
 ```

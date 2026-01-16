@@ -2,17 +2,19 @@
 
 namespace WP_Mock\Tests\Unit;
 
-use Generator;
 use Mockery;
-use Mockery\Exception\InvalidCountException;
-use Mockery\ExpectationInterface;
+use WP_Mock;
+use stdClass;
+use Generator;
 use PHPUnit\Framework\Exception;
+use Mockery\ExpectationInterface;
+use WP_Mock\Tests\WP_MockTestCase;
+use WP_Mock\Tests\Mocks\SampleClass;
+use WP_Mock\DeprecatedMethodListener;
+use WP_Mock\Tests\Unit\WP_Mock\TestClass;
+use Mockery\Exception\InvalidCountException;
 use PHPUnit\Framework\ExpectationFailedException;
 use SebastianBergmann\RecursionContext\InvalidArgumentException;
-use stdClass;
-use WP_Mock;
-use WP_Mock\DeprecatedMethodListener;
-use WP_Mock\Tests\WP_MockTestCase;
 
 /**
  * @covers \WP_Mock
@@ -223,6 +225,27 @@ class WP_MockTest extends WP_MockTestCase
     }
 
     /**
+     * @covers \WP_Mock::assertFiltersCalled()
+     *
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     *
+     * @return void
+     */
+    public function testAssertFiltersPassesWithTypes(): void
+    {
+        WP_Mock::bootstrap();
+
+        WP_Mock::expectFilter('testFilter', WP_Mock\Functions::type(SampleClass::class));
+
+        apply_filters('testFilter', new SampleClass());
+
+        WP_Mock::assertFiltersCalled();
+
+        Mockery::close();
+    }
+
+    /**
      * @covers \WP_Mock::alias()
      *
      * @return void
@@ -286,6 +309,95 @@ class WP_MockTest extends WP_MockTestCase
         WP_Mock::bootstrap();
 
         $this->assertInstanceOf(DeprecatedMethodListener::class, WP_Mock::getDeprecatedMethodListener());
+
+        Mockery::close();
+    }
+
+    /**
+     * @covers \WP_Mock::onFilter()
+     *
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     *
+     * @return void
+     * @throws Exception|InvalidArgumentException
+     */
+    public function testOnFilterPasses(): void
+    {
+        WP_Mock::bootstrap();
+
+        /** @phpstan-ignore-next-line */
+        WP_Mock::onFilter('testFilter')
+            ->with('Original value')
+            ->reply('Filtered value');
+
+        $filtered_value = apply_filters('testFilter', 'Original value');
+
+        $this->assertSame('Filtered value', $filtered_value);
+
+        Mockery::close();
+    }
+
+    /**
+     * @covers \WP_Mock::onFilter()
+     *
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     *
+     * @return void
+     * @throws Exception|InvalidArgumentException
+     */
+    public function testOnFilterPassesWithAnyArgs(): void
+    {
+        WP_Mock::bootstrap();
+
+        /** @phpstan-ignore-next-line */
+        WP_Mock::onFilter('testFilter')
+            ->withAnyArgs()
+            ->reply('Filtered value');
+
+        $filtered_value = apply_filters('testFilter', 'Original value');
+
+        $this->assertSame('Filtered value', $filtered_value);
+
+        Mockery::close();
+    }
+
+    /**
+     * @covers \WP_Mock::onFilter()
+     *
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     *
+     * @return void
+     * @throws Exception|InvalidArgumentException
+     */
+    public function testMultipleOnFilterPassesWithAnyArgs(): void
+    {
+        WP_Mock::bootstrap();
+
+        /** @phpstan-ignore-next-line */
+        WP_Mock::onFilter('testFilter1')
+            ->withAnyArgs()
+            ->reply('Filtered value 1');
+
+        /** @phpstan-ignore-next-line */
+        WP_Mock::onFilter('testFilter2')
+            ->withAnyArgs()
+            ->reply('Filtered value 2');
+
+        /** @phpstan-ignore-next-line */
+        WP_Mock::onFilter('testFilter3')
+            ->withAnyArgs()
+            ->reply('Filtered value 3');
+
+        $filtered_value1 = apply_filters('testFilter1', 'Original value 1');
+        $filtered_value2 = apply_filters('testFilter2', 'Original value 2');
+        $filtered_value3 = apply_filters('testFilter3', 'Original value 3');
+
+        $this->assertSame('Filtered value 1', $filtered_value1);
+        $this->assertSame('Filtered value 2', $filtered_value2);
+        $this->assertSame('Filtered value 3', $filtered_value3);
 
         Mockery::close();
     }
