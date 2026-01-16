@@ -69,6 +69,66 @@ class WP_MockTest extends WP_MockTestCase
     }
 
     /**
+     * @covers \WP_Mock::setStrictModeForTest()
+     *
+     * @return void
+     * @throws \Exception
+     */
+    public function testSetStrictModeForTestCanDisableStrictMode(): void
+    {
+        // Set default ala `WP_Mock::activateStrictMode()`.
+        $property = new \ReflectionProperty( WP_Mock::class, '__strict_mode' );
+        $property->setAccessible( true );
+        $property->setValue( null, true );
+
+
+        WP_Mock::setStrictModeForTest(false);
+
+        $this->assertFalse(WP_Mock::strictMode());
+    }
+
+    /**
+     * @covers \WP_Mock::setStrictModeForTest()
+     *
+     * @return void
+     * @throws \Exception
+     */
+    public function testSetStrictModeForTestCanEnableStrictMode(): void
+    {
+        // Set default ala `WP_Mock::activateStrictMode()`, but `false`.
+        $property = new \ReflectionProperty( WP_Mock::class, '__strict_mode' );
+        $property->setAccessible( true );
+        $property->setValue( null, false );
+
+        WP_Mock::setStrictModeForTest();
+
+        $this->assertTrue(WP_Mock::strictMode());
+    }
+
+    /**
+     * @covers \WP_Mock::setStrictModeForTest()
+     *
+     * @return void
+     * @throws ExpectationFailedException|InvalidArgumentException
+     */
+    public function testPreviousSetStrictModeForTestIsNotRelevant(): void
+    {
+        // Set default ala `WP_Mock::activateStrictMode()`.
+        $property = new \ReflectionProperty( WP_Mock::class, '__strict_mode' );
+        $property->setAccessible( true );
+        $property->setValue( null, true );
+
+        // Set individual test configuration for another tests.
+        $property = new \ReflectionProperty( WP_Mock::class, '__strict_mode_for_individual_test' );
+        $property->setAccessible( true );
+        $property->setValue( null, [
+            'WP_Mock\Tests\Unit\WP_MockTest::testSetStrictModeForTestCanDisableStrictMode' => false
+        ]);
+
+        $this->assertTrue(WP_Mock::strictMode());
+    }
+
+    /**
      * @covers \WP_Mock::userFunction()
      *
      * @runInSeparateProcess

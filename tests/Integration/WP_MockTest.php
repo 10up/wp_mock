@@ -335,4 +335,59 @@ class WP_MockTest extends WP_MockTestCase
 
         $this->assertConditionsMet();
     }
+
+    /**
+     * @covers \WP_Mock::setStrictModeForTest()
+     *
+     * @return void
+     * @throws Exception
+     */
+    public function testCanDisableStrictModeForLegacyCode() : void
+    {
+        // Set default ala `WP_Mock::activateStrictMode()`.
+        $property = new \ReflectionProperty( WP_Mock::class, '__strict_mode' );
+        $property->setAccessible( true );
+        $property->setValue( null, true );
+
+        // Temporarily disable strict mode to test legacy code
+        WP_Mock::setStrictModeForTest(false);
+
+        // This would normally fail in strict mode, but should pass now
+        add_action('legacy_action', 'legacy_callback');
+
+        $this->assertTrue(true);
+    }
+
+    /**
+     * @covers \WP_Mock::setStrictModeForTest()
+     *
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     *
+     * @return void
+     * @throws Exception|ExpectationFailedException
+     */
+    public function testCanEnableStrictModeForSpecificTest() : void
+    {
+        /**
+         * Set default ala `WP_Mock::activateStrictMode()`, `false`.
+         * @see \WP_Mock::$__strict_mode
+         */
+        $property = new \ReflectionProperty( \WP_Mock::class, '__strict_mode' );
+        $property->setAccessible( true );
+        $property->setValue( null, false );
+
+        $this->assertFalse(WP_Mock::strictMode());
+
+        // Enable strict mode for this specific test
+        WP_Mock::setStrictModeForTest();
+        $this->assertTrue(WP_Mock::strictMode());
+
+        // This should throw an exception because we haven't set expectations
+        $this->expectException(ExpectationFailedException::class);
+        $this->expectExceptionMessage('No handler found for function unmocked_function');
+
+        // Call an unmocked function
+        WP_Mock\Functions\Handler::handleFunction('unmocked_function');
+    }
 }
