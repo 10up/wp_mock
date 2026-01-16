@@ -44,16 +44,21 @@ class WP_MockTest extends WP_MockTestCase
      */
     protected function setUp(): void
     {
-        // Reset to default strict-mode after tests that manipulate this value.
-        $property = new \ReflectionProperty( \WP_Mock::class, '__strict_mode' );
-        $property->setAccessible( true );
-        $property->setValue( null, false );
-
         if (! $this->isInIsolation()) {
             WP_Mock::setUp();
         }
 
         require_once(dirname(__DIR__).'/Mocks/Functions.php');
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+
+        // Reset to default strict-mode after tests that manipulate this value.
+        $property = new \ReflectionProperty( \WP_Mock::class, '__strict_mode' );
+        $property->setAccessible( true );
+        $property->setValue( null, false );
     }
 
     /**
