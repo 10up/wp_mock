@@ -92,7 +92,7 @@ class Functions
      *
      * @param string|callable-string $function function name
      * @param array<string, mixed> $args optional arguments
-     * @return Mockery\Expectation
+     * @return Mockery\Expectation|Mockery\CompositeExpectation
      * @throws InvalidArgumentException
      */
     public function register(string $function, array $args = [])
@@ -110,7 +110,7 @@ class Functions
         /** @var callable-string $method */
         $method = preg_replace('/\\\\+/', '_', $function);
 
-        /** @var Mockery\Expectation $expectation */
+        /** @var Mockery\Expectation|Mockery\CompositeExpectation $expectation */
         $expectation = $this->setUpMock($mock, $method, $args);
 
         Handler::registerHandler($function, [$mock, $method]);
