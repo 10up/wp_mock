@@ -358,7 +358,13 @@ class WP_MockTest extends WP_MockTestCase
             'return' => 'the-mocked-transient-value',
         ]);
 
+        // Without this, tests fail on PHP 7.4.
+        // PHP Fatal error:  Uncaught ParseError: syntax error, unexpected ':', expecting ')' in :362
+        $hidePhp8CodeFromOlderVersions = <<<'PHP'
+        return get_transient(transient: 'my-transient-name');
+        PHP;
+
         /** @phpstan-ignore-next-line function "exists" */
-        $this->assertEquals('the-mocked-transient-value', get_transient(transient: 'my-transient-name'));
+        $this->assertEquals('the-mocked-transient-value', eval($hidePhp8CodeFromOlderVersions));
     }
 }
