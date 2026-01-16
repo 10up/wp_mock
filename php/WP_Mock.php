@@ -439,7 +439,7 @@ class WP_Mock
      *
      * @param string $function function name
      * @param mixed[] $args optional arguments to set expectations
-     * @return Mockery\Expectation
+     * @return Mockery\Expectation|Mockery\CompositeExpectation
      * @throws InvalidArgumentException
      */
     public static function userFunction(string $function, array $args = [])
@@ -554,13 +554,13 @@ class WP_Mock
      * @param string|callable-string|callable|Type $callback the callable to be removed
      * @param int|Type|null $priority the priority it should be registered at
      *
-     * @return Mockery\Expectation
+     * @return Mockery\Expectation|Mockery\CompositeExpectation
      * @throws InvalidArgumentException
      */
-    public static function expectActionRemoved(string $action, $callback, ?int $priority = null) : Mockery\Expectation
+    public static function expectActionRemoved(string $action, $callback, $priority = null)
     {
         $args = [$action, $callback];
-        if ($priority) {
+        if (!is_null($priority)) {
             $args[] = $priority;
         }
 
@@ -577,18 +577,20 @@ class WP_Mock
      * @param null|string|callable-string|callable|Type $callback the callable to be removed
      * @param int|Type|null $priority optional priority for the registered callback that is being removed
      *
-     * @return void
+     * @return Mockery\Expectation|Mockery\CompositeExpectation
      * @throws InvalidArgumentException
      */
-    public static function expectActionNotRemoved(string $action, $callback, $priority = null) : void
+    public static function expectActionNotRemoved(string $action, $callback, $priority = null)
     {
-        self::userFunction(
-            'remove_action',
-            array(
-                'args'   => array_filter(func_get_args()),
-                'times'  => 0,
-            )
-        );
+        $args = [$action, $callback];
+        if (!is_null($priority)) {
+            $args[] = $priority;
+        }
+
+        return self::userFunction('remove_action',[
+            'args'   => $args,
+            'times'  => 0,
+        ]);
     }
 
     /**
@@ -598,18 +600,20 @@ class WP_Mock
      * @param string|callable-string|callable|Type $callback the callable to be removed
      * @param int|Type|null $priority the registered priority
      *
-     * @return void
+     * @return Mockery\Expectation|Mockery\CompositeExpectation
      * @throws InvalidArgumentException
      */
-    public static function expectFilterRemoved(string $filter, $callback, $priority = null) : void
+    public static function expectFilterRemoved(string $filter, $callback, $priority = null)
     {
-        self::userFunction(
-            'remove_filter',
-            array(
-                'args'   => array_filter(func_get_args()),
-                'times'  => 1,
-            )
-        );
+        $args = [$filter, $callback];
+        if (!is_null($priority)) {
+            $args[] = $priority;
+        }
+
+        return self::userFunction('remove_filter',[
+            'args'   => $args,
+            'times'  => 1,
+        ]);
     }
 
     /**
@@ -619,17 +623,19 @@ class WP_Mock
      * @param null|string|callable-string|callable|Type $callback the callable to be removed
      * @param int|Type|null $priority optional priority for the registered callback that is being removed
      *
-     * @return void
+     * @return Mockery\Expectation|Mockery\CompositeExpectation
      * @throws InvalidArgumentException
      */
-    public static function expectFilterNotRemoved(string $filter, $callback, $priority = null) : void
+    public static function expectFilterNotRemoved(string $filter, $callback, $priority = null)
     {
-        self::userFunction(
-            'remove_filter',
-            array(
-                'args'   => array_filter(func_get_args()),
-                'times'  => 0,
-            )
-        );
+        $args = [$filter, $callback];
+        if (!is_null($priority)) {
+            $args[] = $priority;
+        }
+
+        return self::userFunction('remove_filter',[
+            'args'   => $args,
+            'times'  => 0,
+        ]);
     }
 }
