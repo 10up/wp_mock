@@ -459,7 +459,7 @@ class WP_Mock
      *
      * @param string $function function name
      * @param mixed[]|scalar $args optional arguments
-     * @return ExpectationInterface
+     * @return Mockery\Expectation
      * @throws InvalidArgumentException
      */
     public static function echoFunction(string $function, $args = [])
@@ -484,7 +484,7 @@ class WP_Mock
      *
      * @param string $function function name
      * @param mixed[]|scalar $args function arguments (optional)
-     * @return ExpectationInterface
+     * @return Mockery\Expectation
      * @throws InvalidArgumentException
      */
     public static function passthruFunction(string $function, $args = [])
@@ -506,7 +506,7 @@ class WP_Mock
      * @param string|callable-string $function function to alias
      * @param string|callable-string $aliasFunction actual function
      * @param mixed[]|scalar $args optional arguments
-     * @return ExpectationInterface
+     * @return Mockery\Expectation
      * @throws InvalidArgumentException
      */
     public static function alias(string $function, string $aliasFunction, $args = [])
