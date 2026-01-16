@@ -554,10 +554,10 @@ class WP_Mock
      * @param string|callable-string|callable|Type $callback the callable to be removed
      * @param int|Type|null $priority the priority it should be registered at
      *
-     * @return void
+     * @return Mockery\Expectation
      * @throws InvalidArgumentException
      */
-    public static function expectActionRemoved(string $action, $callback, $priority = null) : void
+    public static function expectActionRemoved(string $action, $callback, ?int $priority = null) : Mockery\Expectation
     {
         self::userFunction(
             'remove_action',
