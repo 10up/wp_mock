@@ -32,6 +32,19 @@ class WP_Mock
 
     protected static $__strict_mode = false;
 
+    /**
+     * A record if strict mode was set individually for this test.
+     *
+     * Uses an associative array containing both method and setting as test-method-string:is-enabled-bool.
+     *
+     * @used-by self::setStrictModeForTest()
+     * @used-by self::isStrictModeForTest()
+     * @see self::strictMode()
+     *
+     * @var array<string, bool>
+     */
+    protected static $__strict_mode_for_individual_test = [];
+
     /** @var DeprecatedMethodListener */
     protected static $deprecatedMethodListener;
 
@@ -57,7 +70,7 @@ class WP_Mock
      */
     public static function strictMode()
     {
-        return (bool) self::$__strict_mode;
+        return self::isStrictModeForTest() ?? (bool) self::$__strict_mode;
     }
 
     /**
@@ -68,6 +81,72 @@ class WP_Mock
         if (! self::$__bootstrapped) {
             self::$__strict_mode = true;
         }
+    }
+
+    /**
+     * Sets strict mode on or off at runtime for an individual test.
+     *
+     * Records the config/preference for the individual test. Later this will be preferred over the default.
+     *
+     * @param bool $enabled
+     * @throws Exception when the test case name cannot be determined.
+     */
+    public static function setStrictModeForTest(bool $enabled = true): void
+    {
+        $currentTestName = self::getCurrentlyRunningTestName();
+        if(is_null($currentTestName)){
+            throw new Exception('Failed to determine current test name');
+        }
+        self::$__strict_mode_for_individual_test = [$currentTestName => $enabled,];
+    }
+
+    /**
+     * Check was strict mode configured individually for this test case.
+     *
+     * @see self::setStrictModeForTest()
+     * @see self::$__strict_mode_for_individual_test
+     *
+     * @return ?bool `null` when not set, boolean preference when set.
+     */
+    protected static function isStrictModeForTest(): ?bool {
+        if( empty( self::$__strict_mode_for_individual_test ) ) {
+            return null;
+        }
+
+        $currentTestName = self::getCurrentlyRunningTestName();
+
+        if(!is_null($currentTestName) && isset(self::$__strict_mode_for_individual_test[$currentTestName])) {
+            return self::$__strict_mode_for_individual_test[$currentTestName];
+        }
+        
+        // Reset the array since it is only relevant for the current test case run.
+        self::$__strict_mode_for_individual_test = [];
+
+        return null;
+    }
+
+    /**
+     * Perform a backtrace to determine the currently running test.
+     *
+     * @return ?string of `class-string::method`
+     */
+    protected static function getCurrentlyRunningTestName(): ?string {
+        $backtrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+
+        /** @var array{class?:string, function?:string} $trace */
+        foreach ($backtrace as $trace) {
+            if (isset($trace['class']) && isset($trace['function'])) {
+                // Check if this is a PHPUnit test class
+                if (is_subclass_of($trace['class'], \PHPUnit\Framework\TestCase::class)) {
+                    // Test method names start with 'test' or have @test annotation
+                    if (strpos($trace['function'], 'test') === 0) {
+                        return $trace['class'] . '::' . $trace['function'];
+                    }
+                }
+            }
+        }
+
+        return null;
     }
 
     /**
