@@ -8,6 +8,7 @@
  */
 
 use Mockery\Exception as MockeryException;
+use Mockery\ExpectationInterface;
 use WP_Mock\DeprecatedMethodListener;
 use WP_Mock\Functions\Handler;
 use WP_Mock\Matcher\FuzzyObject;
@@ -439,7 +440,7 @@ class WP_Mock
      *
      * @param string $function function name
      * @param mixed[] $args optional arguments to set expectations
-     * @return Mockery\Expectation|Mockery\CompositeExpectation
+     * @return Mockery\Expectation
      * @throws InvalidArgumentException
      */
     public static function userFunction(string $function, array $args = [])
@@ -458,7 +459,7 @@ class WP_Mock
      *
      * @param string $function function name
      * @param mixed[]|scalar $args optional arguments
-     * @return Mockery\Expectation
+     * @return ExpectationInterface
      * @throws InvalidArgumentException
      */
     public static function echoFunction(string $function, $args = [])
@@ -483,7 +484,7 @@ class WP_Mock
      *
      * @param string $function function name
      * @param mixed[]|scalar $args function arguments (optional)
-     * @return Mockery\Expectation
+     * @return ExpectationInterface
      * @throws InvalidArgumentException
      */
     public static function passthruFunction(string $function, $args = [])
@@ -505,7 +506,7 @@ class WP_Mock
      * @param string|callable-string $function function to alias
      * @param string|callable-string $aliasFunction actual function
      * @param mixed[]|scalar $args optional arguments
-     * @return Mockery\Expectation
+     * @return ExpectationInterface
      * @throws InvalidArgumentException
      */
     public static function alias(string $function, string $aliasFunction, $args = [])
@@ -554,7 +555,7 @@ class WP_Mock
      * @param string|callable-string|callable|Type $callback the callable to be removed
      * @param int|Type|null $priority the priority it should be registered at
      *
-     * @return Mockery\Expectation|Mockery\CompositeExpectation
+     * @return ExpectationInterface
      * @throws InvalidArgumentException
      */
     public static function expectActionRemoved(string $action, $callback, $priority = null)
@@ -577,7 +578,7 @@ class WP_Mock
      * @param null|string|callable-string|callable|Type $callback the callable to be removed
      * @param int|Type|null $priority optional priority for the registered callback that is being removed
      *
-     * @return Mockery\Expectation|Mockery\CompositeExpectation
+     * @return ExpectationInterface
      * @throws InvalidArgumentException
      */
     public static function expectActionNotRemoved(string $action, $callback, $priority = null)
@@ -600,7 +601,7 @@ class WP_Mock
      * @param string|callable-string|callable|Type $callback the callable to be removed
      * @param int|Type|null $priority the registered priority
      *
-     * @return Mockery\Expectation|Mockery\CompositeExpectation
+     * @return ExpectationInterface
      * @throws InvalidArgumentException
      */
     public static function expectFilterRemoved(string $filter, $callback, $priority = null)
@@ -623,7 +624,7 @@ class WP_Mock
      * @param null|string|callable-string|callable|Type $callback the callable to be removed
      * @param int|Type|null $priority optional priority for the registered callback that is being removed
      *
-     * @return Mockery\Expectation|Mockery\CompositeExpectation
+     * @return ExpectationInterface
      * @throws InvalidArgumentException
      */
     public static function expectFilterNotRemoved(string $filter, $callback, $priority = null)
