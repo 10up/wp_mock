@@ -57,7 +57,10 @@ class WP_MockTest extends WP_MockTestCase
 
         // Reset to default strict-mode after tests that manipulate this value.
         $property = new \ReflectionProperty( \WP_Mock::class, '__strict_mode' );
-        $property->setAccessible( true );
+        // "Method ReflectionProperty::setAccessible() is deprecated since 8.5, as it has no effect".
+        if(!version_compare(PHP_VERSION, '8.5', '>=')) {
+            $property->setAccessible( true );
+        }
         $property->setValue( null, false );
     }
 
@@ -356,7 +359,9 @@ class WP_MockTest extends WP_MockTestCase
     {
         // Set default ala `WP_Mock::activateStrictMode()`.
         $property = new \ReflectionProperty( WP_Mock::class, '__strict_mode' );
-        $property->setAccessible( true );
+        if(!version_compare(PHP_VERSION, '8.5', '>=')) {
+            $property->setAccessible( true );
+        }
         $property->setValue( null, true );
 
         // Temporarily disable strict mode to test legacy code
@@ -384,7 +389,9 @@ class WP_MockTest extends WP_MockTestCase
          * @see \WP_Mock::$__strict_mode
          */
         $property = new \ReflectionProperty( \WP_Mock::class, '__strict_mode' );
-        $property->setAccessible( true );
+        if(!version_compare(PHP_VERSION, '8.5', '>=')) {
+            $property->setAccessible( true );
+        }
         $property->setValue( null, false );
 
         $this->assertFalse(WP_Mock::strictMode());
