@@ -350,16 +350,13 @@ class WP_MockTest extends WP_MockTestCase
             $this->markTestSkipped('PHP 8.0 required for named parameters.');
         }
 
-        WP_Mock::userFunction(
-            'get_transient',
-            array(
-                'times'  => 1,
-                'args'   => array(
-                    'transient' => 'my-transient-name',
-                ),
-                'return' => 'the-mocked-transient-value',
-            )
-        );
+        WP_Mock::userFunction('get_transient', [
+            'times'  => 1,
+            'args'   => [
+                'transient' => 'my-transient-name',
+            ],
+            'return' => 'the-mocked-transient-value',
+        ]);
 
         /** @phpstan-ignore-next-line function "exists" */
         $this->assertEquals('the-mocked-transient-value', get_transient(transient: 'my-transient-name'));
