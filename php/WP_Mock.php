@@ -33,9 +33,9 @@ class WP_Mock
     protected static $__strict_mode = false;
 
     /**
-     * Check was strict mode set individually for this test.
+     * A record if strict mode was set individually for this test.
      *
-     * Using an associative array to hold test-method-string:is-enabled-bool.
+     * Uses an associative array containing both method and setting as test-method-string:is-enabled-bool.
      *
      * @used-by self::setStrictModeForTest()
      * @used-by self::isStrictModeForTest()
