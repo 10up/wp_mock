@@ -8,6 +8,7 @@
  */
 
 use Mockery\Exception as MockeryException;
+use Mockery\ExpectationInterface;
 use WP_Mock\DeprecatedMethodListener;
 use WP_Mock\Functions\Handler;
 use WP_Mock\Matcher\FuzzyObject;
@@ -545,5 +546,97 @@ class WP_Mock
     public static function getDeprecatedMethodListener(): DeprecatedMethodListener
     {
         return static::$deprecatedMethodListener;
+    }
+
+    /**
+     * Adds an expectation that an action should be removed.
+     *
+     * @param string $action the action hook name
+     * @param string|callable-string|callable|Type $callback the callable to be removed
+     * @param int|Type|null $priority the priority it should be registered at
+     *
+     * @return ExpectationInterface
+     * @throws InvalidArgumentException
+     */
+    public static function expectActionRemoved(string $action, $callback, $priority = null)
+    {
+        $args = [$action, $callback];
+        if (!is_null($priority)) {
+            $args[] = $priority;
+        }
+
+        return self::userFunction('remove_action', [
+            'args'  => $args,
+            'times' => 1,
+        ]);
+    }
+
+    /**
+     * Adds an expectation that an action should not be removed.
+     *
+     * @param string $action the action hook name
+     * @param null|string|callable-string|callable|Type $callback the callable to be removed
+     * @param int|Type|null $priority optional priority for the registered callback that is being removed
+     *
+     * @return ExpectationInterface
+     * @throws InvalidArgumentException
+     */
+    public static function expectActionNotRemoved(string $action, $callback, $priority = null)
+    {
+        $args = [$action, $callback];
+        if (!is_null($priority)) {
+            $args[] = $priority;
+        }
+
+        return self::userFunction('remove_action',[
+            'args'   => $args,
+            'times'  => 0,
+        ]);
+    }
+
+    /**
+     * Adds an expectation that a filter should be removed.
+     *
+     * @param string $filter the filter name
+     * @param string|callable-string|callable|Type $callback the callable to be removed
+     * @param int|Type|null $priority the registered priority
+     *
+     * @return ExpectationInterface
+     * @throws InvalidArgumentException
+     */
+    public static function expectFilterRemoved(string $filter, $callback, $priority = null)
+    {
+        $args = [$filter, $callback];
+        if (!is_null($priority)) {
+            $args[] = $priority;
+        }
+
+        return self::userFunction('remove_filter',[
+            'args'   => $args,
+            'times'  => 1,
+        ]);
+    }
+
+    /**
+     * Adds an expectation that a filter should not be removed.
+     *
+     * @param string $filter the filter name
+     * @param null|string|callable-string|callable|Type $callback the callable to be removed
+     * @param int|Type|null $priority optional priority for the registered callback that is being removed
+     *
+     * @return ExpectationInterface
+     * @throws InvalidArgumentException
+     */
+    public static function expectFilterNotRemoved(string $filter, $callback, $priority = null)
+    {
+        $args = [$filter, $callback];
+        if (!is_null($priority)) {
+            $args[] = $priority;
+        }
+
+        return self::userFunction('remove_filter',[
+            'args'   => $args,
+            'times'  => 0,
+        ]);
     }
 }
