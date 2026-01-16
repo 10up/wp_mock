@@ -559,13 +559,15 @@ class WP_Mock
      */
     public static function expectActionRemoved(string $action, $callback, ?int $priority = null) : Mockery\Expectation
     {
-        self::userFunction(
-            'remove_action',
-            array(
-                'args'   => array_filter(func_get_args()),
-                'times'  => 1,
-            )
-        );
+        $args = [$action, $callback];
+        if ($priority) {
+            $args[] = $priority;
+        }
+
+        return self::userFunction('remove_action', [
+            'args'  => $args,
+            'times' => 1,
+        ]);
     }
 
     /**
