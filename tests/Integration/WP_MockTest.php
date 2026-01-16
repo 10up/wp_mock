@@ -44,24 +44,23 @@ class WP_MockTest extends WP_MockTestCase
      */
     protected function setUp(): void
     {
-        if (! $this->isInIsolation()) {
-            WP_Mock::setUp();
-        }
-
-        require_once(dirname(__DIR__).'/Mocks/Functions.php');
-    }
-
-    protected function tearDown(): void
-    {
-        parent::tearDown();
-
-        // Reset to default strict-mode after tests that manipulate this value.
+        /**
+         * Reset to default strict-mode after tests that manipulate this value.
+         *
+         * @see WP_Mock::$__strict_mode
+         */
         $property = new \ReflectionProperty( \WP_Mock::class, '__strict_mode' );
         // "Method ReflectionProperty::setAccessible() is deprecated since 8.5, as it has no effect".
         if(!version_compare(PHP_VERSION, '8.5', '>=')) {
             $property->setAccessible( true );
         }
         $property->setValue( null, false );
+
+        if (! $this->isInIsolation()) {
+            WP_Mock::setUp();
+        }
+
+        require_once(dirname(__DIR__).'/Mocks/Functions.php');
     }
 
     /**
