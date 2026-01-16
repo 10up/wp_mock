@@ -97,7 +97,7 @@ class Functions
      */
     public function register(string $function, array $args = [])
     {
-        $functionArgs = isset($args['args']) ? $args['args'] : [];
+        $functionArgs = isset($args['args']) && is_array($args['args']) ? $args['args'] : [];
         $this->generateFunction($function, $functionArgs);
 
         if (empty($this->mockedFunctions[$function])) {
