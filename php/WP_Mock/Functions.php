@@ -276,7 +276,7 @@ class Functions
      * The declared function is namespace-aware.
      *
      * @param string $functionName function name
-     * @param string $functionArgs function arguments
+     * @param array<int|string, mixed> $functionArgs function arguments
      * @return void
      * @throws InvalidArgumentException
      */
@@ -293,7 +293,7 @@ class Functions
      * Creates a function using eval.
      *
      * @param string $functionName function name
-     * @param array $functionArgs function arguments, required only when calling mocked functions using named parameters
+     * @param array<int|string, mixed> $functionArgs function arguments, required only when calling mocked functions using named parameters
      * @return bool true if this function created the mock, false otherwise
      */
     protected function createFunction(string $functionName, array $functionArgs = []): bool
