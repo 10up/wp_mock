@@ -74,6 +74,16 @@ For example, the invocation below will set the expectation that the `get_permali
 WP_Mock::userFunction('get_permalink')->once()->with(42)->andReturn('https://example.com/foo');
 ```
 
+To mock functions that are called using named parameters, e.g. `get_permalink(post: 42)`, you must pass the arguments as an associative array:
+
+```php
+WP_Mock::userFunction('get_permalink', [
+    'args' => [
+        'post' => '42',
+    ],
+])->once()->andReturn('https://example.com/foo');
+```
+
 ## Using expectations in arguments
 
 You can also pass an associative array of arguments to the second parameter of `WP_Mock::userFunction()` to set expectations about the function's arguments, the number of times it should be called, and what it should return.

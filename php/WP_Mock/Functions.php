@@ -97,7 +97,8 @@ class Functions
      */
     public function register(string $function, array $args = [])
     {
-        $this->generateFunction($function);
+        $functionArgs = isset($args['args']) && is_array($args['args']) ? $args['args'] : [];
+        $this->generateFunction($function, $functionArgs);
 
         if (empty($this->mockedFunctions[$function])) {
             /** @phpstan-ignore-next-line */
@@ -138,7 +139,10 @@ class Functions
 
         // set the expected arguments the function should be called with
         if (isset($args['args'])) {
-            $this->setExpectedArgs($expectation, $args['args']);
+            $this->setExpectedArgs(
+                $expectation,
+                is_array($args['args']) ? array_values($args['args']): $args['args']
+            );
         }
 
         // set the expected return value based on a passed argument or return values for each call in order
@@ -272,25 +276,27 @@ class Functions
      * The declared function is namespace-aware.
      *
      * @param string $functionName function name
+     * @param array<int|string, mixed> $functionArgs function arguments
      * @return void
      * @throws InvalidArgumentException
      */
-    protected function generateFunction(string $functionName): void
+    protected function generateFunction(string $functionName, array $functionArgs = []): void
     {
         $functionName = $this->sanitizeFunctionName($functionName);
 
         $this->validateFunctionName($functionName);
 
-        $this->createFunction($functionName) or $this->replaceFunction($functionName);
+        $this->createFunction($functionName, $functionArgs) or $this->replaceFunction($functionName);
     }
 
     /**
      * Creates a function using eval.
      *
      * @param string $functionName function name
+     * @param array<int|string, mixed> $functionArgs function arguments, required only when calling mocked functions using named parameters
      * @return bool true if this function created the mock, false otherwise
      */
-    protected function createFunction(string $functionName): bool
+    protected function createFunction(string $functionName, array $functionArgs = []): bool
     {
         if (in_array($functionName, self::$userMockedFunctions, true)) {
             return true;
@@ -304,9 +310,19 @@ class Functions
         $name = array_pop($parts);
         $namespace = empty($parts) ? '' : 'namespace '.implode('\\', $parts).';'.PHP_EOL;
 
+        $functionNamedParameters = '';
+
+        $has_named_parameters = array_reduce( array_keys($functionArgs), function ($carry, $arg) {
+            return $carry && !is_int($arg);
+        }, true);
+
+        if($has_named_parameters){
+            $functionNamedParameters = implode(', ', array_map(fn($name) => '$' . $name, array_keys($functionArgs)));
+        }
+
         $declaration = <<<EOF
 $namespace
-function $name() {
+function $name($functionNamedParameters) {
 	return \\WP_Mock\\Functions\\Handler::handleFunction('$functionName', func_get_args());
 }
 EOF;

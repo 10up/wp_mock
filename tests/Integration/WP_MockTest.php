@@ -335,4 +335,36 @@ class WP_MockTest extends WP_MockTestCase
 
         $this->assertConditionsMet();
     }
+
+    /**
+     * Fix "Error : Unknown named parameter $transient" when passing named parameters in the argument list.
+     *
+     * @covers \WP_Mock::userFunction()
+     * @see WP_Mock\Functions::createFunction()
+     *
+     * @throws Exception
+     */
+    public function testCanMockNamedParameters(): void {
+
+        if(!version_compare(PHP_VERSION, '8.0', '>=')) {
+            $this->markTestSkipped('PHP 8.0 required for named parameters.');
+        }
+
+        WP_Mock::userFunction('get_transient', [
+            'times'  => 1,
+            'args'   => [
+                'transient' => 'my-transient-name',
+            ],
+            'return' => 'the-mocked-transient-value',
+        ]);
+
+        // Without this, tests fail on PHP 7.4.
+        // PHP Fatal error:  Uncaught ParseError: syntax error, unexpected ':', expecting ')' in :362
+        $hidePhp8CodeFromOlderVersions = <<<'PHP'
+        return get_transient(transient: 'my-transient-name');
+        PHP;
+
+        /** @phpstan-ignore-next-line function "exists" */
+        $this->assertEquals('the-mocked-transient-value', eval($hidePhp8CodeFromOlderVersions));
+    }
 }
