@@ -171,7 +171,7 @@ final class DeprecatedMethodListenerTest extends WP_MockTestCase
 
         $result = $method->invokeArgs($instance, [$arg]);
 
-        if (is_object($arg) && is_string($expected) && is_string($result)) {
+        if (is_object($arg) && is_string($expected) && '' !== $expected && is_string($result)) {
             $this->assertStringStartsWith($expected, $result);
         } else {
             $this->assertSame($expected, $result);
@@ -244,7 +244,7 @@ final class DeprecatedMethodListenerTest extends WP_MockTestCase
      * @see DeprecatedMethodListener::$deprecatedCalls
      *
      * @param DeprecatedMethodListener $listener
-     * @return array<array{string, array<mixed>}>
+     * @return array<mixed>
      * @throws ReflectionException
      */
     protected function getDeprecatedMethodCalls(DeprecatedMethodListener $listener): array
