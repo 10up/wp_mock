@@ -2,42 +2,51 @@
 
 namespace WP_Mock\Tools\Constraints;
 
-use Exception;
 use PHPUnit\Framework\Constraint\Constraint;
-use PHPUnit\Framework\Constraint\IsEqual;
-use PHPUnit\Framework\ExpectationFailedException;
 
 /**
  * HTML string constraint.
+ *
+ * Compares two HTML strings for equality while ignoring insignificant whitespace
+ * (tabs, newlines, carriage returns and collapsed runs of whitespace).
  */
 class IsEqualHtml extends Constraint
 {
     /** @var string */
     protected $value;
 
-    /** @var float */
-    private $delta;
-
-    /** @var bool */
-    private $canonicalize;
-
-    /** @var bool */
-    private $ignoreCase;
-
     /**
      * Constructor.
      *
-     * @param string $value
-     * @param float $delta
-     * @param bool $canonicalize
-     * @param bool $ignoreCase
+     * @param string $value the expected HTML
      */
-    public function __construct(string $value, float $delta = 0.0, bool $canonicalize = false, bool $ignoreCase = false)
+    public function __construct(string $value)
     {
         $this->value = $value;
-        $this->delta = $delta;
-        $this->canonicalize = $canonicalize;
-        $this->ignoreCase = $ignoreCase;
+    }
+
+    /**
+     * Evaluates whether $other equals the expected HTML, ignoring insignificant whitespace.
+     *
+     * @param mixed $other value to evaluate (untyped for PHP 7.4 compatibility; the parent declares `mixed` on PHPUnit 10+)
+     * @return bool
+     */
+    public function matches($other): bool
+    {
+        return $this->clean((string) $other) === $this->clean($this->value);
+    }
+
+    /**
+     * Returns a string representation of the constraint.
+     *
+     * @see Constraint::toString()
+     *
+     * @return string
+     */
+    public function toString(): string
+    {
+        // Note: do NOT use Constraint::exporter() here — it was removed in PHPUnit 11.0.
+        return sprintf("html is equal to '%s'", $this->clean($this->value));
     }
 
     /**
@@ -51,44 +60,6 @@ class IsEqualHtml extends Constraint
         $value = preg_replace('/\n\s+/', '', $value) ?: '';
         $value = preg_replace('/\s\s+/', ' ', $value) ?: '';
 
-        return str_replace(array( "\r", "\n", "\t" ), '', $value);
-    }
-
-    /**
-     * Evaluates the constraint for parameter $other.
-     *
-     * If $returnResult is false (default), an exception is thrown in case of a failure. null is returned otherwise.
-     * If $returnResult is true, the result of the evaluation is returned as a boolean instead, based on success or failure.
-     *
-     * @param string $other value to evaluate
-     * @param string $description message used in failures
-     * @param bool $returnResult whether to throw an exception in case of failure or return boolean
-     * @return bool|null
-     * @throws ExpectationFailedException
-     */
-    public function evaluate($other, string $description = '', bool $returnResult = false): ?bool
-    {
-        $other = $this->clean($other);
-        $this->value = $this->clean($this->value);
-
-        $isEqual = new IsEqual($this->value, $this->delta, $this->canonicalize, $this->ignoreCase);
-        $result = $isEqual->evaluate($other, $description, $returnResult);
-
-        return $returnResult ? $result : null;
-    }
-
-    /**
-     * Returns a string representation of the constraint.
-     *
-     * @see Constraint::toString()
-     *
-     * @return string
-     * @throws Exception
-     */
-    public function toString(): string
-    {
-        $isEqual = new IsEqual($this->value, $this->delta, $this->canonicalize, $this->ignoreCase);
-
-        return 'html '.$isEqual->toString();
+        return str_replace(["\r", "\n", "\t"], '', $value);
     }
 }

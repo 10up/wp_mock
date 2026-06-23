@@ -4,7 +4,8 @@ namespace WP_Mock\Tests\Unit\WP_Mock\Tools\Constraints;
 
 use Exception;
 use Generator;
-use PHPUnit\Framework\ExpectationFailedException;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use ReflectionException;
 use ReflectionMethod;
 use ReflectionProperty;
@@ -14,6 +15,7 @@ use WP_Mock\Tools\Constraints\IsEqualHtml;
 /**
  * @covers \WP_Mock\Tools\Constraints\IsEqualHtml
  */
+#[CoversClass(IsEqualHtml::class)]
 final class IsEqualHtmlTest extends WP_MockTestCase
 {
     /**
@@ -24,21 +26,12 @@ final class IsEqualHtmlTest extends WP_MockTestCase
      */
     public function testConstructor(): void
     {
-        $props = [
-            'value' => 'Test',
-            'delta' => 1.2,
-            'canonicalize' => true,
-            'ignoreCase' => true,
-        ];
+        $constraint = new IsEqualHtml('Test');
 
-        $constraint = new IsEqualHtml($props['value'], $props['delta'], $props['canonicalize'], $props['ignoreCase']);
+        $property = new ReflectionProperty($constraint, 'value');
+        $property->setAccessible(true);
 
-        foreach ($props as $key => $value) {
-            $property = new ReflectionProperty($constraint, $key);
-            $property->setAccessible(true);
-
-            $this->assertSame($value, $property->getValue($constraint));
-        }
+        $this->assertSame('Test', $property->getValue($constraint));
     }
 
     /**
@@ -58,64 +51,42 @@ final class IsEqualHtmlTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock\Tools\Constraints\IsEqualHtml::evaluate()
-     * @dataProvider providerEvaluate
+     * @covers \WP_Mock\Tools\Constraints\IsEqualHtml::matches()
+     * @dataProvider providerMatches
      *
      * @param string $value
      * @param string $otherValue
-     * @param bool $returnResult
-     * @param bool|null $expected
-     * @param bool|null $throwsException
+     * @param bool $expected
      * @return void
      * @throws Exception
      */
-    public function testCanEvaluate(
-        string $value,
-        string $otherValue,
-        bool $returnResult,
-        ?bool $expected,
-        ?bool $throwsException = null
-    ): void {
+    #[DataProvider('providerMatches')]
+    public function testCanMatch(string $value, string $otherValue, bool $expected): void
+    {
         $constraint = new IsEqualHtml($value);
 
-        if ($throwsException) {
-            $this->expectException(ExpectationFailedException::class);
-        }
-
-        $this->assertSame($expected, $constraint->evaluate($otherValue, 'Test error message', $returnResult));
+        $this->assertSame($expected, $constraint->matches($otherValue));
     }
 
-    /** @see testCanEvaluate */
-    public function providerEvaluate(): Generator
+    /** @see testCanMatch */
+    public static function providerMatches(): Generator
     {
-        yield 'The two HTML strings are the same (return bool)' => [
+        yield 'identical HTML' => [
             'value' => '<strong>Test</strong>',
             'otherValue' => '<strong>Test</strong>',
-            'returnResult' => true,
             'expected' => true,
         ];
 
-        yield 'The two HTML strings are the same (throw exception)' => [
-            'value' => '<strong>Test</strong>',
+        yield 'whitespace-insensitive match' => [
+            'value' => "<strong>\n\t Test</strong>",
             'otherValue' => '<strong>Test</strong>',
-            'returnResult' => false,
-            'expected' => null,
-            'throwsException' => false,
+            'expected' => true,
         ];
 
-        yield 'The two HTML strings are not the same (return bool)' => [
+        yield 'different HTML' => [
             'value' => '<strong>Test</strong>',
             'otherValue' => '<em>Test</em>',
-            'returnResult' => true,
             'expected' => false,
-        ];
-
-        yield 'The two HTML strings are not the same (throw exception)' => [
-            'value' => '<strong>Test</strong>',
-            'otherValue' => '<em>Test</em>',
-            'returnResult' => false,
-            'expected' => null,
-            'throwsException' => true,
         ];
     }
 
