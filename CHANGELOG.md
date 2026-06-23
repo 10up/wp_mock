@@ -4,6 +4,25 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0](https://github.com/10up/wp_mock/compare/1.1.1...trunk) - Unreleased
+
+WP_Mock now supports PHPUnit 9.6, 10, 11, 12 and 13 from a single codebase. The minimum PHP version is unchanged (7.4); Composer installs the highest PHPUnit version your PHP allows. Most projects can upgrade by bumping only `10up/wp_mock` — see [UPGRADE.md](https://github.com/10up/wp_mock/blob/trunk/UPGRADE.md).
+
+### Added
+- Support for PHPUnit 10, 11, 12 and 13 (in addition to 9.6)
+- `TestCase::assertOutputEqualsHtml(string $expectedHtml, callable $callback)` for whitespace-insensitive assertions on echoed HTML output
+
+### Changed
+- **BREAKING:** deprecated WP_Mock methods now emit a native `E_USER_DEPRECATED` notice (via `trigger_error()`) instead of forcing a test to be marked "risky". To fail tests on these, set `failOnDeprecation="true"` (PHPUnit 10+) or `convertDeprecationsToExceptions="true"` (PHPUnit 9) in your configuration.
+- **BREAKING:** removed the implicit output filtering and the `@stripTabsAndNewlinesFromOutput` annotation — including the `TestCase::expectOutputString()` override — because PHPUnit 10 removed `setOutputCallback()` and made `expectOutputString()` `final`. Use `assertOutputEqualsHtml()` (or PHPUnit's native `expectOutputString()` for exact matches).
+- `IsEqualHtml` now implements `matches()`/`toString()` and takes a single constructor argument
+- Raised minimum dependencies: `mockery/mockery ^1.6.12`, PHPStan tooling to `^2`
+- Test runner configuration is split into `phpunit.xml.dist` (PHPUnit 10+) and `phpunit9.xml.dist` (PHPUnit 9)
+
+### Removed
+- The abandoned `sempro/phpunit-pretty-print` dev dependency (use `--testdox`)
+- `DeprecatedMethodListener::setTestResult()`, `setTestCase()`, `checkCalls()` and the `TestCase::run()` override (relied on PHPUnit's removed `TestResult`/`RiskyTestError`)
+
 ## [1.1.1](https://github.com/10up/wp_mock/compare/1.1.0...1.1.1) - 2025-12-03
 ### Fixed
 - Address PHP deprecation warnings about implicitly nullable parameters
