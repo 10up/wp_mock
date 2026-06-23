@@ -75,15 +75,15 @@ jobs:
 
       # Tests should be run randomly to catch any test dependency issue.
       - name: Execute tests with PHPUnit
-        if: ${{ matrix.php != '8.1' }}
+        if: ${{ matrix.php != '8.0' }}
         run: vendor/bin/phpunit -c ${{ matrix.config }} --order-by=random
 
       - name: Execute tests with PHPUnit and output code coverage report
-        if: ${{ matrix.php == '8.1' }}
+        if: ${{ matrix.php == '8.0' }}
         run: vendor/bin/phpunit -c ${{ matrix.config }} --order-by=random --coverage-clover=./clover.xml --coverage-text
 
       - name: Upload test coverage results to Coveralls
-        if: ${{ matrix.php == '8.1' }}
+        if: ${{ matrix.php == '8.0' }}
         env:
           COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: vendor/bin/php-coveralls --coverage_clover="./clover.xml" --json_path="./coveralls-upload.json" -v
