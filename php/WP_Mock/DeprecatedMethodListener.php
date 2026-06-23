@@ -2,19 +2,18 @@
 
 namespace WP_Mock;
 
-use Mockery\MockInterface;
-use PHPUnit\Framework\RiskyTestError;
-use PHPUnit\Framework\TestCase;
-use PHPUnit\Framework\TestResult;
-
 /**
  * Internal handler for deprecated method calls.
  *
- * This handler is used by WP_Mock to alert developers if they are using any WP_Mock deprecated methods.
- * Test cases using WP_Mock deprecated methods will report as risky.
- * In this way we can ensure that developers are aware of the deprecation and can update their code before any deprecated methods are permanently removed.
+ * Flags usage of deprecated WP_Mock methods by emitting an {@see E_USER_DEPRECATED} notice,
+ * which PHPUnit captures and attributes to the running test natively across all supported
+ * versions:
+ *  - PHPUnit 9.x: surfaces (and, with `convertDeprecationsToExceptions="true"`, fails the test).
+ *  - PHPUnit 10+: reported per test; fails the suite when `failOnDeprecation="true"`.
  *
- * To flag a method as deprecated use {@see \WP_Mock::getDeprecatedMethodListener()->logDeprecatedCall()} within a deprecated method's logic.
+ * To flag a method as deprecated, call the following from within the deprecated method's logic:
+ *
+ *     \WP_Mock::getDeprecatedMethodListener()->logDeprecatedCall(__METHOD__, func_get_args());
  */
 class DeprecatedMethodListener
 {
@@ -23,12 +22,6 @@ class DeprecatedMethodListener
 
     /** @var string */
     protected $testName = 'test';
-
-    /** @var TestCase|MockInterface */
-    protected $testCase;
-
-    /** @var TestResult|MockInterface */
-    protected $testResult;
 
     /**
      * Sets the test name in context.
@@ -44,33 +37,11 @@ class DeprecatedMethodListener
     }
 
     /**
-     * Sets the test case in context.
+     * Logs a deprecated method call and emits a deprecation notice.
      *
-     * @param TestCase|MockInterface $testCase
-     * @return $this
-     */
-    public function setTestCase($testCase): DeprecatedMethodListener
-    {
-        $this->testCase = $testCase;
-
-        return $this;
-    }
-
-    /**
-     * Sets the test result in context.
-     *
-     * @param TestResult|MockInterface $testResult
-     * @return $this
-     */
-    public function setTestResult($testResult): DeprecatedMethodListener
-    {
-        $this->testResult = $testResult;
-
-        return $this;
-    }
-
-    /**
-     * Logs a deprecated method call.
+     * The call is recorded (for inspection via {@see DeprecatedMethodListener::reset()} consumers)
+     * and an {@see E_USER_DEPRECATED} notice is triggered immediately so PHPUnit reports it against
+     * the running test.
      *
      * @param string $method
      * @param array<mixed> $args
@@ -79,6 +50,8 @@ class DeprecatedMethodListener
     public function logDeprecatedCall(string $method, array $args = []): DeprecatedMethodListener
     {
         $this->deprecatedCalls[] = [$method, $args];
+
+        trigger_error($this->buildMessage($method, $args), E_USER_DEPRECATED);
 
         return $this;
     }
@@ -96,96 +69,21 @@ class DeprecatedMethodListener
     }
 
     /**
-     * Checks for deprecated method calls.
+     * Builds the deprecation message for a single deprecated method call.
      *
-     * Adds failures to the test result if any are found.
-     *
-     * @return void
-     */
-    public function checkCalls(): void
-    {
-        if (empty($this->deprecatedCalls)) {
-            return;
-        }
-
-        $error = new RiskyTestError($this->buildErrorMessage());
-
-        /** @phpstan-ignore-next-line */
-        $this->testResult->addFailure($this->testCase, $error, 0);
-    }
-
-    /**
-     * Gets a deprecated method call usage message.
-     *
+     * @param string $method
+     * @param array<mixed> $args
      * @return string
      */
-    protected function buildErrorMessage(): string
+    protected function buildMessage(string $method, array $args): string
     {
-        $maxLength = array_reduce($this->getDeprecatedMethods(), function ($carry, $item) {
-            return max($carry, strlen($item));
-        }, 0) + 1;
+        $message = sprintf('Deprecated WP_Mock call inside %s: %s', $this->testName, $method);
 
-        $message = sprintf('Deprecated WP Mock calls inside %s:', $this->testName);
-
-        foreach ($this->getDeprecatedMethodsWithArgs() as $method => $args) {
-            $firstRun = true;
-            $extra = $maxLength - strlen($method);
-
-            foreach ($args as $arg) {
-                $message .= "\n  ";
-
-                if ($firstRun) {
-                    $message .= $method . str_repeat(' ', $extra);
-                    $firstRun = false;
-                    $extra = $maxLength;
-                } else {
-                    $message .= str_repeat(' ', $extra);
-                }
-
-                $message .= $arg;
-            }
+        if (! empty($args)) {
+            $message .= ' '.json_encode(array_map([$this, 'toScalar'], $args));
         }
 
         return $message;
-    }
-
-    /**
-     * Gets a list of deprecated methods having been called.
-     *
-     * @return string[]
-     */
-    protected function getDeprecatedMethods(): array
-    {
-        $methods = [];
-
-        foreach ($this->deprecatedCalls as $call) {
-            $methods[] = $call[0];
-        }
-
-        return array_unique($methods);
-    }
-
-    /**
-     * Gets a list of deprecated methods having been called, with their arguments formatted as JSON.
-     *
-     * @return array<string, array<string, mixed>>
-     */
-    protected function getDeprecatedMethodsWithArgs(): array
-    {
-        $collection = [];
-
-        foreach ($this->deprecatedCalls as $call) {
-            $method = $call[0];
-            $args = json_encode(array_map([$this, 'toScalar'], $call[1]));
-
-            if (empty($collection[$method])) {
-                $collection[$method] = [];
-            }
-
-            $collection[$method][] = $args;
-        }
-
-        return array_map('array_unique', $collection);
     }
 
     /**

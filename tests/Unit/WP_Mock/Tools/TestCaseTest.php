@@ -4,20 +4,25 @@ namespace WP_Mock\Tests\Unit\WP_Mock\Tools;
 
 use Exception;
 use Generator;
-use InvalidArgumentException;
 use Mockery;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\PreserveGlobalState;
+use PHPUnit\Framework\Attributes\RunInSeparateProcess;
 use PHPUnit\Framework\ExpectationFailedException;
 use ReflectionException;
 use ReflectionMethod;
 use ReflectionProperty;
 use WP_Mock;
-use WP_Mock\DeprecatedMethodListener;
 use WP_Mock\Tests\WP_MockTestCase;
 use WP_Mock\Tools\TestCase;
 
 /**
  * @covers \WP_Mock\Tools\TestCase
  */
+#[CoversClass(TestCase::class)]
+#[AllowMockObjectsWithoutExpectations]
 final class TestCaseTest extends WP_MockTestCase
 {
     /**
@@ -32,12 +37,10 @@ final class TestCaseTest extends WP_MockTestCase
         $_GET = 'test_get';
         $_REQUEST = 'test_request';
 
-        $methods = ['requireFileDependencies', 'setUpContentFiltering', 'cleanGlobals'];
-        $instance = $this->getMockForAbstractClass(TestCase::class, [], '', false, false, true, $methods);
+        $instance = $this->createPartialMock(TestCase::class, ['requireFileDependencies', 'cleanGlobals']);
 
-        foreach ($methods as $method) {
-            $instance->expects($this->once())->method($method);
-        }
+        $instance->expects($this->once())->method('requireFileDependencies');
+        $instance->expects($this->once())->method('cleanGlobals');
 
         $instance->setUp();
 
@@ -55,14 +58,14 @@ final class TestCaseTest extends WP_MockTestCase
      * @return void
      * @throws Exception|ReflectionException
      */
+    #[RunInSeparateProcess]
+    #[PreserveGlobalState(false)]
     public function testCanTearDownTests(): void
     {
         $wpMock = Mockery::mock('overload:WP_Mock');
         $wpMock->shouldReceive('tearDown');
 
-        $instance = $this->getMockForAbstractClass(TestCase::class, [], '', false, false, true, [
-            'cleanGlobals',
-        ]);
+        $instance = $this->createPartialMock(TestCase::class, ['cleanGlobals']);
 
         $instance->expects($this->once())
             ->method('cleanGlobals');
@@ -74,71 +77,6 @@ final class TestCaseTest extends WP_MockTestCase
         $instance->tearDown();
 
         $this->assertSame([], $property->getValue($instance));
-    }
-
-    /**
-     * @covers \WP_Mock\Tools\TestCase::run()
-     *
-     * @doesNotPerformAssertions
-     *
-     * @return void
-     * @throws Exception
-     */
-    public function testCanRunTests(): void
-    {
-        $this->markTestSkipped('Cannot create test doubles for final classes from PHPUnit.');
-    }
-
-    /**
-     * @covers \WP_Mock\Tools\TestCase::after()
-     *
-     * @return void
-     * @throws Exception
-     */
-    public function testCanPerformLogicAfterTests(): void
-    {
-        $instance = $this->getMockForAbstractClass(TestCase::class, [], '', false, false, true, [
-            'checkDeprecatedCalls',
-        ]);
-
-        $instance->expects($this->once())
-            ->method('checkDeprecatedCalls');
-
-        $instance->after();
-    }
-
-    /**
-     * @covers \WP_Mock\Tools\TestCase::checkDeprecatedCalls()
-     *
-     * @runInSeparateProcess
-     * @preserveGlobalState disabled
-     *
-     * @return void
-     * @throws Exception
-     */
-    public function testCanCheckDeprecatedCalls(): void
-    {
-        $deprecatedMethodListener = $this->getMockBuilder(DeprecatedMethodListener::class)
-            ->disableOriginalConstructor()
-            ->onlyMethods(['checkCalls', 'reset'])
-            ->getMock();
-
-        $deprecatedMethodListener->expects($this->atMost(1))
-            ->method('checkCalls');
-
-        $deprecatedMethodListener->expects($this->atMost(1))
-            ->method('reset');
-
-        /** @var Mockery\Mock $wpMock */
-        $wpMock = Mockery::mock('overload:WP_Mock');
-        /** @phpstan-ignore-next-line  */
-        $wpMock->shouldReceive('getDeprecatedMethodListener')
-            ->andReturn($deprecatedMethodListener);
-
-        $instance = $this->getMockForAbstractClass(TestCase::class);
-        $method = new ReflectionMethod($instance, 'checkDeprecatedCalls');
-        $method->setAccessible(true);
-        $method->invoke($instance);
     }
 
     /**
@@ -154,48 +92,13 @@ final class TestCaseTest extends WP_MockTestCase
         $post = 'foo';
         $wp_query = 'bar';
 
-        $instance = $this->getMockForAbstractClass(TestCase::class);
+        $instance = $this->createPartialMock(TestCase::class, []);
         $method = new ReflectionMethod($instance, 'cleanGlobals');
         $method->setAccessible(true);
         $method->invoke($instance);
 
         $this->assertNull($GLOBALS['post'] ?? null);
         $this->assertNull($GLOBALS['wp_query'] ?? null);
-    }
-
-    /**
-     * @covers \WP_Mock\Tools\TestCase::setUpContentFiltering()
-     *
-     * @return void
-     * @throws ReflectionException|Exception
-     */
-    public function testCanSetUpContentFiltering(): void
-    {
-        $instance = $this->getMockForAbstractClass(TestCase::class);
-
-        $property = new ReflectionProperty($instance, '__contentFilterCallback');
-        $property->setAccessible(true);
-
-        $this->assertFalse($property->getValue($instance));
-
-        $method = new ReflectionMethod($instance, 'setUpContentFiltering');
-        $method->setAccessible(true);
-        $method->invoke($instance);
-
-        $this->assertSame([$instance, 'stripTabsAndNewlines'], $property->getValue($instance));
-    }
-
-    /**
-     * @covers \WP_Mock\Tools\TestCase::stripTabsAndNewlines()
-     *
-     * @return void
-     * @throws Exception
-     */
-    public function testCanStripTabsAndNewlinesForContentFiltering(): void
-    {
-        $instance = $this->getMockForAbstractClass(TestCase::class);
-
-        $this->assertSame('Test', $instance->stripTabsAndNewlines("\n\n\tTest\r\t"));
     }
 
     /**
@@ -208,9 +111,13 @@ final class TestCaseTest extends WP_MockTestCase
      * @param bool $throwsException
      * @return void
      * @throws Exception
-     */public function testCanAssertExpectedActionsWereCalled(bool $throwsException): void
+     */
+    #[DataProvider('providerAssertActionsCalled')]
+    #[RunInSeparateProcess]
+    #[PreserveGlobalState(false)]
+    public function testCanAssertExpectedActionsWereCalled(bool $throwsException): void
     {
-        $instance = $this->getMockForAbstractClass(TestCase::class);
+        $instance = $this->createPartialMock(TestCase::class, []);
 
         /** @var Mockery\Mock $wpMock */
         $wpMock = Mockery::mock('overload:WP_Mock');
@@ -227,7 +134,7 @@ final class TestCaseTest extends WP_MockTestCase
     }
 
     /** @see testCanAssertExpectedActionsWereCalled */
-    public function providerAssertActionsCalled(): Generator
+    public static function providerAssertActionsCalled(): Generator
     {
         yield 'Actions were not called' => [true];
         yield 'Actions were called' => [false];
@@ -244,9 +151,12 @@ final class TestCaseTest extends WP_MockTestCase
      * @return void
      * @throws Exception
      */
+    #[DataProvider('providerAssertHooksAdded')]
+    #[RunInSeparateProcess]
+    #[PreserveGlobalState(false)]
     public function testCanAssertExpectedHooksWereAdded(bool $throwsException): void
     {
-        $instance = $this->getMockForAbstractClass(TestCase::class);
+        $instance = $this->createPartialMock(TestCase::class, []);
 
         /** @var Mockery\Mock $wpMock */
         $wpMock = Mockery::mock('overload:WP_Mock');
@@ -263,7 +173,7 @@ final class TestCaseTest extends WP_MockTestCase
     }
 
     /** @see testCanAssertExpectedHooksWereAdded */
-    public function providerAssertHooksAdded(): Generator
+    public static function providerAssertHooksAdded(): Generator
     {
         yield 'Hooks were not added' => [true];
         yield 'Hooks were added' => [false];
@@ -277,9 +187,7 @@ final class TestCaseTest extends WP_MockTestCase
      */
     public function testCanAssertCurrentTestConditionsWereMet(): void
     {
-        $instance = $this->getMockForAbstractClass(TestCase::class, [], '', true, true, true, [
-            'assertConditionsMet'
-        ]);
+        $instance = $this->createPartialMock(TestCase::class, ['assertConditionsMet']);
 
         $instance->expects($this->once())
             ->method('assertConditionsMet')
@@ -295,45 +203,10 @@ final class TestCaseTest extends WP_MockTestCase
      */
     public function testCanAssertTestConditionsWereMet(): void
     {
-        $instance = $this->getMockForAbstractClass(TestCase::class);
+        $instance = $this->createPartialMock(TestCase::class, []);
 
-        // this will intentionally always pass and there are no assertions to be made
+        // this will intentionally always pass
         $instance->assertConditionsMet('test');
-    }
-
-    /**
-     * @covers \WP_Mock\Tools\TestCase::expectOutputString()
-     * @dataProvider providerExpectOutputString
-     *
-     * @param bool $expectException
-     * @return void
-     * @throws ReflectionException|Exception
-     */
-    public function testCanExpectOutputString(bool $expectException): void
-    {
-        $instance = $this->getMockForAbstractClass(TestCase::class);
-
-        if ($expectException) {
-            $property = new ReflectionProperty($instance, '__contentFilterCallback');
-            $property->setAccessible(true);
-            $property->setValue($instance, function () {
-                return false;
-            });
-
-            $this->expectException(InvalidArgumentException::class);
-        }
-
-        $instance->expectOutputString('test');
-
-        // parent method will not run in the context of this test, this will prevent method flagging no assertions performed
-        $instance->assertConditionsMet();
-    }
-
-    /** @see testCanExpectOutputString */
-    public function providerExpectOutputString(): Generator
-    {
-        yield 'Should not throw an exception' => [false];
-        yield 'Should throw an exception' => [true];
     }
 
     /**
@@ -344,13 +217,36 @@ final class TestCaseTest extends WP_MockTestCase
      */
     public function testCanAssertEqualsHtml(): void
     {
-        $instance = $this->getMockForAbstractClass(TestCase::class);
+        $instance = $this->createPartialMock(TestCase::class, []);
 
         $instance->assertEqualsHtml('<p>test</p>', "<p>test</p>");
 
         $this->expectException(ExpectationFailedException::class);
 
         $instance->assertEqualsHtml('<p>foo</p>', '<p>bar</p>');
+    }
+
+    /**
+     * @covers \WP_Mock\Tools\TestCase::assertOutputEqualsHtml()
+     *
+     * @return void
+     * @throws Exception
+     */
+    public function testCanAssertOutputEqualsHtml(): void
+    {
+        $instance = $this->createPartialMock(TestCase::class, []);
+
+        // whitespace-insensitive match passes
+        $instance->assertOutputEqualsHtml('<p>test</p>', static function () {
+            echo "<p>\n\t test</p>";
+        });
+
+        // a mismatch throws
+        $this->expectException(ExpectationFailedException::class);
+
+        $instance->assertOutputEqualsHtml('<p>foo</p>', static function () {
+            echo '<p>bar</p>';
+        });
     }
 
     /**
@@ -365,6 +261,9 @@ final class TestCaseTest extends WP_MockTestCase
      * @return void
      * @throws ReflectionException|Exception
      */
+    #[DataProvider('providerMockStaticMethod')]
+    #[RunInSeparateProcess]
+    #[PreserveGlobalState(false)]
     public function testCanMockStaticMethod(bool $usingPatchwork, bool $invalidMethod): void
     {
         $wpMock = Mockery::mock('overload:WP_Mock');
@@ -380,7 +279,7 @@ final class TestCaseTest extends WP_MockTestCase
 
         $this->assertTrue($class::testMethod());
 
-        $instance = $this->getMockForAbstractClass(TestCase::class);
+        $instance = $this->createPartialMock(TestCase::class, []);
         $method = new ReflectionMethod($instance, 'mockStaticMethod');
         $method->setAccessible(true);
 
@@ -396,7 +295,7 @@ final class TestCaseTest extends WP_MockTestCase
     }
 
     /** @see testCanMockStaticMethod */
-    public function providerMockStaticMethod(): Generator
+    public static function providerMockStaticMethod(): Generator
     {
         yield 'Patchwork is disabled' => [false, false];
         yield 'Referencing invalid method' => [true, true];

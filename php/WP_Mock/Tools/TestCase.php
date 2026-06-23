@@ -7,8 +7,6 @@ use InvalidArgumentException;
 use Mockery;
 use PHPUnit\Framework\ExpectationFailedException;
 use PHPUnit\Framework\TestCase as PhpUnitTestCase;
-use PHPUnit\Framework\TestResult;
-use PHPUnit\Util\Test;
 use ReflectionException;
 use ReflectionMethod;
 use RuntimeException;
@@ -40,9 +38,6 @@ abstract class TestCase extends PhpUnitTestCase
     /** @var array<mixed> */
     protected $__default_request = [];
 
-    /** @var bool|callable */
-    protected $__contentFilterCallback = false;
-
     /** @var array<string> */
     protected $testFiles = [];
 
@@ -64,7 +59,6 @@ abstract class TestCase extends PhpUnitTestCase
         $_POST = (array) $this->__default_post;
         $_REQUEST = (array) $this->__default_request;
 
-        $this->setUpContentFiltering();
         $this->cleanGlobals();
     }
 
@@ -102,53 +96,6 @@ abstract class TestCase extends PhpUnitTestCase
     }
 
     /**
-     * Runs the test case and collects the results in a {@see TestResult} object.
-     *
-     * If no {@see TestResult} object is passed a new one will be created.
-     *
-     * @param TestResult|null $result
-     * @return TestResult
-     * @throws Exception
-     */
-    public function run(?TestResult $result = null): TestResult
-    {
-        if ($result === null) {
-            $result = $this->createResult();
-        }
-
-        WP_Mock::getDeprecatedMethodListener()
-            ->setTestResult($result)
-            ->setTestCase($this);
-
-        return parent::run($result);
-    }
-
-    /**
-     * Runs logic after every test.
-     *
-     * @after
-     *
-     * @return void
-     */
-    public function after(): void
-    {
-        $this->checkDeprecatedCalls();
-    }
-
-    /**
-     * Checks for deprecated usage calls.
-     *
-     * This method is called after every test to check if any deprecated WP_Mock functions are used.
-     *
-     * @return void
-     */
-    protected function checkDeprecatedCalls(): void
-    {
-        WP_Mock::getDeprecatedMethodListener()->checkCalls();
-        WP_Mock::getDeprecatedMethodListener()->reset();
-    }
-
-    /**
      * Cleans common WordPress globals that may have been used in between tests.
      *
      * @return void
@@ -165,49 +112,6 @@ abstract class TestCase extends PhpUnitTestCase
                 unset($GLOBALS[$var]);
             }
         }
-    }
-
-    /**
-     * Sets up content filtering.
-     *
-     * @return void
-     * @throws Exception
-     */
-    protected function setUpContentFiltering(): void
-    {
-        $this->__contentFilterCallback = false;
-
-        $annotations = Test::parseTestMethodAnnotations(
-            static::class,
-            $this->getName(false)
-        );
-
-        if (
-            ! isset($annotations['stripTabsAndNewlinesFromOutput']) ||
-            $annotations['stripTabsAndNewlinesFromOutput'][0] !== 'disabled' ||
-            (
-                /** @phpstan-ignore-next-line */
-                is_numeric($annotations['stripTabsAndNewlinesFromOutput'][0]) &&
-                (int) $annotations['stripTabsAndNewlinesFromOutput'][0] !== 0
-            )
-        ) {
-            $this->__contentFilterCallback = [$this, 'stripTabsAndNewlines'];
-            $this->setOutputCallback($this->__contentFilterCallback);
-        }
-    }
-
-    /**
-     * Strips tabs, newlines and carriage returns from a value.
-     *
-     * @internal may change to protected access in future versions
-     * @see TestCase::setUpContentFiltering()
-     *
-     * @param string|string[] $value
-     * @return string|string[]
-     */
-    public function stripTabsAndNewlines($value)
-    {
-        return str_replace([ "\t", "\r", "\n"], '', $value);
     }
 
     /**
@@ -292,23 +196,29 @@ abstract class TestCase extends PhpUnitTestCase
     }
 
     /**
-     * Sets the expectation that a string will be output.
+     * Asserts that the HTML output produced by the given callback equals the expected HTML, ignoring insignificant whitespace.
      *
-     * @param string $expectedString
+     * Cross-version replacement for the implicit output filtering that previously relied on
+     * PHPUnit's setOutputCallback() (removed in PHPUnit 10) and the expectOutputString() override
+     * (expectOutputString() became final in PHPUnit 10).
+     *
+     * @param string $expectedHtml the expected HTML
+     * @param callable $callback code that echoes or prints output
+     * @param string $message
      * @return void
-     * @throws InvalidArgumentException
+     * @throws ExpectationFailedException|Exception
      */
-    public function expectOutputString(string $expectedString): void
+    public function assertOutputEqualsHtml(string $expectedHtml, callable $callback, string $message = ''): void
     {
-        if (is_callable($this->__contentFilterCallback)) {
-            $expectedString = call_user_func($this->__contentFilterCallback, $expectedString);
+        ob_start();
+
+        try {
+            $callback();
+        } finally {
+            $actual = ob_get_clean();
         }
 
-        if (! is_string($expectedString)) {
-            throw new InvalidArgumentException(sprintf('%1$s expects string, %2$s passed from content filter callback.', __METHOD__, gettype($expectedString)));
-        }
-
-        parent::expectOutputString($expectedString);
+        $this->assertThat((string) $actual, new IsEqualHtml($expectedHtml), $message);
     }
 
     /**
