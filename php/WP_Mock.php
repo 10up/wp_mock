@@ -335,7 +335,7 @@ class WP_Mock
      * @param int $args the number of arguments that should be allowed
      * @return void
      */
-    public static function expectFilterNotAdded(string $filter, $callback, int $priority = 10, int $args = 10) : void
+    public static function expectFilterNotAdded(string $filter, $callback, int $priority = 10, int $args = 1) : void
     {
         self::expectHookNotAdded('filter', $filter, $callback, $priority, $args);
     }

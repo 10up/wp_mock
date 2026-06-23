@@ -23,6 +23,9 @@ WP_Mock now supports PHPUnit 9.6, 10, 11, 12 and 13 from a single codebase. The 
 - The abandoned `sempro/phpunit-pretty-print` dev dependency (use `--testdox`)
 - `DeprecatedMethodListener::setTestResult()`, `setTestCase()`, `checkCalls()` and the `TestCase::run()` override (relied on PHPUnit's removed `TestResult`/`RiskyTestError`)
 
+### Fixed
+- `WP_Mock::expectFilterNotAdded()` defaulted `$args` to `10` instead of `1`, so the "not added" expectation never matched a standard `add_filter()` call and silently passed; it now correctly guards the hook
+
 ## [1.1.1](https://github.com/10up/wp_mock/compare/1.1.0...1.1.1) - 2025-12-03
 ### Fixed
 - Address PHP deprecation warnings about implicitly nullable parameters
