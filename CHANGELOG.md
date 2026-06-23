@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [2.0.0](https://github.com/10up/wp_mock/compare/1.1.1...trunk) - Unreleased
+## [2.0.0](https://github.com/10up/wp_mock/compare/1.1.1...2.0.0) - Unreleased
 
 WP_Mock now supports PHPUnit 9.6, 10, 11, 12 and 13 from a single codebase. The minimum PHP version is unchanged (7.4); Composer installs the highest PHPUnit version your PHP allows. Most projects can upgrade by bumping only `10up/wp_mock` — see [UPGRADE.md](https://github.com/10up/wp_mock/blob/trunk/UPGRADE.md).
 
