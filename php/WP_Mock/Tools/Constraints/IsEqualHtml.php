@@ -33,7 +33,9 @@ class IsEqualHtml extends Constraint
      */
     public function matches($other): bool
     {
-        return $this->clean((string) $other) === $this->clean($this->value);
+        $actual = is_scalar($other) ? (string) $other : '';
+
+        return $this->clean($actual) === $this->clean($this->value);
     }
 
     /**
