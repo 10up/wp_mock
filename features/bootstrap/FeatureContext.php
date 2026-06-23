@@ -44,7 +44,8 @@ class FeatureContext implements Context, SnippetAcceptingContext {
 	public static function forceStrictModeOn() {
 		$property = new ReflectionProperty( 'WP_Mock', '__strict_mode' );
 		$property->setAccessible( true );
-		$property->setValue( true );
+		// Two-arg form (null object for a static property) — single-arg setValue() is deprecated since PHP 8.3.
+		$property->setValue( null, true );
 	}
 
 	/**
@@ -57,7 +58,8 @@ class FeatureContext implements Context, SnippetAcceptingContext {
 	public static function forceStrictModeOff() {
 		$property = new ReflectionProperty( 'WP_Mock', '__strict_mode' );
 		$property->setAccessible( true );
-		$property->setValue( false );
+		// Two-arg form (null object for a static property) — single-arg setValue() is deprecated since PHP 8.3.
+		$property->setValue( null, false );
 	}
 
 	/**

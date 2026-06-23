@@ -88,12 +88,10 @@ class FunctionsContext implements Context {
 	}
 
     /**
-     * @Then I expect :return when I run :function
-     *
-     * @deprected use static::iExpectWhenIRun instead
+     * @deprecated use iExpectWhenIRun() instead
      */
     public function iExcpectWhenIRun( $return, $function ) {
-        static::iExpectWhenIRun( $return, $function )
+        $this->iExpectWhenIRun( $return, $function );
     }
 
     /**
