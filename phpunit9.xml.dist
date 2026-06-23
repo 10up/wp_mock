@@ -2,7 +2,6 @@
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		 xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.5/phpunit.xsd"
 		 colors="true"
-		 printerClass="Sempro\PHPUnitPrettyPrinter\PrettyPrinterForPhpUnit9"
 		 cacheResultFile=".phpunit.cache/test-results"
 		 bootstrap="./tests/bootstrap.php"
 		 executionOrder="random"
