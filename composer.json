@@ -7,7 +7,7 @@
         "php": ">=7.4",
         "phpunit/phpunit": "^9.6 || ^10 || ^11 || ^12 || ^13",
         "mockery/mockery": "^1.6.12",
-        "antecedent/patchwork": "^2.1"
+        "antecedent/patchwork": "^2.1.27"
     },
     "require-dev": {
         "behat/behat": "^v3.11.0",

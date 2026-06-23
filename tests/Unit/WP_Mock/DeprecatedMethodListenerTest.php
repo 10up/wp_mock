@@ -205,26 +205,10 @@ final class DeprecatedMethodListenerTest extends WP_MockTestCase
     {
         $deprecatedMethodListener = new DeprecatedMethodListener();
 
-        $instance = new class ($deprecatedMethodListener) extends WP_Mock {
-            /**
-             * @param DeprecatedMethodListener $deprecatedMethodListener
-             */
-            public function __construct(DeprecatedMethodListener $deprecatedMethodListener)
-            {
-                static::$deprecatedMethodListener = $deprecatedMethodListener;
-            }
-
-            /**
-             * @param array<mixed> $args
-             * @return string
-             */
-            public function deprecatedMethod(array $args = []): string
-            {
-                static::getDeprecatedMethodListener()->logDeprecatedCall(__METHOD__, $args);
-
-                return 'test';
-            }
-        };
+        // Use a named fixture (defined below) rather than an anonymous class: anonymous class
+        // names embed a null byte that trigger_error() truncates on PHP <= 8.1, which would drop
+        // the method name from the deprecation message.
+        $instance = new WpMockWithDeprecatedMethod($deprecatedMethodListener);
 
         $result = null;
 
@@ -255,5 +239,32 @@ final class DeprecatedMethodListenerTest extends WP_MockTestCase
         $value = $property->getValue($listener);
 
         return is_array($value) ? $value : [];
+    }
+}
+
+/**
+ * Named WP_Mock subclass with a deprecated method, used by
+ * {@see DeprecatedMethodListenerTest::testCanHandleDeprecatedMethodCallThroughWpMock()}.
+ *
+ * Intentionally a named (not anonymous) class so `__METHOD__` is stable and free of the null byte
+ * that anonymous class names embed — which `trigger_error()` truncates on PHP <= 8.1, dropping the
+ * method name from the captured deprecation message.
+ */
+final class WpMockWithDeprecatedMethod extends WP_Mock
+{
+    public function __construct(DeprecatedMethodListener $deprecatedMethodListener)
+    {
+        static::$deprecatedMethodListener = $deprecatedMethodListener;
+    }
+
+    /**
+     * @param array<mixed> $args
+     * @return string
+     */
+    public function deprecatedMethod(array $args = []): string
+    {
+        static::getDeprecatedMethodListener()->logDeprecatedCall(__METHOD__, $args);
+
+        return 'test';
     }
 }
