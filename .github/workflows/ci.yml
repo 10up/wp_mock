@@ -10,22 +10,42 @@ on:
 jobs:
   php-tests:
     runs-on: ${{ matrix.os }}
+    name: ${{ matrix.label }}
     strategy:
       matrix:
         include:
+          - php: '8.4'
+            os: 'ubuntu-latest'
+            config: 'phpunit.xml.dist'
+            label: 'PHP 8.4 · PHPUnit 13'
+            coverage: true
           - php: '8.3'
             os: 'ubuntu-latest'
+            config: 'phpunit.xml.dist'
+            label: 'PHP 8.3 · PHPUnit 12'
           - php: '8.2'
             os: 'ubuntu-latest'
+            config: 'phpunit.xml.dist'
+            label: 'PHP 8.2 · PHPUnit 11'
           - php: '8.1'
             os: 'ubuntu-latest'
+            config: 'phpunit.xml.dist'
+            label: 'PHP 8.1 · PHPUnit 10'
           - php: '8.0'
             os: 'ubuntu-24.04'
+            config: 'phpunit9.xml.dist'
+            label: 'PHP 8.0 · PHPUnit 9'
           - php: '7.4'
             os: 'ubuntu-24.04'
+            config: 'phpunit9.xml.dist'
+            label: 'PHP 7.4 · PHPUnit 9'
+          - php: '7.4'
+            os: 'ubuntu-24.04'
+            config: 'phpunit9.xml.dist'
+            composer_flags: '--prefer-lowest'
+            label: 'PHP 7.4 · PHPUnit 9 (lowest deps)'
       fail-fast: false
     env:
-      COVERAGE_CACHE_PATH: phpunit-coverage-cache
       PHP_VERSION: ${{ matrix.php }}
 
     steps:
@@ -39,86 +59,92 @@ jobs:
 
       - name: Get Composer cache directory
         id: composer-cache
-        run: |
-          echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
       - uses: actions/cache@v4
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          key: ${{ runner.os }}-php${{ matrix.php }}-composer-${{ matrix.composer_flags }}-${{ hashFiles('composer.json') }}
           restore-keys: |
-            ${{ runner.os }}-composer-
+            ${{ runner.os }}-php${{ matrix.php }}-composer-
 
+      # Resolve dependencies per PHP version: a single committed lock cannot satisfy
+      # every supported PHP/PHPUnit pair (PHPUnit 9–13 span PHP 7.4–8.4), so each leg
+      # updates to the highest PHPUnit its PHP allows (Composer picks 9/10/11/12/13).
       - name: Install dependencies
-        run: composer install --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+        run: composer update ${{ matrix.composer_flags }} --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
 
-      - name: Restore phpunit coverage cache
-        uses: actions/cache@v4
-        with:
-          path: ${{ env.COVERAGE_CACHE_PATH }}
-          key: ${{ runner.os }}-coverage-${{ github.ref }}-${{ github.sha }}
-          restore-keys: |
-            ${{ runner.os }}-coverage-${{ github.ref }}-
-            ${{ runner.os }}-coverage-
+      # Tests should be run randomly to catch any test dependency issue.
+      - name: Execute tests with PHPUnit
+        if: ${{ ! matrix.coverage }}
+        run: vendor/bin/phpunit -c ${{ matrix.config }} --order-by=random
 
       - name: Execute tests with PHPUnit and output code coverage report
-        env:
-          DB_CONNECTION: sqlite
-          DB_DATABASE: database/database.sqlite
-        # Generate coverage file, so it can be uploaded later if we choose.
-        # Otherwise, current coverage can be viewed in the action output.
-        # Tests should be run randomly to catch any test dependency issue.
-        run: |
-          vendor/bin/phpunit --order-by="random" --coverage-cache="$COVERAGE_CACHE_PATH" --coverage-clover=./clover.xml --coverage-text
+        if: ${{ matrix.coverage }}
+        run: vendor/bin/phpunit -c ${{ matrix.config }} --order-by=random --coverage-clover=./clover.xml --coverage-text
 
       - name: Upload test coverage results to Coveralls
-        if: ${{ env.PHP_VERSION == '8.1' }}
+        if: ${{ matrix.coverage }}
         env:
           COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          vendor/bin/php-coveralls --coverage_clover="./clover.xml" --json_path="./coveralls-upload.json" -v
+        run: vendor/bin/php-coveralls --coverage_clover="./clover.xml" --json_path="./coveralls-upload.json" -v
 
   php-compatibility:
     runs-on: ubuntu-latest
+    name: PHP compatibility (7.4+)
 
     steps:
       - uses: actions/checkout@v4
 
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          coverage: none
+
       - name: Get Composer Cache Directory
         id: composer-cache
-        run: |
-          echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
 
       - uses: actions/cache@v4
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          key: ${{ runner.os }}-phpcompat-composer-${{ hashFiles('composer.json') }}
           restore-keys: |
-            ${{ runner.os }}-composer-
+            ${{ runner.os }}-phpcompat-composer-
 
       - name: Install Dependencies
-        run: composer install --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist --ignore-platform-req php
+        run: composer update --no-ansi --no-interaction --no-progress --prefer-dist --ignore-platform-req=php
 
       - name: Run PHP Code Sniffer using the PHPCompatibility standard
         run: vendor/bin/phpcs
 
   php-static-analysis:
     runs-on: ubuntu-latest
+    name: Static analysis
 
     steps:
       - uses: actions/checkout@v4
 
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          coverage: none
+
       - name: Get Composer Cache Directory
         id: composer-cache
-        run: |
-          echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
       - uses: actions/cache@v4
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          key: ${{ runner.os }}-phpstan-composer-${{ hashFiles('composer.json') }}
           restore-keys: |
-            ${{ runner.os }}-composer-
+            ${{ runner.os }}-phpstan-composer-
+
       - name: Install Dependencies
-        run: |
-          composer install --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+        run: composer update --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+
       - name: Run phpstan
-        run: vendor/bin/phpstan
+        run: vendor/bin/phpstan analyse --no-progress
