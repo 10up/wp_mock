@@ -6,6 +6,7 @@ use Exception;
 use Generator;
 use Mockery;
 use Mockery\Exception as MockeryException;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use ReflectionException;
 use ReflectionMethod;
@@ -28,6 +29,7 @@ final class FuzzyObjectTest extends TestCase
      * @return void
      * @throws Exception
      */
+    #[DataProvider('providerCanConstruct')]
     public function testCanConstruct($expected, bool $shouldThrowException): void
     {
         if ($shouldThrowException) {
@@ -40,7 +42,7 @@ final class FuzzyObjectTest extends TestCase
     }
 
     /** @see testCanConstruct */
-    public function providerCanConstruct(): Generator
+    public static function providerCanConstruct(): Generator
     {
         yield 'Can construct when $expected is object' => [
             'expected' => new SampleClass(),
@@ -88,6 +90,7 @@ final class FuzzyObjectTest extends TestCase
      * @return void
      * @throws Exception
      */
+    #[DataProvider('providerCanMatch')]
     public function testCanMatch($testClass, object $expectedClass, bool $expectedResult): void
     {
         /** @var FuzzyObject&Mockery\LegacyMockInterface&Mockery\MockInterface $partialMock */
@@ -107,7 +110,7 @@ final class FuzzyObjectTest extends TestCase
     }
 
     /** @see testCanMatch */
-    public function providerCanMatch(): Generator
+    public static function providerCanMatch(): Generator
     {
         yield 'False when test class is not a class.' => [
             'testClass' => 'not a class',
@@ -187,6 +190,7 @@ final class FuzzyObjectTest extends TestCase
      * @return void
      * @throws ReflectionException|Exception
      */
+    #[DataProvider('providerCanDetermineHaveCommonAncestor')]
     public function testCanDetermineIfTwoObjectsHaveCommonAncestor($object1, $object2, bool $expectedResult): void
     {
         $instance = new FuzzyObject(new SampleClass());
@@ -198,7 +202,7 @@ final class FuzzyObjectTest extends TestCase
     }
 
     /** @see testCanDetermineIfTwoObjectsHaveCommonAncestor */
-    public function providerCanDetermineHaveCommonAncestor(): Generator
+    public static function providerCanDetermineHaveCommonAncestor(): Generator
     {
         yield 'False when object1 is not an object' => [
             'object1' => 'not an object',
@@ -240,6 +244,7 @@ final class FuzzyObjectTest extends TestCase
      * @return void
      * @throws Exception
      */
+    #[DataProvider('providerToString')]
     public function testCanConvertToString($object, string $expectedResult): void
     {
         $instance = new FuzzyObject($object);
@@ -248,10 +253,10 @@ final class FuzzyObjectTest extends TestCase
     }
 
     /** @see testCanConvertToString */
-    public function providerToString(): Generator
+    public static function providerToString(): Generator
     {
         yield 'With expected object with all types of properties' => [
-            'expected' => new class() {
+            'object' => new class() {
 
                 /** @var string[]  */
                 public $testPropertyIsArray = ['foo','bar'];
@@ -271,17 +276,17 @@ final class FuzzyObjectTest extends TestCase
                     $this->testPropertyIsResource = stream_context_create();
                 }
             },
-            'expectedString' => '<FuzzyObject[Array, WP_Mock\Tests\Mocks\SampleClass, stream-context, foo]>',
+            'expectedResult' => '<FuzzyObject[Array, WP_Mock\Tests\Mocks\SampleClass, stream-context, foo]>',
         ];
 
         yield 'With expected object with no properties' => [
-            'expected' => new class() {},
-            'expectedString' => '<FuzzyObject[]>',
+            'object' => new class() {},
+            'expectedResult' => '<FuzzyObject[]>',
         ];
 
         yield 'With array' => [
-            'expected' => ['foo','bar'],
-            'expectedString' => '<FuzzyObject[foo, bar]>',
+            'object' => ['foo','bar'],
+            'expectedResult' => '<FuzzyObject[foo, bar]>',
         ];
     }
 }

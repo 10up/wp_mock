@@ -23,7 +23,9 @@ final class MockWordPressObjectsTraitTest extends WP_MockTestCase
      */
     public function testCanMockWordPressPost(): void
     {
-        $trait = $this->getMockForTrait(MockWordPressObjectsTrait::class);
+        $trait = new class () {
+            use MockWordPressObjectsTrait;
+        };
         $postData = [
             'ID'                => 123,
             'post_author'       => 'johndoe',
@@ -65,7 +67,9 @@ final class MockWordPressObjectsTraitTest extends WP_MockTestCase
      */
     public function testCanMockWordPressInstance(): void
     {
-        $trait = $this->getMockForTrait(MockWordPressObjectsTrait::class);
+        $trait = new class () {
+            use MockWordPressObjectsTrait;
+        };
 
         $method = new ReflectionMethod($trait, 'mockWp');
         $method->setAccessible(true);

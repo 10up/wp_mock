@@ -3,6 +3,8 @@
 namespace Unit\WP_Mock\API;
 
 use Exception;
+use PHPUnit\Framework\Attributes\PreserveGlobalState;
+use PHPUnit\Framework\Attributes\RunInSeparateProcess;
 use WP_Mock;
 use WP_Mock\Tests\WP_MockTestCase;
 
@@ -32,6 +34,8 @@ final class FunctionMocksTest extends WP_MockTestCase
      *
      * @return void
      */
+    #[RunInSeparateProcess]
+    #[PreserveGlobalState(false)]
     public function testPredefinedReturnFunctions(): void
     {
         WP_Mock::bootstrap();
@@ -75,6 +79,8 @@ final class FunctionMocksTest extends WP_MockTestCase
      * @return void
      * @throws Exception
      */
+    #[RunInSeparateProcess]
+    #[PreserveGlobalState(false)]
     public function testPredefinedEchoFunctions(): void
     {
         WP_Mock::bootstrap();

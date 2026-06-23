@@ -9,6 +9,9 @@ use Mockery\CompositeExpectation;
 use Mockery\CountValidator\Exact;
 use Mockery\Expectation;
 use Mockery\Mock;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\PreserveGlobalState;
+use PHPUnit\Framework\Attributes\RunInSeparateProcess;
 use ReflectionException;
 use ReflectionMethod;
 use ReflectionProperty;
@@ -30,6 +33,8 @@ final class FunctionsTest extends WP_MockTestCase
      * @return void
      * @throws ReflectionException|Exception
      */
+    #[RunInSeparateProcess]
+    #[PreserveGlobalState(false)]
     public function testCanInitialize(): void
     {
         $functions = new Functions();
@@ -88,6 +93,8 @@ final class FunctionsTest extends WP_MockTestCase
      * @return void
      * @throws Exception
      */
+    #[RunInSeparateProcess]
+    #[PreserveGlobalState(false)]
     public function testCanRegister(): void
     {
         $handler = new ReflectionProperty(Handler::class, 'handlers');
@@ -125,6 +132,7 @@ final class FunctionsTest extends WP_MockTestCase
      * @return void
      * @throws Exception
      */
+    #[DataProvider('providerCanSetUpMock')]
     public function testCanSetupMock(array $expectationArgs): void
     {
         $functions = new Functions();
@@ -172,7 +180,7 @@ final class FunctionsTest extends WP_MockTestCase
     }
 
     /** @see testCanSetupMock */
-    public function providerCanSetUpMock(): Generator
+    public static function providerCanSetUpMock(): Generator
     {
         yield 'With args' => [['args' => ['foo', 'bar']]];
         yield 'With return value' => [['return' => 'foo']];
@@ -188,6 +196,7 @@ final class FunctionsTest extends WP_MockTestCase
      * @return void
      * @throws ReflectionException|Exception
      */
+    #[DataProvider('providerCanGenerateFunction')]
     public function testCanGenerateFunction(bool $willCreate, bool $willReplace): void
     {
         $functionName = 'myFunction';
@@ -221,7 +230,7 @@ final class FunctionsTest extends WP_MockTestCase
     }
 
     /** @see testCanGenerateFunction */
-    public function providerCanGenerateFunction(): Generator
+    public static function providerCanGenerateFunction(): Generator
     {
         yield 'Function is created' => [true, false];
         yield 'Function is replaced' => [false, true];
@@ -243,6 +252,9 @@ final class FunctionsTest extends WP_MockTestCase
      * @return void
      * @throws ReflectionException|Exception
      */
+    #[DataProvider('providerCanCreateFunction')]
+    #[RunInSeparateProcess]
+    #[PreserveGlobalState(false)]
     public function testCanCreateFunction(string $functionName, array $functionsList, bool $functionWillExist, bool $functionWillBeRegistered, bool $expectedReturnValue): void
     {
         $functions = new Functions();
@@ -266,7 +278,7 @@ final class FunctionsTest extends WP_MockTestCase
     }
 
     /** @see testCanCreateFunction */
-    public function providerCanCreateFunction(): Generator
+    public static function providerCanCreateFunction(): Generator
     {
         yield 'Function is already registered' => ['myWpMockFunction', ['myWpMockFunction'], false, true, true];
         yield 'Function already exists' => ['str_replace', [], true, false, false];
@@ -320,6 +332,7 @@ final class FunctionsTest extends WP_MockTestCase
      * @return void
      * @throws ReflectionException|Exception
      */
+    #[DataProvider('providerCanValidateFunction')]
     public function testCanValidateFunction(string $functionName, bool $validates): void
     {
         if (! $validates) {
@@ -335,7 +348,7 @@ final class FunctionsTest extends WP_MockTestCase
     }
 
     /** @see testCanValidateFunction */
-    public function providerCanValidateFunction(): Generator
+    public static function providerCanValidateFunction(): Generator
     {
         yield 'Invalid function name' => ['#!?', false];
         yield 'Internal PHP function' => ['str_replace', false];
@@ -353,6 +366,7 @@ final class FunctionsTest extends WP_MockTestCase
      * @return void
      * @throws Exception
      */
+    #[DataProvider('providerMatchAnyTypes')]
     public function testCanSetUpArgumentPlaceholderOfAnyType(bool $expected, $matchedValue, $typesToMatch): void
     {
         $anyType = Functions::anyOf($typesToMatch);
@@ -361,7 +375,7 @@ final class FunctionsTest extends WP_MockTestCase
     }
 
     /** @see testCanSetUpArgumentPlaceholderOfAnyType */
-    public function providerMatchAnyTypes(): Generator
+    public static function providerMatchAnyTypes(): Generator
     {
         yield 'Match expected string' => [true, 'string', 'string'];
         yield 'Does not match expected string' => [false, 'string', 123];
@@ -380,6 +394,7 @@ final class FunctionsTest extends WP_MockTestCase
      * @return void
      * @throws Exception
      */
+    #[DataProvider('providerMatchTypes')]
     public function testCanSetUpArgumentPlaceholderOfStrictType(string $typeToMatch, $matchedValue): void
     {
         $type = Functions::type($typeToMatch);
@@ -388,7 +403,7 @@ final class FunctionsTest extends WP_MockTestCase
     }
 
     /** @see testCanSetUpArgumentPlaceholderOfType */
-    public function providerMatchTypes(): Generator
+    public static function providerMatchTypes(): Generator
     {
         yield ['string', 'string'];
         yield ['integer', 1];

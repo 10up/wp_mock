@@ -6,6 +6,8 @@ use Closure;
 use Generator;
 use Exception;
 use Mockery;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use ReflectionException;
 use stdClass;
@@ -15,6 +17,7 @@ use WP_Mock\Traits\AccessInaccessibleClassMembersTrait;
 /**
  * @covers \WP_Mock\Hook
  */
+#[AllowMockObjectsWithoutExpectations]
 final class HookTest extends TestCase
 {
     use AccessInaccessibleClassMembersTrait;
@@ -28,16 +31,17 @@ final class HookTest extends TestCase
      * @return void
      * @throws ReflectionException|Exception
      */
+    #[DataProvider('providerSafeOffset')]
     public function testCanParseSafeOffSet($value, string $expected): void
     {
-        $instance = $this->getMockForAbstractClass(Hook::class, [], '', false);
+        $instance = $this->createPartialMock(Hook::class, ['new_responder', 'get_strict_mode_message']);
         $method = $this->getInaccessibleMethod($instance, 'safe_offset');
 
         $this->assertSame($expected, $method->invokeArgs($instance, [$value]));
     }
 
     /** @see testCanParseSafeOffset */
-    public function providerSafeOffset(): Generator
+    public static function providerSafeOffset(): Generator
     {
         $callbackInstance = new class () {
             public function callback(): bool

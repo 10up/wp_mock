@@ -4,6 +4,9 @@ namespace WP_Mock\Tests\Integration;
 
 use Exception;
 use Generator;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\PreserveGlobalState;
+use PHPUnit\Framework\Attributes\RunInSeparateProcess;
 use PHPUnit\Framework\ExpectationFailedException;
 use WP_Mock;
 use WP_Mock\Tests\WP_MockTestCase;
@@ -14,7 +17,7 @@ use WP_Mock\Tests\WP_MockTestCase;
 class WP_MockTest extends WP_MockTestCase
 {
     /** @var string[] */
-    private array $defaultMockedFunctions = [
+    private const DEFAULT_MOCKED_FUNCTIONS = [
         '__',
         '_e',
         '_n',
@@ -44,7 +47,7 @@ class WP_MockTest extends WP_MockTestCase
      */
     protected function setUp(): void
     {
-        if (! $this->isInIsolation()) {
+        if (! $this->isRunningInIsolation()) {
             WP_Mock::setUp();
         }
 
@@ -62,17 +65,19 @@ class WP_MockTest extends WP_MockTestCase
      * @return void
      * @throws Exception
      */
+    #[RunInSeparateProcess]
+    #[PreserveGlobalState(false)]
     public function testCommonFunctionsAreDefined(): void
     {
         // First we assert that all common functions get removed from the returned array.
         // If any one of these functions doesn't get removed, that means it already exists.
-        $this->assertEmpty(array_filter($this->defaultMockedFunctions, 'function_exists'));
+        $this->assertEmpty(array_filter(self::DEFAULT_MOCKED_FUNCTIONS, 'function_exists'));
 
         WP_Mock::bootstrap();
 
         // Now we assert that the array doesn't lose any items after bootstrap,
         // meaning all expected functions got defined correctly.
-        $this->assertEquals($this->defaultMockedFunctions, array_filter($this->defaultMockedFunctions, 'function_exists'));
+        $this->assertEquals(self::DEFAULT_MOCKED_FUNCTIONS, array_filter(self::DEFAULT_MOCKED_FUNCTIONS, 'function_exists'));
     }
 
     /**
@@ -87,6 +92,7 @@ class WP_MockTest extends WP_MockTestCase
      * @return void
      * @throws Exception
      */
+    #[DataProvider('providerCommonFunctionsDefaultFunctionality')]
     public function testCommonFunctionsDefaultFunctionality($function, string $action)
     {
         $input = $expected = 'Something Random '.rand(0, 99);
@@ -110,9 +116,9 @@ class WP_MockTest extends WP_MockTestCase
      *
      * @return array<array{string, 'echo'|'return'}>
      */
-    public function providerCommonFunctionsDefaultFunctionality(): array
+    public static function providerCommonFunctionsDefaultFunctionality(): array
     {
-        $functions = $this->defaultMockedFunctions;
+        $functions = self::DEFAULT_MOCKED_FUNCTIONS;
 
         return array_filter(array_map(function ($function) {
             // skip hook functions - only gettext functions under test
@@ -131,6 +137,8 @@ class WP_MockTest extends WP_MockTestCase
      *
      * @return void
      */
+    #[RunInSeparateProcess]
+    #[PreserveGlobalState(false)]
     public function testDefaultFailsInStrictMode(): void
     {
         $this->expectExceptionMessageMatches('/No handler found for \w+/');
@@ -198,6 +206,7 @@ class WP_MockTest extends WP_MockTestCase
      * @return void
      * @throws Exception
      */
+    #[DataProvider('providerUserFunctionExpectationArgs')]
     public function testCanSetUserFunctionExpectationArgs(array $expectationArgs, array $expectedResults): void
     {
         WP_Mock::userFunction('wpMockTestReturnFunction', $expectationArgs);
@@ -215,7 +224,7 @@ class WP_MockTest extends WP_MockTestCase
     }
 
     /** @see testCanSetUserFunctionExpectationArgs */
-    public function providerUserFunctionExpectationArgs(): Generator
+    public static function providerUserFunctionExpectationArgs(): Generator
     {
         yield 'Function never called' => [
             'expectationArgs' => [
