@@ -210,7 +210,7 @@ final class DeprecatedMethodListenerTest extends WP_MockTestCase
      * @see DeprecatedMethodListener::$deprecatedCalls
      *
      * @param DeprecatedMethodListener $listener
-     * @return array<mixed>
+     * @return array<array{string, array<mixed>}> the logged [$method, $args] pairs
      * @throws ReflectionException
      */
     protected function getDeprecatedMethodCalls(DeprecatedMethodListener $listener): array
@@ -220,7 +220,12 @@ final class DeprecatedMethodListenerTest extends WP_MockTestCase
 
         $value = $property->getValue($listener);
 
-        return is_array($value) ? $value : [];
+        if (! is_array($value)) {
+            return [];
+        }
+
+        /** @var array<array{string, array<mixed>}> $value */
+        return $value;
     }
 }
 
