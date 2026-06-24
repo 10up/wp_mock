@@ -7,6 +7,7 @@ use Generator;
 use Exception;
 use Mockery;
 use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use ReflectionException;
@@ -14,18 +15,13 @@ use stdClass;
 use WP_Mock\Hook;
 use WP_Mock\Traits\AccessInaccessibleClassMembersTrait;
 
-/**
- * @covers \WP_Mock\Hook
- */
+#[CoversClass(Hook::class)]
 #[AllowMockObjectsWithoutExpectations]
 final class HookTest extends TestCase
 {
     use AccessInaccessibleClassMembersTrait;
 
     /**
-     * @covers \WP_Mock\Hook::safe_offset()
-     * @dataProvider providerSafeOffset
-     *
      * @param mixed $value
      * @param string $expected
      * @return void

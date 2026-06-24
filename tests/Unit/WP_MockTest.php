@@ -7,6 +7,7 @@ use WP_Mock;
 use stdClass;
 use Generator;
 use PHPUnit\Framework\Exception;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\PreserveGlobalState;
 use PHPUnit\Framework\Attributes\RunInSeparateProcess;
@@ -19,17 +20,10 @@ use Mockery\Exception\InvalidCountException;
 use PHPUnit\Framework\ExpectationFailedException;
 use SebastianBergmann\RecursionContext\InvalidArgumentException;
 
-/**
- * @covers \WP_Mock
- */
+#[CoversClass(WP_Mock::class)]
 class WP_MockTest extends WP_MockTestCase
 {
     /**
-     * @covers \WP_Mock::strictMode()
-     *
-     * @runInSeparateProcess
-     * @preserveGlobalState disabled
-     *
      * @return void
      * @throws ExpectationFailedException|InvalidArgumentException
      */
@@ -41,11 +35,6 @@ class WP_MockTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock::activateStrictMode()
-     *
-     * @runInSeparateProcess
-     * @preserveGlobalState disabled
-     *
      * @return void
      * @throws ExpectationFailedException|InvalidArgumentException
      */
@@ -59,11 +48,6 @@ class WP_MockTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock::strictMode()
-     *
-     * @runInSeparateProcess
-     * @preserveGlobalState disabled
-     *
      * @return void
      * @throws ExpectationFailedException|InvalidArgumentException
      */
@@ -78,11 +62,6 @@ class WP_MockTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock::userFunction()
-     *
-     * @runInSeparateProcess
-     * @preserveGlobalState disabled
-     *
      * @return void
      * @throws Exception|InvalidArgumentException|\InvalidArgumentException
      */
@@ -99,11 +78,6 @@ class WP_MockTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock::assertHooksAdded()
-     *
-     * @runInSeparateProcess
-     * @preserveGlobalState disabled
-     *
      * @return void
      */
     #[RunInSeparateProcess]
@@ -127,11 +101,6 @@ class WP_MockTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock::assertHooksAdded()
-     *
-     * @runInSeparateProcess
-     * @preserveGlobalState disabled
-     *
      * @return void
      */
     #[RunInSeparateProcess]
@@ -156,11 +125,6 @@ class WP_MockTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock::assertActionsCalled()
-     *
-     * @runInSeparateProcess
-     * @preserveGlobalState disabled
-     *
      * @return void
      */
     #[RunInSeparateProcess]
@@ -178,11 +142,6 @@ class WP_MockTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock::assertActionsCalled()
-     *
-     * @runInSeparateProcess
-     * @preserveGlobalState disabled
-     *
      * @return void
      */
     #[RunInSeparateProcess]
@@ -204,11 +163,6 @@ class WP_MockTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock::assertFiltersCalled()
-     *
-     * @runInSeparateProcess
-     * @preserveGlobalState disabled
-     *
      * @return void
      */
     #[RunInSeparateProcess]
@@ -227,11 +181,6 @@ class WP_MockTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock::assertFiltersCalled()
-     *
-     * @runInSeparateProcess
-     * @preserveGlobalState disabled
-     *
      * @return void
      */
     #[RunInSeparateProcess]
@@ -248,11 +197,6 @@ class WP_MockTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock::assertFiltersCalled()
-     *
-     * @runInSeparateProcess
-     * @preserveGlobalState disabled
-     *
      * @return void
      */
     #[RunInSeparateProcess]
@@ -271,8 +215,6 @@ class WP_MockTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock::alias()
-     *
      * @return void
      * @throws Exception|InvalidArgumentException|\InvalidArgumentException
      */
@@ -292,9 +234,6 @@ class WP_MockTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock::fuzzyObject()
-     * @dataProvider providerFuzzyObject
-     *
      * @param array|object|mixed $object
      * @param string $expected
      * @return void
@@ -325,8 +264,6 @@ class WP_MockTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock::getDeprecatedMethodListener()
-     *
      * @return void
      * @throws Exception|InvalidArgumentException
      */
@@ -340,11 +277,6 @@ class WP_MockTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock::onFilter()
-     *
-     * @runInSeparateProcess
-     * @preserveGlobalState disabled
-     *
      * @return void
      * @throws Exception|InvalidArgumentException
      */
@@ -367,11 +299,6 @@ class WP_MockTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock::onFilter()
-     *
-     * @runInSeparateProcess
-     * @preserveGlobalState disabled
-     *
      * @return void
      * @throws Exception|InvalidArgumentException
      */
@@ -394,11 +321,6 @@ class WP_MockTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock::onFilter()
-     *
-     * @runInSeparateProcess
-     * @preserveGlobalState disabled
-     *
      * @return void
      * @throws Exception|InvalidArgumentException
      */

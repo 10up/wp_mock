@@ -6,6 +6,7 @@ use Exception;
 use Generator;
 use Mockery;
 use Mockery\Exception as MockeryException;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use ReflectionException;
@@ -15,15 +16,10 @@ use WP_Mock\Tests\Mocks\SampleClass;
 use WP_Mock\Tests\Mocks\SampleClassTwo;
 use WP_Mock\Tests\Mocks\SampleSubClass;
 
-/**
- * @covers \WP_Mock\Matcher\FuzzyObject
- */
+#[CoversClass(FuzzyObject::class)]
 final class FuzzyObjectTest extends TestCase
 {
     /**
-     * @covers \WP_Mock\Matcher\FuzzyObject::__construct()
-     * @dataProvider providerCanConstruct
-     *
      * @param object|array|mixed $expected
      * @param bool $shouldThrowException
      * @return void
@@ -81,9 +77,6 @@ final class FuzzyObjectTest extends TestCase
     }
 
     /**
-     * @covers \WP_Mock\Matcher\FuzzyObject::match()
-     * @dataProvider providerCanMatch
-     *
      * @param mixed $testClass
      * @param object $expectedClass
      * @param bool $expectedResult
@@ -181,9 +174,6 @@ final class FuzzyObjectTest extends TestCase
     }
 
     /**
-     * @covers \WP_Mock\Matcher\FuzzyObject::haveCommonAncestor()
-     * @dataProvider providerCanDetermineHaveCommonAncestor
-     *
      * @param object|mixed $object1
      * @param object|mixed $object2
      * @param bool $expectedResult
@@ -236,9 +226,6 @@ final class FuzzyObjectTest extends TestCase
     }
 
     /**
-     * @covers \WP_Mock\Matcher\FuzzyObject::__toString()
-     * @dataProvider providerToString
-     *
      * @param object|mixed $object
      * @param string $expectedResult
      * @return void

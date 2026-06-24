@@ -12,15 +12,10 @@ use ReflectionProperty;
 use WP_Mock\Tests\WP_MockTestCase;
 use WP_Mock\Tools\Constraints\IsEqualHtml;
 
-/**
- * @covers \WP_Mock\Tools\Constraints\IsEqualHtml
- */
 #[CoversClass(IsEqualHtml::class)]
 final class IsEqualHtmlTest extends WP_MockTestCase
 {
     /**
-     * @covers \WP_Mock\Tools\Constraints\IsEqualHtml::__construct()
-     *
      * @return void
      * @throws ReflectionException|Exception
      */
@@ -35,8 +30,6 @@ final class IsEqualHtmlTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock\Tools\Constraints\IsEqualHtml::clean()
-     *
      * @return void
      * @throws ReflectionException|Exception
      */
@@ -51,9 +44,6 @@ final class IsEqualHtmlTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock\Tools\Constraints\IsEqualHtml::matches()
-     * @dataProvider providerMatches
-     *
      * @param string $value
      * @param string $otherValue
      * @param bool $expected
@@ -91,8 +81,6 @@ final class IsEqualHtmlTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock\Tools\Constraints\IsEqualHtml::toString()
-     *
      * @return void
      * @throws Exception
      */

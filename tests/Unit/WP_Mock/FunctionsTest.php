@@ -9,6 +9,7 @@ use Mockery\CompositeExpectation;
 use Mockery\CountValidator\Exact;
 use Mockery\Expectation;
 use Mockery\Mock;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\PreserveGlobalState;
 use PHPUnit\Framework\Attributes\RunInSeparateProcess;
@@ -19,17 +20,10 @@ use WP_Mock\Functions;
 use WP_Mock\Functions\Handler;
 use WP_Mock\Tests\WP_MockTestCase;
 
-/**
- * @covers \WP_Mock\Functions
- */
+#[CoversClass(Functions::class)]
 final class FunctionsTest extends WP_MockTestCase
 {
     /**
-     * @covers \WP_Mock\Functions::__construct()
-     *
-     * @runInSeparateProcess
-     * @preserveGlobalState disabled
-     *
      * @return void
      * @throws ReflectionException|Exception
      */
@@ -85,11 +79,6 @@ final class FunctionsTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock\Functions::register()
-     *
-     * @preserveGlobalState disabled
-     * @runInSeparateProcess
-     *
      * @return void
      * @throws Exception
      */
@@ -125,9 +114,6 @@ final class FunctionsTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock\Functions::setUpMock()
-     * @dataProvider providerCanSetUpMock
-     *
      * @param array<string, mixed> $expectationArgs
      * @return void
      * @throws Exception
@@ -188,9 +174,6 @@ final class FunctionsTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock\Functions::generateFunction()
-     * @dataProvider providerCanGenerateFunction
-     *
      * @param bool $willCreate
      * @param bool $willReplace
      * @return void
@@ -238,12 +221,6 @@ final class FunctionsTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock\Functions::createFunction()
-     * @dataProvider providerCanCreateFunction
-     *
-     * @runInSeparateProcess
-     * @preserveGlobalState disabled
-     *
      * @param string $functionName
      * @param string[] $functionsList
      * @param bool $functionWillExist
@@ -286,8 +263,6 @@ final class FunctionsTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock\Functions::replaceFunction()
-     *
      * @return void
      * @throws ReflectionException|Exception
      */
@@ -307,8 +282,6 @@ final class FunctionsTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock\Functions::sanitizeFunctionName()
-     *
      * @return void
      * @throws ReflectionException|Exception
      */
@@ -324,9 +297,6 @@ final class FunctionsTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock\Functions::validateFunctionName()
-     * @dataProvider providerCanValidateFunction
-     *
      * @param string $functionName
      * @param bool $validates
      * @return void
@@ -357,9 +327,6 @@ final class FunctionsTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock\Functions::anyOf()
-     * @dataProvider providerMatchAnyTypes
-     *
      * @param bool $expected
      * @param mixed $matchedValue
      * @param mixed...$typesToMatch
@@ -386,9 +353,6 @@ final class FunctionsTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock\Functions::type()
-     * @dataProvider providerMatchTypes
-     *
      * @param string $typeToMatch
      * @param mixed $matchedValue
      * @return void

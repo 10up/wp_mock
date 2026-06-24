@@ -29,20 +29,13 @@ jobs:
           - php: '8.1'
             os: 'ubuntu-latest'
             config: 'phpunit.xml.dist'
+            coverage: true
             label: 'PHP 8.1 · PHPUnit 10'
-          - php: '8.0'
-            os: 'ubuntu-24.04'
-            config: 'phpunit9.xml.dist'
-            label: 'PHP 8.0 · PHPUnit 9'
-          - php: '7.4'
-            os: 'ubuntu-24.04'
-            config: 'phpunit9.xml.dist'
-            label: 'PHP 7.4 · PHPUnit 9'
-          - php: '7.4'
-            os: 'ubuntu-24.04'
-            config: 'phpunit9.xml.dist'
+          - php: '8.1'
+            os: 'ubuntu-latest'
+            config: 'phpunit.xml.dist'
             composer_flags: '--prefer-lowest'
-            label: 'PHP 7.4 · PHPUnit 9 (lowest deps)'
+            label: 'PHP 8.1 · PHPUnit 10 (lowest deps)'
       fail-fast: false
     env:
       PHP_VERSION: ${{ matrix.php }}
@@ -68,29 +61,29 @@ jobs:
             ${{ runner.os }}-php${{ matrix.php }}-composer-
 
       # Resolve dependencies per PHP version: a single committed lock cannot satisfy
-      # every supported PHP/PHPUnit pair (PHPUnit 9–13 span PHP 7.4–8.4), so each leg
-      # updates to the highest PHPUnit its PHP allows (Composer picks 9/10/11/12/13).
+      # every supported PHP/PHPUnit pair (PHPUnit 10–13 span PHP 8.1–8.4), so each leg
+      # updates to the highest PHPUnit its PHP allows (Composer picks 10/11/12/13).
       - name: Install dependencies
         run: composer update ${{ matrix.composer_flags }} --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
 
       # Tests should be run randomly to catch any test dependency issue.
       - name: Execute tests with PHPUnit
-        if: ${{ matrix.php != '8.0' }}
+        if: ${{ !matrix.coverage }}
         run: vendor/bin/phpunit -c ${{ matrix.config }} --order-by=random
 
       - name: Execute tests with PHPUnit and output code coverage report
-        if: ${{ matrix.php == '8.0' }}
+        if: ${{ matrix.coverage }}
         run: vendor/bin/phpunit -c ${{ matrix.config }} --order-by=random --coverage-clover=./clover.xml --coverage-text
 
       - name: Upload test coverage results to Coveralls
-        if: ${{ matrix.php == '8.0' }}
+        if: ${{ matrix.coverage }}
         env:
           COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: vendor/bin/php-coveralls --coverage_clover="./clover.xml" --json_path="./coveralls-upload.json" -v
 
   php-compatibility:
     runs-on: ubuntu-latest
-    name: PHP compatibility (7.4+)
+    name: PHP compatibility (8.1+)
 
     steps:
       - uses: actions/checkout@v4

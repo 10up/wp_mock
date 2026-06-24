@@ -6,10 +6,8 @@ namespace WP_Mock;
  * Internal handler for deprecated method calls.
  *
  * Flags usage of deprecated WP_Mock methods by emitting an {@see E_USER_DEPRECATED} notice,
- * which PHPUnit captures and attributes to the running test natively across all supported
- * versions:
- *  - PHPUnit 9.x: surfaces (and, with `convertDeprecationsToExceptions="true"`, fails the test).
- *  - PHPUnit 10+: reported per test; fails the suite when `failOnDeprecation="true"`.
+ * which PHPUnit captures and attributes to the running test natively: it is reported per test
+ * and fails the suite when `failOnDeprecation="true"` is set in the PHPUnit configuration.
  *
  * To flag a method as deprecated, call the following from within the deprecated method's logic:
  *

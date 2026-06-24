@@ -18,16 +18,11 @@ use WP_Mock;
 use WP_Mock\Tests\WP_MockTestCase;
 use WP_Mock\Tools\TestCase;
 
-/**
- * @covers \WP_Mock\Tools\TestCase
- */
 #[CoversClass(TestCase::class)]
 #[AllowMockObjectsWithoutExpectations]
 final class TestCaseTest extends WP_MockTestCase
 {
     /**
-     * @covers \WP_Mock\Tools\TestCase::setUp()
-     *
      * @return void
      * @throws Exception
      */
@@ -50,11 +45,6 @@ final class TestCaseTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock\Tools\TestCase::tearDown()
-     *
-     * @runInSeparateProcess
-     * @preserveGlobalState disabled
-     *
      * @return void
      * @throws Exception|ReflectionException
      */
@@ -80,8 +70,6 @@ final class TestCaseTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock\Tools\TestCase::cleanGlobals()
-     *
      * @return void
      * @throws ReflectionException|Exception
      */
@@ -102,12 +90,6 @@ final class TestCaseTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock\Tools\TestCase::assertActionsCalled()
-     * @dataProvider providerAssertActionsCalled
-     *
-     * @runInSeparateProcess
-     * @preserveGlobalState disabled
-     *
      * @param bool $throwsException
      * @return void
      * @throws Exception
@@ -141,12 +123,6 @@ final class TestCaseTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock\Tools\TestCase::assertHooksAdded()
-     * @dataProvider providerAssertHooksAdded
-     *
-     * @runInSeparateProcess
-     * @preserveGlobalState disabled
-     *
      * @param bool $throwsException
      * @return void
      * @throws Exception
@@ -180,8 +156,6 @@ final class TestCaseTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock\Tools\TestCase::assertCurrentConditionsMet()
-     *
      * @return void
      * @throws Exception
      */
@@ -197,8 +171,6 @@ final class TestCaseTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock\Tools\TestCase::assertConditionsMet()
-     *
      * @return void
      */
     public function testCanAssertTestConditionsWereMet(): void
@@ -210,8 +182,6 @@ final class TestCaseTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock\Tools\TestCase::assertEqualsHtml()
-     *
      * @return void
      * @throws Exception
      */
@@ -227,8 +197,6 @@ final class TestCaseTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock\Tools\TestCase::assertOutputEqualsHtml()
-     *
      * @return void
      * @throws Exception
      */
@@ -250,12 +218,6 @@ final class TestCaseTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock\Tools\TestCase::mockStaticMethod()
-     * @dataProvider providerMockStaticMethod
-     *
-     * @runInSeparateProcess
-     * @preserveGlobalState disabled
-     *
      * @param bool $usingPatchwork
      * @param bool $invalidMethod
      * @return void

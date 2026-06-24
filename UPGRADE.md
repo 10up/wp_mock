@@ -2,26 +2,27 @@
 
 ## 1.x → 2.0
 
-WP_Mock 2.0 adds support for **PHPUnit 10, 11, 12 and 13** alongside the existing PHPUnit 9.6, from a single codebase. The **minimum PHP version is unchanged (7.4)**.
+WP_Mock 2.0 modernizes the test harness for current PHPUnit. The headline change is a higher floor:
+
+> **WP_Mock 2.0 requires PHP 8.1+ and PHPUnit 10+.**
+> If your project runs on **PHP 7.4 or 8.0**, or is pinned to **PHPUnit 9**, stay on WP_Mock **1.x** — it continues to work. WP_Mock 2.0 supports PHPUnit 10, 11, 12 and 13 from a single codebase.
 
 Composer installs the highest PHPUnit version compatible with your PHP:
 
 | Your PHP | PHPUnit installed |
 |----------|-------------------|
-| 7.4      | 9                 |
-| 8.0      | 9                 |
 | 8.1      | 10                |
 | 8.2      | 11                |
 | 8.3      | 12                |
 | 8.4      | 13                |
 
-For most projects, upgrading is just:
+For most projects on a supported PHP/PHPUnit, upgrading is just:
 
 ```shell
 composer require --dev 10up/wp_mock:^2.0
 ```
 
-You do **not** have to change your PHPUnit version to adopt 2.0 — if you stay on PHPUnit 9, WP_Mock 2.0 still works. The public assertion API (`assertConditionsMet()`, `assertHooksAdded()`, `assertActionsCalled()`, `assertEqualsHtml()`, `mockStaticMethod()`, …) is unchanged.
+The public assertion API (`assertConditionsMet()`, `assertHooksAdded()`, `assertActionsCalled()`, `assertEqualsHtml()`, `mockStaticMethod()`, …) is unchanged.
 
 There are two behavior changes to be aware of.
 
@@ -29,12 +30,7 @@ There are two behavior changes to be aware of.
 
 If you (or your tooling) relied on WP_Mock marking a test **risky** when a deprecated WP_Mock method was called, that signal is now a native PHP **deprecation** (`E_USER_DEPRECATED`) surfaced through PHPUnit's own deprecation reporting.
 
-To make these fail your test suite, enable strict deprecation handling in your PHPUnit configuration:
-
-- **PHPUnit 10+:** `failOnDeprecation="true"`
-- **PHPUnit 9:** `convertDeprecationsToExceptions="true"`
-
-With default configuration, the deprecation is reported but does not fail the run.
+To make these fail your test suite, set `failOnDeprecation="true"` on the root `<phpunit>` element of your configuration. With default configuration, the deprecation is reported but does not fail the run.
 
 ### 2. Output assertions
 

@@ -6,18 +6,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [2.0.0](https://github.com/10up/wp_mock/compare/1.1.1...2.0.0) - Unreleased
 
-WP_Mock now supports PHPUnit 9.6, 10, 11, 12 and 13 from a single codebase. The minimum PHP version is unchanged (7.4); Composer installs the highest PHPUnit version your PHP allows. Most projects can upgrade by bumping only `10up/wp_mock` — see [UPGRADE.md](https://github.com/10up/wp_mock/blob/trunk/UPGRADE.md).
+WP_Mock 2.0 modernizes the test harness for current PHPUnit. It now **requires PHP 8.1+ and PHPUnit 10+**, and supports **PHPUnit 10, 11, 12 and 13** from a single codebase; Composer installs the highest PHPUnit version your PHP allows. The public assertion API is unchanged, so most projects on a supported PHP/PHPUnit upgrade by bumping only `10up/wp_mock` — see [UPGRADE.md](https://github.com/10up/wp_mock/blob/trunk/UPGRADE.md).
 
 ### Added
-- Support for PHPUnit 10, 11, 12 and 13 (in addition to 9.6)
 - `TestCase::assertOutputEqualsHtml(string $expectedHtml, callable $callback)` for whitespace-insensitive assertions on echoed HTML output
 
 ### Changed
-- **BREAKING:** deprecated WP_Mock methods now emit a native `E_USER_DEPRECATED` notice (via `trigger_error()`) instead of forcing a test to be marked "risky". To fail tests on these, set `failOnDeprecation="true"` (PHPUnit 10+) or `convertDeprecationsToExceptions="true"` (PHPUnit 9) in your configuration.
+- **BREAKING:** raised the minimum PHP version to **8.1** (was 7.4) and dropped support for **PHPUnit 9**. Projects on PHP 7.4/8.0, or pinned to PHPUnit 9, should stay on WP_Mock 1.x.
+- **BREAKING:** deprecated WP_Mock methods now emit a native `E_USER_DEPRECATED` notice (via `trigger_error()`) instead of forcing a test to be marked "risky". Set `failOnDeprecation="true"` in your PHPUnit configuration to fail tests on these.
 - **BREAKING:** removed the implicit output filtering and the `@stripTabsAndNewlinesFromOutput` annotation — including the `TestCase::expectOutputString()` override — because PHPUnit 10 removed `setOutputCallback()` and made `expectOutputString()` `final`. Use `assertOutputEqualsHtml()` (or PHPUnit's native `expectOutputString()` for exact matches).
 - `IsEqualHtml` now implements `matches()`/`toString()` and takes a single constructor argument
+- Internal test metadata moved to PHP 8 attributes (`#[DataProvider]`, `#[CoversClass]`, …); doc-comment annotations were removed (they no longer work on PHPUnit 12+)
 - Raised minimum dependencies: `mockery/mockery ^1.6.12`, PHPStan tooling to `^2`
-- Test runner configuration is split into `phpunit.xml.dist` (PHPUnit 10+) and `phpunit9.xml.dist` (PHPUnit 9)
 
 ### Removed
 - The abandoned `sempro/phpunit-pretty-print` dev dependency (use `--testdox`)

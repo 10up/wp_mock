@@ -3,6 +3,7 @@
 namespace Unit\WP_Mock\Functions;
 
 use Exception;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\PreserveGlobalState;
 use PHPUnit\Framework\Attributes\RunInSeparateProcess;
 use ReflectionProperty;
@@ -10,14 +11,10 @@ use WP_Mock;
 use WP_Mock\Functions\Handler;
 use WP_Mock\Tests\WP_MockTestCase;
 
-/**
- * @covers \WP_Mock\Functions\Handler
- */
+#[CoversClass(Handler::class)]
 final class HandlerTest extends WP_MockTestCase
 {
     /**
-     * @covers \WP_Mock\Functions\Handler::registerHandler()
-     *
      * @return void
      * @throws Exception
      */
@@ -45,11 +42,6 @@ final class HandlerTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock\Functions\Handler::handleFunction()
-     *
-     * @preserveGlobalState disabled
-     * @runInSeparateProcess
-     *
      * @return void
      * @throws Exception
      */
@@ -70,11 +62,6 @@ final class HandlerTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock\Functions\Handler::handlerExists()
-     *
-     * @preserveGlobalState disabled
-     * @runInSeparateProcess
-     *
      * @return void
      * @throws Exception
      */
@@ -95,11 +82,6 @@ final class HandlerTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock\Functions\Handler::cleanup()
-     *
-     * @preserveGlobalState disabled
-     * @runInSeparateProcess
-     *
      * @return void
      * @throws Exception
      */
@@ -122,11 +104,6 @@ final class HandlerTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock\Functions\Handler::handlePredefinedReturnFunction()
-     *
-     * @preserveGlobalState disabled
-     * @runInSeparateProcess
-     *
      * @return void
      * @throws Exception
      */
@@ -145,11 +122,6 @@ final class HandlerTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock\Functions\Handler::handlePredefinedEchoFunction()
-     *
-     * @preserveGlobalState disabled
-     * @runInSeparateProcess
-     *
      * @return void
      * @throws Exception
      */

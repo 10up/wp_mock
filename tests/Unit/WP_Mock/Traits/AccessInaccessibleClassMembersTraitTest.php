@@ -7,14 +7,10 @@ use PHPUnit\Framework\TestCase;
 use ReflectionException;
 use WP_Mock\Traits\AccessInaccessibleClassMembersTrait;
 
-/**
- * @covers \WP_Mock\Traits\AccessInaccessibleClassMembersTrait
- */
+// No coverage metadata: #[CoversTrait] requires PHPUnit 11+, but the supported floor is PHPUnit 10.
 final class AccessInaccessibleClassMembersTraitTest extends TestCase
 {
     /**
-     * @covers \WP_Mock\Traits\AccessInaccessibleClassMembersTrait::getInaccessibleProperty()
-     *
      * @return void
      * @throws ReflectionException|Exception
      */
@@ -28,8 +24,6 @@ final class AccessInaccessibleClassMembersTraitTest extends TestCase
     }
 
     /**
-     * @covers \WP_Mock\Traits\AccessInaccessibleClassMembersTrait::setInaccessibleProperty()
-     *
      * @return void
      * @throws ReflectionException|Exception
      */
@@ -42,8 +36,6 @@ final class AccessInaccessibleClassMembersTraitTest extends TestCase
     }
 
     /**
-     * @covers \WP_Mock\Traits\AccessInaccessibleClassMembersTrait::setInaccessiblePropertyValue()
-     *
      * @return void
      * @throws ReflectionException|Exception
      */
@@ -56,8 +48,6 @@ final class AccessInaccessibleClassMembersTraitTest extends TestCase
     }
 
     /**
-     * @covers \WP_Mock\Traits\AccessInaccessibleClassMembersTrait::getInaccessiblePropertyValue()
-     *
      * @return void
      * @throws ReflectionException|Exception
      */
@@ -69,8 +59,6 @@ final class AccessInaccessibleClassMembersTraitTest extends TestCase
     }
 
     /**
-     * @covers \WP_Mock\Traits\AccessInaccessibleClassMembersTrait::getInaccessibleMethod()
-     *
      * @return void
      * @throws ReflectionException|Exception
      */
@@ -84,8 +72,6 @@ final class AccessInaccessibleClassMembersTraitTest extends TestCase
     }
 
     /**
-     * @covers \WP_Mock\Traits\AccessInaccessibleClassMembersTrait::invokeInaccessibleMethod()
-     *
      * @return void
      * @throws ReflectionException|Exception
      */

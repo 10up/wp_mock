@@ -4,16 +4,19 @@ namespace WP_Mock\Tests\Integration;
 
 use Exception;
 use Generator;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\PreserveGlobalState;
 use PHPUnit\Framework\Attributes\RunInSeparateProcess;
 use PHPUnit\Framework\ExpectationFailedException;
 use WP_Mock;
+use WP_Mock\Functions;
+use WP_Mock\Functions\Handler;
 use WP_Mock\Tests\WP_MockTestCase;
 
-/**
- * @covers \WP_Mock
- */
+#[CoversClass(WP_Mock::class)]
+#[CoversClass(Functions::class)]
+#[CoversClass(Handler::class)]
 class WP_MockTest extends WP_MockTestCase
 {
     /** @var string[] */
@@ -55,13 +58,6 @@ class WP_MockTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock::bootstrap()
-     * @covers \WP_Mock\Functions::__construct()
-     * @covers \WP_Mock\Functions::flush()
-     *
-     * @runInSeparateProcess
-     * @preserveGlobalState disabled
-     *
      * @return void
      * @throws Exception
      */
@@ -81,12 +77,6 @@ class WP_MockTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock::userFunction()
-     * @covers \WP_Mock\Functions::__construct()
-     * @covers \WP_Mock\Functions::flush()
-     *
-     * @dataProvider providerCommonFunctionsDefaultFunctionality
-     *
      * @param callable&string $function
      * @param string $action echo or return
      * @return void
@@ -129,12 +119,6 @@ class WP_MockTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock::activateStrictMode()
-     * @covers \WP_Mock::bootstrap()
-     *
-     * @runInSeparateProcess
-     * @preserveGlobalState disabled
-     *
      * @return void
      */
     #[RunInSeparateProcess]
@@ -152,11 +136,6 @@ class WP_MockTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock::userFunction()
-     * @covers \WP_Mock\Functions::register()
-     * @covers \WP_Mock\Functions::generateFunction()
-     * @covers \WP_Mock\Functions::setUpMock()
-     *
      * @return void
      * @throws Exception
      */
@@ -172,11 +151,6 @@ class WP_MockTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock::userFunction()
-     * @covers \WP_Mock\Functions::register()
-     * @covers \WP_Mock\Functions::generateFunction()
-     * @covers \WP_Mock\Functions::setUpMock()
-     *
      * @return void
      * @throws Exception
      */
@@ -189,18 +163,6 @@ class WP_MockTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock::userFunction()
-     * @covers \WP_Mock\Functions::register()
-     * @covers \WP_Mock\Functions::generateFunction()
-     * @covers \WP_Mock\Functions::setUpMock()
-     * @covers \WP_Mock\Functions::setExpectedTimes()
-     * @covers \WP_Mock\Functions::setExpectedArgs()
-     * @covers \WP_Mock\Functions::setExpectedReturn()
-     * @covers \WP_Mock\Functions::parseExpectedReturn()
-     * @covers \WP_Mock\Functions\Handler::registerHandler()
-     *
-     * @dataProvider providerUserFunctionExpectationArgs
-     *
      * @param array<string, mixed> $expectationArgs
      * @param array<mixed> $expectedResults
      * @return void
@@ -274,9 +236,6 @@ class WP_MockTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock::passthruFunction()
-     * @covers \WP_Mock\Functions::register()
-     *
      * @return void
      * @throws Exception
      */
@@ -290,9 +249,6 @@ class WP_MockTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock::echoFunction()
-     * @covers \WP_Mock\Functions::register()
-     *
      * @return void
      * @throws Exception
      */
@@ -308,11 +264,6 @@ class WP_MockTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock::expectActionAdded()
-     * @covers \WP_Mock::expectFilterAdded()
-     * @covers \WP_Mock::expectHookAdded()
-     * @covers \WP_Mock::assertHooksAdded()
-     *
      * @return void
      */
     public function testCanExpectHooksAdded() : void
@@ -327,10 +278,6 @@ class WP_MockTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock::expectActionNotAdded()
-     * @covers \WP_Mock::expectFilterNotAdded()
-     * @covers \WP_Mock::expectHookNotAdded()
-     *
      * @return void
      * @throws Exception
      */

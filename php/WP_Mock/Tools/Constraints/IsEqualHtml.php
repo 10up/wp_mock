@@ -28,10 +28,10 @@ class IsEqualHtml extends Constraint
     /**
      * Evaluates whether $other equals the expected HTML, ignoring insignificant whitespace.
      *
-     * @param mixed $other value to evaluate (untyped for PHP 7.4 compatibility; the parent declares `mixed` on PHPUnit 10+)
+     * @param mixed $other value to evaluate
      * @return bool
      */
-    public function matches($other): bool
+    public function matches(mixed $other): bool
     {
         $actual = is_scalar($other) ? (string) $other : '';
 

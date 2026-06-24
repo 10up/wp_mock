@@ -14,9 +14,7 @@ use WP_Mock;
 use WP_Mock\DeprecatedMethodListener;
 use WP_Mock\Tests\WP_MockTestCase;
 
-/**
- * @covers \WP_Mock\DeprecatedMethodListener
- */
+#[CoversClass(WP_Mock::class)]
 #[CoversClass(DeprecatedMethodListener::class)]
 final class DeprecatedMethodListenerTest extends WP_MockTestCase
 {
@@ -50,9 +48,8 @@ final class DeprecatedMethodListenerTest extends WP_MockTestCase
     /**
      * Captures the {@see E_USER_DEPRECATED} messages emitted while running $callback.
      *
-     * A local error handler intercepts the notices so neither PHPUnit 9's
-     * `convertDeprecationsToExceptions` nor PHPUnit 10+'s `failOnDeprecation`
-     * interferes with the assertions.
+     * A local error handler intercepts the notices so that PHPUnit's
+     * `failOnDeprecation` does not interfere with the assertions.
      *
      * @param callable $callback
      * @return string[] the captured deprecation messages, in order
@@ -77,8 +74,6 @@ final class DeprecatedMethodListenerTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock\DeprecatedMethodListener::setTestName()
-     *
      * @return void
      * @throws ReflectionException|Exception
      */
@@ -95,8 +90,6 @@ final class DeprecatedMethodListenerTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock\DeprecatedMethodListener::logDeprecatedCall()
-     *
      * @return void
      * @throws ReflectionException|Exception
      */
@@ -119,9 +112,6 @@ final class DeprecatedMethodListenerTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock\DeprecatedMethodListener::logDeprecatedCall()
-     * @covers \WP_Mock\DeprecatedMethodListener::buildMessage()
-     *
      * @return void
      * @throws Exception
      */
@@ -138,8 +128,6 @@ final class DeprecatedMethodListenerTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock\DeprecatedMethodListener::reset()
-     *
      * @return void
      * @throws Exception
      */
@@ -154,9 +142,6 @@ final class DeprecatedMethodListenerTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock\DeprecatedMethodListener::toScalar()
-     * @dataProvider providerConvertsArgumentsToScalarValue
-     *
      * @param mixed $arg
      * @param string|bool|null|float|int $expected
      * @return void
@@ -195,9 +180,6 @@ final class DeprecatedMethodListenerTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock\DeprecatedMethodListener::logDeprecatedCall()
-     * @covers \WP_Mock::getDeprecatedMethodListener()
-     *
      * @return void
      * @throws Exception
      */

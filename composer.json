@@ -4,14 +4,13 @@
     "license": "BSD-3-Clause",
     "prefer-stable": true,
     "require": {
-        "php": ">=7.4",
-        "phpunit/phpunit": "^9.6 || ^10 || ^11 || ^12 || ^13",
+        "php": ">=8.1",
+        "phpunit/phpunit": "^10 || ^11 || ^12 || ^13",
         "mockery/mockery": "^1.6.12",
         "antecedent/patchwork": "^2.1.27"
     },
     "require-dev": {
         "behat/behat": "^v3.11.0",
-        "sebastian/comparator": ">=4.0.8",
         "php-coveralls/php-coveralls": "^v2.7",
         "phpstan/phpstan": "^2.0",
         "phpstan/phpstan-phpunit": "^2.0",

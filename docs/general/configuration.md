@@ -30,13 +30,13 @@ The bootstrap file can do a few things:
 
 ## Configure PHPUnit with WP_Mock
 
-You can run PHPUnit using a `--bootstrap` flag to include your bootstrap configuration while executing your tests (see [PHPUnit documentation](https://docs.phpunit.de/en/9.5/textui.html?highlight=--bootstrap#command-line-options)):
+You can run PHPUnit using a `--bootstrap` flag to include your bootstrap configuration while executing your tests (see [PHPUnit documentation](https://docs.phpunit.de/en/10.5/textui.html#command-line-options)):
 
 ```shell
 ./vendor/bin/phpunit --bootstrap /path/to/bootstrap.php
 ```
 
-A more convenient way though would be to add the following to the phpunit.xml configuration file (see [PHPUnit documentation](https://docs.phpunit.de/en/9.5/configuration.html)):
+A more convenient way though would be to add the following to the phpunit.xml configuration file (see [PHPUnit documentation](https://docs.phpunit.de/en/10.5/configuration.html)):
 
 ```shell
 bootstrap="/path/to/bootstrap.php"

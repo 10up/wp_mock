@@ -10,14 +10,10 @@ use WP_Mock\Tests\WP_MockTestCase;
 use WP_Mock\Traits\MockWordPressObjectsTrait;
 use WP_Post;
 
-/**
- * @covers \WP_Mock\Traits\MockWordPressObjectsTrait
- */
+// No coverage metadata: #[CoversTrait] requires PHPUnit 11+, but the supported floor is PHPUnit 10.
 final class MockWordPressObjectsTraitTest extends WP_MockTestCase
 {
     /**
-     * @covers \WP_Mock\Traits\MockWordPressObjectsTrait::mockPost()
-     *
      * @return void
      * @throws ReflectionException|Exception
      */
@@ -60,8 +56,6 @@ final class MockWordPressObjectsTraitTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock\Traits\MockWordPressObjectsTrait::mockWp()
-     *
      * @return void
      * @throws ReflectionException|Exception
      */
