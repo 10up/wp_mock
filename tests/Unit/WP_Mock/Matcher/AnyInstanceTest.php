@@ -3,20 +3,17 @@
 namespace WP_Mock\Tests\Unit\WP_Mock\Matcher;
 
 use Exception;
+use PHPUnit\Framework\Attributes\CoversClass;
 use ReflectionException;
 use WP_Mock\Matcher\AnyInstance;
 use WP_Mock\Tests\Mocks\SampleClass;
 use WP_Mock\Tests\Mocks\SampleSubClass;
 use WP_Mock\Tests\WP_MockTestCase;
 
-/**
- * @covers \WP_Mock\Matcher\AnyInstance
- */
+#[CoversClass(AnyInstance::class)]
 class AnyInstanceTest extends WP_MockTestCase
 {
     /**
-     * @covers \WP_Mock\Matcher\AnyInstance::match()
-     *
      * @return void
      * @throws ReflectionException|Exception
      */
@@ -32,8 +29,6 @@ class AnyInstanceTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock\Matcher\AnyInstance::match()
-     *
      * @return void
      * @throws ReflectionException|Exception
      */
@@ -49,8 +44,6 @@ class AnyInstanceTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock\Matcher\AnyInstance::match()
-     *
      * @return void
      * @throws ReflectionException|Exception
      */
@@ -66,8 +59,6 @@ class AnyInstanceTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock\Matcher\AnyInstance::match()
-     *
      * @return void
      * @throws ReflectionException|Exception
      */
@@ -83,8 +74,6 @@ class AnyInstanceTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock\Matcher\AnyInstance::match()
-     *
      * @return void
      * @throws ReflectionException|Exception
      */
@@ -101,8 +90,6 @@ class AnyInstanceTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock\Matcher\AnyInstance::match()
-     *
      * @return void
      * @throws ReflectionException|Exception
      */
@@ -118,8 +105,6 @@ class AnyInstanceTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock\Matcher\AnyInstance::__toString()
-     *
      * @return void
      * @throws Exception
      */
@@ -133,8 +118,6 @@ class AnyInstanceTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock\Matcher\AnyInstance::__construct()
-     *
      * @return void
      * @throws Exception
      */

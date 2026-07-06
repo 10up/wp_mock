@@ -54,9 +54,9 @@ final class MyTestCase extends TestCase
 }
 ```
 
-### Expect output string
+### Assert output equals HTML
 
-The `TestCase::expectOutputString()` function will assert that the output of a function matches a given string. This is useful when you want to test the output of a function that echoes HTML.
+The `TestCase::assertOutputEqualsHtml()` function runs a callback, captures everything it echoes, and asserts that the captured output equals the expected HTML — ignoring insignificant whitespace (tabs, newlines and collapsed runs of spaces). This is useful when you want to test a function that echoes HTML without having to match its exact formatting.
 
 ```php
 use WP_Mock\Tools\TestCase as TestCase;
@@ -65,12 +65,14 @@ final class MyTestCase extends TestCase
 {
     public function testMyFunction() : void
     {
-        $this->expectOutputString('<div>Test</div>');
-        
-        echo '<div>Test</div>';
+        $this->assertOutputEqualsHtml('<div>Test</div>', static function () {
+            my_function_that_echoes_html();
+        });
     }   
 }
 ```
+
+> **Changed in 2.0.0:** earlier versions overrode PHPUnit's `expectOutputString()` to transparently strip tabs and newlines from output (toggled with the `@stripTabsAndNewlinesFromOutput` annotation). PHPUnit 10 removed `setOutputCallback()` and made `expectOutputString()` `final`, so that automatic behavior is no longer possible. Use `assertOutputEqualsHtml()` for whitespace-insensitive output assertions; PHPUnit's native `expectOutputString()` remains available for exact-match assertions.
 
 ### Mock static method
 

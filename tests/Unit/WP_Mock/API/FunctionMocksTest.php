@@ -3,35 +3,20 @@
 namespace Unit\WP_Mock\API;
 
 use Exception;
+use PHPUnit\Framework\Attributes\PreserveGlobalState;
+use PHPUnit\Framework\Attributes\RunInSeparateProcess;
 use WP_Mock;
 use WP_Mock\Tests\WP_MockTestCase;
 
-/**
- * @covers \WP_Mock
- * @covers \WP_Mock\Functions\Handler
- */
+// No coverage metadata: this exercises globally-defined function mocks (esc_url(), __(), …),
+// not a single class, so it contributes whole-suite coverage rather than per-class attribution.
 final class FunctionMocksTest extends WP_MockTestCase
 {
     /**
-     * @covers \__()
-     * @covers \_n()
-     * @covers \_x()
-     * @covers \esc_attr()
-     * @covers \esc_attr__()
-     * @covers \esc_attr_x()
-     * @covers \esc_html()
-     * @covers \esc_html__()
-     * @covers \esc_js()
-     * @covers \esc_textarea()
-     * @covers \esc_url()
-     * @covers \esc_url_raw()
-     * @covers \WP_Mock\Functions\Handler::handlePredefinedReturnFunction()
-     *
-     * @preserveGlobalState disabled
-     * @runInSeparateProcess
-     *
      * @return void
      */
+    #[RunInSeparateProcess]
+    #[PreserveGlobalState(false)]
     public function testPredefinedReturnFunctions(): void
     {
         WP_Mock::bootstrap();
@@ -64,17 +49,11 @@ final class FunctionMocksTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \_e()
-     * @covers \esc_attr_e()
-     * @covers \esc_html_e()
-     * @covers \WP_Mock\Functions\Handler::handlePredefinedEchoFunction()
-     *
-     * @preserveGlobalState disabled
-     * @runInSeparateProcess
-     *
      * @return void
      * @throws Exception
      */
+    #[RunInSeparateProcess]
+    #[PreserveGlobalState(false)]
     public function testPredefinedEchoFunctions(): void
     {
         WP_Mock::bootstrap();

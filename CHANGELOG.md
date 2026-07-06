@@ -4,6 +4,28 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0](https://github.com/10up/wp_mock/compare/1.1.1...2.0.0) - Unreleased
+
+WP_Mock 2.0 modernizes the test harness for current PHPUnit. It now **requires PHP 8.1+ and PHPUnit 10+**, and supports **PHPUnit 10, 11, 12 and 13** from a single codebase; Composer installs the highest PHPUnit version your PHP allows. The public assertion API is unchanged, so most projects on a supported PHP/PHPUnit upgrade by bumping only `10up/wp_mock` — see [UPGRADE.md](https://github.com/10up/wp_mock/blob/trunk/UPGRADE.md).
+
+### Added
+- `TestCase::assertOutputEqualsHtml(string $expectedHtml, callable $callback)` for whitespace-insensitive assertions on echoed HTML output
+
+### Changed
+- **BREAKING:** raised the minimum PHP version to **8.1** (was 7.4) and dropped support for **PHPUnit 9**. Projects on PHP 7.4/8.0, or pinned to PHPUnit 9, should stay on WP_Mock 1.x.
+- **BREAKING:** deprecated WP_Mock methods now emit a native `E_USER_DEPRECATED` notice (via `trigger_error()`) instead of forcing a test to be marked "risky". Set `failOnDeprecation="true"` in your PHPUnit configuration to fail tests on these.
+- **BREAKING:** removed the implicit output filtering and the `@stripTabsAndNewlinesFromOutput` annotation — including the `TestCase::expectOutputString()` override — because PHPUnit 10 removed `setOutputCallback()` and made `expectOutputString()` `final`. Use `assertOutputEqualsHtml()` (or PHPUnit's native `expectOutputString()` for exact matches).
+- `IsEqualHtml` now implements `matches()`/`toString()` and takes a single constructor argument
+- Internal test metadata moved to PHP 8 attributes (`#[DataProvider]`, `#[CoversClass]`, …); doc-comment annotations were removed (they no longer work on PHPUnit 12+)
+- Raised minimum dependencies: `mockery/mockery ^1.6.12`, PHPStan tooling to `^2`
+
+### Removed
+- The abandoned `sempro/phpunit-pretty-print` dev dependency (use `--testdox`)
+- `DeprecatedMethodListener::setTestResult()`, `setTestCase()`, `checkCalls()` and the `TestCase::run()` override (relied on PHPUnit's removed `TestResult`/`RiskyTestError`)
+
+### Fixed
+- `WP_Mock::expectFilterNotAdded()` defaulted `$args` to `10` instead of `1`, so the "not added" expectation never matched a standard `add_filter()` call and silently passed; it now correctly guards the hook
+
 ## [1.1.1](https://github.com/10up/wp_mock/compare/1.1.0...1.1.1) - 2025-12-03
 ### Fixed
 - Address PHP deprecation warnings about implicitly nullable parameters

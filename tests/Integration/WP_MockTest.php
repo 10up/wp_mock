@@ -4,17 +4,23 @@ namespace WP_Mock\Tests\Integration;
 
 use Exception;
 use Generator;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\PreserveGlobalState;
+use PHPUnit\Framework\Attributes\RunInSeparateProcess;
 use PHPUnit\Framework\ExpectationFailedException;
 use WP_Mock;
+use WP_Mock\Functions;
+use WP_Mock\Functions\Handler;
 use WP_Mock\Tests\WP_MockTestCase;
 
-/**
- * @covers \WP_Mock
- */
+#[CoversClass(WP_Mock::class)]
+#[CoversClass(Functions::class)]
+#[CoversClass(Handler::class)]
 class WP_MockTest extends WP_MockTestCase
 {
     /** @var string[] */
-    private array $defaultMockedFunctions = [
+    private const DEFAULT_MOCKED_FUNCTIONS = [
         '__',
         '_e',
         '_n',
@@ -44,7 +50,7 @@ class WP_MockTest extends WP_MockTestCase
      */
     protected function setUp(): void
     {
-        if (! $this->isInIsolation()) {
+        if (! $this->isRunningInIsolation()) {
             WP_Mock::setUp();
         }
 
@@ -52,41 +58,31 @@ class WP_MockTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock::bootstrap()
-     * @covers \WP_Mock\Functions::__construct()
-     * @covers \WP_Mock\Functions::flush()
-     *
-     * @runInSeparateProcess
-     * @preserveGlobalState disabled
-     *
      * @return void
      * @throws Exception
      */
+    #[RunInSeparateProcess]
+    #[PreserveGlobalState(false)]
     public function testCommonFunctionsAreDefined(): void
     {
         // First we assert that all common functions get removed from the returned array.
         // If any one of these functions doesn't get removed, that means it already exists.
-        $this->assertEmpty(array_filter($this->defaultMockedFunctions, 'function_exists'));
+        $this->assertEmpty(array_filter(self::DEFAULT_MOCKED_FUNCTIONS, 'function_exists'));
 
         WP_Mock::bootstrap();
 
         // Now we assert that the array doesn't lose any items after bootstrap,
         // meaning all expected functions got defined correctly.
-        $this->assertEquals($this->defaultMockedFunctions, array_filter($this->defaultMockedFunctions, 'function_exists'));
+        $this->assertEquals(self::DEFAULT_MOCKED_FUNCTIONS, array_filter(self::DEFAULT_MOCKED_FUNCTIONS, 'function_exists'));
     }
 
     /**
-     * @covers \WP_Mock::userFunction()
-     * @covers \WP_Mock\Functions::__construct()
-     * @covers \WP_Mock\Functions::flush()
-     *
-     * @dataProvider providerCommonFunctionsDefaultFunctionality
-     *
      * @param callable&string $function
      * @param string $action echo or return
      * @return void
      * @throws Exception
      */
+    #[DataProvider('providerCommonFunctionsDefaultFunctionality')]
     public function testCommonFunctionsDefaultFunctionality($function, string $action)
     {
         $input = $expected = 'Something Random '.rand(0, 99);
@@ -110,9 +106,9 @@ class WP_MockTest extends WP_MockTestCase
      *
      * @return array<array{string, 'echo'|'return'}>
      */
-    public function providerCommonFunctionsDefaultFunctionality(): array
+    public static function providerCommonFunctionsDefaultFunctionality(): array
     {
-        $functions = $this->defaultMockedFunctions;
+        $functions = self::DEFAULT_MOCKED_FUNCTIONS;
 
         return array_filter(array_map(function ($function) {
             // skip hook functions - only gettext functions under test
@@ -123,14 +119,10 @@ class WP_MockTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock::activateStrictMode()
-     * @covers \WP_Mock::bootstrap()
-     *
-     * @runInSeparateProcess
-     * @preserveGlobalState disabled
-     *
      * @return void
      */
+    #[RunInSeparateProcess]
+    #[PreserveGlobalState(false)]
     public function testDefaultFailsInStrictMode(): void
     {
         $this->expectExceptionMessageMatches('/No handler found for \w+/');
@@ -144,11 +136,6 @@ class WP_MockTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock::userFunction()
-     * @covers \WP_Mock\Functions::register()
-     * @covers \WP_Mock\Functions::generateFunction()
-     * @covers \WP_Mock\Functions::setUpMock()
-     *
      * @return void
      * @throws Exception
      */
@@ -164,11 +151,6 @@ class WP_MockTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock::userFunction()
-     * @covers \WP_Mock\Functions::register()
-     * @covers \WP_Mock\Functions::generateFunction()
-     * @covers \WP_Mock\Functions::setUpMock()
-     *
      * @return void
      * @throws Exception
      */
@@ -181,23 +163,12 @@ class WP_MockTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock::userFunction()
-     * @covers \WP_Mock\Functions::register()
-     * @covers \WP_Mock\Functions::generateFunction()
-     * @covers \WP_Mock\Functions::setUpMock()
-     * @covers \WP_Mock\Functions::setExpectedTimes()
-     * @covers \WP_Mock\Functions::setExpectedArgs()
-     * @covers \WP_Mock\Functions::setExpectedReturn()
-     * @covers \WP_Mock\Functions::parseExpectedReturn()
-     * @covers \WP_Mock\Functions\Handler::registerHandler()
-     *
-     * @dataProvider providerUserFunctionExpectationArgs
-     *
      * @param array<string, mixed> $expectationArgs
      * @param array<mixed> $expectedResults
      * @return void
      * @throws Exception
      */
+    #[DataProvider('providerUserFunctionExpectationArgs')]
     public function testCanSetUserFunctionExpectationArgs(array $expectationArgs, array $expectedResults): void
     {
         WP_Mock::userFunction('wpMockTestReturnFunction', $expectationArgs);
@@ -215,7 +186,7 @@ class WP_MockTest extends WP_MockTestCase
     }
 
     /** @see testCanSetUserFunctionExpectationArgs */
-    public function providerUserFunctionExpectationArgs(): Generator
+    public static function providerUserFunctionExpectationArgs(): Generator
     {
         yield 'Function never called' => [
             'expectationArgs' => [
@@ -265,9 +236,6 @@ class WP_MockTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock::passthruFunction()
-     * @covers \WP_Mock\Functions::register()
-     *
      * @return void
      * @throws Exception
      */
@@ -281,9 +249,6 @@ class WP_MockTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock::echoFunction()
-     * @covers \WP_Mock\Functions::register()
-     *
      * @return void
      * @throws Exception
      */
@@ -299,11 +264,6 @@ class WP_MockTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock::expectActionAdded()
-     * @covers \WP_Mock::expectFilterAdded()
-     * @covers \WP_Mock::expectHookAdded()
-     * @covers \WP_Mock::assertHooksAdded()
-     *
      * @return void
      */
     public function testCanExpectHooksAdded() : void
@@ -318,10 +278,6 @@ class WP_MockTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock::expectActionNotAdded()
-     * @covers \WP_Mock::expectFilterNotAdded()
-     * @covers \WP_Mock::expectHookNotAdded()
-     *
      * @return void
      * @throws Exception
      */

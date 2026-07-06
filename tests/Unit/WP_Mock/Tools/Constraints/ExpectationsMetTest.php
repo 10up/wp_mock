@@ -3,20 +3,17 @@
 namespace WP_Mock\Tests\Unit\WP_Mock\Tools\Constraints;
 
 use Exception;
+use PHPUnit\Framework\Attributes\CoversClass;
 use ReflectionException;
 use ReflectionMethod;
 use ReflectionProperty;
 use WP_Mock\Tests\WP_MockTestCase;
 use WP_Mock\Tools\Constraints\ExpectationsMet;
 
-/**
- * @covers \WP_Mock\Tools\Constraints\ExpectationsMet
- */
+#[CoversClass(ExpectationsMet::class)]
 final class ExpectationsMetTest extends WP_MockTestCase
 {
     /**
-     * @covers \WP_Mock\Tools\Constraints\ExpectationsMet::matches()
-     *
      * @return void
      * @throws Exception
      */
@@ -28,8 +25,6 @@ final class ExpectationsMetTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock\Tools\Constraints\ExpectationsMet::toString()
-     *
      * @return void
      * @throws Exception
      */
@@ -39,8 +34,6 @@ final class ExpectationsMetTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock\Tools\Constraints\ExpectationsMet::failureDescription()
-     *
      * @return void
      * @throws ReflectionException|Exception
      */
@@ -54,8 +47,6 @@ final class ExpectationsMetTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock\Tools\Constraints\ExpectationsMet::additionalFailureDescription()
-     *
      * @return void
      * @throws ReflectionException|Exception
      */

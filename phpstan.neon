@@ -5,6 +5,11 @@ parameters:
 	reportUnmatchedIgnoredErrors: false
 	treatPhpDocTypesAsCertain: false
 	exceptions:
+		# PHPUnit's mock-creation infrastructure throws these; they are test-runner concerns,
+		# not exceptions a test documents/handles, so don't require them in @throws tags.
+		uncheckedExceptionClasses:
+			- 'PHPUnit\Framework\MockObject\Exception'
+			- 'PHPUnit\Framework\InvalidArgumentException'
 		check:
 			missingCheckedExceptionInThrows: true
 			tooWideThrowType: true

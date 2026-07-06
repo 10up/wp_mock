@@ -7,6 +7,10 @@ use WP_Mock;
 use stdClass;
 use Generator;
 use PHPUnit\Framework\Exception;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\PreserveGlobalState;
+use PHPUnit\Framework\Attributes\RunInSeparateProcess;
 use Mockery\ExpectationInterface;
 use WP_Mock\Tests\WP_MockTestCase;
 use WP_Mock\Tests\Mocks\SampleClass;
@@ -16,34 +20,26 @@ use Mockery\Exception\InvalidCountException;
 use PHPUnit\Framework\ExpectationFailedException;
 use SebastianBergmann\RecursionContext\InvalidArgumentException;
 
-/**
- * @covers \WP_Mock
- */
+#[CoversClass(WP_Mock::class)]
 class WP_MockTest extends WP_MockTestCase
 {
     /**
-     * @covers \WP_Mock::strictMode()
-     *
-     * @runInSeparateProcess
-     * @preserveGlobalState disabled
-     *
      * @return void
      * @throws ExpectationFailedException|InvalidArgumentException
      */
+    #[RunInSeparateProcess]
+    #[PreserveGlobalState(false)]
     public function testStrictModeOffByDefault(): void
     {
         $this->assertFalse(WP_Mock::strictMode());
     }
 
     /**
-     * @covers \WP_Mock::activateStrictMode()
-     *
-     * @runInSeparateProcess
-     * @preserveGlobalState disabled
-     *
      * @return void
      * @throws ExpectationFailedException|InvalidArgumentException
      */
+    #[RunInSeparateProcess]
+    #[PreserveGlobalState(false)]
     public function testActivateStrictModeTurnsStrictModeOn(): void
     {
         WP_Mock::activateStrictMode();
@@ -52,14 +48,11 @@ class WP_MockTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock::strictMode()
-     *
-     * @runInSeparateProcess
-     * @preserveGlobalState disabled
-     *
      * @return void
      * @throws ExpectationFailedException|InvalidArgumentException
      */
+    #[RunInSeparateProcess]
+    #[PreserveGlobalState(false)]
     public function testActivateStrictModeDoesNotWorkAfterBootstrap(): void
     {
         WP_Mock::bootstrap();
@@ -69,14 +62,11 @@ class WP_MockTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock::userFunction()
-     *
-     * @runInSeparateProcess
-     * @preserveGlobalState disabled
-     *
      * @return void
      * @throws Exception|InvalidArgumentException|\InvalidArgumentException
      */
+    #[RunInSeparateProcess]
+    #[PreserveGlobalState(false)]
     public function testUserFunctionReturnsExpectationContract(): void
     {
         WP_Mock::bootstrap();
@@ -88,13 +78,10 @@ class WP_MockTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock::assertHooksAdded()
-     *
-     * @runInSeparateProcess
-     * @preserveGlobalState disabled
-     *
      * @return void
      */
+    #[RunInSeparateProcess]
+    #[PreserveGlobalState(false)]
     public function testAssertHooksAddedForFiltersAndActionsPasses(): void
     {
         WP_Mock::bootstrap();
@@ -114,13 +101,10 @@ class WP_MockTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock::assertHooksAdded()
-     *
-     * @runInSeparateProcess
-     * @preserveGlobalState disabled
-     *
      * @return void
      */
+    #[RunInSeparateProcess]
+    #[PreserveGlobalState(false)]
     public function testAssertHooksAddedForFiltersAndActionsFails(): void
     {
         try {
@@ -141,13 +125,10 @@ class WP_MockTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock::assertActionsCalled()
-     *
-     * @runInSeparateProcess
-     * @preserveGlobalState disabled
-     *
      * @return void
      */
+    #[RunInSeparateProcess]
+    #[PreserveGlobalState(false)]
     public function testAssertActionsCalledPasses(): void
     {
         WP_Mock::bootstrap();
@@ -161,13 +142,10 @@ class WP_MockTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock::assertActionsCalled()
-     *
-     * @runInSeparateProcess
-     * @preserveGlobalState disabled
-     *
      * @return void
      */
+    #[RunInSeparateProcess]
+    #[PreserveGlobalState(false)]
     public function testAssertActionsCalledFails(): void
     {
         try {
@@ -185,13 +163,10 @@ class WP_MockTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock::assertFiltersCalled()
-     *
-     * @runInSeparateProcess
-     * @preserveGlobalState disabled
-     *
      * @return void
      */
+    #[RunInSeparateProcess]
+    #[PreserveGlobalState(false)]
     public function testAssertFiltersCalledPasses(): void
     {
         WP_Mock::bootstrap();
@@ -206,13 +181,10 @@ class WP_MockTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock::assertFiltersCalled()
-     *
-     * @runInSeparateProcess
-     * @preserveGlobalState disabled
-     *
      * @return void
      */
+    #[RunInSeparateProcess]
+    #[PreserveGlobalState(false)]
     public function testAssertFiltersCalledFails(): void
     {
         WP_Mock::bootstrap();
@@ -225,13 +197,10 @@ class WP_MockTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock::assertFiltersCalled()
-     *
-     * @runInSeparateProcess
-     * @preserveGlobalState disabled
-     *
      * @return void
      */
+    #[RunInSeparateProcess]
+    #[PreserveGlobalState(false)]
     public function testAssertFiltersPassesWithTypes(): void
     {
         WP_Mock::bootstrap();
@@ -246,8 +215,6 @@ class WP_MockTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock::alias()
-     *
      * @return void
      * @throws Exception|InvalidArgumentException|\InvalidArgumentException
      */
@@ -267,14 +234,12 @@ class WP_MockTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock::fuzzyObject()
-     * @dataProvider providerFuzzyObject
-     *
      * @param array|object|mixed $object
      * @param string $expected
      * @return void
      * @throws Exception|Mockery\Exception|InvalidArgumentException
      */
+    #[DataProvider('providerFuzzyObject')]
     public function testCanInstantiateFuzzyObject($object, string $expected): void
     {
         if (! is_object($object) && ! is_array($object)) {
@@ -288,7 +253,7 @@ class WP_MockTest extends WP_MockTestCase
     }
 
     /** @see testCanInstantiateFuzzyObject */
-    public function providerFuzzyObject(): Generator
+    public static function providerFuzzyObject(): Generator
     {
         $stdClass = new stdClass();
         $stdClass->baz = 'boz';
@@ -299,8 +264,6 @@ class WP_MockTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock::getDeprecatedMethodListener()
-     *
      * @return void
      * @throws Exception|InvalidArgumentException
      */
@@ -314,14 +277,11 @@ class WP_MockTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock::onFilter()
-     *
-     * @runInSeparateProcess
-     * @preserveGlobalState disabled
-     *
      * @return void
      * @throws Exception|InvalidArgumentException
      */
+    #[RunInSeparateProcess]
+    #[PreserveGlobalState(false)]
     public function testOnFilterPasses(): void
     {
         WP_Mock::bootstrap();
@@ -339,14 +299,11 @@ class WP_MockTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock::onFilter()
-     *
-     * @runInSeparateProcess
-     * @preserveGlobalState disabled
-     *
      * @return void
      * @throws Exception|InvalidArgumentException
      */
+    #[RunInSeparateProcess]
+    #[PreserveGlobalState(false)]
     public function testOnFilterPassesWithAnyArgs(): void
     {
         WP_Mock::bootstrap();
@@ -364,14 +321,11 @@ class WP_MockTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock::onFilter()
-     *
-     * @runInSeparateProcess
-     * @preserveGlobalState disabled
-     *
      * @return void
      * @throws Exception|InvalidArgumentException
      */
+    #[RunInSeparateProcess]
+    #[PreserveGlobalState(false)]
     public function testMultipleOnFilterPassesWithAnyArgs(): void
     {
         WP_Mock::bootstrap();

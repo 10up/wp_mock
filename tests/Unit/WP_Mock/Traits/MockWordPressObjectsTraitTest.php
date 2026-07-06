@@ -10,20 +10,18 @@ use WP_Mock\Tests\WP_MockTestCase;
 use WP_Mock\Traits\MockWordPressObjectsTrait;
 use WP_Post;
 
-/**
- * @covers \WP_Mock\Traits\MockWordPressObjectsTrait
- */
+// No coverage metadata: #[CoversTrait] requires PHPUnit 11+, but the supported floor is PHPUnit 10.
 final class MockWordPressObjectsTraitTest extends WP_MockTestCase
 {
     /**
-     * @covers \WP_Mock\Traits\MockWordPressObjectsTrait::mockPost()
-     *
      * @return void
      * @throws ReflectionException|Exception
      */
     public function testCanMockWordPressPost(): void
     {
-        $trait = $this->getMockForTrait(MockWordPressObjectsTrait::class);
+        $trait = new class () {
+            use MockWordPressObjectsTrait;
+        };
         $postData = [
             'ID'                => 123,
             'post_author'       => 'johndoe',
@@ -58,14 +56,14 @@ final class MockWordPressObjectsTraitTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock\Traits\MockWordPressObjectsTrait::mockWp()
-     *
      * @return void
      * @throws ReflectionException|Exception
      */
     public function testCanMockWordPressInstance(): void
     {
-        $trait = $this->getMockForTrait(MockWordPressObjectsTrait::class);
+        $trait = new class () {
+            use MockWordPressObjectsTrait;
+        };
 
         $method = new ReflectionMethod($trait, 'mockWp');
         $method->setAccessible(true);

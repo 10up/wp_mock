@@ -49,4 +49,24 @@ class WP_MockTestCase extends TestCase
     {
         $this->assertThat(null, new ExpectationsMet());
     }
+
+    /**
+     * Determines whether the current test is running in process isolation.
+     *
+     * PHPUnit 10+ removed the public `isInIsolation()` method; the state now lives in a private
+     * `$inIsolation` property on {@see \PHPUnit\Framework\TestCase}, which we read by reflection.
+     *
+     * @return bool
+     */
+    protected function isRunningInIsolation(): bool
+    {
+        try {
+            $property = new \ReflectionProperty(TestCase::class, 'inIsolation');
+            $property->setAccessible(true);
+
+            return (bool) $property->getValue($this);
+        } catch (\ReflectionException $exception) {
+            return false;
+        }
+    }
 }

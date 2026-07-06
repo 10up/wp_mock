@@ -3,19 +3,18 @@
 namespace Unit\WP_Mock\Functions;
 
 use Exception;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\PreserveGlobalState;
+use PHPUnit\Framework\Attributes\RunInSeparateProcess;
 use ReflectionProperty;
 use WP_Mock;
 use WP_Mock\Functions\Handler;
 use WP_Mock\Tests\WP_MockTestCase;
 
-/**
- * @covers \WP_Mock\Functions\Handler
- */
+#[CoversClass(Handler::class)]
 final class HandlerTest extends WP_MockTestCase
 {
     /**
-     * @covers \WP_Mock\Functions\Handler::registerHandler()
-     *
      * @return void
      * @throws Exception
      */
@@ -43,14 +42,11 @@ final class HandlerTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock\Functions\Handler::handleFunction()
-     *
-     * @preserveGlobalState disabled
-     * @runInSeparateProcess
-     *
      * @return void
      * @throws Exception
      */
+    #[RunInSeparateProcess]
+    #[PreserveGlobalState(false)]
     public function testCanHandleFunction(): void
     {
         $this->assertNull(Handler::handleFunction('invalid'));
@@ -66,14 +62,11 @@ final class HandlerTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock\Functions\Handler::handlerExists()
-     *
-     * @preserveGlobalState disabled
-     * @runInSeparateProcess
-     *
      * @return void
      * @throws Exception
      */
+    #[RunInSeparateProcess]
+    #[PreserveGlobalState(false)]
     public function testCanDetermineHandlerExists(): void
     {
         $functionName = 'test_function';
@@ -89,14 +82,11 @@ final class HandlerTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock\Functions\Handler::cleanup()
-     *
-     * @preserveGlobalState disabled
-     * @runInSeparateProcess
-     *
      * @return void
      * @throws Exception
      */
+    #[RunInSeparateProcess]
+    #[PreserveGlobalState(false)]
     public function testCanCleanup(): void
     {
         $property = new ReflectionProperty(Handler::class, 'handlers');
@@ -114,14 +104,11 @@ final class HandlerTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock\Functions\Handler::handlePredefinedReturnFunction()
-     *
-     * @preserveGlobalState disabled
-     * @runInSeparateProcess
-     *
      * @return void
      * @throws Exception
      */
+    #[RunInSeparateProcess]
+    #[PreserveGlobalState(false)]
     public function testCanHandlePredefinedReturnFunction(): void
     {
         WP_Mock::bootstrap();
@@ -135,14 +122,11 @@ final class HandlerTest extends WP_MockTestCase
     }
 
     /**
-     * @covers \WP_Mock\Functions\Handler::handlePredefinedEchoFunction()
-     *
-     * @preserveGlobalState disabled
-     * @runInSeparateProcess
-     *
      * @return void
      * @throws Exception
      */
+    #[RunInSeparateProcess]
+    #[PreserveGlobalState(false)]
     public function testCanHandlePredefinedEchoFunction(): void
     {
         WP_Mock::bootstrap();
