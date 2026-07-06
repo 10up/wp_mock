@@ -10,6 +10,7 @@ use PHPUnit\Framework\TestCase as PhpUnitTestCase;
 use ReflectionException;
 use ReflectionMethod;
 use RuntimeException;
+use Throwable;
 use WP_Mock;
 use WP_Mock\Tools\Constraints\ExpectationsMet;
 use WP_Mock\Tools\Constraints\IsEqualHtml;
@@ -206,7 +207,7 @@ abstract class TestCase extends PhpUnitTestCase
      * @param callable $callback code that echoes or prints output
      * @param string $message
      * @return void
-     * @throws ExpectationFailedException|Exception
+     * @throws ExpectationFailedException|Throwable a failed assertion, or any Throwable propagated by $callback
      */
     public function assertOutputEqualsHtml(string $expectedHtml, callable $callback, string $message = ''): void
     {

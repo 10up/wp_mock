@@ -82,7 +82,7 @@ final class DeprecatedMethodListenerTest extends WP_MockTestCase
         $property = new ReflectionProperty($this->object, 'testName');
         $property->setAccessible(true);
 
-        $this->assertSame('test', $property->getValue($this->object));
+        $this->assertSame('', $property->getValue($this->object));
 
         $this->assertSame($this->object, $this->object->setTestName('FooBar'));
 

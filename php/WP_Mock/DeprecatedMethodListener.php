@@ -18,8 +18,8 @@ class DeprecatedMethodListener
     /** @var array<array{string, array<mixed>}> array of logged deprecated method calls with their arguments, if any */
     protected $deprecatedCalls = [];
 
-    /** @var string */
-    protected $testName = 'test';
+    /** @var string optional test-name context for messages; empty unless {@see setTestName()} is called */
+    protected $testName = '';
 
     /**
      * Sets the test name in context.
@@ -75,7 +75,9 @@ class DeprecatedMethodListener
      */
     protected function buildMessage(string $method, array $args): string
     {
-        $message = sprintf('Deprecated WP_Mock call inside %s: %s', $this->testName, $method);
+        $context = $this->testName !== '' ? sprintf(' inside %s', $this->testName) : '';
+
+        $message = sprintf('Deprecated WP_Mock call%s: %s', $context, $method);
 
         if (! empty($args)) {
             $message .= ' '.json_encode(array_map([$this, 'toScalar'], $args));
