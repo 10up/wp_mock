@@ -10,6 +10,8 @@ use PHPUnit\Framework\Exception;
 use Mockery\ExpectationInterface;
 use WP_Mock\Tests\WP_MockTestCase;
 use WP_Mock\Tests\Mocks\SampleClass;
+use WP_Mock\Tests\Mocks\SampleSubClass;
+use WP_Mock\Matcher\AnyInstance;
 use WP_Mock\DeprecatedMethodListener;
 use WP_Mock\Tests\Unit\WP_Mock\TestClass;
 use Mockery\Exception\InvalidCountException;
@@ -400,5 +402,135 @@ class WP_MockTest extends WP_MockTestCase
         $this->assertSame('Filtered value 3', $filtered_value3);
 
         Mockery::close();
+    }
+
+    /**
+     * @covers \WP_Mock::expectActionAdded()
+     * @covers \WP_Mock::expectHookAdded()
+     * @covers \WP_Mock\Functions::type()
+     * @covers \WP_Mock\Hook::safe_offset()
+     *
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     *
+     * @return void
+     * @throws ExpectationFailedException|Exception|\Exception
+     */
+    public function testMultipleActionsTypeSameMethod(): void
+    {
+        WP_Mock::activateStrictMode();
+        WP_Mock::bootstrap();
+
+        WP_Mock::expectActionAdded(
+            'init',
+            array(WP_Mock\Functions::type(SampleClass::class), 'action')
+        );
+
+        WP_Mock::expectActionAdded(
+            'init',
+            array(WP_Mock\Functions::type(SampleSubClass::class), 'action')
+        );
+
+        add_action('init', array(new SampleClass(), 'action'));
+        add_action('init', array(new SampleSubClass(), 'action'));
+
+        $this->assertConditionsMet();
+    }
+
+    /**
+     * @covers \WP_Mock::expectActionAdded()
+     * @covers \WP_Mock::expectHookAdded()
+     * @covers \WP_Mock\Functions::type()
+     * @covers \WP_Mock\Hook::safe_offset()
+     *
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     *
+     * @return void
+     * @throws ExpectationFailedException|Exception|\Exception
+     */
+    public function testMultipleActionsTypeDistinctMethod(): void
+    {
+        WP_Mock::activateStrictMode();
+        WP_Mock::bootstrap();
+
+        WP_Mock::expectActionAdded(
+            'init',
+            array(WP_Mock\Functions::type(SampleClass::class), 'action')
+        );
+
+        WP_Mock::expectActionAdded(
+            'init',
+            array(WP_Mock\Functions::type(SampleSubClass::class), 'action2')
+        );
+
+        add_action('init', array(new SampleClass(), 'action'));
+        add_action('init', array(new SampleSubClass(), 'action2'));
+
+        $this->assertConditionsMet();
+    }
+
+    /**
+     * @covers \WP_Mock::expectActionAdded()
+     * @covers \WP_Mock::expectHookAdded()
+     *
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     *
+     * @return void
+     * @throws ExpectationFailedException|Exception|\Exception
+     */
+    public function testMultipleActionsAnyInstanceSameMethod(): void
+    {
+        WP_Mock::activateStrictMode();
+        WP_Mock::bootstrap();
+
+        WP_Mock::expectActionAdded(
+            'init',
+            array(new AnyInstance(SampleClass::class), 'action')
+        );
+
+        WP_Mock::expectActionAdded(
+            'init',
+            array(new AnyInstance(SampleSubClass::class), 'action')
+        );
+
+        add_action('init', array(new SampleClass(), 'action'));
+        add_action('init', array(new SampleSubClass(), 'action'));
+
+        $this->assertConditionsMet();
+    }
+
+    /**
+     * @covers \WP_Mock::expectFilterAdded()
+     * @covers \WP_Mock::expectHookAdded()
+     * @covers \WP_Mock\Functions::type()
+     * @covers \WP_Mock\Hook::safe_offset()
+     *
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     *
+     * @return void
+     * @throws ExpectationFailedException|Exception|\Exception
+     */
+    public function testMultipleFiltersTypeSameMethod(): void
+    {
+        WP_Mock::activateStrictMode();
+        WP_Mock::bootstrap();
+
+        WP_Mock::expectFilterAdded(
+            'the_content',
+            array(WP_Mock\Functions::type(SampleClass::class), 'action')
+        );
+
+        WP_Mock::expectFilterAdded(
+            'the_content',
+            array(WP_Mock\Functions::type(SampleSubClass::class), 'action')
+        );
+
+        add_filter('the_content', array(new SampleClass(), 'action'));
+        add_filter('the_content', array(new SampleSubClass(), 'action'));
+
+        $this->assertConditionsMet();
     }
 }

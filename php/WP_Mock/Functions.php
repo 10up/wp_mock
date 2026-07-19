@@ -414,7 +414,9 @@ EOF;
     public static function type(string $expected): Type
     {
         $type = Mockery::type($expected);
-        Filter::$objects[ $expected ] = spl_object_hash($type);
+        // Stable key (not spl_object_hash): Type is discarded after expect* registration,
+        // so GC can recycle the hash and collide when the same method is expected twice.
+        Filter::$objects[ $expected ] = (string) $type;
 
         return $type;
     }

@@ -9,7 +9,10 @@ use Mockery;
 use PHPUnit\Framework\TestCase;
 use ReflectionException;
 use stdClass;
+use WP_Mock\Functions;
 use WP_Mock\Hook;
+use WP_Mock\Tests\Mocks\SampleClass;
+use WP_Mock\Tests\Mocks\SampleSubClass;
 use WP_Mock\Traits\AccessInaccessibleClassMembersTrait;
 
 /**
@@ -63,5 +66,44 @@ final class HookTest extends TestCase
         yield 'scalar (false)' => [false, ''];
         yield 'object' => [$objectInstance, spl_object_hash($objectInstance)];
         yield 'array (callback)' => [[$callbackInstance, 'callback'], spl_object_hash($callbackInstance).'callback'];
+        yield 'type matcher (class)' => [Mockery::type(SampleClass::class), (string) Mockery::type(SampleClass::class)];
+    }
+
+    /**
+     * @covers \WP_Mock\Hook::safe_offset()
+     * @covers \WP_Mock\Functions::type()
+     *
+     * @return void
+     * @throws ReflectionException|Exception
+     */
+    public function testTypeSafeOffsetIsStableAcrossMultipleTypeCalls(): void
+    {
+        Hook::$objects = [];
+
+        $instance = $this->getMockForAbstractClass(Hook::class, [], '', false);
+        $method = $this->getInaccessibleMethod($instance, 'safe_offset');
+
+        $typeKey1 = $method->invokeArgs($instance, [Functions::type(SampleClass::class)]);
+        unset($typeKey1);
+        gc_collect_cycles();
+
+        $typeSampleClass = Functions::type(SampleClass::class);
+        $typeSampleSubClass = Functions::type(SampleSubClass::class);
+
+        $keyClass = $method->invokeArgs($instance, [$typeSampleClass]);
+        $keySubClass = $method->invokeArgs($instance, [$typeSampleSubClass]);
+        $keyInstance = $method->invokeArgs($instance, [new SampleClass()]);
+        $keySubInstance = $method->invokeArgs($instance, [new SampleSubClass()]);
+        $keyCallbackClass = $method->invokeArgs($instance, [[$typeSampleClass, 'action']]);
+        $keyCallbackSubClass = $method->invokeArgs($instance, [[$typeSampleSubClass, 'action']]);
+
+        $this->assertNotSame($keyClass, $keySubClass);
+        $this->assertSame($keyClass, $keyInstance);
+        $this->assertSame($keySubClass, $keySubInstance);
+        $this->assertNotSame($keyCallbackClass, $keyCallbackSubClass);
+        $this->assertSame((string) $typeSampleClass, $keyClass);
+        $this->assertSame((string) $typeSampleSubClass, $keySubClass);
+
+        Hook::$objects = [];
     }
 }

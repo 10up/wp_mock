@@ -64,13 +64,17 @@ abstract class Hook
             return (string) $value;
         }
 
-        if (is_object($value)){
-            if (! $value instanceof Type) {
-                $class = get_class($value);
+        if (is_object($value)) {
+            // Type matchers use a stable string key so multiple Functions::type() expectations
+            // do not collide when PHP reuses spl_object_hash after GC.
+            if ($value instanceof Type) {
+                return (string) $value;
+            }
 
-                if (isset(static::$objects[$class]) && is_string(static::$objects[$class])) {
-                    return static::$objects[$class];
-                }
+            $class = get_class($value);
+
+            if (isset(static::$objects[$class]) && is_string(static::$objects[$class])) {
+                return static::$objects[$class];
             }
 
             return spl_object_hash($value);
