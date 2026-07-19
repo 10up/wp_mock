@@ -401,4 +401,81 @@ class WP_MockTest extends WP_MockTestCase
 
         Mockery::close();
     }
+
+    /**
+     * @covers \WP_Mock::expectFilter()
+     *
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     *
+     * @return void
+     * @throws Exception|InvalidArgumentException
+     */
+    public function testExpectFilterWithClosureRepliesDynamically(): void
+    {
+        WP_Mock::bootstrap();
+
+        WP_Mock::expectFilter('testFilter', function ($value) {
+            return strtoupper($value);
+        });
+
+        $this->assertSame('HELLO', apply_filters('testFilter', 'hello'));
+        $this->assertSame('WORLD', apply_filters('testFilter', 'world'));
+
+        WP_Mock::assertFiltersCalled();
+
+        Mockery::close();
+    }
+
+    /**
+     * @covers \WP_Mock::onFilter()
+     *
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     *
+     * @return void
+     * @throws Exception|InvalidArgumentException
+     */
+    public function testOnFilterWithClosureReplyIsInvokedWithRuntimeArgs(): void
+    {
+        WP_Mock::bootstrap();
+
+        /** @phpstan-ignore-next-line */
+        WP_Mock::onFilter('testFilter')
+            ->with(\Closure::class)
+            ->reply(function ($a, $b) {
+                return $a . $b;
+            });
+
+        /** @phpstan-ignore-next-line */
+        $this->assertSame('ab', apply_filters('testFilter', 'a', 'b'));
+
+        Mockery::close();
+    }
+
+    /**
+     * @covers \WP_Mock::onFilter()
+     *
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     *
+     * @return void
+     * @throws Exception|InvalidArgumentException
+     */
+    public function testOnFilterWithClosureMatcherAndClosureReply(): void
+    {
+        WP_Mock::bootstrap();
+
+        /** @phpstan-ignore-next-line */
+        WP_Mock::onFilter('testFilter')
+            ->with(\Closure::class)
+            ->reply(function ($a, $b) {
+                return $a . '-' . $b;
+            });
+
+        /** @phpstan-ignore-next-line */
+        $this->assertSame('x-y', apply_filters('testFilter', 'x', 'y'));
+
+        Mockery::close();
+    }
 }

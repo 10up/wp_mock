@@ -287,7 +287,7 @@ parameters:
 
 		-
 			message: "#^Parameter \\#1 \\$function of function call_user_func_array expects callable\\(\\)\\: mixed, array\\{mixed, 'send'\\} given\\.$#"
-			count: 1
+			count: 4
 			path: php/WP_Mock/Filter.php
 
 		-

@@ -89,15 +89,6 @@ class FunctionsContext implements Context {
 
     /**
      * @Then I expect :return when I run :function
-     *
-     * @deprected use static::iExpectWhenIRun instead
-     */
-    public function iExcpectWhenIRun( $return, $function ) {
-        static::iExpectWhenIRun( $return, $function )
-    }
-
-    /**
-     * @Then I expect :return when I run :function
      */
     public function iExpectWhenIRun( $return, $function ) {
         $this->iExpectWhenIRunWithArgs( $return, $function, new TableNode( array( array() ) ) );

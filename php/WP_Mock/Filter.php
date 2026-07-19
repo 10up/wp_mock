@@ -27,8 +27,13 @@ class Filter extends Hook
 
         if ($args[0] === null && count($args) === 1) {
             if (isset($this->processors['argsnull'])) {
-                return $this->processors['argsnull']->send();
+                return call_user_func_array(array($this->processors['argsnull'], 'send'), $args);
             }
+
+            if (isset($this->processors['__CLOSURE__'])) {
+                return call_user_func_array(array($this->processors['__CLOSURE__'], 'send'), $args);
+            }
+
             $this->strict_check();
 
             return null;
@@ -38,6 +43,10 @@ class Filter extends Hook
         foreach ($args as $arg) {
             $key = $this->safe_offset($arg);
             if (! is_array($processors) || ! isset($processors[ $key ])) {
+                if (isset($this->processors['__CLOSURE__'])) {
+                    return call_user_func_array(array($this->processors['__CLOSURE__'], 'send'), $args);
+                }
+
                 $this->strict_check();
 
                 return $arg;
@@ -91,6 +100,10 @@ class Filter_Responder
 
     public function send()
     {
+        if ($this->value instanceof \Closure) {
+            return ($this->value)(...func_get_args());
+        }
+
         if ($this->value instanceof InvokedFilterValue) {
             return call_user_func_array($this->value, func_get_args());
         }
