@@ -130,6 +130,7 @@ class WP_Mock
     {
         self::$event_manager->flush();
         self::$functionsManager->flush();
+        \WP_Mock\Hook::$objects = [];
 
         Mockery::close();
         Handler::cleanup();
@@ -288,7 +289,7 @@ class WP_Mock
      * Adds an expectation that an action hook should be added.
      *
      * @param string $action the action hook name
-     * @param string|callable-string|callable|Type $callback the callback that should be registered
+     * @param string|callable-string|callable|Type|array{0: mixed, 1: string} $callback the callback that should be registered
      * @param int $priority the priority it should be registered at
      * @param int $args the number of arguments that should be allowed
      * @return void
@@ -302,7 +303,7 @@ class WP_Mock
      * Adds an expectation that an action hook should not be added.
      *
      * @param string $action the action hook name
-     * @param string|callable-string|callable|Type $callback the callback that should be registered
+     * @param string|callable-string|callable|Type|array{0: mixed, 1: string} $callback the callback that should be registered
      * @param int $priority the priority it should be registered at
      * @param int $args the number of arguments that should be allowed
      * @return void
@@ -316,7 +317,7 @@ class WP_Mock
      * Add an expectation that a filter hook should be added.
      *
      * @param string $filter the filter hook name
-     * @param string|callable-string|callable|Type $callback the callback that should be registered
+     * @param string|callable-string|callable|Type|array{0: mixed, 1: string} $callback the callback that should be registered
      * @param int $priority the priority it should be registered at
      * @param int $args the number of arguments that should be allowed
      * @return void
@@ -330,7 +331,7 @@ class WP_Mock
      * Adds an expectation that a filter hook should not be added.
      *
      * @param string $filter the filter hook name
-     * @param string|callable-string|callable|Type $callback the callback that should be registered
+     * @param string|callable-string|callable|Type|array{0: mixed, 1: string} $callback the callback that should be registered
      * @param int $priority the priority it should be registered at
      * @param int $args the number of arguments that should be allowed
      * @return void
@@ -347,7 +348,7 @@ class WP_Mock
      *
      * @param string $type the type of hook being added ('action' or 'filter')
      * @param string $hook the hook name
-     * @param string|callable-string|callable|Type $callback the callback that should be registered
+     * @param string|callable-string|callable|Type|array{0: mixed, 1: string} $callback the callback that should be registered
      * @param int $priority the priority it should be registered at
      * @param int $args the number of arguments that should be allowed
      * @return void
@@ -370,7 +371,7 @@ class WP_Mock
      *
      * @param string $type the type of hook being added ('action' or 'filter')
      * @param string $hook the hook name
-     * @param string|callable-string|callable|Type $callback the callback that should be registered
+     * @param string|callable-string|callable|Type|array{0: mixed, 1: string} $callback the callback that should be registered
      * @param int $priority the priority it should be registered at
      * @param int $args the number of arguments that should be allowed
      * @return void

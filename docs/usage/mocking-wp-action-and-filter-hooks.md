@@ -34,6 +34,16 @@ If the actual instance of an expected class cannot be passed, `AnyInstance` can 
 WP_Mock::expectFilterAdded('the_content', [new \WP_Mock\Matcher\AnyInstance(Special::class), 'the_content']);
 ```
 
+You can also match object method callbacks by class type with `Functions::type()`. This is useful when multiple classes register the same method name on the same hook:
+
+```php
+WP_Mock::expectActionAdded('init', [WP_Mock\Functions::type(SampleClass::class), 'action']);
+WP_Mock::expectActionAdded('init', [WP_Mock\Functions::type(SampleSubClass::class), 'action']);
+
+add_action('init', [new SampleClass(), 'action']);
+add_action('init', [new SampleSubClass(), 'action']);
+```
+
 ## Asserting that closures have been added as hook callbacks
 
 Sometimes it's handy to add a [Closure](https://secure.php.net/manual/en/class.closure.php) as a WordPress hook instead of defining a function in the global namespace. To assert that such a hook has been added, you can perform assertions referencing the Closure class or a `callable` type:
