@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+### Added
+- Support for `Closure` as a dynamic return value on filter hook expectations. A closure passed to `onFilter(...)->with(...)->reply()` or as the second argument of `expectFilter()` is now invoked with the runtime filter arguments and its return value is used as the filter reply.
+
+### Removed
+- Typo method `iExcpectWhenIRun()` in the Behat `FunctionsContext` (it duplicated a step definition and prevented the Behat suite from running at all due to a parse error).
+
 ## [1.1.1](https://github.com/10up/wp_mock/compare/1.1.0...1.1.1) - 2025-12-03
 ### Fixed
 - Address PHP deprecation warnings about implicitly nullable parameters

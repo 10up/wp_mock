@@ -244,19 +244,37 @@ class WP_Mock
     /**
      * Adds an expectation that a filter will be applied during the test.
      *
+     * A `\Closure` may be passed as a variadic argument; it is invoked with the runtime filter arguments and its return value is used as the filter reply. Non-Closure callables are not supported in this slot and will fall through to the standard pass-through behavior.
+     *
      * @param string $filter expected filter
      * @return void
      */
     public static function expectFilter(string $filter) : void
     {
+        $args = func_num_args() > 1 ? array_slice(func_get_args(), 1) : array( null );
+
+        $callback = null;
+        foreach ($args as $arg) {
+            if ($arg instanceof \Closure) {
+                $callback = $arg;
+                break;
+            }
+        }
+
+        $mocked_filter = self::onFilter($filter);
+
+        if ($callback !== null) {
+            /** @var \WP_Mock\Filter_Responder $responder */
+            $responder = $mocked_filter->with(\Closure::class);
+            $responder->reply($callback);
+            return;
+        }
+
         $intercept = Mockery::mock('intercept');
         $intercept->shouldReceive('intercepted')->atLeast()->once()->andReturnUsing(function ($value) {
             return $value;
         });
-        $args = func_num_args() > 1 ? array_slice(func_get_args(), 1) : array( null );
-
-        $mocked_filter = self::onFilter($filter);
-        $responder     = call_user_func_array(array( $mocked_filter, 'with' ), $args);
+        $responder = call_user_func_array(array( $mocked_filter, 'with' ), $args);
         $responder->reply(new WP_Mock\InvokedFilterValue(array( $intercept, 'intercepted' )));
     }
 

@@ -177,6 +177,29 @@ class HooksContext implements Context {
 	}
 
 	/**
+	 * @Given I expect filter :filter to reply dynamically with a :operation closure
+	 */
+	public function iExpectFilterToReplyDynamicallyWithClosure( $filter, $operation ) {
+		$callback = $this->makeDynamicReplyCallback( $operation );
+		WP_Mock::onFilter( $filter )->with( \Closure::class )->reply( $callback );
+	}
+
+	private function makeDynamicReplyCallback( $operation ) {
+		switch ( $operation ) {
+			case 'uppercase':
+				return function ( $value ) {
+					return strtoupper( (string) $value );
+				};
+			case 'concat':
+				return function ( $a, $b ) {
+					return $a . $b;
+				};
+		}
+
+		throw new \InvalidArgumentException( sprintf( 'Unknown dynamic-reply operation "%s"', $operation ) );
+	}
+
+	/**
 	 * @When I apply the filter :filter with :with
 	 */
 	public function iApplyFilterWith( $filter, $with ) {

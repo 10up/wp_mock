@@ -226,3 +226,14 @@ Feature: Hook mocking
       | foobar | bazbat   |
     When I do nothing
     Then tearDown should not fail
+
+  Scenario: filter reply can be a closure invoked with runtime args
+    Given I expect filter "the_content" to reply dynamically with a uppercase closure
+    When I apply the filter "the_content" with "hello"
+    Then The filter "the_content" should return "HELLO"
+
+  Scenario: filter reply closure receives all runtime args
+    Given I expect filter "the_content" to reply dynamically with a concat closure
+    When I apply the filter "the_content" with:
+      | foo | bar |
+    Then The filter "the_content" should return "foobar"

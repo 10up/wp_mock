@@ -201,7 +201,7 @@ use MyPlugin\NewClass;
 
 final class MyClassTest extends TestCase
 {
-    public function testAnonymousObject() : void 
+    public function testAnonymousObject() : void
     {
         WP_Mock::expectFilter('custom_content_filter', WP_Mock\Functions::type(NewClass::class));
 
@@ -209,4 +209,32 @@ final class MyClassTest extends TestCase
         $this->assertConditionsMet();
     }
 }
+```
+
+## Dynamic return values with a Closure
+
+When a single static return value is not enough, pass a `Closure` to `reply()`. The closure is invoked with the runtime arguments passed to `apply_filters()` and its return value is used as the filter reply. This is useful for loop or iteration scenarios where the expected value changes per call.
+
+```php
+WP_Mock::onFilter('custom_content_filter')
+    ->withAnyArgs()
+    ->reply(function ( $value ) {
+        return strtoupper( $value );
+    });
+
+apply_filters( 'custom_content_filter', 'hello' ); // 'HELLO'
+apply_filters( 'custom_content_filter', 'world' ); // 'WORLD'
+```
+
+The same works through `WP_Mock::expectFilter()`. Pass the `Closure` as the second argument and the runtime filter value(s) are forwarded into it on each call:
+
+```php
+WP_Mock::expectFilter('custom_content_filter', function ( $value ) {
+    return strtoupper( $value );
+});
+
+apply_filters( 'custom_content_filter', 'hello' ); // 'HELLO'
+```
+
+The closure can take as many arguments as the filter is invoked with. Returning a value from the closure is required; actions are not affected.
 ```
